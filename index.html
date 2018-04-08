@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>quochuydev - Fullstack Developer</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"></script>
+</head>
+<body>
+	<header>
+		<div class="logo"><img src="logo.jpg" width="100%"></div>
+		<div class="menu">
+			<i class="fas fa-align-justify"></i>
+			<i class="fas fa-times"></i>
+			<nav>
+				<ul>
+					<li><a href="">About me</a></li>
+					<li><a href="">My experience</a></li>
+					<li><a href="">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<div class="clear"></div>
+	<center>
+		<h1>Quốc Huy Phạm (quochuydev)</h1>
+		<h2>Fullstack Developer</h2>
+		<p class="skill">+1 year of professional experience in HTML, CSS, JQuery, Bootstrap, PHP, Laravel</p>
+		<div class="circle"></div>
+	</center>
+<script type="text/javascript">
+$(document).ready(function (){
+	$(".fa-align-justify").click(function(){
+		$("nav").css("transform","translateX(0%)");
+		$(".fa-align-justify").hide();
+		$(".fa-times").show();
+	})
+	$(".fa-times").click(function(){
+		$("nav").css("transform","translateX(-100%)");
+		$(".fa-times").hide();
+		$(".fa-align-justify").show();
+	})
+});
+</script>
+</body>
+</html>

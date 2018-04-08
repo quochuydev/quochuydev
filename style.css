@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster+Two:400i');
+
+html, body,nav ,ul ,li, h1{margin:0; padding: 0;}
+body{background: url(bg.jpg) no-repeat;background-size:cover; font-family: sans-serif;}
+.clear{clear: both;}
+
+header{height: 40px; line-height: 40px;}
+header .logo{float: left; width:150px; margin: 20px;}
+header .menu{float: right;}
+header .menu .fa-align-justify,header .menu .fa-times{display: none;}
+header nav{position: relative; margin:20px; }
+header nav ul{list-style: none;}
+header nav ul li{float: left;}
+header nav ul li a{color: #fff;text-decoration: none; font-size: 18px;padding: 0 20px; text-transform: uppercase;}
+
+h1{font-family: 'Lobster Two', cursive; font-size: 50px;}
+.skill{width: 370px;}
+.circle{height:250px; width:250px; border-radius: 50%; background: url(me.jpg) no-repeat; background-size: 100%;}
+
+@media(max-width: 768px){
+	header .logo{margin: 5px;}
+	header .menu .fa-align-justify,header .menu .fa-times{display: inline; font-size: 30px;margin: 10px 10px 0 0; cursor: pointer;}
+	header .menu .fa-times{display: none;}
+	header nav{position: absolute; top:50px; margin:0; right: 0;width: 100%;
+				background: black; height: 420px; text-align: right; 
+				transform: translateX(-100%); transition: .3s all ease-in-out;}
+	header nav ul{width: 100%; }
+	header nav ul li{ float: none; }
+	header nav ul li a{display: block; border-bottom: 1px solid #fff;}
+	header nav ul li a:hover{background: #444;}
+
+	.skill{width: 90%; }
+	.circle{height:200px; width: 200px;}
+}
