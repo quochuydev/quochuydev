@@ -1,1 +1,1 @@
-https://quochuydev.github.io/quochuydev/
+Pham Quoc Huy (quochuydev)
