@@ -1,5 +1,4 @@
-<h1 align="center">Hi 👋, I'm Quoc Huy Pham</h1>
-<h3 align="center">A fullstack developer from VietNam</h3>
+<h3 align="center">Hi, I'm Quoc Huy Pham, A fullstack developer from VietNam</h3>
 How to reach me **quochuy.dev@gmail.com**
 
 <h3 align="left">Languages and Tools:</h3>
