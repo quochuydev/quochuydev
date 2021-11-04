@@ -1,14 +1,6 @@
 <h1 align="center">Hi 👋, I'm Quoc Huy Pham</h1>
 <h3 align="center">A fullstack developer from VietNam</h3>
-
-- 📫 How to reach me **quochuy.dev@gmail.com**
-
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-<a href="https://linkedin.com/in/quochuydev" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="quochuydev" height="30" width="40" /></a>
-<a href="https://instagram.com/quochuydev" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="quochuydev" height="30" width="40" /></a>
-<a href="https://www.youtube.com/c/quochuydev" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="quochuydev" height="30" width="40" /></a>
-</p>
+How to reach me **quochuy.dev@gmail.com**
 
 <h3 align="left">Languages and Tools:</h3>
 <p align="left"> 
