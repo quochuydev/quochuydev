@@ -1,8 +1,8 @@
-import{u as t,j as e}from"./index-kCuBO1eh.js";const d={title:"Hi there, I'm Huy Pham",description:"undefined"};function r(i){const n={a:"a",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",img:"img",li:"li",p:"p",strong:"strong",table:"table",tbody:"tbody",td:"td",th:"th",thead:"thead",tr:"tr",ul:"ul",...t(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx("meta",{name:"description",content:"quochuydev"}),`
+import{u as t,j as e}from"./index-C1EHfL_o.js";const d={title:"Hi there, I'm Huy Pham",description:"undefined"};function r(i){const n={a:"a",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",img:"img",li:"li",p:"p",strong:"strong",table:"table",tbody:"tbody",td:"td",th:"th",thead:"thead",tr:"tr",ul:"ul",...t(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx("meta",{name:"description",content:"quochuydev"}),`
 `,e.jsx("link",{rel:"icon",href:"/code.png"}),`
 `,e.jsx(n.header,{children:e.jsxs(n.h1,{id:"hi-there-im-huy-pham",children:["Hi there, I'm Huy Pham",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#hi-there-im-huy-pham",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsx(n.p,{children:"Learning new languages and technologies is what I am passionate about."}),`
-`,e.jsx(n.p,{children:"With passion in learning language and having a good software knowledge, I want to become a Senior Software Engineer."}),`
+`,e.jsx(n.p,{children:"With passion in learning language and having a good software knowledge, I want to become a Freelance Fullstack Developer."}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/avatar.png",alt:"avatar"})}),`
 `,e.jsxs(n.h2,{id:"information",children:["Information",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#information",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Birthday:"})," April 05, 1998"]}),`
