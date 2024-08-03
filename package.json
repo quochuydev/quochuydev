@@ -1,0 +1,19 @@
+{
+  "name": "vocs",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "ENVIRONMENT=development vocs dev",
+    "build": "vocs build",
+    "preview": "vocs preview",
+    "release": "gh-pages -d ./docs/dist -t true"
+  },
+  "dependencies": {
+    "@types/react": "latest",
+    "gh-pages": "^6.1.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "vocs": "latest"
+  }
+}

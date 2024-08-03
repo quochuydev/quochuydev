@@ -1,0 +1,50 @@
+# Create index
+curl -X PUT 'https://elastic:changeme@localhost:9200/movies' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "mappings": {
+        "properties": {
+            "title": {
+                "type": "text"
+            },
+            "genres": {
+                "type": "text"
+            },
+            "year": {
+                "type": "date"
+            }
+        }
+    }
+}'
+
+# Bulk insert
+curl -X PUT 'https://elastic:changeme@localhost:9200/movies/_bulk?pretty' -k \
+-H 'Content-Type: application/json' --data-binary @movies.json
+
+# Search
+curl 'https://elastic:changeme@localhost:9200/movies/_search?pretty' -k
+
+curl 'https://elastic:changeme@localhost:9200/movies/_search?pretty&q=Toy%20Story' -k
+
+# Index a document
+curl -X PUT 'https://elastic:changeme@localhost:9200/movies/_doc/1?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "title": "Toy Story",
+    "genres": ["Adventure", "Animation", "Children", "Comedy", "Fantasy"],
+    "year": 1995
+}'
+
+#Get a document
+curl -X GET 'https://elastic:changeme@localhost:9200/movies/_doc/1?pretty' -k
+
+# Update a document
+curl -X POST 'https://elastic:changeme@localhost:9200/movies/_update/1?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "doc": {
+        "title": "Toy Story - updated",
+        "genres": ["Adventure", "Animation", "Children", "Comedy", "Fantasy"],
+        "year": 1995
+    }
+}'
+
+# Delete a document
+curl -X DELETE 'https://elastic:changeme@localhost:9200/movies/_doc/1' -k

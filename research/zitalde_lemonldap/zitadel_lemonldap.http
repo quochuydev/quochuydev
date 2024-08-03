@@ -1,0 +1,114 @@
+
+###
+
+@host = https://portal.local:8044
+@client_id = portal
+@client_secret = rQNkWnm6QFroPbyBN2sRAuviwcn6kDs8xBYlUL7eYoxbskWFUQido00Ysc6O6JjE
+
+# @name appToken
+POST {{host}}/oauth/v2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{client_id}}&client_secret={{client_secret}}&scope=openid profile email urn:zitadel:iam:org:project:id:zitadel:aud
+
+###
+@TOKEN = {{appToken.response.body.$.access_token}}
+
+###
+POST http://auth.example.com/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=1d8ecedb9f81f22ab4819836bc5b65ba2c741cb75204fc62d42b8421c8562d12&redirect_uri=http://portal.local:3030/done&client_id=clientId&client_secret=clientSecret
+
+###
+POST {{host}}/v2beta/idp_intents
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "idpId": "262142057433268228",
+  "urls": {
+    "successUrl": "http://portal.local:3030/login/externalidp/success",
+    "failureUrl": "http://portal.local:3030/login/externalidp/fail"
+  }
+}
+
+###
+POST {{host}}/v2beta/idp_intents/262250210514698244
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "idpIntentToken": "a5nHJIfSXPdaFiiKkfoTnW9fUjC_2L9OyjOYOCZaRqoYkQ"
+}
+
+# {
+#   "details": {
+#     "sequence": "2",
+#     "changeDate": "2024-04-11T04:21:49.752250Z",
+#     "resourceOwner": "233009299465441283"
+#   },
+#   "idpInformation": {
+#     "oauth": {
+#       "accessToken": "3137e965d44c8a932ea0749cef72151a345c1b218c2156a8fe748d8d0304ad96",
+#       "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6InBLemthb0lORVNHTW9LZUd5RHRSSGcifQ.eyJzaWQiOiJpZVhUWHdhM2RNMUo1Z0V2ZHZhb0tObTlGVGVaVHZvMUpML1FQbDVTY01FIiwiZXhwIjoxNzEyODEyOTA5LCJhY3IiOiJsb2EtMSIsImF0X2hhc2giOiJlT3RUdS0zQkZiZGdxOEczVWtBSEhnIiwiaXNzIjoiaHR0cDovL2F1dGguZXhhbXBsZS5jb20vIiwiYXpwIjoiY2xpZW50SWQiLCJhdXRoX3RpbWUiOjE3MTI4MDQ5MTMsImlhdCI6MTcxMjgwOTMwOSwic3ViIjoiZHdobyIsImF1ZCI6WyJjbGllbnRJZCJdfQ.Xs2fId1WZFj8kSQ2pMjCs5eyeBxfoSU8P1qxhpkLqrGIVT-n2jbVUT4Po5jYwAhuWY7mT0s_mSTTkrwmMaMDnyU5NQplKyxSWKlN-7Wd8tQT50gb7zRYXGLBInB8yJXAqbtW3EE3vQz05IMf7sBPR-euGHWGg6erZWdbIYD4IFcgeJCngdQANX5BPVCsYQoj9N5ENLXen62_hu6TPkMgaKK-qCuVxqxc7LWfBG98HL08qL2Cb0grb-GCJYhbuBXiIHBqQf3kaJJyqDrA8ah57SQmUm578XMHwEL_9vJl4FakaKIIOBmqeQhQoNOzEMdOfts5PRPjjMz3c_ZoSRzZww"
+#     },
+#     "idpId": "262142057433268228",
+#     "userId": "dwho",
+#     "userName": "dwho",
+#     "rawInformation": {
+#       "email": "dwho@badwolf.org",
+#       "name": "Doctor Who",
+#       "preferred_username": "dwho",
+#       "sub": "dwho"
+#     }
+#   }
+# }
+
+# {
+#   "sid": "ieXTXwa3dM1J5gEvdvaoKNm9FTeZTvo1JL/QPl5ScME",
+#   "exp": 1712812909,
+#   "acr": "loa-1",
+#   "at_hash": "eOtTu-3BFbdgq8G3UkAHHg",
+#   "iss": "http://auth.example.com/",
+#   "azp": "clientId",
+#   "auth_time": 1712804913,
+#   "iat": 1712809309,
+#   "sub": "dwho",
+#   "aud": [
+#     "clientId"
+#   ]
+# }
+
+###OIDC user info
+GET http://auth.example.com/oauth2/userinfo
+Content-Type: application/json
+Authorization: Bearer 3137e965d44c8a932ea0749cef72151a345c1b218c2156a8fe748d8d0304ad96
+
+# {
+#   "preferred_username": "dwho",
+#   "name": "Doctor Who",
+#   "email": "dwho@badwolf.org",
+#   "sub": "dwho"
+# }
+
+# https://zitadel.com/docs/apis/resources/user_service/user-service-add-idp-link
+###
+POST {{host}}/v2beta/users/userId/links
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "idpLink": {
+    "idpId": "262142057433268228",
+    "userId": "dwho",
+    "userName": "dwho",
+  }
+}
+
+# http://portal.local:3030/login/externalidp/fail
+# http://portal.local:3030/login/externalidp/fail?authRequest=V2_262434821228199940&error=consent_required&error_description=consent+not+given&id=262434823442792452
+# http://portal.local:3030/login/externalidp/success?id=262250210514698244&token=a5nHJIfSXPdaFiiKkfoTnW9fUjC_2L9OyjOYOCZaRqoYkQ
+# http://portal.local:3030/login/externalidp?authRequest=262248507056848900&idpConfigId=262142057433268228
+# http://portal.local:3030/ui/login/login/externalidp?authRequestID=262248507056848900&idpConfigID=262142057433268228
+# http://portal.local:3030/ui/login/login/externalidp/callback?code=8dddb029f5e8c30efbc30ac978cee9b166a90e5445f8f3dd36b122cb5350c49c&state=262252446045175812&session_state=gqsmZ6%2B9Pw%2FXYHAAM6NE37bmAqNGQlZ4d7o7jgx%2BXXc%3D.QTQwS3VqWURNc09Ub1RyR01heHpONWc5VzJ4SlNYR3FGV09OMy9nencvb2wwQnFwS2lWSHJ4aUhKM3FwZnBCcVZKWnFGanhBQ1hkalpWdFlvWit2MUE9PQ
