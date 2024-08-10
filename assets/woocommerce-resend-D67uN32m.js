@@ -1,4 +1,4 @@
-import{u as r,j as n}from"./index-BvEC2ySY.js";const l={title:"3000 mails free per month for woocommerce",description:"woocommerce integrate with resend.com"};function s(i){const e={a:"a",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...r(),...i.components};return n.jsxs(n.Fragment,{children:[n.jsx(e.header,{children:n.jsxs(e.h1,{id:"3000-mails-free-per-month-for-woocommerce",children:[n.jsx(e.strong,{children:"3000 mails free per month for woocommerce"}),n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#3000-mails-free-per-month-for-woocommerce",children:n.jsx(e.div,{"data-autolink-icon":!0})})]})}),`
+import{u as r,j as n}from"./index-D2uhNCAf.js";const l={title:"3000 mails free per month for woocommerce",description:"woocommerce integrate with resend.com"};function s(i){const e={a:"a",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...r(),...i.components};return n.jsxs(n.Fragment,{children:[n.jsx(e.header,{children:n.jsxs(e.h1,{id:"3000-mails-free-per-month-for-woocommerce",children:[n.jsx(e.strong,{children:"3000 mails free per month for woocommerce"}),n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#3000-mails-free-per-month-for-woocommerce",children:n.jsx(e.div,{"data-autolink-icon":!0})})]})}),`
 `,n.jsxs(e.h2,{id:"overview-the-purpose-the-problem-it-is-solving",children:[n.jsx(e.strong,{children:"Overview the purpose, the problem it is solving"}),n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#overview-the-purpose-the-problem-it-is-solving",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
 `,n.jsx(e.p,{children:"For SME woocommerce, we need to send email to customer/shop admin, when woocommerce order/invoice/account are changed."}),`
 `,n.jsxs(e.h2,{id:"proposal",children:[n.jsx(e.strong,{children:"Proposal"}),n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#proposal",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
@@ -22,9 +22,9 @@ import{u as r,j as n}from"./index-BvEC2ySY.js";const l={title:"3000 mails free p
 `]}),`
 `,n.jsxs(e.h3,{id:"cons",children:["Cons",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#cons",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
 `,n.jsxs(e.ul,{children:[`
-`,n.jsx(e.li,{children:"Free version of resend account allows creating only 1 domains, it should be your main domain as a developer/company"}),`
+`,n.jsx(e.li,{children:"Resend free account allows creating only 1 domains, it should be your domain or company's domain"}),`
 `]}),`
-`,n.jsxs(e.h2,{id:"detail-design--implementation-steps",children:[n.jsx(e.strong,{children:"Detail design / implementation steps"}),n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#detail-design--implementation-steps",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,n.jsxs(e.h2,{id:"implementation-steps",children:[n.jsx(e.strong,{children:"Implementation steps"}),n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#implementation-steps",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
 `,n.jsxs(e.h3,{id:"register-a-resend-service-account",children:["Register a Resend service account",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#register-a-resend-service-account",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
 `,n.jsxs(e.p,{children:["go to: ",n.jsx(e.a,{href:"https://resend.com",children:"https://resend.com"})]}),`
 `,n.jsxs(e.h3,{id:"create-resend-api-key",children:["Create Resend API key",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#create-resend-api-key",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
@@ -62,48 +62,48 @@ import{u as r,j as n}from"./index-BvEC2ySY.js";const l={title:"3000 mails free p
 `]}),`
 `,n.jsxs(e.li,{children:[`
 `,n.jsx(e.p,{children:"Update to these configs"}),`
-`]}),`
-`]}),`
 `,n.jsxs(e.ul,{children:[`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"License Key: Free version, empty value"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"License Key:"})," Free version, empty value"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsxs(e.p,{children:["From Email: Must have domain is registerd on resend.com/domains, exp: ",n.jsx(e.a,{href:"mailto:admin@quochuy.dev",children:"admin@quochuy.dev"})]}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"From Email:"})," Must have domain is registerd on resend.com/domains, exp: ",n.jsx(e.a,{href:"mailto:admin@quochuy.dev",children:"admin@quochuy.dev"})]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"From Name: (can be your branding or your website)"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"From Name:"})," (can be your branding or your website)"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"Force From Name: default false"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"Force From Name:"})," default false"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"Return Path: default false"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"Return Path:"})," default false"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"Mailer: Other SMTP"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"Mailer:"})," Other SMTP"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"SMTP Host: smtp.resend.com"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"SMTP Host:"})," smtp.resend.com"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"Encryption: TLS"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"Encryption:"})," TLS"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"SMTP Port: 587"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"SMTP Port:"})," 587"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"Authentication: On"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"Authentication:"})," On"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"SMTP Username: resend"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"SMTP Username:"})," resend"]}),`
 `]}),`
 `,n.jsxs(e.li,{children:[`
-`,n.jsx(e.p,{children:"SMTP Password: (value is from API key created on Resend)"}),`
+`,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"SMTP Password:"})," (value is from API key created on Resend)"]}),`
 `]}),`
 `]}),`
-`,n.jsxs(e.ul,{children:[`
-`,n.jsxs(e.li,{children:["Click ",n.jsx(e.em,{children:"Save settings"})]}),`
+`]}),`
+`,n.jsxs(e.li,{children:[`
+`,n.jsxs(e.p,{children:["Click ",n.jsx(e.em,{children:"Save settings"})]}),`
+`]}),`
 `]}),`
 `,n.jsx(e.p,{children:n.jsx(e.img,{src:"wp-update-smtp-config.png",alt:"wp-update-smtp-config.png"})}),`
 `,n.jsxs(e.h3,{id:"define-email-notifications",children:["Define email notifications",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#define-email-notifications",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
