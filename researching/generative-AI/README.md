@@ -71,3 +71,15 @@ Company information:
 6. Foundation model -- generate response --> _Response_ Jennie is the product manager of the company.
 
 ## GuardRails
+
+- Controlling the interaction between users and Foundation models
+
+- Remove PII - Personally identifiable information
+
+- Filter undesired and harmful content
+
+- Enhance privacy
+
+- Reduce hallucinations
+
+- Monitor and analyze user inputs that can violate the GuardRails
