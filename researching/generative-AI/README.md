@@ -27,7 +27,27 @@
 }
 ```
 
-## RAG - Retrieval Augmented Generation
+## FM Evaluation
+
+~~### Human Evaluation~~
+
+### Automatic Evaluation
+
+Build-in task types:
+
+- Text summarization
+
+- Question and answer
+
+- Text classification
+
+- Open-ended text generation
+
+Benchmark questions -> Benchmark answers --> Judge model --> Grading score
+
+Benchmark questions -> Model to evaluate --> Generative answers --> Judge model --> Grading score
+
+## RAG - Retrieval Augmented Generation & Knowledge Base
 
 1. S3 bucket -- Data source --> Knowledge base --> Vector DB
 
@@ -49,3 +69,5 @@ Company information:
 5. Prompt -- _Query_ + Retrieval text --> Foundation model
 
 6. Foundation model -- generate response --> _Response_ Jennie is the product manager of the company.
+
+## GuardRails
