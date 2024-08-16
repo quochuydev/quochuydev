@@ -1,0 +1,24 @@
+# Create a new index
+curl -X PUT 'https://elastic:changeme@localhost:9200/films/' -H 'Content-Type: application/json' -d $'{ 
+    "mappings": {
+        "properties": {
+            "name": {
+                "type": "text"
+            },
+            "parent": {
+                "type": "text"
+            }
+        }
+    }
+}
+
+# Index a document
+curl -X PUT 'https://elastic:changeme@localhost:9200/films/_doc/1' -H 'Content-Type: application/json' -d $'{ 
+    "name": "Star wars"
+}'
+
+# Index a document
+curl -X PUT 'https://elastic:changeme@localhost:9200/films/_doc/2' -H 'Content-Type: application/json' -d $'{ 
+    "name": "Star wars",
+    "parent": "1"
+}'

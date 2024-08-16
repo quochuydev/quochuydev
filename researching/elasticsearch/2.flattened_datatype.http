@@ -1,0 +1,35 @@
+# Index a document
+curl -X PUT 'https://elastic:changeme@localhost:9200/system/_doc/1?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "host": {
+        "hostname":"localhost",
+        "ip":"127.0.0.1",
+        "name":"localhost.localdomain"
+    }
+}'
+
+# Get mapping
+curl -X GET 'https://elastic:changeme@localhost:9200/system/_mapping?pretty' -k
+
+# Update a document
+curl -X POST 'https://elastic:changeme@localhost:9200/system/_update/1?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "doc": {
+        "host": {
+            "hostname":"app.local"
+        }
+    }
+}'
+
+# Update mapping flattened
+curl -X PUT 'https://elastic:changeme@localhost:9200/system/_mapping?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "properties": {
+        "host": {
+            "type": "flattened"
+        }
+    }
+}'
+
+# Search index
+curl 'https://elastic:changeme@localhost:9200/system/_search?pretty' -k
