@@ -19,7 +19,6 @@ services:
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
 
-
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
