@@ -29,7 +29,7 @@
 
 ## FM Evaluation
 
-~~### Human Evaluation~~
+### ~~Human Evaluation~~
 
 ### Automatic Evaluation
 

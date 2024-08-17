@@ -1,24 +1,42 @@
 # Create a new index
-curl -X PUT 'https://elastic:changeme@localhost:9200/films/' -H 'Content-Type: application/json' -d $'{ 
+curl -X PUT 'https://elastic:changeme@localhost:9200/series' -H 'Content-Type: application/json' -d $'{ 
     "mappings": {
         "properties": {
-            "name": {
-                "type": "text"
-            },
-            "parent": {
-                "type": "text"
+            "film_to_franchise": {
+                "type": "join"
+                "relations": {
+                    "franchise": "film"
+                }
             }
         }
     }
-}
-
-# Index a document
-curl -X PUT 'https://elastic:changeme@localhost:9200/films/_doc/1' -H 'Content-Type: application/json' -d $'{ 
-    "name": "Star wars"
 }'
 
-# Index a document
-curl -X PUT 'https://elastic:changeme@localhost:9200/films/_doc/2' -H 'Content-Type: application/json' -d $'{ 
-    "name": "Star wars",
-    "parent": "1"
+# Bulk insert
+curl -X PUT 'https://elastic:changeme@localhost:9200/series/_bulk?pretty' -k \
+-H 'Content-Type: application/json' --data-binary @series.json
+
+# Search
+curl 'https://elastic:changeme@localhost:9200/series/_search?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "query": {
+        "has_parent": {
+            "parent_type": "franchise",
+            "query": {
+
+            }
+        }
+    }
+}'
+# Search
+curl 'https://elastic:changeme@localhost:9200/series/_search?pretty' -k \
+-H 'content-type: application/x-ndjson' -d $'{ 
+    "query": {
+        "has_child": {
+            "type": "film",
+            "query": {
+
+            }
+        }
+    }
 }'
