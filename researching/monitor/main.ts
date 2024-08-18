@@ -1,6 +1,6 @@
 const express = require("express");
-
-const tracer = require("./tracing");
+import { SeverityNumber } from "@opentelemetry/api-logs";
+import { tracer, logger } from "./tracing-v2";
 
 const app = express();
 const port = 3001;
@@ -14,12 +14,20 @@ app.get("/", (req, res) => {
 });
 
 app.get("/rolldice", (req, res) => {
-  const span = tracer.startSpan("root_span");
   const result = getRandomNumber(1, 6).toString();
-  console.log("loki:result", result);
-  span.setAttribute("result", result);
+
+  logger.emit({
+    severityNumber: SeverityNumber.INFO,
+    severityText: "info",
+    body: "this is a log body",
+    attributes: { "log.type": "custom" },
+  });
+
+  const span = tracer.startSpan("span-v2");
+  span.setAttribute("result-v2", result);
   span.end();
   res.header("x-myapp-trace-id", span.spanContext().traceId);
+
   res.send(result);
 });
 
