@@ -1,24 +1,41 @@
-const { Resource } = require("@opentelemetry/resources");
-const {
-  SemanticResourceAttributes,
-} = require("@opentelemetry/semantic-conventions");
+import { trace } from "@opentelemetry/api";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { Resource } from "@opentelemetry/resources";
 import {
   BatchLogRecordProcessor,
+  ConsoleLogRecordExporter,
   LoggerProvider,
+  SimpleLogRecordProcessor,
 } from "@opentelemetry/sdk-logs";
 import {
   BatchSpanProcessor,
   NodeTracerProvider,
 } from "@opentelemetry/sdk-trace-node";
-const { trace } = require("@opentelemetry/api");
-const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
-const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+import {
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_VERSION,
+} from "@opentelemetry/semantic-conventions";
+
+const resource = new Resource({
+  [SEMRESATTRS_SERVICE_NAME]: "myapp-v2",
+  [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+  [SEMRESATTRS_SERVICE_VERSION]: "v2.0.0",
+});
+
+const loggerProvider = new LoggerProvider({ resource });
+
+loggerProvider.addLogRecordProcessor(
+  new SimpleLogRecordProcessor(new ConsoleLogRecordExporter())
+);
 
 const logExporter = new OTLPLogExporter({
   url: "http://localhost:4318/v1/logs",
+  concurrencyLimit: 1,
 });
+
+loggerProvider.addLogRecordProcessor(new BatchLogRecordProcessor(logExporter));
 
 logExporter.export([], (result) => {
   if (result.error) {
@@ -28,26 +45,15 @@ logExporter.export([], (result) => {
   }
 });
 
-const loggerProvider = new LoggerProvider();
-loggerProvider.addLogRecordProcessor(new BatchLogRecordProcessor(logExporter));
 const logger = loggerProvider.getLogger("default", "1.0.0");
 
 const traceExporter = new OTLPTraceExporter({
   url: "http://localhost:4318/v1/traces",
 });
 
-const resource = new Resource({
-  [SemanticResourceAttributes.SERVICE_NAME]: "myapp-v2",
-  [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "instance-id",
-  [SemanticResourceAttributes.SERVICE_VERSION]: "v2.0.0",
-});
 const provider = new NodeTracerProvider({ resource });
 provider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
 provider.register();
-
-registerInstrumentations({
-  instrumentations: [new HttpInstrumentation()],
-});
 
 traceExporter.export([], (result) => {
   if (result.error) {

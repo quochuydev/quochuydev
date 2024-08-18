@@ -74,6 +74,10 @@ loki.write "mythical" {
             password = json_path(local.file.endpoints.content, ".logs.basicAuth.password")[0]
         }
     }
+    
+    external_labels = {
+        job = "myapp",
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -106,6 +110,7 @@ otelcol.receiver.otlp "otlp_receiver" {
             otelcol.processor.batch.default.input,
             otelcol.connector.spanlogs.autologging.input,
         ]
+        logs = [otelcol.exporter.loki.autologging.input]
     }
 }
 

@@ -224,6 +224,14 @@
   resolved "https://registry.yarnpkg.com/@napi-rs/snappy-win32-x64-msvc/-/snappy-win32-x64-msvc-7.2.2.tgz#4f598d3a5d50904d9f72433819f68b21eaec4f7d"
   integrity sha512-a43cyx1nK0daw6BZxVcvDEXxKMFLSBSDTAhsFD0VqSKcC7MGUBMaqyoWUcMiI7LBSz4bxUmxDWKfCYzpEmeb3w==
 
+"@opentelemetry/api-events@0.52.1", "@opentelemetry/api-events@^0.52.1":
+  version "0.52.1"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/api-events/-/api-events-0.52.1.tgz#4aaeb7e0b797d8591e0fcb40a343589ff5cca4da"
+  integrity sha512-+0cSqUigzpYvpCRdXPSnGs1ZomxSR1CzoqEnEfqlke20nm//ZEmhs0WEaT5oJWByYvQqENW3zUTslPnordk82w==
+  dependencies:
+    "@opentelemetry/api" "^1.0.0"
+    "@opentelemetry/api-logs" "0.52.1"
+
 "@opentelemetry/api-logs@0.52.1", "@opentelemetry/api-logs@^0.52.0":
   version "0.52.1"
   resolved "https://registry.yarnpkg.com/@opentelemetry/api-logs/-/api-logs-0.52.1.tgz#52906375da4d64c206b0c4cb8ffa209214654ecc"
@@ -849,6 +857,15 @@
   dependencies:
     "@opentelemetry/core" "1.25.1"
     "@opentelemetry/semantic-conventions" "1.25.1"
+
+"@opentelemetry/sdk-events@^0.52.1":
+  version "0.52.1"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/sdk-events/-/sdk-events-0.52.1.tgz#9e6b07e278cf5612ba4c534b1f202f97e82ee999"
+  integrity sha512-1CHx56QOltNg3Zwvi812uCmDVfNB1faVOXazf5pqmAX1Ys09Mu50D4ntDb5SZ6GDV8FNilHBtv5WkpZNzeXLdQ==
+  dependencies:
+    "@opentelemetry/api-events" "0.52.1"
+    "@opentelemetry/api-logs" "0.52.1"
+    "@opentelemetry/sdk-logs" "0.52.1"
 
 "@opentelemetry/sdk-logs@0.52.1":
   version "0.52.1"
