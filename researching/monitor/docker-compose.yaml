@@ -14,10 +14,10 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_USERS_VIEWERS_CAN_EDIT=true
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://localhost:3100/loki/api/v1/push"
 
   prometheus:
     image: prom/prometheus:latest
@@ -31,11 +31,6 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
       - "9090:9090"
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
-
 
   node-exporter:
     image: prom/node-exporter:v1.5.0
@@ -47,10 +42,6 @@ services:
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
 
 
   loki:
@@ -59,10 +50,6 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
   
   promtail:
     image: grafana/promtail:latest
@@ -73,20 +60,14 @@ services:
       - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yaml
       - ./logs/:/usr/api/data/
     command: -config.file=/etc/promtail/promtail-config.yaml
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
-
+    
   tempo:
     image: grafana/tempo:2.4.0
     container_name: tempo
     ports:
-      - "9095:9095"
+      - "9095:9095"  # Expose port 9095 for gRPC
+      - "4318:4318"  # Expose port 4318 for OTLP HTTP
+      - "3200:3200"  # Expose the Tempo HTTP server for queries
     volumes:
       - ./tempo/tempo.yaml:/etc/tempo/tempo.yaml
     command: -config.file=/etc/tempo/tempo.yaml
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
