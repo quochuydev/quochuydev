@@ -1,39 +1,56 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Configuration file
 local.file "endpoints" {
-    // The endpoints file is used to define the endpoints, credentials and options for the Alloy export to.
+    // The endpoints file is used to define the endpoints, credentials and options
+    // for the Alloy export to.
     filename = "/etc/alloy/endpoints.json"
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Metrics scraping
 
-// The Alloy exports everything
-prometheus.exporter.unix "default" {
-}
-// The Alloy exports everything
-prometheus.exporter.cadvisor "default" {
-    disabled_metrics = ["memory_numa", "tcp", "udp", "advtcp", "process", "hugetlb", "referenced_memory", "cpu_topology", "resctrl", "cpuset", "oom_event"]
+// Scrape Tempo, Mimir, Phlare and Loki
+// We use the prometheus.scrape component and give this a unique label.
+prometheus.scrape "mltpg_infra" {
+    // The targets array allows us to specify which service targets to scrape from.
+    // Define the address to scrape from, and add a 'group' and 'service' label for each target.
+    targets = [
+        {"__address__" = "mimir:9009", group = "infrastructure", service = "mimir"},
+        {"__address__" = "tempo:3200", group = "infrastructure", service = "tempo"},
+        {"__address__" = "loki:3100", group = "infrastructure", service = "loki"},
+        {"__address__" = "grafana:3000", group = "infrastructure", service = "grafana"},
+    ]
+
+    // Scrape all of these services every 15 seconds.
+    scrape_interval = "15s"
+    // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
+    forward_to = [prometheus.remote_write.mimir.receiver]
+    // The job name to add to the scraped metrics.
+    job_name = "mltpg_infra"
 }
 
-// This component scrapes the unix exporter metrics generated above.
+// Scrape the local Alloy itself.
+prometheus.scrape "alloy" {
+    // Only one target, the Alloy, it's part of the 'infrastructure' group.
+    targets = [{"__address__" = "localhost:12345", group = "infrastructure", service = "alloy"}]
+    // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
+    forward_to = [prometheus.remote_write.mimir.receiver]
+    // Attach job name to the metrics.
+    job_name = "alloy"
+}
+
+// The Alloy exports everything, using an empty block.
+prometheus.exporter.unix "default" {
+}
+
+// This component scrapes the Unix exporter metrics generated above.
 prometheus.scrape "unix" {
-    // Use the unix exporter as the target.
+    // Use the Unix prometheus exporter as the target.
     targets = prometheus.exporter.unix.default.targets
     // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
     forward_to = [prometheus.remote_write.mimir.receiver]
     // Attach job name to the metrics.
-    job_name = "unix-exporter"
-}
-
-// This component scrapes the cadvisor exporter metrics generated above.
-prometheus.scrape "cadvisor" {
-    // Use the cadvisor exporter as the target.
-    targets = prometheus.exporter.cadvisor.default.targets
-    // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
-    forward_to = [prometheus.remote_write.mimir.receiver]
-    // Attach job name to the metrics.
-    job_name = "cadvisor-exporter"
+    job_name = "node_exporter"
 }
 
 // The prometheus.remote_write component defines an endpoint for remotely writing metrics to.
@@ -74,10 +91,6 @@ loki.write "mythical" {
             password = json_path(local.file.endpoints.content, ".logs.basicAuth.password")[0]
         }
     }
-    
-    external_labels = {
-        job = "myapp",
-    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -85,10 +98,11 @@ loki.write "mythical" {
 
 // The OpenTelemetry receiver is used to ingest all incoming trace spans. A label 'otlp_receiver' is added to uniquely
 // identify this instance.
+// Note that both the instrumented application *and* Beyla use the same receiver to send traces.
 otelcol.receiver.otlp "otlp_receiver" {
     // We don't technically need this, but it shows how to change listen address and incoming port.
-    // In this case, the Alloy is listening on all available bindable addresses on port 4318 (which is the
-    // default OTLP http port) for the OTLP protocol.
+    // In this case, the Alloy is listening on all available bindable addresses on port 4317 (which is the
+    // default OTLP gRPC port) for the OTLP protocol.
     http {
         endpoint = "0.0.0.0:4318"
     }
@@ -136,7 +150,7 @@ otelcol.exporter.otlphttp "tempo" {
         // Authentication block.
         auth = otelcol.auth.headers.tempo.handler
 
-        // Send to the locally running Tempo instance, on port 4318 (OTLP http).
+        // Send to the locally running Tempo instance, on port 4317 (OTLP gRPC).
         endpoint = json_path(local.file.endpoints.content, ".traces.url")[0]
 
         // Configure TLS settings for communicating with the endpoint.
