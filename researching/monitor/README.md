@@ -34,3 +34,7 @@ https://github.com/grafana/intro-to-mltp/blob/main/alloy/config.alloy
 https://github.com/grafana/alloy/blob/main/example/config/alloy/config.alloy
 
 https://community.grafana.com/t/nodejs-logging-using-winston/76990/13
+
+https://grafana.com/blog/2022/07/07/how-to-configure-grafana-loki-with-a-node.js-e-commerce-app/
+
+https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry
