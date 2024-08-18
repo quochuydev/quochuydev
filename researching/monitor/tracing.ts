@@ -5,9 +5,7 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { Resource } from "@opentelemetry/resources";
 import {
   BatchLogRecordProcessor,
-  ConsoleLogRecordExporter,
   LoggerProvider,
-  SimpleLogRecordProcessor,
 } from "@opentelemetry/sdk-logs";
 import {
   BatchSpanProcessor,
@@ -26,10 +24,6 @@ const resource = new Resource({
 });
 
 const loggerProvider = new LoggerProvider({ resource });
-
-loggerProvider.addLogRecordProcessor(
-  new SimpleLogRecordProcessor(new ConsoleLogRecordExporter())
-);
 
 const logExporter = new OTLPLogExporter({
   url: "http://localhost:4318/v1/logs",
@@ -77,12 +71,6 @@ function Logger(loggerProvider: LoggerProvider) {
         severityNumber: SeverityNumber.INFO,
         severityText: "info",
         body,
-        attributes: {
-          "log.type": "custom",
-          "user.id": "12345",
-          "transaction.id": "67890",
-          "error.message": "None",
-        },
       });
     },
     error: (body: any) => {
@@ -90,12 +78,6 @@ function Logger(loggerProvider: LoggerProvider) {
         severityNumber: SeverityNumber.ERROR,
         severityText: "error",
         body,
-        attributes: {
-          "log.type": "custom",
-          "user.id": "12345",
-          "transaction.id": "67890",
-          "error.message": "None",
-        },
       });
     },
   };
