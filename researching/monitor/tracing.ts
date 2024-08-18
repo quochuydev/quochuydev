@@ -66,18 +66,18 @@ function Logger(loggerProvider: LoggerProvider) {
   const logger = loggerProvider.getLogger("default", "1.0.0");
 
   return {
-    log: (body: any) => {
+    log: (entry: any) => {
       logger.emit({
         severityNumber: SeverityNumber.INFO,
         severityText: "info",
-        body,
+        body: JSON.stringify(entry),
       });
     },
-    error: (body: any) => {
+    error: (entry: any) => {
       logger.emit({
         severityNumber: SeverityNumber.ERROR,
         severityText: "error",
-        body,
+        body: JSON.stringify(entry),
       });
     },
   };
