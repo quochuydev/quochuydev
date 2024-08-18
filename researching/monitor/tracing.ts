@@ -1,4 +1,5 @@
 import { trace } from "@opentelemetry/api";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { Resource } from "@opentelemetry/resources";
@@ -19,9 +20,9 @@ import {
 } from "@opentelemetry/semantic-conventions";
 
 const resource = new Resource({
-  [SEMRESATTRS_SERVICE_NAME]: "myapp-v2",
+  [SEMRESATTRS_SERVICE_NAME]: "myapp",
   [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
-  [SEMRESATTRS_SERVICE_VERSION]: "v2.0.0",
+  [SEMRESATTRS_SERVICE_VERSION]: "v1.0.0",
 });
 
 const loggerProvider = new LoggerProvider({ resource });
@@ -45,8 +46,6 @@ logExporter.export([], (result) => {
   }
 });
 
-const logger = loggerProvider.getLogger("default", "1.0.0");
-
 const traceExporter = new OTLPTraceExporter({
   url: "http://localhost:4318/v1/traces",
 });
@@ -65,4 +64,39 @@ traceExporter.export([], (result) => {
 
 const tracer = trace.getTracer("nodejs-tracing-app");
 
+const logger = Logger(loggerProvider);
+
 export { logger, tracer };
+
+function Logger(loggerProvider: LoggerProvider) {
+  const logger = loggerProvider.getLogger("default", "1.0.0");
+
+  return {
+    log: (body: any) => {
+      logger.emit({
+        severityNumber: SeverityNumber.INFO,
+        severityText: "info",
+        body,
+        attributes: {
+          "log.type": "custom",
+          "user.id": "12345",
+          "transaction.id": "67890",
+          "error.message": "None",
+        },
+      });
+    },
+    error: (body: any) => {
+      logger.emit({
+        severityNumber: SeverityNumber.ERROR,
+        severityText: "error",
+        body,
+        attributes: {
+          "log.type": "custom",
+          "user.id": "12345",
+          "transaction.id": "67890",
+          "error.message": "None",
+        },
+      });
+    },
+  };
+}

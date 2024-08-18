@@ -14,10 +14,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_USERS_VIEWERS_CAN_EDIT=true
-    # logging:
-    #   driver: loki
-    #   options:
-    #     loki-url: "http://localhost:3100/loki/api/v1/push"
 
   prometheus:
     image: prom/prometheus:latest
@@ -48,29 +44,23 @@ services:
     container_name: loki
     ports:
       - "3100:3100"
-  
-  # promtail:
-  #   image: grafana/promtail:latest
-  #   container_name: promtail
-  #   ports:
-  #     - "9080:9080"
-  #   volumes:
-  #     - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yaml
-  #     - ./logs/:/usr/api/data/
-  #   command: -config.file=/etc/promtail/promtail-config.yaml
     
   tempo:
     image: grafana/tempo:2.4.0
     container_name: tempo
     ports:
       - "3200:3200"
-      - "9411:9411"
-      - "55680:55680"
-      - "55681:55681"
-      - "14250:14250"
     volumes:
       - ./tempo/tempo.yaml:/etc/tempo/tempo.yaml
     command: -config.file=/etc/tempo/tempo.yaml
+  
+  mimir:
+    image: grafana/mimir:2.12.0
+    command: ["-ingester.native-histograms-ingestion-enabled=true", "-config.file=/etc/mimir.yaml"]
+    ports:
+      - "9009:9009"
+    volumes:
+      - "./mimir/mimir.yaml:/etc/mimir.yaml"
   
   alloy:
     image: grafana/alloy:v1.0.0
@@ -91,11 +81,3 @@ services:
       - --storage.path=/var/lib/alloy/data
       - --server.http.listen-addr=0.0.0.0:12345
       - --stability.level=experimental
-  
-  mimir:
-    image: grafana/mimir:2.12.0
-    command: ["-ingester.native-histograms-ingestion-enabled=true", "-config.file=/etc/mimir.yaml"]
-    ports:
-      - "9009:9009"
-    volumes:
-      - "./mimir/mimir.yaml:/etc/mimir.yaml"
