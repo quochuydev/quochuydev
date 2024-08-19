@@ -63,7 +63,7 @@ const logger = Logger(loggerProvider);
 export { logger, tracer };
 
 function Logger(loggerProvider: LoggerProvider) {
-  const logger = loggerProvider.getLogger("default", "1.0.0");
+  const logger = loggerProvider.getLogger("observability");
 
   return {
     log: (entry: any) => {
