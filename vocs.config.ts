@@ -2,8 +2,7 @@ import { defineConfig } from "vocs";
 
 export default defineConfig({
   title: "Docs",
-  basePath:
-    process.env.ENVIRONMENT === "development" ? undefined : "/quochuydev",
+  // basePath: process.env.ENVIRONMENT === "development" ? undefined : "/quochuydev",
   sidebar: [
     {
       text: "My portfolio",
