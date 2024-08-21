@@ -1,4 +1,4 @@
-import{u as s,j as e}from"./index-B510LQ0f.js";const r={title:"Multi-OIDC Session Management  Application",description:"undefined"};function t(i){const n={a:"a",br:"br",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"multi-oidc-session-management--application",children:["Multi-OIDC Session Management  Application",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#multi-oidc-session-management--application",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as s,j as e}from"./index-PnvCDlLM.js";const o={title:"Multi-OIDC Session Management  Application",description:"undefined"};function t(i){const n={a:"a",br:"br",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"multi-oidc-session-management--application",children:["Multi-OIDC Session Management  Application",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#multi-oidc-session-management--application",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsx(n.p,{children:"Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently. This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework."}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"outcome-and-benefit",children:["Outcome and Benefit",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#outcome-and-benefit",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
@@ -44,11 +44,7 @@ import{u as s,j as e}from"./index-B510LQ0f.js";const r={title:"Multi-OIDC Sessio
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Cross-Application Testing"}),": Test user logins and session management across ",e.jsx(n.code,{children:"app.example.local/app1"})," and ",e.jsx(n.code,{children:"app.example.local/app2"}),". Ensure that sessions persist and that users can switch between applications without re-authentication."]}),`
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Security Audits"}),": Conduct thorough security testing to ensure that session tokens are handled securely and that no vulnerabilities exist in cross-application session management."]}),`
 `]}),`
-`,e.jsxs(n.h3,{id:"6-deploy-and-scale",children:["6. Deploy and Scale",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#6-deploy-and-scale",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Deployment"}),": Deploy the applications in a production environment. Consider using Docker and Kubernetes for easy scaling and management."]}),`
-`,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Monitoring"}),": Implement logging and monitoring to keep track of session activity and security events."]}),`
-`]}),`
+`,e.jsx(n.p,{children:e.jsx(n.img,{src:"authentication.drawio.png",alt:"authentication.drawio.png"})}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"references",children:["References",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#references",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ol,{children:[`
@@ -57,17 +53,9 @@ import{u as s,j as e}from"./index-B510LQ0f.js";const r={title:"Multi-OIDC Sessio
 `,"A comprehensive guide to understanding the concepts behind NextAuth, which inspired this project."]}),`
 `]}),`
 `,e.jsxs(n.li,{children:[`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"OIDC Specifications"}),": ",e.jsx(n.a,{href:"https://openid.net/specs/openid-connect-core-1_0.html",children:"https://openid.net/specs/openid-connect-core-1_0.html"}),e.jsx(n.br,{}),`
-`,"The official OIDC specifications that form the foundation of the authentication protocols used in this project."]}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"OpenID Connect Endpoints in ZITADEL"}),": ",e.jsx(n.a,{href:"https://zitadel.com/docs/apis/openidoauth/endpoints",children:"https://zitadel.com/docs/apis/openidoauth/endpoints"})]}),`
 `]}),`
 `,e.jsxs(n.li,{children:[`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Node.js OAuth 2.0 Implementation Guide"}),": ",e.jsx(n.a,{href:"https://oauth.net/2/",children:"https://oauth.net/2/"}),e.jsx(n.br,{}),`
-`,"Learn more about implementing OAuth 2.0 in Node.js, which is a crucial part of this project's architecture."]}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"PKCE - Recommendation for authorization flow"}),": ",e.jsx(n.a,{href:"https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows",children:"https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows"})]}),`
 `]}),`
-`,e.jsxs(n.li,{children:[`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Docker and Kubernetes for Scaling"}),": ",e.jsx(n.a,{href:"https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/",children:"https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/"}),e.jsx(n.br,{}),`
-`,"A guide to deploying and scaling applications using Docker and Kubernetes."]}),`
-`]}),`
-`]}),`
-`,e.jsx(n.hr,{}),`
-`,e.jsx(n.p,{children:"By following these steps and leveraging the resources provided, you can implement a scalable, secure, and efficient multi-OIDC session management system in your own projects. This open-source effort aims to simplify complex authentication scenarios, enabling you to focus on building great applications. Happy coding!"})]})}function o(i={}){const{wrapper:n}={...s(),...i.components};return n?e.jsx(n,{...i,children:e.jsx(t,{...i})}):t(i)}export{o as default,r as frontmatter};
+`]})]})}function r(i={}){const{wrapper:n}={...s(),...i.components};return n?e.jsx(n,{...i,children:e.jsx(t,{...i})}):t(i)}export{r as default,o as frontmatter};
