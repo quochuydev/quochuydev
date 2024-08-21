@@ -45,10 +45,7 @@ The `auth.example.local` application acts as the central authentication hub. Her
 - **Cross-Application Testing**: Test user logins and session management across `app.example.local/app1` and `app.example.local/app2`. Ensure that sessions persist and that users can switch between applications without re-authentication.
 - **Security Audits**: Conduct thorough security testing to ensure that session tokens are handled securely and that no vulnerabilities exist in cross-application session management.
 
-### 6. Deploy and Scale
-
-- **Deployment**: Deploy the applications in a production environment. Consider using Docker and Kubernetes for easy scaling and management.
-- **Monitoring**: Implement logging and monitoring to keep track of session activity and security events.
+![authentication.drawio.png](authentication.drawio.png)
 
 ---
 
@@ -57,15 +54,6 @@ The `auth.example.local` application acts as the central authentication hub. Her
 1. **NextAuth.js Documentation**: [https://next-auth.js.org/getting-started/introduction](https://next-auth.js.org/getting-started/introduction)  
    A comprehensive guide to understanding the concepts behind NextAuth, which inspired this project.
 
-2. **OIDC Specifications**: [https://openid.net/specs/openid-connect-core-1_0.html](https://openid.net/specs/openid-connect-core-1_0.html)  
-   The official OIDC specifications that form the foundation of the authentication protocols used in this project.
+2. **OpenID Connect Endpoints in ZITADEL**: [https://zitadel.com/docs/apis/openidoauth/endpoints](https://zitadel.com/docs/apis/openidoauth/endpoints)
 
-3. **Node.js OAuth 2.0 Implementation Guide**: [https://oauth.net/2/](https://oauth.net/2/)  
-   Learn more about implementing OAuth 2.0 in Node.js, which is a crucial part of this project's architecture.
-
-4. **Docker and Kubernetes for Scaling**: [https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)  
-   A guide to deploying and scaling applications using Docker and Kubernetes.
-
----
-
-By following these steps and leveraging the resources provided, you can implement a scalable, secure, and efficient multi-OIDC session management system in your own projects. This open-source effort aims to simplify complex authentication scenarios, enabling you to focus on building great applications. Happy coding!
+3. **PKCE - Recommendation for authorization flow**: [https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows](https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows)

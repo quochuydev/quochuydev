@@ -1,7 +1,7 @@
 import { defineConfig } from "vocs";
 
 export default defineConfig({
-  title: "Docs",
+  title: "quochuydev",
   // basePath: process.env.ENVIRONMENT === "development" ? undefined : "/quochuydev",
   sidebar: [
     {
@@ -17,8 +17,8 @@ export default defineConfig({
       link: "/nodejs-aws-github-cicd",
     },
     {
-      text: "Building a Multi-OIDC Session Management Auth Application",
-      link: "/nextjs-multiple-sessions",
+      text: "Multi-OIDC Session Management Application",
+      link: "/multiple-oidc-session-management",
     },
     {
       text: "Zitadel and LemonLDAP (SAML) integration",
