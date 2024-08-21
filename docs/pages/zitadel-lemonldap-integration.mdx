@@ -4,10 +4,6 @@
 ## Overview
 This document describes the integration of Zitadel with LemonLDAP. It covers the following topics:
 
-1. Setting up LemonLDAP
-2. Configuring Zitadel
-3. Testing the integration
-
 ## Implementation Steps
 
 ### Setting up ZITADEL
@@ -20,53 +16,43 @@ https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose
 docker run -d -p 80:80 coudot/lemonldap-ng lemonldap
 ```
 
-`General Parameters > Cookies > Unsecured & Strict`
-
 ### Setup SAML for LemonLDAP
 
 `SAML2 Service > Security parameters > Signature`
 
 `General Parameters > Issuer modules > SAML`
 
+### _Fixing for error: `An error occured during SAML single sign on`_
+
+`General Parameters > Cookies > Unsecured & Strict`
 
 ### Configuring Zitadel
 
-- Current ZITADEL version v2.59.0
+Current ZITADEL version v2.59.0
 
-- In ZITADEL console, Create a SAML IDP
+In ZITADEL console, Create a SAML IDP
 
 `Settings > Identity Providers > SAML`
 
-Name: `LemonLDAP`
+- **Name**: `LemonLDAP`
+- **Metadata Xml**: Base64 encoded metadata
+- **Binding**: `SAML_BINDING_POST`
+- **Signed Request**: `Yes`
+- **NameID Format**: `SAML_NAME_ID_FORMAT_EMAIL_ADDRESS`
+- **Automatic creation**: `false`
+- **Automatic creation**: `false`
+- **Automatic update**: `false`
+- **Account creation allowed (manually)**: `false`
+- **Account linking allowed (manually)**: `false`
+- **Determines whether an identity will be prompted to be linked to an existing account**: `Disabled`
 
-Metadata Xml: Base64 encoded metadata
-
-Binding: `SAML_BINDING_POST`
-
-Signed Request: `Yes`
-
-NameID Format: `SAML_NAME_ID_FORMAT_EMAIL_ADDRESS`
-
-Automatic creation: `false`
-
-Automatic creation: `false`
-
-Automatic update: `false`
-
-Account creation allowed (manually): `false`
-
-Account linking allowed (manually): `false`
-
-Determines whether an identity will be prompted to be linked to an existing account: `Disabled`
-
-- After created, we get `idpId`
+After created, we get `idpId`
 
 ### In LemonLDAP Management, Setup a SAML Service Provider
 
 `SAML Service Providers > Add SAML IDP > MyApplication`
 
 `MyApplication > Metadata`:
-
 http://localhost:8080/idps/{idpId}/saml/metadata
 
-### Testing the Integration
+## Testing the Integration
