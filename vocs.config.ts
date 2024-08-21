@@ -16,5 +16,13 @@ export default defineConfig({
       text: "Node.js x AWS x Github Action",
       link: "/nodejs-aws-github-cicd",
     },
+    {
+      text: "Building a Multi-OIDC Session Management Auth Application",
+      link: "/nextjs-multiple-sessions",
+    },
+    {
+      text: "Zitadel and LemonLDAP (SAML) integration",
+      link: "/zitadel-lemonldap-integration",
+    },
   ],
 });
