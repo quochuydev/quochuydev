@@ -27,11 +27,11 @@ docker run -d --name lemonldap -p 80:80 --network zitadel coudot/lemonldap-ng
 
 `SAML2 Service > Security parameters > Signature > New certificate > Save`
 
-![alt](lemonldap/1.png)
+![alt](/lemonldap/1.png)
 
 `General Parameters > Issuer modules > SAML > Activation: On`
 
-![alt](lemonldap/2.png)
+![alt](/lemonldap/2.png)
 
 #### Download and Encode Base64 metadata (https://www.base64encode.org/)
 
@@ -71,7 +71,7 @@ For example I am setuping up at ZITADEL instance level
 
 #### Download ZITADEL metadata
 
-![alt](lemonldap/3.png)
+![alt](/lemonldap/3.png)
 
 ### Setup a SAML Service Provider
 
@@ -79,21 +79,21 @@ For example I am setuping up at ZITADEL instance level
 
 `MyApplication > Metadata`: use IDP metadata from step above
 
-![alt](lemonldap/4.png)
+![alt](/lemonldap/4.png)
 
 ### Testing
 
 Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP SAML`
 
-![alt](lemonldap/5.png)
+![alt](/lemonldap/5.png)
 
 ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation
 
-![alt](lemonldap/6.png)
+![alt](/lemonldap/6.png)
 
 Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.
 
-![alt](lemonldap/7.png)
+![alt](/lemonldap/7.png)
 
 ## ZITADEL as identity provider
 
@@ -109,11 +109,11 @@ Login successfully, you will be redirected to ZITADEL register form. Completed a
 
 `General Parameters > Issuer modules > OpenID Connect`
 
-![alt](lemonldap/8.png)
+![alt](/lemonldap/8.png)
 
 `OpenID Connect Service > Security > Keys > Signature keys > New certificate > Save`
 
-![alt](lemonldap/9.png)
+![alt](/lemonldap/9.png)
 
 `OpenID Connect Relying Parties > Add OpenID Connect Relying Party > rp-example > Basic`
 
@@ -153,20 +153,20 @@ docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/open
 - **Client ID**: `clientId`
 - **Client Secret**: `clientSecret`
 
-![alt](lemonldap/10.png)
+![alt](/lemonldap/10.png)
 
 ### Testing
 
 Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP OIDC`
 
-![alt](lemonldap/11.png)
+![alt](/lemonldap/11.png)
 
 ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation
 
 Confirm authorization request.
 
-![alt](lemonldap/12.png)
+![alt](/lemonldap/12.png)
 
 Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.
 
-![alt](lemonldap/13.png)
+![alt](/lemonldap/13.png)
