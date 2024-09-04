@@ -12,7 +12,7 @@
     
     
   
-    <script type="module" crossorigin src="/assets/index-DrmWPPCj.js"></script>
+    <script type="module" crossorigin src="/assets/index-DeogMZcw.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/style-B3WDjgDD.css">
   </head>
   <body>
@@ -29,9 +29,9 @@
 <div class="vocs_CodeBlock"><div class="vocs_Pre_wrapper"><pre style="background-color:#fff;--shiki-dark-bg:#22272e;color:#24292e;--shiki-dark:#adbac7" tabindex="0" class="shiki shiki-themes github-light github-dark-dimmed vocs_Pre"><code class="vocs_Code"><span class="line vocs_Span"><span style="color:#6F42C1;--shiki-dark:#F69D50" class="vocs_Span">docker</span><span style="color:#032F62;--shiki-dark:#96D0FF" class="vocs_Span"> run</span><span style="color:#005CC5;--shiki-dark:#6CB6FF" class="vocs_Span"> -d</span><span style="color:#005CC5;--shiki-dark:#6CB6FF" class="vocs_Span"> --name</span><span style="color:#032F62;--shiki-dark:#96D0FF" class="vocs_Span"> lemonldap</span><span style="color:#005CC5;--shiki-dark:#6CB6FF" class="vocs_Span"> -p</span><span style="color:#032F62;--shiki-dark:#96D0FF" class="vocs_Span"> 80:80</span><span style="color:#005CC5;--shiki-dark:#6CB6FF" class="vocs_Span"> --network</span><span style="color:#032F62;--shiki-dark:#96D0FF" class="vocs_Span"> zitadel</span><span style="color:#032F62;--shiki-dark:#96D0FF" class="vocs_Span"> coudot/lemonldap-ng</span></span></code></pre></div></div>
 <h4 class="vocs_H4 vocs_Heading"><div id="setup-saml-for-lemonldap" class="vocs_Heading_slugTarget"></div>Setup SAML for LemonLDAP<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#setup-saml-for-lemonldap"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h4>
 <p class="vocs_Paragraph"><code class="vocs_Code">SAML2 Service &gt; Security parameters &gt; Signature &gt; New certificate &gt; Save</code></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/1.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/1.png" alt="alt"/></p>
 <p class="vocs_Paragraph"><code class="vocs_Code">General Parameters &gt; Issuer modules &gt; SAML &gt; Activation: On</code></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/2.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/2.png" alt="alt"/></p>
 <h4 class="vocs_H4 vocs_Heading"><div id="download-and-encode-base64-metadata-httpswwwbase64encodeorg" class="vocs_Heading_slugTarget"></div>Download and Encode Base64 metadata (<a class="vocs_Anchor vocs_Link vocs_Link_accent_underlined vocs_ExternalLink" href="https://www.base64encode.org/" target="_blank" rel="noopener noreferrer" style="--vocs_ExternalLink_iconUrl:url(/.vocs/icons/arrow-diagonal.svg)">https://www.base64encode.org/</a>)<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#download-and-encode-base64-metadata-httpswwwbase64encodeorg"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h4>
 <div class="vocs_CodeBlock"><div class="vocs_Pre_wrapper"><pre style="background-color:#fff;--shiki-dark-bg:#22272e;color:#24292e;--shiki-dark:#adbac7" tabindex="0" class="shiki shiki-themes github-light github-dark-dimmed vocs_Pre"><code class="vocs_Code"><span class="line vocs_Span"><span class="vocs_Span">http://auth.example.com/saml/metadata</span></span></code></pre></div></div>
 <h4 class="vocs_H4 vocs_Heading"><div id="fixing-for-error-an-error-occured-during-saml-single-sign-on" class="vocs_Heading_slugTarget"></div><em>Fixing for error: <code class="vocs_Code">An error occured during SAML single sign on</code></em><a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#fixing-for-error-an-error-occured-during-saml-single-sign-on"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h4>
@@ -57,18 +57,18 @@
 <li class="vocs_ListItem"><strong class="vocs_Strong">Determines whether an identity will be prompted to be linked to an existing account</strong>: <code class="vocs_Code">Disabled</code></li>
 </ul>
 <h4 class="vocs_H4 vocs_Heading"><div id="download-zitadel-metadata" class="vocs_Heading_slugTarget"></div>Download ZITADEL metadata<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#download-zitadel-metadata"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h4>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/3.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/3.png" alt="alt"/></p>
 <h3 class="vocs_H3 vocs_Heading"><div id="setup-a-saml-service-provider" class="vocs_Heading_slugTarget"></div>Setup a SAML Service Provider<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#setup-a-saml-service-provider"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h3>
 <p class="vocs_Paragraph"><code class="vocs_Code">SAML Service Providers &gt; Add SAML IDP &gt; MyApplication</code></p>
 <p class="vocs_Paragraph"><code class="vocs_Code">MyApplication &gt; Metadata</code>: use IDP metadata from step above</p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/4.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/4.png" alt="alt"/></p>
 <h3 class="vocs_H3 vocs_Heading"><div id="testing" class="vocs_Heading_slugTarget"></div>Testing<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#testing"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h3>
 <p class="vocs_Paragraph">Open other browser with url <code class="vocs_Code">http://localhost:8080/ui/console/</code>, select login with <code class="vocs_Code">LemonLDAP SAML</code></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/5.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/5.png" alt="alt"/></p>
 <p class="vocs_Paragraph">ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: <a class="vocs_Anchor vocs_Link vocs_Link_accent_underlined vocs_ExternalLink" href="https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation" target="_blank" rel="noopener noreferrer" style="--vocs_ExternalLink_iconUrl:url(/.vocs/icons/arrow-diagonal.svg)">https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation</a></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/6.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/6.png" alt="alt"/></p>
 <p class="vocs_Paragraph">Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.</p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/7.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/7.png" alt="alt"/></p>
 <h2 class="vocs_H2 vocs_Heading"><div id="zitadel-as-identity-provider" class="vocs_Heading_slugTarget"></div>ZITADEL as identity provider<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#zitadel-as-identity-provider"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h2>
 <h3 class="vocs_H3 vocs_Heading"><div id="create-a-saml-application-in-zitadel" class="vocs_Heading_slugTarget"></div>Create a SAML application in ZITADEL<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#create-a-saml-application-in-zitadel"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h3>
 <h3 class="vocs_H3 vocs_Heading"><div id="configure-idenity-provider-on-lemonldap" class="vocs_Heading_slugTarget"></div>Configure Idenity Provider on LemonLDAP<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#configure-idenity-provider-on-lemonldap"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h3>
@@ -76,9 +76,9 @@
 <h2 class="vocs_H2 vocs_Heading"><div id="zitadel-as-service-provider-1" class="vocs_Heading_slugTarget"></div>ZITADEL as Service provider<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#zitadel-as-service-provider-1"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h2>
 <h3 class="vocs_H3 vocs_Heading"><div id="configure-oidc-on-lemonldap" class="vocs_Heading_slugTarget"></div>Configure OIDC on LemonLDAP<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#configure-oidc-on-lemonldap"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h3>
 <p class="vocs_Paragraph"><code class="vocs_Code">General Parameters &gt; Issuer modules &gt; OpenID Connect</code></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/8.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/8.png" alt="alt"/></p>
 <p class="vocs_Paragraph"><code class="vocs_Code">OpenID Connect Service &gt; Security &gt; Keys &gt; Signature keys &gt; New certificate &gt; Save</code></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/9.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/9.png" alt="alt"/></p>
 <p class="vocs_Paragraph"><code class="vocs_Code">OpenID Connect Relying Parties &gt; Add OpenID Connect Relying Party &gt; rp-example &gt; Basic</code></p>
 <p class="vocs_Paragraph"><code class="vocs_Code">OpenID Connect Relying Parties &gt; rp-example &gt; Basic</code></p>
 <ul class="vocs_List vocs_List_unordered">
@@ -108,14 +108,14 @@
 <li class="vocs_ListItem"><strong class="vocs_Strong">Client ID</strong>: <code class="vocs_Code">clientId</code></li>
 <li class="vocs_ListItem"><strong class="vocs_Strong">Client Secret</strong>: <code class="vocs_Code">clientSecret</code></li>
 </ul>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/10.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/10.png" alt="alt"/></p>
 <h3 class="vocs_H3 vocs_Heading"><div id="testing-1" class="vocs_Heading_slugTarget"></div>Testing<a class="vocs_Anchor vocs_Autolink" aria-hidden="true" tabindex="-1" href="/zitadel-lemonldap-integration#testing-1"><div data-autolink-icon="true" class="vocs_Div vocs_AutolinkIcon" style="--vocs_AutolinkIcon_iconUrl:url(/.vocs/icons/link.svg)"></div></a></h3>
 <p class="vocs_Paragraph">Open other browser with url <code class="vocs_Code">http://localhost:8080/ui/console/</code>, select login with <code class="vocs_Code">LemonLDAP OIDC</code></p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/11.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/11.png" alt="alt"/></p>
 <p class="vocs_Paragraph">ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: <a class="vocs_Anchor vocs_Link vocs_Link_accent_underlined vocs_ExternalLink" href="https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation" target="_blank" rel="noopener noreferrer" style="--vocs_ExternalLink_iconUrl:url(/.vocs/icons/arrow-diagonal.svg)">https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation</a></p>
 <p class="vocs_Paragraph">Confirm authorization request.</p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/12.png" alt="alt"/></p>
+<p class="vocs_Paragraph"><img src="lemonldap/12.png" alt="alt"/></p>
 <p class="vocs_Paragraph">Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.</p>
-<p class="vocs_Paragraph"><img src="../public/lemonldap/13.png" alt="alt"/></p></article><footer class="vocs_Footer"><div class="vocs_Footer_container"></div></footer></div><div data-bottom-observer="true"></div></div></div>
+<p class="vocs_Paragraph"><img src="lemonldap/13.png" alt="alt"/></p></article><footer class="vocs_Footer"><div class="vocs_Footer_container"></div></footer></div><div data-bottom-observer="true"></div></div></div>
   </body>
 </html>
