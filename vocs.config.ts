@@ -21,12 +21,8 @@ export default defineConfig({
       link: "/multiple-oidc-session-management",
     },
     {
-      text: "Zitadel and LemonLDAP (SAML) integration",
+      text: "Zitadel and LemonLDAP integration",
       link: "/zitadel-lemonldap-integration",
-    },
-    {
-      text: "LemonLDAP SSO with ZITADEL",
-      link: "/mpa_lemonldap",
     },
   ],
 });
