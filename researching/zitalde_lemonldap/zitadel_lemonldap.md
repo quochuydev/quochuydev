@@ -14,7 +14,7 @@ start lemonldap container:
 
 ```
 echo "127.0.0.1 auth.example.com manager.example.com test1.example.com test2.example.com" | sudo tee -a /etc/hosts
-docker run -d --name lemonldap -p 80:80 --network portal coudot/lemonldap-ng
+docker run -d --name lemonldap -p 80:80 --network zitadel coudot/lemonldap-ng
 ```
 
 login to: http://manager.example.com

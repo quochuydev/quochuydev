@@ -24,5 +24,9 @@ export default defineConfig({
       text: "Zitadel and LemonLDAP (SAML) integration",
       link: "/zitadel-lemonldap-integration",
     },
+    {
+      text: "LemonLDAP SSO with ZITADEL",
+      link: "/mpa_lemonldap",
+    },
   ],
 });

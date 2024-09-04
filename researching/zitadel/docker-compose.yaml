@@ -2,12 +2,15 @@ version: '3.8'
 
 services:
   zitadel_test:
+    image: 'zitadel/zitadel:latest'
     container_name: zitadel_test
     restart: 'always'
     networks:
       - 'zitadel'
-    image: 'ghcr.io/zitadel/zitadel:latest'
-    command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
+    command:
+      - /bin/sh
+      - -c
+      - zitadel start-from-init --masterkey 'MasterkeyNeedsToHave32Characters' --tlsMode disabled
     environment:
       - 'ZITADEL_DATABASE_POSTGRES_HOST=postgres_test'
       - 'ZITADEL_DATABASE_POSTGRES_PORT=5432'
@@ -44,4 +47,5 @@ services:
 
 networks:
   zitadel:
+    name: zitadel
 

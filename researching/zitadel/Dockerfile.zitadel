@@ -1,0 +1,10 @@
+FROM alpine:3.18
+
+RUN apk update && apk upgrade \
+  && apk add gzip curl \
+  && rm -rf /var/cache/apk/archives
+
+RUN wget https://github.com/zitadel/zitadel/releases/download/v2.60.0/zitadel-linux-amd64.tar.gz -P .
+RUN tar -xf zitadel-linux-amd64.tar.gz
+RUN cp zitadel-linux-amd64/zitadel /usr/local/bin \
+  && rm -rf zitadel-linux-amd64.tar.gz zitadel-linux-amd64

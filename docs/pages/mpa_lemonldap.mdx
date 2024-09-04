@@ -1,0 +1,172 @@
+---
+title: Configure LemonLDAP as an Identity Provider in ZITADEL
+sidebar_label: LemonLDAP
+---
+
+This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL.
+
+
+You can configure two types of SAML SSO on LemonLDAP:
+
+- [LemonLDAP SAML](#lemonldap-saml)
+- [LemonLDAP OIDC](#lemonldap-oidc)
+
+# LemonLDAP SAML
+
+## ZITADEL as Service provider
+
+### Configure SAML on LemonLDAP
+
+####  Setting up LemonLDAP
+
+```bash
+docker run -d --name lemonldap -p 80:80 --network zitadel coudot/lemonldap-ng
+```
+
+####  Setup SAML for LemonLDAP
+
+`SAML2 Service > Security parameters > Signature > New certificate > Save`
+
+![alt](../public/lemonldap/1.png)
+
+`General Parameters > Issuer modules > SAML > Activation: On`
+
+![alt](../public/lemonldap/2.png)
+
+#### Download and Encode Base64 metadata (https://www.base64encode.org/)
+
+```
+http://auth.example.com/saml/metadata
+```
+
+#### _Fixing for error: `An error occured during SAML single sign on`_
+
+`General Parameters > Cookies > Unsecured & Strict`
+
+### Configure Idenity Provider in ZITADEL
+
+### Setting up ZITADEL
+
+https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose
+
+ZITADEL running in docker network `zitadel`
+
+#### Create a SAML IDP in ZITADEL
+
+For example I am setuping up at ZITADEL instance level
+
+`Settings > Identity Providers > SAML`
+
+- **Name**: `LemonLDAP SAML`
+- **Metadata Xml**: Base64 encoded metadata
+- **Binding**: `SAML_BINDING_POST`
+- **Signed Request**: `Yes`
+- **NameID Format**: `SAML_NAME_ID_FORMAT_EMAIL_ADDRESS`
+- **Automatic creation**: `false`
+- **Automatic creation**: `false`
+- **Automatic update**: `false`
+- **Account creation allowed (manually)**: `false` or `true`
+- **Account linking allowed (manually)**: `false` or `true`
+- **Determines whether an identity will be prompted to be linked to an existing account**: `Disabled`
+
+#### Download ZITADEL metadata
+
+![alt](../public/lemonldap/3.png)
+
+### Setup a SAML Service Provider
+
+`SAML Service Providers > Add SAML IDP > MyApplication`
+
+`MyApplication > Metadata`: use IDP metadata from step above
+
+![alt](../public/lemonldap/4.png)
+
+### Testing
+
+Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP SAML`
+
+![alt](../public/lemonldap/5.png)
+
+ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation
+
+![alt](../public/lemonldap/6.png)
+
+Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.
+
+![alt](../public/lemonldap/7.png)
+
+## ZITADEL as identity provider
+
+### Create a SAML application in ZITADEL
+
+### Configure Idenity Provider on LemonLDAP
+
+# LemonLDAP OIDC
+
+## ZITADEL as Service provider
+
+### Configure OIDC on LemonLDAP
+
+`General Parameters > Issuer modules > OpenID Connect`
+
+![alt](../public/lemonldap/8.png)
+
+`OpenID Connect Service > Security > Keys > Signature keys > New certificate > Save`
+
+![alt](../public/lemonldap/9.png)
+
+`OpenID Connect Relying Parties > Add OpenID Connect Relying Party > rp-example > Basic`
+
+`OpenID Connect Relying Parties > rp-example > Basic`
+
+- **Client ID:** Generate a random string, exp: `clientId`
+- **Client secret:** Generate a random string, exp: `clientSecret`
+- **Allowed redirection addresses for login:** http://localhost:8080/ui/login/login/externalidp/callback
+- **Token endpoint authentication method:** `client_secret_post`
+
+```sh
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' lemonldap_container_name
+
+docker exec -i zitadel_container_name sh -c "echo 'IP_address auth.example.com' >> /etc/hosts"
+
+docker restart zitadel_container_name
+```
+
+Example:
+
+```sh
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' lemonldap
+
+docker exec -i zitadel_test sh -c "echo '172.23.0.4 auth.example.com' >> /etc/hosts"
+
+docker exec -i zitadel_test sh -c "cat /etc/hosts"
+
+docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/openid-configuration"
+```
+
+### Configure LemonLDAP OIDC Idenity Provider in ZITADEL
+
+`Settings > Identity Providers > Generic OIDC`
+
+- **Name**: `LemonLDAP OIDC`
+- **Issuer**: `http://auth.example.com/`
+- **Client ID**: `clientId`
+- **Client Secret**: `clientSecret`
+
+![alt](../public/lemonldap/10.png)
+
+### Testing
+
+Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP OIDC`
+
+![alt](../public/lemonldap/11.png)
+
+ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation
+
+Confirm authorization request.
+
+![alt](../public/lemonldap/12.png)
+
+Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.
+
+![alt](../public/lemonldap/13.png)
