@@ -17,7 +17,7 @@ export default defineConfig({
       link: "/nodejs-aws-github-cicd",
     },
     {
-      text: "Multi-OIDC Session Management Application",
+      text: "Multi OIDC Session Management",
       link: "/multiple-oidc-session-management",
     },
     {
