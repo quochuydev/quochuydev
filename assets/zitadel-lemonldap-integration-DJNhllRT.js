@@ -1,12 +1,11 @@
-import{u as r,j as e}from"./index-BOwaBQYS.js";const d={title:"Configure LemonLDAP as an Identity Provider in ZITADEL",sidebar_label:"LemonLDAP"};function s(i){const n={a:"a",code:"code",div:"div",em:"em",h2:"h2",h3:"h3",h4:"h4",img:"img",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...r(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.p,{children:"This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL."}),`
+import{u as r,j as e}from"./index-ByBQBEGK.js";const d={title:"Configure LemonLDAP as an Identity Provider in ZITADEL",sidebar_label:"LemonLDAP"};function s(i){const n={a:"a",code:"code",div:"div",em:"em",h2:"h2",h3:"h3",img:"img",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...r(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.p,{children:"This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL."}),`
 `,e.jsx(n.p,{children:"You can configure two types of SAML SSO on LemonLDAP:"}),`
 `,e.jsxs(n.ul,{children:[`
 `,e.jsx(n.li,{children:e.jsx(n.a,{href:"#lemonldap-saml",children:"LemonLDAP SAML"})}),`
 `,e.jsx(n.li,{children:e.jsx(n.a,{href:"#lemonldap-oidc",children:"LemonLDAP OIDC"})}),`
 `]}),`
-`,e.jsxs(n.h2,{id:"lemonldap-saml",children:["LemonLDAP SAML",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#lemonldap-saml",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.h3,{id:"saml---zitadel-as-service-provider",children:["SAML - ZITADEL as Service provider",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#saml---zitadel-as-service-provider",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.h4,{id:"configure-saml-on-lemonldap",children:["Configure SAML on LemonLDAP",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-saml-on-lemonldap",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h2,{id:"lemonldap-saml---zitadel-as-service-provider",children:["LemonLDAP SAML - ZITADEL as Service provider",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#lemonldap-saml---zitadel-as-service-provider",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"configure-saml-on-lemonldap",children:["Configure SAML on LemonLDAP",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-saml-on-lemonldap",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:"Setting up LemonLDAP"}),`
 `,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(n.code,{children:e.jsxs(n.span,{className:"line",children:[e.jsx(n.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"docker"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" run"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" -d"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" --name"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" lemonldap"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" -p"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" 80:80"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" --network"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" zitadel"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" coudot/lemonldap-ng"})]})})}),`
 `,e.jsx(n.p,{children:"Setup SAML for LemonLDAP"}),`
@@ -18,7 +17,7 @@ import{u as r,j as e}from"./index-BOwaBQYS.js";const d={title:"Configure LemonLD
 `,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(n.code,{children:e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"http://auth.example.com/saml/metadata"})})})}),`
 `,e.jsx(n.p,{children:e.jsxs(n.em,{children:["Fixing for error: ",e.jsx(n.code,{children:"An error occured during SAML single sign on"})]})}),`
 `,e.jsx(n.p,{children:e.jsx(n.code,{children:"General Parameters > Cookies > Unsecured & Strict"})}),`
-`,e.jsxs(n.h4,{id:"configure-idenity-provider-in-zitadel",children:["Configure Idenity Provider in ZITADEL",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-idenity-provider-in-zitadel",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"configure-idenity-provider-in-zitadel",children:["Configure Idenity Provider in ZITADEL",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-idenity-provider-in-zitadel",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.strong,{children:"Setting up ZITADEL"}),`
 `,e.jsx(n.p,{children:e.jsx(n.a,{href:"https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose",children:"https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose"})}),`
 `,e.jsxs(n.p,{children:["ZITADEL running in docker network ",e.jsx(n.code,{children:"zitadel"})]}),`
@@ -42,20 +41,19 @@ import{u as r,j as e}from"./index-BOwaBQYS.js";const d={title:"Configure LemonLD
 `]}),`
 `,e.jsx(n.strong,{children:"Download ZITADEL metadata"}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/3.png",alt:"alt"})}),`
-`,e.jsxs(n.h4,{id:"setup-a-saml-service-provider",children:["Setup a SAML Service Provider",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#setup-a-saml-service-provider",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"setup-a-saml-service-provider",children:["Setup a SAML Service Provider",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#setup-a-saml-service-provider",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:e.jsx(n.code,{children:"SAML Service Providers > Add SAML IDP > MyApplication"})}),`
 `,e.jsxs(n.p,{children:[e.jsx(n.code,{children:"MyApplication > Metadata"}),": use IDP metadata from step above"]}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/4.png",alt:"alt"})}),`
-`,e.jsxs(n.h4,{id:"testing",children:["Testing",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#testing",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"testing",children:["Testing",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#testing",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.p,{children:["Open other browser with url ",e.jsx(n.code,{children:"http://localhost:8080/ui/console/"}),", select login with ",e.jsx(n.code,{children:"LemonLDAP SAML"})]}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/5.png",alt:"alt"})}),`
 `,e.jsxs(n.p,{children:["ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: ",e.jsx(n.a,{href:"https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation",children:"https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation"})]}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/6.png",alt:"alt"})}),`
 `,e.jsx(n.p,{children:"Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML."}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/7.png",alt:"alt"})}),`
-`,e.jsxs(n.h2,{id:"lemonldap-oidc",children:["LemonLDAP OIDC",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#lemonldap-oidc",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.h3,{id:"oidc---zitadel-as-service-provider",children:["OIDC - ZITADEL as Service provider",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#oidc---zitadel-as-service-provider",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.h4,{id:"configure-oidc-on-lemonldap",children:["Configure OIDC on LemonLDAP",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-oidc-on-lemonldap",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h2,{id:"lemonldap-oidc---zitadel-as-service-provider",children:["LemonLDAP OIDC - ZITADEL as Service provider",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#lemonldap-oidc---zitadel-as-service-provider",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"configure-oidc-on-lemonldap",children:["Configure OIDC on LemonLDAP",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-oidc-on-lemonldap",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:e.jsx(n.code,{children:"General Parameters > Issuer modules > OpenID Connect"})}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/8.png",alt:"alt"})}),`
 `,e.jsx(n.p,{children:e.jsx(n.code,{children:"OpenID Connect Service > Security > Keys > Signature keys > New certificate > Save"})}),`
@@ -79,7 +77,7 @@ import{u as r,j as e}from"./index-BOwaBQYS.js";const d={title:"Configure LemonLD
 `,e.jsxs(n.span,{className:"line",children:[e.jsx(n.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"docker"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" exec"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" -i"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" zitadel_test"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" sh"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" -c"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "cat /etc/hosts"'})]}),`
 `,e.jsx(n.span,{className:"line","data-empty-line":!0,children:" "}),`
 `,e.jsxs(n.span,{className:"line",children:[e.jsx(n.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"docker"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" exec"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" -i"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" zitadel_test"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" sh"}),e.jsx(n.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" -c"}),e.jsx(n.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "curl http://auth.example.com/.well-known/openid-configuration"'})]})]})}),`
-`,e.jsxs(n.h4,{id:"configure-lemonldap-oidc-idenity-provider-in-zitadel",children:["Configure LemonLDAP OIDC Idenity Provider in ZITADEL",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-lemonldap-oidc-idenity-provider-in-zitadel",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"configure-lemonldap-oidc-idenity-provider-in-zitadel",children:["Configure LemonLDAP OIDC Idenity Provider in ZITADEL",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#configure-lemonldap-oidc-idenity-provider-in-zitadel",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:e.jsx(n.code,{children:"Settings > Identity Providers > Generic OIDC"})}),`
 `,e.jsxs(n.ul,{children:[`
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Name"}),": ",e.jsx(n.code,{children:"LemonLDAP OIDC"})]}),`
@@ -88,7 +86,7 @@ import{u as r,j as e}from"./index-BOwaBQYS.js";const d={title:"Configure LemonLD
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Client Secret"}),": ",e.jsx(n.code,{children:"clientSecret"})]}),`
 `]}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/10.png",alt:"alt"})}),`
-`,e.jsxs(n.h4,{id:"testing-1",children:["Testing",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#testing-1",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(n.h3,{id:"testing-1",children:["Testing",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#testing-1",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.p,{children:["Open other browser with url ",e.jsx(n.code,{children:"http://localhost:8080/ui/console/"}),", select login with ",e.jsx(n.code,{children:"LemonLDAP OIDC"})]}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"/lemonldap/11.png",alt:"alt"})}),`
 `,e.jsxs(n.p,{children:["ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: ",e.jsx(n.a,{href:"https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation",children:"https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation"})]}),`
