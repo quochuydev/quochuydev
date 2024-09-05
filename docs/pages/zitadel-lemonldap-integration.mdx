@@ -11,19 +11,19 @@ You can configure two types of SAML SSO on LemonLDAP:
 - [LemonLDAP SAML](#lemonldap-saml)
 - [LemonLDAP OIDC](#lemonldap-oidc)
 
-# LemonLDAP SAML
+## LemonLDAP SAML
 
-## SAML - ZITADEL as Service provider
+### SAML - ZITADEL as Service provider
 
-### Configure SAML on LemonLDAP
+#### Configure SAML on LemonLDAP
 
-####  Setting up LemonLDAP
+Setting up LemonLDAP
 
 ```bash
 docker run -d --name lemonldap -p 80:80 --network zitadel coudot/lemonldap-ng
 ```
 
-####  Setup SAML for LemonLDAP
+Setup SAML for LemonLDAP
 
 `SAML2 Service > Security parameters > Signature > New certificate > Save`
 
@@ -33,19 +33,19 @@ docker run -d --name lemonldap -p 80:80 --network zitadel coudot/lemonldap-ng
 
 ![alt](/lemonldap/2.png)
 
-#### Download and Encode Base64 metadata (https://www.base64encode.org/)
+Download and Encode Base64 metadata (https://www.base64encode.org/)
 
 ```
 http://auth.example.com/saml/metadata
 ```
 
-#### _Fixing for error: `An error occured during SAML single sign on`_
+_Fixing for error: `An error occured during SAML single sign on`_
 
 `General Parameters > Cookies > Unsecured & Strict`
 
-### Configure Idenity Provider in ZITADEL
+#### Configure Idenity Provider in ZITADEL
 
-#### Setting up ZITADEL
+**Setting up ZITADEL**
 
 https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose
 
@@ -56,7 +56,7 @@ Checking compose file:
 https://github.com/quochuydev/quochuydev/blob/master/researching/zitadel/README.md
 
 
-#### Create a SAML IDP in ZITADEL
+**Create a SAML IDP in ZITADEL**
 
 For example I am setuping up at ZITADEL instance level
 
@@ -74,11 +74,11 @@ For example I am setuping up at ZITADEL instance level
 - **Account linking allowed (manually)**: `false` or `true`
 - **Determines whether an identity will be prompted to be linked to an existing account**: `Disabled`
 
-#### Download ZITADEL metadata
+**Download ZITADEL metadata**
 
 ![alt](/lemonldap/3.png)
 
-### Setup a SAML Service Provider
+#### Setup a SAML Service Provider
 
 `SAML Service Providers > Add SAML IDP > MyApplication`
 
@@ -86,7 +86,7 @@ For example I am setuping up at ZITADEL instance level
 
 ![alt](/lemonldap/4.png)
 
-### Testing
+#### Testing
 
 Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP SAML`
 
@@ -100,17 +100,11 @@ Login successfully, you will be redirected to ZITADEL register form. Completed a
 
 ![alt](/lemonldap/7.png)
 
-## SAML - ZITADEL as identity provider
+## LemonLDAP OIDC
 
-### Create a SAML application in ZITADEL
+### OIDC - ZITADEL as Service provider
 
-### Configure Idenity Provider on LemonLDAP
-
-# LemonLDAP OIDC
-
-## OIDC - ZITADEL as Service provider
-
-### Configure OIDC on LemonLDAP
+#### Configure OIDC on LemonLDAP
 
 `General Parameters > Issuer modules > OpenID Connect`
 
@@ -147,7 +141,7 @@ docker exec -i zitadel_test sh -c "cat /etc/hosts"
 docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/openid-configuration"
 ```
 
-### Configure LemonLDAP OIDC Idenity Provider in ZITADEL
+#### Configure LemonLDAP OIDC Idenity Provider in ZITADEL
 
 `Settings > Identity Providers > Generic OIDC`
 
@@ -158,7 +152,7 @@ docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/open
 
 ![alt](/lemonldap/10.png)
 
-### Testing
+#### Testing
 
 Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP OIDC`
 
@@ -174,7 +168,7 @@ Login successfully, you will be redirected to ZITADEL register form. Completed a
 
 ![alt](/lemonldap/13.png)
 
-# Referrences
+## Referrences
 
 - https://lemonldap-ng.org/documentation/2.0/docker.html
 - https://lemonldap-ng.org/documentation/latest/authopenidconnect.html
