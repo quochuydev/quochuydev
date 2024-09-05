@@ -11,11 +11,9 @@ You can configure two types of SAML SSO on LemonLDAP:
 - [LemonLDAP SAML](#lemonldap-saml)
 - [LemonLDAP OIDC](#lemonldap-oidc)
 
-## LemonLDAP SAML
+## LemonLDAP SAML - ZITADEL as Service provider
 
-### SAML - ZITADEL as Service provider
-
-#### Configure SAML on LemonLDAP
+### Configure SAML on LemonLDAP
 
 Setting up LemonLDAP
 
@@ -43,7 +41,7 @@ _Fixing for error: `An error occured during SAML single sign on`_
 
 `General Parameters > Cookies > Unsecured & Strict`
 
-#### Configure Idenity Provider in ZITADEL
+### Configure Idenity Provider in ZITADEL
 
 **Setting up ZITADEL**
 
@@ -78,7 +76,7 @@ For example I am setuping up at ZITADEL instance level
 
 ![alt](/lemonldap/3.png)
 
-#### Setup a SAML Service Provider
+### Setup a SAML Service Provider
 
 `SAML Service Providers > Add SAML IDP > MyApplication`
 
@@ -86,7 +84,7 @@ For example I am setuping up at ZITADEL instance level
 
 ![alt](/lemonldap/4.png)
 
-#### Testing
+### Testing
 
 Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP SAML`
 
@@ -100,11 +98,9 @@ Login successfully, you will be redirected to ZITADEL register form. Completed a
 
 ![alt](/lemonldap/7.png)
 
-## LemonLDAP OIDC
+## LemonLDAP OIDC - ZITADEL as Service provider
 
-### OIDC - ZITADEL as Service provider
-
-#### Configure OIDC on LemonLDAP
+### Configure OIDC on LemonLDAP
 
 `General Parameters > Issuer modules > OpenID Connect`
 
@@ -141,7 +137,7 @@ docker exec -i zitadel_test sh -c "cat /etc/hosts"
 docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/openid-configuration"
 ```
 
-#### Configure LemonLDAP OIDC Idenity Provider in ZITADEL
+### Configure LemonLDAP OIDC Idenity Provider in ZITADEL
 
 `Settings > Identity Providers > Generic OIDC`
 
@@ -152,7 +148,7 @@ docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/open
 
 ![alt](/lemonldap/10.png)
 
-#### Testing
+### Testing
 
 Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP OIDC`
 
