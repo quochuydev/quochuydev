@@ -1,6 +1,7 @@
-import{u as s,j as e}from"./index-BD0-MK-J.js";const o={title:"Multi-OIDC Session Management  Application",description:"undefined"};function t(i){const n={a:"a",br:"br",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"multi-oidc-session-management--application",children:["Multi-OIDC Session Management  Application",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#multi-oidc-session-management--application",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
-`,e.jsx(n.p,{children:"Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently. This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework."}),`
-`,e.jsx(n.hr,{}),`
+import{u as s,j as e}from"./index-BOwaBQYS.js";const o={title:"Multi-OIDC Session Management  Application",description:"undefined"};function t(i){const n={a:"a",br:"br",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"multi-oidc-session-management--application",children:["Multi-OIDC Session Management  Application",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#multi-oidc-session-management--application",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+`,e.jsx(n.p,{children:"Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently."}),`
+`,e.jsx(n.p,{children:e.jsx(n.a,{href:"https://github.com/quochuydev/next-multiple-oidc-sessions",children:"https://github.com/quochuydev/next-multiple-oidc-sessions"})}),`
+`,e.jsx(n.p,{children:"This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework."}),`
 `,e.jsxs(n.h2,{id:"outcome-and-benefit",children:["Outcome and Benefit",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#outcome-and-benefit",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"centralized-session-management",children:["Centralized Session Management",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#centralized-session-management",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:"The primary outcome of this project is a centralized authentication system that efficiently manages multiple OIDC sessions across different applications. By centralizing session management, you gain:"}),`
@@ -8,7 +9,6 @@ import{u as s,j as e}from"./index-BD0-MK-J.js";const o={title:"Multi-OIDC Sessio
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Consistent User Experience"}),": Users can seamlessly switch between multiple applications (",e.jsx(n.code,{children:"app.example.local/app1"}),", ",e.jsx(n.code,{children:"app.example.local/app2"}),") without needing to re-authenticate."]}),`
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Simplified Integration"}),": With a shared authentication service (",e.jsx(n.code,{children:"auth.example.local"}),"), integrating new applications into your ecosystem becomes much easier and less error-prone."]}),`
 `]}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"implementation-steps",children:["Implementation Steps",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#implementation-steps",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"1-set-up-the-repository",children:["1. Set Up the Repository",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#1-set-up-the-repository",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:"Clone the GitHub repository and explore the three core applications:"}),`
@@ -45,17 +45,19 @@ import{u as s,j as e}from"./index-BD0-MK-J.js";const o={title:"Multi-OIDC Sessio
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Security Audits"}),": Conduct thorough security testing to ensure that session tokens are handled securely and that no vulnerabilities exist in cross-application session management."]}),`
 `]}),`
 `,e.jsx(n.p,{children:e.jsx(n.img,{src:"authentication.drawio.png",alt:"authentication.drawio.png"})}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"references",children:["References",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#references",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ol,{children:[`
 `,e.jsxs(n.li,{children:[`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"NextAuth.js Documentation"}),": ",e.jsx(n.a,{href:"https://next-auth.js.org/getting-started/introduction",children:"https://next-auth.js.org/getting-started/introduction"}),e.jsx(n.br,{}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"NextAuth.js Documentation"}),`:
+`,e.jsx(n.a,{href:"https://next-auth.js.org/getting-started/introduction",children:"https://next-auth.js.org/getting-started/introduction"}),e.jsx(n.br,{}),`
 `,"A comprehensive guide to understanding the concepts behind NextAuth, which inspired this project."]}),`
 `]}),`
 `,e.jsxs(n.li,{children:[`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"OpenID Connect Endpoints in ZITADEL"}),": ",e.jsx(n.a,{href:"https://zitadel.com/docs/apis/openidoauth/endpoints",children:"https://zitadel.com/docs/apis/openidoauth/endpoints"})]}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"OpenID Connect Endpoints in ZITADEL"}),`:
+`,e.jsx(n.a,{href:"https://zitadel.com/docs/apis/openidoauth/endpoints",children:"https://zitadel.com/docs/apis/openidoauth/endpoints"})]}),`
 `]}),`
 `,e.jsxs(n.li,{children:[`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"PKCE - Recommendation for authorization flow"}),": ",e.jsx(n.a,{href:"https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows",children:"https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows"})]}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"PKCE - Recommendation for authorization flow"}),`:
+`,e.jsx(n.a,{href:"https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows",children:"https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows"})]}),`
 `]}),`
 `]})]})}function r(i={}){const{wrapper:n}={...s(),...i.components};return n?e.jsx(n,{...i,children:e.jsx(t,{...i})}):t(i)}export{r as default,o as frontmatter};
