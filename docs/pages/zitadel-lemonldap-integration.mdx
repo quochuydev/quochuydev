@@ -45,11 +45,16 @@ http://auth.example.com/saml/metadata
 
 ### Configure Idenity Provider in ZITADEL
 
-### Setting up ZITADEL
+#### Setting up ZITADEL
 
 https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose
 
 ZITADEL running in docker network `zitadel`
+
+Checking compose file:
+
+https://github.com/quochuydev/quochuydev/blob/master/researching/zitadel/README.md
+
 
 #### Create a SAML IDP in ZITADEL
 
@@ -128,8 +133,6 @@ Login successfully, you will be redirected to ZITADEL register form. Completed a
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' lemonldap_container_name
 
 docker exec -i zitadel_container_name sh -c "echo 'IP_address auth.example.com' >> /etc/hosts"
-
-docker restart zitadel_container_name
 ```
 
 Example:
