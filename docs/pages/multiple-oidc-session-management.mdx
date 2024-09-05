@@ -1,8 +1,10 @@
 # Multi-OIDC Session Management  Application
 
-Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently. This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework.
+Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently.
 
----
+https://github.com/quochuydev/next-multiple-oidc-sessions
+
+This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework.
 
 ## Outcome and Benefit
 
@@ -11,8 +13,6 @@ The primary outcome of this project is a centralized authentication system that 
 
 - **Consistent User Experience**: Users can seamlessly switch between multiple applications (`app.example.local/app1`, `app.example.local/app2`) without needing to re-authenticate.
 - **Simplified Integration**: With a shared authentication service (`auth.example.local`), integrating new applications into your ecosystem becomes much easier and less error-prone.
-
----
 
 ## Implementation Steps
 
@@ -47,13 +47,14 @@ The `auth.example.local` application acts as the central authentication hub. Her
 
 ![authentication.drawio.png](authentication.drawio.png)
 
----
-
 ## References
 
-1. **NextAuth.js Documentation**: [https://next-auth.js.org/getting-started/introduction](https://next-auth.js.org/getting-started/introduction)  
+1. **NextAuth.js Documentation**:
+   [https://next-auth.js.org/getting-started/introduction](https://next-auth.js.org/getting-started/introduction)  
    A comprehensive guide to understanding the concepts behind NextAuth, which inspired this project.
 
-2. **OpenID Connect Endpoints in ZITADEL**: [https://zitadel.com/docs/apis/openidoauth/endpoints](https://zitadel.com/docs/apis/openidoauth/endpoints)
+2. **OpenID Connect Endpoints in ZITADEL**:
+   [https://zitadel.com/docs/apis/openidoauth/endpoints](https://zitadel.com/docs/apis/openidoauth/endpoints)
 
-3. **PKCE - Recommendation for authorization flow**: [https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows](https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows)
+3. **PKCE - Recommendation for authorization flow**:
+   [https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows](https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows)
