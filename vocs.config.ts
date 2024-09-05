@@ -12,10 +12,10 @@ export default defineConfig({
       text: "Mails free for woocommerce with resend.com",
       link: "/woocommerce-resend",
     },
-    // {
-    //   text: "Node.js x AWS x Github Action",
-    //   link: "/nodejs-aws-github-cicd",
-    // },
+    {
+      text: "Node.js x AWS x Github Action",
+      link: "/nodejs-aws-github-cicd",
+    },
     {
       text: "Multi OIDC Session Management",
       link: "/multiple-oidc-session-management",
