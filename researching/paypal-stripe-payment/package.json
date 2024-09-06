@@ -1,0 +1,25 @@
+{
+  "name": "paypal-stripe-payment",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev:server": "tsx server",
+    "dev:client": "wait-port 2022 && tsx client",
+    "dev": "yarn dev:server & yarn dev:client"
+  },
+  "dependencies": {
+    "@trpc/client": "npm:@trpc/client@next",
+    "@trpc/server": "npm:@trpc/server@next",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "liquidjs": "^10.16.7",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.4",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "wait-port": "^1.1.0"
+  }
+}
