@@ -5,112 +5,96 @@ description: "woocommerce integrate with resend.com"
 
 # **3000 mails free per month for woocommerce with resend.com**
 
-## **Overview the purpose, the problem it is solving**
+### **Overview the purpose, the problem it is solving**
 
 For SME woocommerce, we need to send email to customer/shop admin, when woocommerce order/invoice/account are changed.
 
-## **Proposal**
+### **Proposal**
 
 - On resend.com, Register resend.com account, verify domain, create API key
 
 - On wordpress website, install and configure Mail SMTP Plugin, manage Woocommerce email settings
 
-## **Weighting / Pros and cons**
+### **Weighting / Pros and cons**
 
-### Pros
+#### Pros
 
 - Free 3000 mails per month
 
 - Not spam mail
 
-### Cons
+#### Cons
 
 - Resend free account allows creating only 1 domains, it should be your domain or company's domain
 
-## **Implementation steps**
+### **Implementation steps**
 
-### Register a Resend service account
+#### Register a Resend service account
 
 go to: https://resend.com
 
-### Create Resend API key
+#### Create Resend API key
 
 go to: https://resend.com/api-keys
 
 ![resend-create-API-key.png](woocommerce-resend/resend-create-API-key.png)
 
-### Register domain
+#### Register domain
 
 go to: https://resend.com/domains
 
 ![resend-domain-detail.png](woocommerce-resend/resend-domain-detail.png)
 
-### Download WordPress Mail SMTP Plugin
+#### Download WordPress Mail SMTP Plugin
 
 https://vi.wordpress.org/plugins/wp-mail-smtp/
 
-### Install Mail SMTP Plugin
+#### Install Mail SMTP Plugin
 
-1. Login into your wordpress admin
+Login into your wordpress admin
 
-2. Install plugin in admin site
+Install plugin in admin site
 
-- On the left menu: Plugins -> Add New Plugin -> Upload plugin
-
+- **On the left menu:** Plugins -> Add New Plugin -> Upload plugin
 - Select plugin downloaded from step 1 -> Install now
 
 ![wp-install-plugin.png](woocommerce-resend/wp-install-plugin.png)
 
-3. Update Mail SMPT config
+Update Mail SMPT config
 
-- When install plugin successfully, on the left menu will display item *WP Mail SMTP*
+1. When install plugin successfully, on the left menu will display item *WP Mail SMTP*
 
-- Update to these configs
+2. Update to these configs
+- **License Key:** Free version, empty value
+- **From Email:** Must have domain is registerd on resend.com/domains, exp: admin@quochuy.dev
+- **From Name:** (can be your branding or your website)
+- **Force From Name:** default false
+- **Return Path:** default false
+- **Mailer:** Other SMTP
+- **SMTP Host:** smtp.resend.com
+- **Encryption:** TLS
+- **SMTP Port:** 587
+- **Authentication:** On
+- **SMTP Username:** resend
+- **SMTP Password:** (value is from API key created on Resend)
 
-    + **License Key:** Free version, empty value
-
-    + **From Email:** Must have domain is registerd on resend.com/domains, exp: admin@quochuy.dev
-
-    + **From Name:** (can be your branding or your website)
-
-    + **Force From Name:** default false
-
-    + **Return Path:** default false
-
-    + **Mailer:** Other SMTP
-
-    + **SMTP Host:** smtp.resend.com
-
-    + **Encryption:** TLS
-
-    + **SMTP Port:** 587
-
-    + **Authentication:** On
-
-    + **SMTP Username:** resend
-
-    + **SMTP Password:** (value is from API key created on Resend)
-
-- Click *Save settings*
+3. Click *Save settings*
 
 ![wp-update-smtp-config.png](woocommerce-resend/wp-update-smtp-config.png)
 
-### Define email notifications
+#### Define email notifications
 
 - On the left menu: WooCommerce -> Settings -> Emails
-
 - Manage Email notifications
-
 - Click *Save changes*
 
 ![woocommerce-setting-mail-1.png](woocommerce-resend/woocommerce-setting-mail-1.png)
 
 ![woocommerce-setting-mail-2.png](woocommerce-resend/woocommerce-setting-mail-2.png)
 
-### Testing
+#### Testing
 
 - On woocommerce website, add to cart products then checkout order
-
 - Check admin gmail
 
 ![woocommerce-setting-mail-1.png](woocommerce-resend/mail-template.png)
