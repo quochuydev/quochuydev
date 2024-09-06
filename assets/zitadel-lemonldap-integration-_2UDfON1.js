@@ -1,4 +1,4 @@
-import{u as r,j as e}from"./index-CTQLsQP5.js";const d={title:"Configure LemonLDAP as an Identity Provider in ZITADEL",sidebar_label:"LemonLDAP"};function s(i){const n={a:"a",code:"code",div:"div",em:"em",h2:"h2",h3:"h3",img:"img",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...r(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.p,{children:"This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL."}),`
+import{u as r,j as e}from"./index-BRlo1owf.js";const d={title:"Configure LemonLDAP as an Identity Provider in ZITADEL",sidebar_label:"LemonLDAP"};function s(i){const n={a:"a",code:"code",div:"div",em:"em",h2:"h2",h3:"h3",img:"img",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...r(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.p,{children:"This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL."}),`
 `,e.jsx(n.p,{children:"You can configure two types of SAML SSO on LemonLDAP:"}),`
 `,e.jsxs(n.ul,{children:[`
 `,e.jsx(n.li,{children:e.jsx(n.a,{href:"#lemonldap-saml",children:"LemonLDAP SAML"})}),`
