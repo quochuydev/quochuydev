@@ -9,8 +9,8 @@ export default defineConfig({
       link: "/",
     },
     {
-      text: "Mails free for woocommerce with resend.com",
-      link: "/woocommerce-resend",
+      text: "woocommerce with resend.com",
+      link: "/woocommerce-with-resend",
     },
     {
       text: "Node.js x AWS x Github Action",
