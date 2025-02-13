@@ -9,7 +9,7 @@ export default defineConfig({
       link: "/",
     },
     {
-      text: "woocommerce with resend.com",
+      text: "Woocommerce with resend.com",
       link: "/woocommerce-with-resend",
     },
     {
@@ -23,6 +23,10 @@ export default defineConfig({
     {
       text: "Zitadel and LemonLDAP integration",
       link: "/zitadel-lemonldap-integration",
+    },
+    {
+      text: "Woocommerce Nganluong gateway plugin",
+      link: "/nganluong-gateway",
     },
   ],
 });
