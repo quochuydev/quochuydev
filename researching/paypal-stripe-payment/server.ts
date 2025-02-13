@@ -6,13 +6,15 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 
-const envPath = path.join(process.cwd(), process.env.ENV_PATH || ".env");
-const buffer = fs.readFileSync(envPath);
-const defaultConfig = dotenv.parse(buffer);
+if (process.env.ENV_PATH) {
+  const envPath = path.join(process.cwd(), process.env.ENV_PATH);
+  const buffer = fs.readFileSync(envPath);
+  const defaultConfig = dotenv.parse(buffer);
 
-Object.entries(defaultConfig).forEach(([key, value]) => {
-  if (!process.env[key]) process.env[key] = value;
-});
+  Object.entries(defaultConfig).forEach(([key, value]) => {
+    if (!process.env[key]) process.env[key] = value;
+  });
+}
 
 const createContext = ({
   req,
@@ -95,26 +97,13 @@ const paypalRouter = router({
           body: JSON.stringify({
             intent: "CAPTURE",
             payer: {
-              email_address: "quochuydev1@gmail.com",
+              email_address: payee,
             },
             purchase_units: [
               {
                 amount: {
                   currency_code: "USD",
                   value: "3",
-                },
-                payment_instruction: {
-                  platform_fees: [
-                    {
-                      amount: {
-                        currency_code: "USD",
-                        value: "1.2",
-                      },
-                      payee: {
-                        email_address: payee,
-                      },
-                    },
-                  ],
                 },
               },
             ],
@@ -170,6 +159,15 @@ async function main() {
   );
 
   app.get("/", (_, res) => res.send("app is running"));
+
+  app.post("/paypal/webhook", async (req, res) => {
+    try {
+      //
+    } catch (error) {
+      console.error(error);
+    }
+    res.status(200).send("ok");
+  });
 
   app.get("/payment-return", async (req, res) => {
     const token = req.query.token;

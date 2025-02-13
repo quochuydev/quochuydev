@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev:server": "tsx server",
+    "dev:server": "ENV_PATH=.env tsx server",
     "dev:client": "wait-port 2022 && tsx client",
     "dev": "yarn dev:server & yarn dev:client"
   },
