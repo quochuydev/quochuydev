@@ -13,6 +13,14 @@ export default defineConfig({
       link: "/woocommerce-with-resend",
     },
     {
+      text: "Woocommerce Nganluong gateway plugin",
+      link: "/woocommerce-nganluong-gateway",
+    },
+    {
+      text: "woocommerce Marketplace",
+      link: "/woocommerce-marketplace",
+    },
+    {
       text: "Node.js x AWS x Github Action",
       link: "/nodejs-aws-github-cicd",
     },
@@ -23,10 +31,6 @@ export default defineConfig({
     {
       text: "Zitadel and LemonLDAP integration",
       link: "/zitadel-lemonldap-integration",
-    },
-    {
-      text: "Woocommerce Nganluong gateway plugin",
-      link: "/nganluong-gateway",
     },
   ],
 });
