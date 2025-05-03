@@ -17,7 +17,7 @@ export default defineConfig({
       link: "/woocommerce-nganluong-gateway",
     },
     {
-      text: "woocommerce Marketplace",
+      text: "Woocommerce Marketplace",
       link: "/woocommerce-marketplace",
     },
     {
