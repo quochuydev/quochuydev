@@ -10,11 +10,11 @@ export default defineConfig({
     },
     {
       text: "Woocommerce with resend.com",
-      link: "/woocommerce-with-resend-com",
+      link: "/woocommerce-with-resend",
     },
     {
       text: "Woocommerce Nganluong Gateway Plugin",
-      link: "/woocommerce-nganluong-gateway-plugin",
+      link: "/woocommerce-nganluong-gateway",
     },
     {
       text: "Woocommerce Marketplace",
