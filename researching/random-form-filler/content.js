@@ -1,3 +1,9 @@
+chrome.runtime.sendMessage({ type: "PING" }, (response) => {
+  if (response?.type === "PONG") {
+    console.log("Service worker is alive!", response);
+  }
+});
+
 // Inject toggle button into the page
 const toggleBtn = document.createElement("button");
 toggleBtn.textContent = "🟢 Auto-Fill ON";
