@@ -1,1 +1,0 @@
-import{u as s,j as e}from"./index-C7F8OG0_.js";const c=void 0;function o(n){const t={p:"p",...s(),...n.components};return e.jsx(t.p,{children:"Loading..."})}function u(n={}){const{wrapper:t}={...s(),...n.components};return t?e.jsx(t,{...n,children:e.jsx(o,{...n})}):o(n)}export{u as default,c as frontmatter};
