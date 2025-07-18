@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "ai",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ENV_PATH=.env tsx main"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.65",
+    "dotenv": "16.4.5",
+    "langchain": "^0.3.30",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "4.19.0",
+    "typescript": "5.5.4"
+  }
+}
