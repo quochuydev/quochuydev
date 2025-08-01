@@ -1,4 +1,4 @@
-import{u as r,j as e}from"./index-CaHsWlC5.js";const s=void 0;function i(t){const n={a:"a",div:"div",h2:"h2",li:"li",p:"p",ul:"ul",...r(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.p,{children:"As a Typescript developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS."}),`
+import{u as r,j as e}from"./index-GVJKtaRA.js";const s=void 0;function i(t){const n={a:"a",div:"div",h2:"h2",li:"li",p:"p",ul:"ul",...r(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.p,{children:"As a Typescript developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS."}),`
 `,e.jsxs(n.ul,{children:[`
 `,e.jsx(n.li,{children:"Analyze for me this requirement, provide me solution (simple)"}),`
 `,e.jsx(n.li,{children:"Provide me code for this solution, just core code"}),`
