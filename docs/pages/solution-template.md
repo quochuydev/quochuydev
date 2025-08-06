@@ -72,7 +72,7 @@ Let me know if this looks good — I can start with a demo version in 1–2 days
 If you're posting on GitHub, use this format:
 ```
 
-```mermaid
+```
 <details><summary>Mermaid Example</summary>
 graph TD
   A[User Input] --> B[Node.js Backend]

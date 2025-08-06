@@ -68,5 +68,9 @@ export default defineConfig({
       text: "Client communication guide",
       link: "/client-communication-guide",
     },
+    {
+      text: "AI Website Builder",
+      link: "/ai-website-builder",
+    },
   ],
 });
