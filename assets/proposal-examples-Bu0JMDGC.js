@@ -1,11 +1,11 @@
-import{u as i,j as e}from"./index-C2wPm-aG.js";const l={title:"💼 Proposal Examples for Freelance Developers (Upwork & Remote)",description:"undefined"};function a(s){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...i(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-proposal-examples-for-freelance-developers-upwork--remote",children:["💼 Proposal Examples for Freelance Developers (Upwork & Remote)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-proposal-examples-for-freelance-developers-upwork--remote",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as i,j as e}from"./index-BDA9Jfbt.js";const l={title:"💼 Proposal Examples for Freelance Developers (Upwork & Remote)",description:"undefined"};function a(s){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...i(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-proposal-examples-for-freelance-developers-upwork--remote",children:["💼 Proposal Examples for Freelance Developers (Upwork & Remote)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-proposal-examples-for-freelance-developers-upwork--remote",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsxs(n.p,{children:["Use these as templates when applying to jobs — always ",e.jsx(n.strong,{children:"customize to fit the client’s need"}),", keep it short (100–200 words), and always show that you understand the task."]}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-1-api-integration-task",children:["🧾 1. API Integration Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-1-api-integration-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.blockquote,{children:[`
 `,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Client Job"}),": “Need someone to integrate Stripe into my Node.js backend”"]}),`
 `]}),`
-`,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
+`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"I’ve worked with Stripe and Node.js in multiple projects. Most recently, I built a checkout system for a small e-commerce platform using Stripe Payment Intents and Webhooks."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
@@ -16,13 +16,13 @@ import{u as i,j as e}from"./index-C2wPm-aG.js";const l={title:"💼 Proposal Exa
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Let me know if you want a quick Zoom call to align on expectations."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Thanks,"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})}),`
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})})}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-2-bug-fix--debugging-task",children:["🧾 2. Bug Fix / Debugging Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-2-bug-fix--debugging-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.blockquote,{children:[`
 `,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Client Job"}),": “Need help fixing a CORS error on my Express app”"]}),`
 `]}),`
-`,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
+`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"That sounds like a common issue with Express CORS setup — I’ve handled this several times while working with frontend-backend apps using React and Node.js."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
@@ -31,13 +31,13 @@ import{u as i,j as e}from"./index-C2wPm-aG.js";const l={title:"💼 Proposal Exa
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Happy to help and explain the root cause so it won’t happen again."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Best,"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})}),`
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})})}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-3-long-term-backend-support",children:["🧾 3. Long-Term Backend Support",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-3-long-term-backend-support",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.blockquote,{children:[`
 `,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Client Job"}),": “Looking for Node.js developer to maintain our backend”"]}),`
 `]}),`
-`,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
+`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"I’d love to support your backend long-term. I have 6 years’ experience working with Node.js, PostgreSQL, Redis, and AWS. I’m comfortable maintaining APIs, improving performance, writing tests, and handling CI/CD pipelines."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
@@ -48,13 +48,13 @@ import{u as i,j as e}from"./index-C2wPm-aG.js";const l={title:"💼 Proposal Exa
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Looking forward to collaborating!"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Best regards,"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})}),`
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})})}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-4-fast-one-off-script",children:["🧾 4. Fast One-Off Script",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-4-fast-one-off-script",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.blockquote,{children:[`
 `,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Client Job"}),": “Need a script to scrape data and send email report”"]}),`
 `]}),`
-`,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
+`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"I can write a fast, efficient script in Node.js or Python to scrape your required data and send a formatted email report daily via SMTP or a service like SendGrid."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
@@ -63,7 +63,7 @@ import{u as i,j as e}from"./index-C2wPm-aG.js";const l={title:"💼 Proposal Exa
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Let me know the target website and output format, and I’ll get started."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Cheers,"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})}),`
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"[Your Name]"})})]})})}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h3,{id:"-tips-to-improve-your-proposals",children:["✅ Tips to Improve Your Proposals",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-tips-to-improve-your-proposals",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`

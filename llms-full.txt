@@ -1,0 +1,1515 @@
+# quochuydev
+
+As a Typescript developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
+
+* Analyze for me this requirement, provide me solution (simple)
+* Provide me code for this solution, just core code
+* Estimate the task as a freelancer (hourly rate)
+* Use English
+
+### Requirement
+
+Suggest me some solution sync file from web to filesystem
+
+The problem that in the web like feature chat app or upload files, user use it many time, idonnt wanna zip files and checksum, I can create simple electron app for writing files, but don't wanna too comlicated
+
+
+## AI Website Builder
+
+### 🔧 MASTER WEBSITE GENERATION PROMPT TEMPLATE
+
+```
+You are a senior fullstack developer and UI/UX expert. Generate a complete [SINGLE-PAGE | MULTI-PAGE] modern responsive website for the following business:
+
+## Business Details:
+- Business Name: [INSERT NAME]
+- Type: [INSERT TYPE – e.g., restaurant, law firm, gym, online coach, SaaS, portfolio, etc.]
+- Target Audience: [INSERT TARGET AUDIENCE – e.g., small businesses, tech users, families, etc.]
+- Purpose of Site: [E.g., attract leads, showcase portfolio, sell products, book appointments, etc.]
+- Main Features Needed:
+  - [e.g., Contact form, testimonials, blog, map integration, product catalog, etc.]
+
+## Design Preferences:
+- Style: [e.g., minimalist, modern, bold, playful, luxurious]
+- Colors: [Specific brand colors or general preferences]
+- Font Preferences: [Optional – modern sans-serif, serif, Google Fonts, etc.]
+- Example Sites for Inspiration: [INSERT URLS OR DESCRIPTIONS]
+
+## Tech Stack:
+Use [INSERT STACK – e.g., Next.js + Tailwind CSS, React + Material UI, HTML/CSS/JS, Vue, etc.]
+Optional: Add animations using [Framer Motion | GSAP | CSS transitions]
+
+## Deliverables:
+- Full working code (including all components/pages)
+- Clean modular code structure
+- SEO & accessibility best practices
+- Responsive design for all screen sizes
+- Dummy data for images/content
+```
+
+### ✅ Example Filled Prompt (for a Gym Website):
+
+```
+You are a senior fullstack developer and UI/UX expert. Generate a complete SINGLE-PAGE modern responsive website for the following business:
+
+## Business Details:
+- Business Name: Iron Haven Fitness
+- Type: Premium local gym
+- Target Audience: Fitness enthusiasts aged 20–45
+- Purpose of Site: Attract local members, show class schedules, and allow sign-ups
+- Main Features Needed:
+  - Hero section with CTA
+  - Class schedule section
+  - Trainer profiles
+  - Testimonials
+  - Membership pricing
+  - Contact form + embedded map
+
+## Design Preferences:
+- Style: Bold, modern, energetic
+- Colors: Black, red, and white
+- Font Preferences: Modern sans-serif, high-impact headline fonts
+- Example Sites for Inspiration: https://www.fitnesssf.com/, https://www.f45training.com/
+
+## Tech Stack:
+Use Next.js + Tailwind CSS. Add subtle animations using Framer Motion.
+
+## Deliverables:
+- Full working code (including all components/pages)
+- Clean modular code structure
+- SEO & accessibility best practices
+- Responsive design for all screen sizes
+- Dummy data for images/content
+```
+
+### 🧠 Tips for Use:
+
+Keep the template ready as a snippet or form in Notion/Obsidian.
+
+For repeat clients, make a version history and tweak based on their feedback.
+
+You can also include sections like “Preferred CMS integration” or “E-commerce support needed” for more complex clients.
+
+
+Loading...
+
+
+## 💬 Client Communication Guide for Freelancers
+
+> Communicate with clarity. Be professional. Keep things simple.
+
+***
+
+### 📌 1. General Principles
+
+* ✅ Always **confirm understanding** ("Just to clarify, you mean...")
+* ✅ Keep messages short but informative
+* ✅ Use bullet points when sharing updates
+* ✅ Use the client’s tone (formal/informal, emojis if they use them)
+* ✅ Overcommunicate at the start, undercommunicate later
+
+***
+
+### 📥 2. When You Receive a New Task
+
+> 🔹 Your goal: Clarify scope, avoid assumptions
+
+```txt
+Thanks for sending over the task!
+
+Just to confirm, here’s what I understand:
+- [Point 1]
+- [Point 2]
+- Final output: [e.g., deployed API or zipped code]
+
+Please let me know if I missed anything. Once confirmed, I’ll start right away.
+```
+
+⚒️ 3. While Working On The Task
+🔹 Your goal: Keep the client in the loop
+
+🔁 Regular Update Template:
+
+`````txt
+Hi [Client Name],
+
+Quick update on the task:
+- ✅ Login API done
+- ⚠️ Stripe webhook pending (waiting for test credentials)
+- ETA for completion: [Day or time]
+
+Let me know if you want me to adjust anything!
+📷 Screenshot + GitHub Link:
+Include these to build trust even when things are in progress.
+
+📤 4. When You Deliver the Task
+🔹 Your goal: Make it easy to review and approve
+
+````txt
+Hey [Client Name],
+
+Here’s the completed task:
+
+🔗 GitHub: https://github.com/yourname/task-demo
+📷 Screenshot: [Attach or link]
+📄 Summary:
+- Login API with JWT auth
+- Protected route for `/profile`
+- Basic error handling added
+
+Let me know if you want any changes or improvements!
+🔁 Always follow up in 1–2 days if they don’t reply:
+```txt
+Hi [Client Name],
+Just checking in to see if everything looks good with the last delivery.
+Let me know if you need tweaks — happy to help!
+`````
+
+✍️ 5. Requesting Feedback (After Completion)
+
+````txt
+Glad we wrapped that up!
+
+If you’re happy with the work, I’d really appreciate a short review on Upwork.
+It helps me a lot as I grow my freelance profile. 🙏
+
+Also feel free to ping me anytime you need backend/API help!
+🚫 6. If There's a Problem
+🔹 Always own it, never blame, give solutions
+
+```txt
+Hi [Client Name],
+
+Sorry for the delay — I ran into [brief reason], but I’m resolving it now.
+New ETA is [date], and I’ll update you again by [time].
+
+Thanks for your patience — I’ll make sure the final result is solid.
+````
+
+💡 7. Communication Tools & Etiquette
+
+| Tool       | Rule                                                        |
+| ---------- | ----------------------------------------------------------- |
+| Upwork     | Use it for all messages/payments until trust is established |
+| Email      | Use for long-form or official handovers                     |
+| Slack/Zoom | Be clear, be on time, prepare a short agenda                |
+| Voice call | Keep short, confirm with a follow-up message afterward      |
+
+✅ Quick Reminders
+Don’t ghost, even if you're stuck. Say something.
+
+Don’t assume — ask questions.
+
+Don’t wait for the deadline to update the client.
+
+Don’t be too formal — be human.
+
+💬 "Good code is great. Good communication makes you irreplaceable."
+
+***
+
+#### 🛠 Bạn nên dùng thế nào?
+
+* Paste nội dung vào Notion hoặc VSCode snippets.
+* Dùng mỗi khi làm task Upwork hoặc remote project nhỏ.
+* Luyện viết theo cấu trúc này mỗi ngày để tạo phản xạ chuyên nghiệp.
+
+
+## Practical Freelancer Guide for Software Developers (Starting from Scratch)
+
+### 1. Mindset & Skill Preparation
+
+#### 1.1 Minimum Technical Skills
+
+* Solid foundation in **one backend language** (e.g., Node.js, Python, Go).
+* Able to build RESTful APIs and connect to a database.
+* Understand how to structure projects (MVC or similar).
+* Comfortable with version control (Git), Docker basics.
+* Familiar with authentication (OAuth2), error handling, and logging.
+* Able to read and understand technical documentation in English.
+
+> 🚀 Tip: Build 2–3 mini-projects or proof-of-concepts (POCs) and upload them to GitHub to showcase your capability.
+
+#### 1.2 Soft Skills You’ll Need
+
+* Clear, concise written communication (most jobs are async).
+* Patience and professionalism with clients.
+* Ability to **ask clarifying questions** and understand vague requirements.
+* Self-discipline and time management (especially with multiple clients).
+
+***
+
+### 2. Setting Up Your Freelancer Profile
+
+#### 2.1 Choose Your Platform
+
+* 🔹 Upwork – Strong vetting but high volume of clients.
+* 🔹 Fiverr – Better for niche services or fixed-price jobs.
+* 🔹 Toptal, Lemon.io – Require screening tests, but higher-quality clients.
+* 🔹 Direct outreach – Cold emailing startups, LinkedIn DMs.
+
+#### 2.2 Profile Essentials
+
+* Professional photo, real name.
+* Clear title (e.g., **Backend Developer | Node.js | REST API | AWS**).
+* Intro paragraph: Highlight years of experience, skills, and type of work you love.
+* Skill tags and rates: Start slightly below market rate if you're new (e.g., $15–$25/hr).
+
+> 💡 Highlight your strengths, such as **"I’m strong in debugging, fast delivery, and clear communication."**
+
+***
+
+### 3. How to Get First Jobs
+
+#### 3.1 Apply to Simple Tasks
+
+* Focus on **bug fixes, script writing, automation, API integration**.
+* Look for clients with “easy to work with” in their reviews.
+
+#### 3.2 Customize Every Proposal
+
+* Start with their name (if visible).
+* Summarize what they want, and how you’ll solve it.
+* Mention similar work you’ve done.
+* Keep it short (under 200 words).
+* Attach a relevant code sample or link to a GitHub repo.
+
+> ✍️ Template:
+
+```txt
+Hi [Client Name],
+
+I read your job about integrating PayPal with your Node.js backend. I’ve done similar work for a small e-commerce store where I built a payment module using PayPal SDK.
+
+I can start within 1 day and complete the integration with proper testing. You can check a similar demo I made here: github.com/yourname/paypal-demo.
+
+Looking forward to working with you!
+```
+
+### 4. Working With Clients
+
+#### 4.1 Communication Tips
+
+Always confirm understanding: “Just to clarify, you want X, Y, and Z — correct?”
+
+Break work into milestones and update regularly.
+
+Over-communicate early, under-communicate later.
+
+#### 4.2 Handling Payments
+
+Use escrow where possible (e.g., Upwork).
+
+Never start unpaid test work unless it’s very small and agreed upon.
+
+Ask for feedback after job completion to build profile reputation.
+
+### 5. Growing As a Freelancer
+
+#### 5.1 Build Your Brand
+
+Publish blogs, open-source contributions.
+
+Create GitHub repos that solve real problems.
+
+Record screen captures of you explaining your code.
+
+#### 5.2 Specialize Over Time
+
+Start general, then narrow down. Examples:
+
+API Developer for SaaS products
+
+AWS Lambda + Serverless specialist
+
+Developer for AI/ChatGPT integrations
+
+🔥 Niche wins: Clients trust specialists more than generalists.
+
+#### 5.3 Create Repeat Business
+
+Be on time, reliable, and communicate professionally.
+
+Always leave room to ask: “Is there anything else I can help with?”
+
+### 6. Tools & Resources
+
+Category Tools
+Project Mgmt Trello, Notion, Linear
+Code Hosting GitHub, GitLab
+Deployment Railway, Vercel, AWS, Docker
+Communication Slack, Google Meet, Zoom
+Payment Payoneer, Wise, PayPal
+Learning Udemy, YouTube, buildspace.so
+
+Final Notes
+Starting out is hard — low visibility, few replies, and possibly unpaid time learning how to "sell" yourself. But if you stay consistent, focus on value, and treat every project seriously, you’ll build momentum.
+
+💬 "You don’t need 100 clients — you just need 3–5 that love working with you."
+
+***
+
+#### ✅ You can now:
+
+* Use this file as RAG content (LangChain + vector store).
+* Convert parts of it into FAQ: let the AI bot answer questions like:
+  * “How do I write a good proposal?”
+  * “What if the client stops responding?”
+  * “Should I work for free to get my first job?”
+
+
+## ✅ Freelancer Task Checklist (Upwork / Remote Client)
+
+*A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally.*
+
+***
+
+### 🟢 1. Before Accepting the Task
+
+#### 🔲 Read the full job description carefully
+
+> Make sure you understand:
+
+* What is expected
+* Deadline
+* Output format (code, deployment, document, etc.)
+
+#### 🔲 Ask clarifying questions
+
+> Example:
+
+* What are the success criteria?
+* Do you have design or API specs?
+* Should I deploy or just send the code?
+
+#### 🔲 Check for technical feasibility
+
+> Can I finish this with my current skills/tools?
+
+#### 🔲 Agree on:
+
+* Timeline
+* Milestones (if any)
+* Communication channel (Upwork, Slack, email)
+* Payment (fixed/hourly, upfront, milestones)
+
+***
+
+### 🧰 2. Task Setup & Preparation
+
+#### 🔲 Create a local folder or Git repo for the task
+
+> Example: `client-task-login-feature/`
+
+#### 🔲 Save the original requirements somewhere (Notion, README)
+
+#### 🔲 Break down the task into sub-tasks (use Todo list)
+
+#### 🔲 Set up your dev environment
+
+> Clone boilerplate, prepare Postman, Docker, etc.
+
+#### 🔲 Confirm timezone, daily/weekly update schedule
+
+***
+
+### 🛠️ 3. While Working on the Task
+
+#### 🔲 Use version control (Git)
+
+* Make clear commits: `feat: add login endpoint`
+
+#### 🔲 Keep a change log (`changelog.md` or task notes)
+
+* Helps with handover or future maintenance
+
+#### 🔲 Ask questions early if blocked (don’t wait too long)
+
+#### 🔲 Use real/test data for validation
+
+#### 🔲 Write clean, maintainable code
+
+* Naming, comments, structure
+
+#### 🔲 Write basic test cases (unit/integration if needed)
+
+***
+
+### 📤 4. Delivering the Task
+
+#### 🔲 Prepare a final summary (to send to client)
+
+```txt
+✅ Task Summary:
+- Added login endpoint with JWT
+- Connected to PostgreSQL (RDS)
+- Tested via Postman (login, invalid cases)
+
+🚀 GitHub: https://github.com/yourname/client-login-task
+```
+
+🔲 Double-check delivery format:
+
+* Code pushed?
+* Live demo working?
+* Docs or comments added?
+
+🔲 Ask for feedback & rating if on Upwork
+🧾 5. After Completion (Reflection)
+🔲 Save the client’s feedback
+Use for testimonials in portfolio
+
+🔲 Archive code/tasks into personal folders
+🔲 Reflect:
+
+* What went well?
+* What to improve (tech/communication/time)?
+
+🔁 Optional Reuse Checklist
+
+* Can I reuse this code in the future?
+* Should I turn this into a GitHub demo/POC?
+* Any part worth writing a blog or tweet about?
+
+💬 "Freelancing = delivery + communication + consistency."
+This checklist helps you avoid common beginner mistakes and shows professionalism even if you’re new.
+
+***
+
+#### ✅ Gợi ý sử dụng:
+
+* Bạn có thể in ra, pin lên Notion, hoặc tạo 1 project template dùng mỗi lần có task.
+* Dùng nó làm "working standard" khi làm việc với khách hàng trên Upwork hay ngoài Upwork.
+* Nếu dùng LangChain RAG, bạn có thể hỏi bot:
+  * “What should I check before accepting a task?”
+  * “How do I write a summary when submitting work?”
+
+
+## Multi-OIDC Session Management  Application
+
+Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently.
+
+[https://github.com/quochuydev/next-multiple-oidc-sessions](https://github.com/quochuydev/next-multiple-oidc-sessions)
+
+This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework.
+
+### Outcome and Benefit
+
+#### Centralized Session Management
+
+The primary outcome of this project is a centralized authentication system that efficiently manages multiple OIDC sessions across different applications. By centralizing session management, you gain:
+
+* **Consistent User Experience**: Users can seamlessly switch between multiple applications (`app.example.local/app1`, `app.example.local/app2`) without needing to re-authenticate.
+* **Simplified Integration**: With a shared authentication service (`auth.example.local`), integrating new applications into your ecosystem becomes much easier and less error-prone.
+
+### Implementation Steps
+
+#### 1. Set Up the Repository
+
+Clone the GitHub repository and explore the three core applications:
+
+* **`app.example.local/app1`**
+* **`app.example.local/app2`**
+* **`auth.example.local`**
+
+Each of these applications is designed to work together to provide a seamless authentication experience across different domains.
+
+#### 2. Configure the Auth Service (`auth.example.local`)
+
+The `auth.example.local` application acts as the central authentication hub. Here’s how to set it up:
+
+* **OIDC Configuration**: Configure your OIDC providers (like Google, Facebook, etc.) within the `auth.example.local` application. This includes setting up client IDs, secrets, and redirect URIs.
+* **Session Management**: Implement session handling logic that supports multiple active sessions per user, allowing seamless switching between applications.
+
+#### 3. Integrate with Application 1 (`app.example.local/app1`)
+
+* **OIDC Client Setup**: In `app.example.local/app1`, set up the OIDC client to interact with the `auth.example.local` service.
+* **Session Handling**: Ensure that `app.example.local/app1` correctly handles session tokens received from the authentication service. Store and manage these tokens securely.
+
+#### 4. Integrate with Application 2 (`app.example.local/app2`)
+
+* **Repeat the Process**: Just like in `app.example.local/app1`, set up the OIDC client in `app.example.local/app2`. Ensure seamless session management between `app.example.local/app2` and the central `auth.example.local`.
+
+#### 5. Test Across Applications
+
+* **Cross-Application Testing**: Test user logins and session management across `app.example.local/app1` and `app.example.local/app2`. Ensure that sessions persist and that users can switch between applications without re-authentication.
+* **Security Audits**: Conduct thorough security testing to ensure that session tokens are handled securely and that no vulnerabilities exist in cross-application session management.
+
+![authentication.drawio.png](multiple-oidc-session-management/authentication.drawio.png)
+
+### References
+
+1. **NextAuth.js Documentation**:
+
+   A comprehensive guide to understanding the concepts behind NextAuth, which inspired this project.
+
+   [https://next-auth.js.org/getting-started/introduction](https://next-auth.js.org/getting-started/introduction)
+
+2. **OpenID Connect Endpoints in ZITADEL**:
+
+   [https://zitadel.com/docs/apis/openidoauth/endpoints](https://zitadel.com/docs/apis/openidoauth/endpoints)
+
+3. **PKCE - Recommendation for authorization flow**:
+
+   [https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows](https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows)
+
+
+## Node.js x AWS x Github Action
+
+### Node.js backend application
+
+#### Codebase structure
+
+```
+├── __tests__
+│ ├── api.v1.user.create.fixture.ts
+│ ├── api.v1.user.create.spec.ts
+├── apis
+│ ├── api.v1.user.create.ts
+├── core
+│ ├── server.ts
+│ ├── types.ts
+│ ├── postgres-service.ts
+├── types
+│ ├── api.v1.user.ts
+├── main.ts
+```
+
+#### Testing APIs
+
+```sh
+curl -X POST http://localhost:3004/api/api.v1.user.create -H "Content-Type: application/json" -d '{"name":"name" }'
+
+curl -X POST http://localhost:3004/api/api.v1.user.getList -H "Content-Type: application/json" -d '{"q":"name"}'
+```
+
+### Setup AWS services
+
+##### Create a new EC2 instance
+
+* Application and OS Images:
+  * Ubuntu Server 24.04 LTS (HVM), SSD Volume Type
+  * Architecture: 64-bit (x86)
+* Allow HTTPS traffic from the internet: true
+* Allow HTTP traffic from the internet: true
+
+##### Install Docker
+
+```sh
+sudo apt-get update && sudo apt-get install docker.io -y && sudo systemctl start docker && sudo chmod 666 /var/run/docker.sock &&sudo systemctl enable docker
+
+docker --version
+```
+
+#### Setup github runner in EC2 instance
+
+[https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners#adding-a-self-hosted-runner-to-a-repository](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners#adding-a-self-hosted-runner-to-a-repository)
+
+##### Build and push docker image
+
+```sh
+docker build -t quochuydev/myapp-backend .
+
+docker push quochuydev/myapp-backend:latest
+```
+
+
+### Implementation Steps
+
+```
+flowchart TD
+    subgraph Client
+        A[User submits payment request]
+    end
+
+    subgraph Backend (Node.js)
+        B[API Route: /api/payment]
+        C[Process Payment Request]
+        D{Choose Payment Provider}
+        E1[Call Stripe API]
+        E2[Call PayPal API]
+        F[Save Transaction to DB]
+        G[Return Payment Result]
+        H[API Route: /api/payout]
+        I[Validate Payout Request]
+        J[Call PayPal Payout API]
+        K[Save Payout to DB]
+        L[Return Payout Result]
+    end
+
+    subgraph DB
+        M[Transaction Table]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D -- Stripe --> E1
+    D -- PayPal --> E2
+    E1 --> F
+    E2 --> F
+    F --> M
+    M --> G
+    G --> A
+
+    A --> H
+    H --> I
+    I --> J
+    J --> K
+    K --> M
+    M --> L
+    L --> A
+```
+
+
+## 💼 Proposal Examples for Freelance Developers (Upwork & Remote)
+
+Use these as templates when applying to jobs — always **customize to fit the client’s need**, keep it short (100–200 words), and always show that you understand the task.
+
+***
+
+### 🧾 1. API Integration Task
+
+> **Client Job**: “Need someone to integrate Stripe into my Node.js backend”
+
+```txt
+Hi [Client Name],
+
+I’ve worked with Stripe and Node.js in multiple projects. Most recently, I built a checkout system for a small e-commerce platform using Stripe Payment Intents and Webhooks.
+
+I can integrate your desired flow — payments, refunds, and webhook handling — in 1–2 days with clean, testable code.
+
+Here’s a similar project I did: [GitHub link]
+
+Let me know if you want a quick Zoom call to align on expectations.
+
+Thanks,
+[Your Name]
+```
+
+***
+
+### 🧾 2. Bug Fix / Debugging Task
+
+> **Client Job**: “Need help fixing a CORS error on my Express app”
+
+```txt
+Hi [Client Name],
+
+That sounds like a common issue with Express CORS setup — I’ve handled this several times while working with frontend-backend apps using React and Node.js.
+
+If you can give me access to your repo or error log, I’ll pinpoint and fix it quickly. I’m confident this can be solved within 1–2 hours.
+
+Happy to help and explain the root cause so it won’t happen again.
+
+Best,
+[Your Name]
+```
+
+***
+
+### 🧾 3. Long-Term Backend Support
+
+> **Client Job**: “Looking for Node.js developer to maintain our backend”
+
+```txt
+Hi [Client Name],
+
+I’d love to support your backend long-term. I have 6 years’ experience working with Node.js, PostgreSQL, Redis, and AWS. I’m comfortable maintaining APIs, improving performance, writing tests, and handling CI/CD pipelines.
+
+I communicate clearly, keep detailed changelogs, and can adjust to your team’s workflow (Slack, Jira, GitHub, etc.).
+
+Let’s start with 1 small task if you prefer a trial. I’m available ~20hrs/week and work best async.
+
+Looking forward to collaborating!
+
+Best regards,
+[Your Name]
+```
+
+***
+
+### 🧾 4. Fast One-Off Script
+
+> **Client Job**: “Need a script to scrape data and send email report”
+
+```txt
+Hi [Client Name],
+
+I can write a fast, efficient script in Node.js or Python to scrape your required data and send a formatted email report daily via SMTP or a service like SendGrid.
+
+I’ve done similar automations before and can deliver within 1 day with easy-to-edit config.
+
+Let me know the target website and output format, and I’ll get started.
+
+Cheers,
+[Your Name]
+```
+
+***
+
+#### ✅ Tips to Improve Your Proposals
+
+* Open with proof you understand the problem.
+* Mention similar work you’ve done.
+* Be specific with how and when you’ll deliver.
+* Link to your GitHub, website, or relevant project.
+* Keep it human, short, and respectful.
+
+🧠 “Clients don’t hire resumes. They hire people who make them feel confident and understood.”
+
+***
+
+#### 🛠 Bạn có thể làm gì tiếp theo?
+
+* **Copy mẫu này vào Notion hoặc VSCode snippets** để apply nhanh.
+* **Gắn GitHub repo thật** vào phần `[GitHub link]`.
+* Viết thêm 1–2 mẫu riêng cho niche bạn muốn theo (AI, AWS, OAuth, CI/CD…).
+
+
+## 💡 Proposed Solution Overview
+
+Hi \[Client Name], here's a simple architecture and plan based on your requirement.
+
+***
+
+### 🔧 Tech Stack
+
+* **Backend**: Node.js (Express.js)
+* **Database**: PostgreSQL / MongoDB
+* **3rd Party Integration**: \[e.g., Stripe, Google OAuth, OpenAI API]
+* **Deployment**: Docker + Render / Railway / Vercel
+* **Monitoring**: Log output or health endpoint
+
+***
+
+### 🧩 Solution Outline
+
+> 📘 Example 1 – Node.js with Stripe & Email
+
+* User submits payment through frontend
+* Backend Node.js service uses **Stripe SDK** to create a charge
+* Sends confirmation email via **SendGrid** or **SMTP**
+* Saves order in **PostgreSQL**
+* Simple `/healthz` route to monitor service
+
+***
+
+> 🤖 Example 2 – AI Agent with OpenAI + Deployment
+
+* User sends question or task via endpoint (e.g., GET `/ask?text=...`)
+* Node.js service forwards it to **OpenAI API** using LangChain or custom prompt logic
+* AI returns result → response formatted and sent back to client
+* Hosted on **Render** or **Vercel** with Docker
+
+***
+
+### 🔄 Simple Architecture Diagram (Text-Based)
+
+User
+│
+▼
+Frontend (optional or Postman)
+│
+▼
+Backend (Node.js)
+├─→ 3rd API (e.g., Stripe / OpenAI / OAuth)
+├─→ Database (PostgreSQL / MongoDB)
+└─→ Email Service (SendGrid or SMTP)
+
+***
+
+### ✅ What You’ll Get
+
+* Clean, documented code (GitHub)
+* REST API or simple UI if needed
+* Dockerfile for deployment
+* Optional README with usage + Postman collection
+  💡 How to Use This in Proposals
+  When bidding, send the solution template like:
+
+```txt
+Hi [Client],
+
+I’ve worked on similar tasks using Node.js and 3rd-party integrations. Here’s a simple solution I’d use for your case:
+
+🧩 [Paste Solution Outline Here]
+📊 [Include diagram or link to Notion/GitHub]
+
+Let me know if this looks good — I can start with a demo version in 1–2 days.
+🧠 Extra Tip: Use [Mermaid.js] Diagrams for GitHub
+If you're posting on GitHub, use this format:
+```
+
+```
+<details><summary>Mermaid Example</summary>
+graph TD
+  A[User Input] --> B[Node.js Backend]
+  B --> C[OpenAI API]
+  B --> D[Email Service]
+  B --> E[PostgreSQL]
+</details>
+```
+
+
+## Work Breakdown Structure (WBS) Management
+
+Work Breakdown Structure (WBS) is one of the most critical project management tools that helps break down complex projects into manageable, smaller components. This guide will walk you through the fundamentals of WBS management, including practical examples and best practices for effective project planning.
+
+### What is Work Breakdown Structure?
+
+A Work Breakdown Structure is a hierarchical decomposition of the total scope of work to be carried out by the project team. It organizes and defines the total scope of the project, where each descending level represents an increasingly detailed definition of the project work.
+
+#### Key Benefits of WBS:
+
+* **Clear Project Scope**: Provides a visual representation of all project deliverables
+* **Better Estimation**: Enables more accurate time and cost estimates
+* **Resource Planning**: Helps identify required resources for each work package
+* **Risk Management**: Makes it easier to identify potential risks at granular levels
+* **Progress Tracking**: Facilitates monitoring and controlling project progress
+* **Team Communication**: Improves understanding among stakeholders
+
+### WBS Structure and Components
+
+#### The 100% Rule
+
+The WBS must include 100% of the work defined by the project scope and capture all deliverables – internal, external, and interim – in terms of the work to be completed, including project management.
+
+#### Hierarchical Levels
+
+1. **Level 1**: Project Title/Final Deliverable
+2. **Level 2**: Major Deliverables or Phases
+3. **Level 3**: Sub-deliverables
+4. **Level 4+**: Work Packages (lowest level)
+
+### WBS Creation Process
+
+#### Step 1: Define Project Scope
+
+Start with a clear understanding of project objectives, deliverables, and constraints.
+
+#### Step 2: Identify Major Deliverables
+
+Break down the project into major components or phases.
+
+#### Step 3: Decompose Deliverables
+
+Continue breaking down each major deliverable into smaller, manageable components.
+
+#### Step 4: Create Work Packages
+
+Define the lowest level of work that can be:
+
+* Estimated (time and cost)
+* Scheduled
+* Monitored
+* Assigned to a responsible party
+
+### WBS Management Sheet
+
+A well-structured WBS sheet should include the following elements:
+
+![WBS Management Sheet](/wbs-management/wbs-sheet.png)
+
+The WBS sheet above demonstrates a practical approach to organizing project work with:
+
+* **WBS ID**: Unique identifier for each work package
+* **Task Description**: Clear description of the work to be performed
+* **Deliverables**: Expected outcomes for each task
+* **Dependencies**: Relationships between tasks
+* **Assigned Resources**: Team members responsible for each work package
+* **Priority Level**: Task priority for resource allocation
+
+#### Key Components of the WBS Sheet:
+
+1. **Hierarchical Numbering**: Each element has a unique WBS code (1.1, 1.2, 1.1.1, etc.)
+2. **Task Names**: Descriptive names for each work component
+3. **Work Package Details**: Specific activities that need to be completed
+4. **Responsibility Assignment**: Clear ownership for each task
+5. **Deliverable Specifications**: Expected outputs and quality criteria
+
+### Estimation and Time Management
+
+Accurate estimation is crucial for successful project delivery. The estimation process should be integrated with your WBS structure.
+
+![Estimation Sheet](/wbs-management/est-sheet.png)
+
+The estimation sheet complements the WBS by providing:
+
+* **Time Estimates**: Duration for each work package
+* **Resource Requirements**: Human resources needed
+* **Cost Calculations**: Budget allocation for each component
+* **Risk Factors**: Contingency planning for uncertainties
+* **Dependencies Mapping**: Critical path identification
+
+#### Estimation Techniques:
+
+1. **Expert Judgment**: Leveraging experience from similar projects
+2. **Analogous Estimation**: Using historical data from comparable projects
+3. **Parametric Estimation**: Using statistical relationships between variables
+4. **Three-Point Estimation**: Considering optimistic, pessimistic, and most likely scenarios
+5. **Bottom-Up Estimation**: Aggregating estimates from work package level
+
+### Best Practices for WBS Management
+
+#### 1. Keep It Simple and Clear
+
+* Use clear, concise language
+* Avoid technical jargon when possible
+* Ensure understanding across all stakeholders
+
+#### 2. Focus on Deliverables
+
+* Structure around deliverables, not activities
+* Each element should represent a tangible outcome
+* Avoid mixing deliverables with activities
+
+#### 3. Maintain Appropriate Level of Detail
+
+* Don't over-decompose (too granular)
+* Don't under-decompose (too high-level)
+* Aim for work packages of 8-80 hours duration
+
+#### 4. Ensure Completeness
+
+* Include all project work
+* Account for project management activities
+* Consider integration and testing phases
+
+#### 5. Regular Updates and Reviews
+
+* Review WBS regularly as project evolves
+* Update based on change requests
+* Maintain version control
+
+### WBS Templates and Tools
+
+#### Common WBS Formats:
+
+1. **Hierarchical/Tree Structure**: Traditional org-chart style
+2. **Tabular Format**: Spreadsheet-based approach
+3. **Mind Map**: Visual, creative representation
+
+#### Recommended Tools:
+
+* **Microsoft Project**: Professional project management
+* **Excel/Google Sheets**: Simple, accessible option
+* **Lucidchart**: Visual diagramming
+* **Smartsheet**: Collaborative project management
+* **Notion**: All-in-one workspace
+* **Jira**: Agile project management
+
+### Integration with Project Management Methodologies
+
+#### Traditional/Waterfall Projects
+
+* WBS aligns with sequential phases
+* Clear deliverables at each stage
+* Detailed upfront planning
+
+#### Agile Projects
+
+* Epic/Feature breakdown structure
+* User story decomposition
+* Sprint planning integration
+* Continuous refinement
+
+#### Hybrid Approaches
+
+* Combination of detailed planning and iterative delivery
+* Phased WBS development
+* Adaptive planning techniques
+
+### Common Pitfalls and How to Avoid Them
+
+#### 1. Over-Decomposition
+
+**Problem**: Breaking down work into unnecessarily small pieces
+**Solution**: Use the 8-80 hour rule for work packages
+
+#### 2. Activity-Based WBS
+
+**Problem**: Focusing on activities instead of deliverables
+**Solution**: Structure around "what" will be delivered, not "how"
+
+#### 3. Incomplete Scope Coverage
+
+**Problem**: Missing work components
+**Solution**: Use structured review process and stakeholder validation
+
+#### 4. Poor Naming Conventions
+
+**Problem**: Unclear or inconsistent naming
+**Solution**: Establish and follow naming standards
+
+#### 5. Static WBS
+
+**Problem**: Not updating WBS as project evolves
+**Solution**: Regular reviews and version control
+
+### Measuring WBS Effectiveness
+
+#### Key Performance Indicators:
+
+1. **Scope Completeness**: Percentage of actual work covered by WBS
+2. **Estimation Accuracy**: Variance between planned and actual effort
+3. **Change Request Frequency**: Number of scope changes required
+4. **Stakeholder Understanding**: Survey results on WBS clarity
+5. **Project Success Rate**: Correlation with project success metrics
+
+### Advanced WBS Techniques
+
+#### 1. Rolling Wave Planning
+
+* Detailed planning for near-term work
+* High-level planning for future phases
+* Progressive elaboration as more information becomes available
+
+#### 2. WBS Dictionary
+
+* Detailed descriptions for each WBS element
+* Acceptance criteria and quality standards
+* Resource requirements and assumptions
+
+#### 3. Integrated Change Control
+
+* Formal process for WBS updates
+* Impact assessment procedures
+* Stakeholder approval workflows
+
+### Case Study: Software Development Project
+
+#### Project: E-commerce Platform Development
+
+**Level 1**: E-commerce Platform
+
+**Level 2**:
+
+* 1.0 Project Management
+* 2.0 Analysis & Design
+* 3.0 Development
+* 4.0 Testing
+* 5.0 Deployment
+* 6.0 Training & Documentation
+
+**Level 3 (Example for Development)**:
+
+* 3.1 Frontend Development
+* 3.2 Backend Development
+* 3.3 Database Development
+* 3.4 API Development
+* 3.5 Integration Development
+
+**Level 4 (Example for Frontend)**:
+
+* 3.1.1 User Interface Design
+* 3.1.2 Product Catalog Module
+* 3.1.3 Shopping Cart Module
+* 3.1.4 User Authentication Module
+* 3.1.5 Payment Processing Module
+
+### Conclusion
+
+Work Breakdown Structure is a fundamental project management technique that provides the foundation for successful project planning and execution. When properly implemented, WBS enhances project visibility, improves estimation accuracy, and facilitates better communication among stakeholders.
+
+Key takeaways:
+
+* **Structure matters**: A well-organized WBS is crucial for project success
+* **Balance detail levels**: Neither too granular nor too high-level
+* **Focus on deliverables**: What will be produced, not how it will be done
+* **Maintain and update**: WBS is a living document that evolves with the project
+* **Integrate with other tools**: Combine with estimation, scheduling, and risk management
+
+By following the principles and best practices outlined in this guide, project managers can create effective WBS structures that serve as the backbone for successful project delivery.
+
+### References and Further Reading
+
+* Project Management Institute (PMI) - PMBOK Guide
+* Work Breakdown Structure: A Practical Guide to Development and Application
+* Agile Estimating and Planning by Mike Cohn
+* Microsoft Project Official Documentation
+* IEEE Standards for Work Breakdown Structure
+
+***
+
+*This guide provides a comprehensive overview of WBS management techniques. For specific implementation guidance or advanced topics, consider consulting with project management professionals or taking specialized courses in project management methodologies.*
+
+
+## **Implement WooCommerce Vendors Marketplace Plugin**
+
+### **Overview: Purpose and Problem Solving**
+
+1. Many businesses and individuals want to create an **eCommerce marketplace** where multiple vendors can sell their products while the site owner earns commissions.
+2. WooCommerce, by default, is a **single-vendor system**. To convert it into a **multi-vendor marketplace**, we need to integrate a marketplace plugin.
+3. **WooCommerce Vendors Marketplace** plugin allows multiple vendors to register, manage their own stores, and sell products independently while the marketplace owner manages global settings, commissions, and payouts.
+
+### **Proposal**
+
+* A WordPress website with **WooCommerce installed**.
+* Install and configure the **WooCommerce Vendors Marketplace** plugin.
+* Allow vendors to register and manage their own stores.
+* Enable commission-based earnings for the marketplace owner.
+
+### **Weighting / Pros and Cons**
+
+#### **Pros**
+
+* Converts WooCommerce into a **multi-vendor marketplace**.
+* Allows vendors to manage their **own products, orders, and earnings**.
+* Provides **commission settings** to manage vendor payouts.
+* Supports various **payment gateways** for vendor payouts.
+* Vendors can receive **direct payments** or through the marketplace owner.
+
+#### **Cons**
+
+* Requires **manual or scheduled vendor payouts** if not using automated gateways.
+* May require **customizations** to match specific business models.
+* Additional fees may apply depending on the **payment method** used for vendor withdrawals.
+
+### **Implementation Steps**
+
+#### **1. Download and Install the Plugin**
+
+* Purchase and download the **WooCommerce Vendors Marketplace** plugin.
+* Go to **WordPress Admin > Plugins > Add New**.
+* Upload and install the plugin, then **activate** it.
+
+#### **2. Configure Marketplace Settings**
+
+* Navigate to **WooCommerce > Settings > Vendors**.
+* Set up **commission rates** (fixed or percentage-based).
+* Define **vendor registration rules** and **approval process**.
+* Configure **payment methods** for vendor payouts (PayPal, Bank Transfer, Stripe, etc.).
+
+#### **3. Vendor Registration and Store Setup**
+
+* Enable **vendor registration** on the website.
+* Vendors can register, create their store, and start adding products.
+* Admin can **approve or reject** vendor applications.
+
+#### **4. Managing Products and Orders**
+
+* Vendors can manage **their own products** (add, edit, delete).
+* Orders placed by customers are automatically assigned to vendors.
+* Admin can track and **manage all vendor sales**.
+
+#### **5. Vendor Payments and Payouts**
+
+* Set up **manual or automatic payouts**.
+* Vendors can request payouts based on **configured rules**.
+* Admin can process **manual bank transfers** or use **automated payment gateways**.
+
+#### **6. Customizing the Marketplace**
+
+* Use **shortcodes** or widgets to display vendor stores.
+* Customize the **vendor dashboard** for better user experience.
+* Add additional **extensions** for enhanced functionality (e.g., subscriptions, memberships, auctions).
+
+### **Conclusion**
+
+By implementing the **WooCommerce Vendors Marketplace** plugin, a WooCommerce store can be transformed into a **fully functional multi-vendor marketplace**. Vendors can register, sell products, and receive payments while the admin earns commissions, making it a scalable and profitable business model.
+
+For further customizations, consider **additional WooCommerce add-ons** to enhance vendor features and payment automation.
+
+
+## **Woocommerce Nganluong Gateway Plugin**
+
+### **Overview the purpose, the problem it is solving**
+
+1. At this time in Vietnamese, there are having many payment services supporting for Business like Momo API or VNPay API, we can register as a merchant to have Client Key and Secret Key for application service.
+2. But as an individual, by my researching, we can only register Nganluong account and sign the contract with Nganluong, then we can use Nganluong API for payment. In this section I focusing on implement Nganluong payment gateway for Woocommerce.
+3. If you wanna know how to sign the contract and verify merchant account, directly contact to Nganluong's sale teams.
+
+### **Proposal**
+
+* Having a Wordpress Woocommerce website.
+* On nganluong, register an account, verify account, creating merchant account and contact to Nganluong's Sale team for sign contract.
+
+### **Weighting / Pros and cons**
+
+**Pros**
+
+* User will have an option payment method via Nganluong, it work checking-out directly to Banking (It is called Seamless checkout)
+
+**Cons**
+
+* The minimum of a Online banking transaction is 20000d
+* The minimum of a QR Code 247 transaction is 50000d
+* High free per transaction
+
+### **Implementation steps**
+
+#### Download the plugin
+
+* I push the code to github: [https://github.com/quochuydev/woocommerce-nganluong-gateway-plugin/tree/main](https://github.com/quochuydev/woocommerce-nganluong-gateway-plugin/tree/main)
+* Pull the source code if you know working with github
+* Or directly clicking to `nganluong-gateway.zip` download then install the plugin normally
+
+#### Admin updates setting the payment method
+
+#### User is able to checking-out the order with Nganluong.
+
+
+## **3000 mails free per month for woocommerce with resend.com**
+
+### **Overview the purpose, the problem it is solving**
+
+For SME woocommerce, we need to send email to customer/shop admin, when woocommerce order/invoice/account are changed.
+
+### **Proposal**
+
+* On resend.com, Register resend.com account, verify domain, create API key
+* On wordpress website, install and configure Mail SMTP Plugin, manage Woocommerce email settings
+
+### **Weighting / Pros and cons**
+
+**Pros**
+
+* Free 3000 mails per month
+* Not spam mail
+
+**Cons**
+
+* Resend free account allows creating only 1 domains, it should be your domain or company's domain
+
+### **Implementation steps**
+
+#### Register a Resend service account
+
+go to: [https://resend.com](https://resend.com)
+
+#### Create Resend API key
+
+go to: [https://resend.com/api-keys](https://resend.com/api-keys)
+
+![resend-create-API-key.png](woocommerce-resend/resend-create-API-key.png)
+
+#### Register domain
+
+go to: [https://resend.com/domains](https://resend.com/domains)
+
+![resend-domain-detail.png](woocommerce-resend/resend-domain-detail.png)
+
+#### Download WordPress Mail SMTP Plugin
+
+[https://vi.wordpress.org/plugins/wp-mail-smtp/](https://vi.wordpress.org/plugins/wp-mail-smtp/)
+
+#### Install Mail SMTP Plugin
+
+**Login into your wordpress admin**
+
+**Install plugin in admin site**
+
+* **On the left menu:** Plugins -> Add New Plugin -> Upload plugin
+* Select plugin downloaded from step 1 -> Install now
+
+![wp-install-plugin.png](woocommerce-resend/wp-install-plugin.png)
+
+**Update Mail SMPT config**
+
+1. When install plugin successfully, on the left menu will display item *WP Mail SMTP*
+
+2. Update to these configs
+
+* **License Key:** Free version, empty value
+* **From Email:** Must have domain is registerd on resend.com/domains, exp: [admin@quochuy.dev](mailto\:admin@quochuy.dev)
+* **From Name:** (can be your branding or your website)
+* **Force From Name:** default false
+* **Return Path:** default false
+* **Mailer:** Other SMTP
+* **SMTP Host:** smtp.resend.com
+* **Encryption:** TLS
+* **SMTP Port:** 587
+* **Authentication:** On
+* **SMTP Username:** resend
+* **SMTP Password:** (value is from API key created on Resend)
+
+3. Click *Save settings*
+
+![wp-update-smtp-config.png](woocommerce-resend/wp-update-smtp-config.png)
+
+#### Define email notifications
+
+* On the left menu: WooCommerce -> Settings -> Emails
+* Manage Email notifications
+* Click *Save changes*
+
+![woocommerce-setting-mail-1.png](woocommerce-resend/woocommerce-setting-mail-1.png)
+
+![woocommerce-setting-mail-2.png](woocommerce-resend/woocommerce-setting-mail-2.png)
+
+#### Testing
+
+* On woocommerce website, add to cart products then checkout order
+* Check admin gmail
+
+![woocommerce-setting-mail-1.png](woocommerce-resend/mail-template.png)
+
+
+This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL.
+
+You can configure two types of SAML SSO on LemonLDAP:
+
+* [LemonLDAP SAML](#lemonldap-saml)
+* [LemonLDAP OIDC](#lemonldap-oidc)
+
+### LemonLDAP SAML - ZITADEL as Service provider
+
+#### Configure SAML on LemonLDAP
+
+Setting up LemonLDAP
+
+```bash
+docker run -d --name lemonldap -p 80:80 --network zitadel coudot/lemonldap-ng
+```
+
+Setup SAML for LemonLDAP
+
+`SAML2 Service > Security parameters > Signature > New certificate > Save`
+
+![alt](/lemonldap/1.png)
+
+`General Parameters > Issuer modules > SAML > Activation: On`
+
+![alt](/lemonldap/2.png)
+
+Download and Encode Base64 metadata ([https://www.base64encode.org/](https://www.base64encode.org/))
+
+```
+http://auth.example.com/saml/metadata
+```
+
+*Fixing for error: `An error occured during SAML single sign on`*
+
+`General Parameters > Cookies > Unsecured & Strict`
+
+#### Configure Idenity Provider in ZITADEL
+
+**Setting up ZITADEL**
+
+[https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose](https://zitadel.com/docs/self-hosting/deploy/compose#docker-compose)
+
+ZITADEL running in docker network `zitadel`
+
+Checking compose file:
+
+[https://github.com/quochuydev/quochuydev/blob/master/researching/zitadel/README.md](https://github.com/quochuydev/quochuydev/blob/master/researching/zitadel/README.md)
+
+**Create a SAML IDP in ZITADEL**
+
+For example I am setuping up at ZITADEL instance level
+
+`Settings > Identity Providers > SAML`
+
+* **Name**: `LemonLDAP SAML`
+* **Metadata Xml**: Base64 encoded metadata
+* **Binding**: `SAML_BINDING_POST`
+* **Signed Request**: `Yes`
+* **NameID Format**: `SAML_NAME_ID_FORMAT_EMAIL_ADDRESS`
+* **Automatic creation**: `false`
+* **Automatic creation**: `false`
+* **Automatic update**: `false`
+* **Account creation allowed (manually)**: `false` or `true`
+* **Account linking allowed (manually)**: `false` or `true`
+* **Determines whether an identity will be prompted to be linked to an existing account**: `Disabled`
+
+**Download ZITADEL metadata**
+
+![alt](/lemonldap/3.png)
+
+#### Setup a SAML Service Provider
+
+`SAML Service Providers > Add SAML IDP > MyApplication`
+
+`MyApplication > Metadata`: use IDP metadata from step above
+
+![alt](/lemonldap/4.png)
+
+#### Testing
+
+Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP SAML`
+
+![alt](/lemonldap/5.png)
+
+ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: [https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation](https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation)
+
+![alt](/lemonldap/6.png)
+
+Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.
+
+![alt](/lemonldap/7.png)
+
+### LemonLDAP OIDC - ZITADEL as Service provider
+
+#### Configure OIDC on LemonLDAP
+
+`General Parameters > Issuer modules > OpenID Connect`
+
+![alt](/lemonldap/8.png)
+
+`OpenID Connect Service > Security > Keys > Signature keys > New certificate > Save`
+
+![alt](/lemonldap/9.png)
+
+`OpenID Connect Relying Parties > Add OpenID Connect Relying Party > rp-example > Basic`
+
+`OpenID Connect Relying Parties > rp-example > Basic`
+
+* **Client ID:** Generate a random string, exp: `clientId`
+* **Client secret:** Generate a random string, exp: `clientSecret`
+* **Allowed redirection addresses for login:** [http://localhost:8080/ui/login/login/externalidp/callback](http://localhost:8080/ui/login/login/externalidp/callback)
+* **Token endpoint authentication method:** `client_secret_post`
+
+```sh
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' lemonldap_container_name
+
+docker exec -i zitadel_container_name sh -c "echo 'IP_address auth.example.com' >> /etc/hosts"
+```
+
+Example:
+
+```sh
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' lemonldap
+
+docker exec -i zitadel_test sh -c "echo '172.23.0.4 auth.example.com' >> /etc/hosts"
+
+docker exec -i zitadel_test sh -c "cat /etc/hosts"
+
+docker exec -i zitadel_test sh -c "curl http://auth.example.com/.well-known/openid-configuration"
+```
+
+#### Configure LemonLDAP OIDC Idenity Provider in ZITADEL
+
+`Settings > Identity Providers > Generic OIDC`
+
+* **Name**: `LemonLDAP OIDC`
+* **Issuer**: `http://auth.example.com/`
+* **Client ID**: `clientId`
+* **Client Secret**: `clientSecret`
+
+![alt](/lemonldap/10.png)
+
+#### Testing
+
+Open other browser with url `http://localhost:8080/ui/console/`, select login with `LemonLDAP OIDC`
+
+![alt](/lemonldap/11.png)
+
+ZITADEL redirect to LemonLDAP login page, using one of the testing accounts from: [https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation](https://lemonldap-ng.org/documentation/2.0/authdemo.html#presentation)
+
+Confirm authorization request.
+
+![alt](/lemonldap/12.png)
+
+Login successfully, you will be redirected to ZITADEL register form. Completed authentication flow with LemonLDAP SAML.
+
+![alt](/lemonldap/13.png)
+
+### Referrences
+
+* [https://lemonldap-ng.org/documentation/2.0/docker.html](https://lemonldap-ng.org/documentation/2.0/docker.html)
+* [https://lemonldap-ng.org/documentation/latest/authopenidconnect.html](https://lemonldap-ng.org/documentation/latest/authopenidconnect.html)
+* [https://lemonldap-ng.org/documentation/3.0/openidconnectservice.html](https://lemonldap-ng.org/documentation/3.0/openidconnectservice.html)
+* [https://lemonldap-ng.org/documentation/2.0/authdemo.html](https://lemonldap-ng.org/documentation/2.0/authdemo.html)
+* [https://lemonldap-ng.org/documentation/latest/webserviceprotection.html](https://lemonldap-ng.org/documentation/latest/webserviceprotection.html)
+

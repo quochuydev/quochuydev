@@ -1,4 +1,4 @@
-import{u as a,j as e}from"./index-C2wPm-aG.js";const s={title:"✅ Freelancer Task Checklist (Upwork / Remote Client)",description:"undefined"};function t(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",ul:"ul",...a(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-freelancer-task-checklist-upwork--remote-client",children:["✅ Freelancer Task Checklist (Upwork / Remote Client)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-freelancer-task-checklist-upwork--remote-client",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as a,j as e}from"./index-BDA9Jfbt.js";const s={title:"✅ Freelancer Task Checklist (Upwork / Remote Client)",description:"undefined"};function t(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",ul:"ul",...a(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-freelancer-task-checklist-upwork--remote-client",children:["✅ Freelancer Task Checklist (Upwork / Remote Client)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-freelancer-task-checklist-upwork--remote-client",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsx(n.p,{children:e.jsx(n.em,{children:"A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally."})}),`
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-1-before-accepting-the-task",children:["🟢 1. Before Accepting the Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-1-before-accepting-the-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
@@ -64,12 +64,12 @@ import{u as a,j as e}from"./index-C2wPm-aG.js";const s={title:"✅ Freelancer Ta
 `,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-4-delivering-the-task",children:["📤 4. Delivering the Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-4-delivering-the-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"-prepare-a-final-summary-to-send-to-client",children:["🔲 Prepare a final summary (to send to client)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-prepare-a-final-summary-to-send-to-client",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"✅ Task Summary:"})}),`
+`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"✅ Task Summary:"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"- Added login endpoint with JWT"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"- Connected to PostgreSQL (RDS)"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"- Tested via Postman (login, invalid cases)"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"🚀 GitHub: https://github.com/yourname/client-login-task"})})]})}),`
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"🚀 GitHub: https://github.com/yourname/client-login-task"})})]})})}),`
 `,e.jsx(n.p,{children:"🔲 Double-check delivery format:"}),`
 `,e.jsxs(n.ul,{children:[`
 `,e.jsx(n.li,{children:"Code pushed?"}),`

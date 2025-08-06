@@ -1,4 +1,4 @@
-import{u as s,j as e}from"./index-C2wPm-aG.js";const t={title:"Practical Freelancer Guide for Software Developers (Starting from Scratch)",description:"undefined"};function r(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"practical-freelancer-guide-for-software-developers-starting-from-scratch",children:["Practical Freelancer Guide for Software Developers (Starting from Scratch)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#practical-freelancer-guide-for-software-developers-starting-from-scratch",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as s,j as e}from"./index-BDA9Jfbt.js";const t={title:"Practical Freelancer Guide for Software Developers (Starting from Scratch)",description:"undefined"};function r(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"practical-freelancer-guide-for-software-developers-starting-from-scratch",children:["Practical Freelancer Guide for Software Developers (Starting from Scratch)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#practical-freelancer-guide-for-software-developers-starting-from-scratch",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsxs(n.h2,{id:"1-mindset--skill-preparation",children:["1. Mindset & Skill Preparation",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#1-mindset--skill-preparation",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"11-minimum-technical-skills",children:["1.1 Minimum Technical Skills",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#11-minimum-technical-skills",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
@@ -56,13 +56,13 @@ import{u as s,j as e}from"./index-C2wPm-aG.js";const t={title:"Practical Freelan
 `,e.jsxs(n.blockquote,{children:[`
 `,e.jsx(n.p,{children:"✍️ Template:"}),`
 `]}),`
-`,e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
+`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client Name],"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"I read your job about integrating PayPal with your Node.js backend. I’ve done similar work for a small e-commerce store where I built a payment module using PayPal SDK."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"I can start within 1 day and complete the integration with proper testing. You can check a similar demo I made here: github.com/yourname/paypal-demo."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Looking forward to working with you!"})})]})}),`
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Looking forward to working with you!"})})]})})}),`
 `,e.jsxs(n.h2,{id:"4-working-with-clients",children:["4. Working With Clients",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#4-working-with-clients",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"41-communication-tips",children:["4.1 Communication Tips",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#41-communication-tips",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:"Always confirm understanding: “Just to clarify, you want X, Y, and Z — correct?”"}),`
