@@ -1,19 +1,5 @@
 # quochuydev
 
-As a Typescript developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
-
-* Analyze for me this requirement, provide me solution (simple)
-* Provide me code for this solution, just core code
-* Estimate the task as a freelancer (hourly rate)
-* Use English
-
-### Requirement
-
-Suggest me some solution sync file from web to filesystem
-
-The problem that in the web like feature chat app or upload files, user use it many time, idonnt wanna zip files and checksum, I can create simple electron app for writing files, but don't wanna too comlicated
-
-
 ## AI Website Builder
 
 ### 🔧 MASTER WEBSITE GENERATION PROMPT TEMPLATE
@@ -659,6 +645,69 @@ flowchart TD
     K --> M
     M --> L
     L --> A
+```
+
+
+### Introduction
+
+```
+As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
+
+As a Web developer making themes in Evanto
+```
+
+### Website Builder
+
+#### Clothing Store
+
+```
+As a Web Developer, AWS making themes in Evanto/ThemeForest
+
+
+
+
+Tech Stack: Vercel, Typescript, NextJS, PostgreSQL, Tailwind CSS
+
+```
+
+#### Marking for web3 product
+
+```
+```
+
+#### Hotel app booking
+
+```
+```
+
+#### Online courses for certificates
+
+```
+```
+
+### Upwork job analysis
+
+```
+As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
+
+- Analyze for me this requirement, provide me solution (simple)
+- Provide me code for this solution, just core code
+- Estimate the task as a freelancer (hourly rate)
+- Use English
+
+## Requirement
+
+Suggest me some solution sync file from web to filesystem
+
+The problem that in the web like feature chat app or upload files, user use it many time, idonnt wanna zip files and checksum, I can create simple electron app for writing files, but don't wanna too comlicated
+
+```
+
+## Commands
+
+### Claude
+
+```
 ```
 
 
@@ -1344,6 +1393,23 @@ go to: [https://resend.com/domains](https://resend.com/domains)
 * Check admin gmail
 
 ![woocommerce-setting-mail-1.png](woocommerce-resend/mail-template.png)
+
+
+## Work experience
+
+### Experience products
+
+#### 1. BidBid - Dating app
+
+* Manage tasks, estimate tasks and daily meeting with team.
+* Develop and provide API for Mobile App and Web App.
+* Design and implement backend services, scale up with microservices.
+* Build/deploy application, manage production server and client's accounts.
+
+#### 2. Germany health care product
+
+* Daily meetings with the team and Product Manager in Germany.
+* Implement application’s features.
 
 
 This guides shows you how to connect LemonLDAP as an identity provider in ZITADEL.

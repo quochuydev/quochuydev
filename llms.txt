@@ -8,6 +8,8 @@
 - [✅ Freelancer Task Checklist (Upwork / Remote Client)](/freelancer-task-checklist): *A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally.*
 - [Multi-OIDC Session Management  Application](/multiple-oidc-session-management): Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently.
 - [Node.js x AWS x Github Action](/nodejs-aws-github-cicd): Application and OS Images:
+- [Commands](/prompts)
 - [💼 Proposal Examples for Freelance Developers (Upwork & Remote)](/proposal-examples): Use these as templates when applying to jobs — always **customize to fit the client’s need**, keep it short (100–200 words), and always show that you understand the task.
 - [💡 Proposed Solution Overview](/solution-template): Hi \[Client Name], here's a simple architecture and plan based on your requirement.
 - [Work Breakdown Structure (WBS) Management](/wbs-management): Work Breakdown Structure (WBS) is one of the most critical project management tools that helps break down complex projects into manageable, smaller components. This guide will walk you through the fundamentals of WBS management, including practical examples and best practices for effective project planning.
+- [Work experience](/work-experience): Manage tasks, estimate tasks and daily meeting with team.
