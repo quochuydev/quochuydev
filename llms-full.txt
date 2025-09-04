@@ -1,5 +1,68 @@
 # quochuydev
 
+### Introduction
+
+```
+As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
+
+As a Web developer making themes in Evanto
+```
+
+### Website Builder
+
+#### Clothing Store
+
+```
+As a Web Developer, AWS making themes in Evanto/ThemeForest
+
+
+
+
+Tech Stack: Vercel, Typescript, NextJS, PostgreSQL, Tailwind CSS
+
+```
+
+#### Marking for web3 product
+
+```
+```
+
+#### Hotel app booking
+
+```
+```
+
+#### Online courses for certificates
+
+```
+```
+
+### Upwork job analysis
+
+```
+As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
+
+- Analyze for me this requirement, provide me solution (simple)
+- Provide me code for this solution, just core code
+- Estimate the task as a freelancer (hourly rate)
+- Use English
+
+## Requirement
+
+Suggest me some solution sync file from web to filesystem
+
+The problem that in the web like feature chat app or upload files, user use it many time, idonnt wanna zip files and checksum, I can create simple electron app for writing files, but don't wanna too comlicated
+
+```
+
+## Commands
+
+### Claude
+
+```
+```
+
+
 ## AI Website Builder
 
 ### 🔧 MASTER WEBSITE GENERATION PROMPT TEMPLATE
@@ -602,113 +665,36 @@ docker push quochuydev/myapp-backend:latest
 
 ### Implementation Steps
 
-```
-flowchart TD
-    subgraph Client
-        A[User submits payment request]
-    end
+Got it 👍 Since you can’t render Mermaid, here’s your flowchart rewritten as **plain Markdown text** with indentation to show the structure:
 
-    subgraph Backend (Node.js)
-        B[API Route: /api/payment]
-        C[Process Payment Request]
-        D{Choose Payment Provider}
-        E1[Call Stripe API]
-        E2[Call PayPal API]
-        F[Save Transaction to DB]
-        G[Return Payment Result]
-        H[API Route: /api/payout]
-        I[Validate Payout Request]
-        J[Call PayPal Payout API]
-        K[Save Payout to DB]
-        L[Return Payout Result]
-    end
+#### Payment Flow
 
-    subgraph DB
-        M[Transaction Table]
-    end
+1. **API Route**: `/api/payment`
 
-    A --> B
-    B --> C
-    C --> D
-    D -- Stripe --> E1
-    D -- PayPal --> E2
-    E1 --> F
-    E2 --> F
-    F --> M
-    M --> G
-    G --> A
+2. **Process Payment Request**
 
-    A --> H
-    H --> I
-    I --> J
-    J --> K
-    K --> M
-    M --> L
-    L --> A
-```
+3. **Choose Payment Provider**
 
+   * Stripe → Call **Stripe API**
+   * PayPal → Call **PayPal API**
 
-### Introduction
+4. **Save Transaction to DB**
 
-```
-As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
+5. **Return Payment Result** → back to **Client**
 
-As a Web developer making themes in Evanto
-```
+#### Payout Flow
 
-### Website Builder
+1. **API Route**: `/api/payout`
+2. **Validate Payout Request**
+3. **Call PayPal Payout API**
+4. **Save Payout to DB**
+5. **Return Payout Result** → back to **Client**
 
-#### Clothing Store
+#### Database (DB)
 
-```
-As a Web Developer, AWS making themes in Evanto/ThemeForest
-
-
-
-
-Tech Stack: Vercel, Typescript, NextJS, PostgreSQL, Tailwind CSS
-
-```
-
-#### Marking for web3 product
-
-```
-```
-
-#### Hotel app booking
-
-```
-```
-
-#### Online courses for certificates
-
-```
-```
-
-### Upwork job analysis
-
-```
-As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
-
-- Analyze for me this requirement, provide me solution (simple)
-- Provide me code for this solution, just core code
-- Estimate the task as a freelancer (hourly rate)
-- Use English
-
-## Requirement
-
-Suggest me some solution sync file from web to filesystem
-
-The problem that in the web like feature chat app or upload files, user use it many time, idonnt wanna zip files and checksum, I can create simple electron app for writing files, but don't wanna too comlicated
-
-```
-
-## Commands
-
-### Claude
-
-```
-```
+* **User**
+* **Payment method**
+* **Transaction**
 
 
 ## 💼 Proposal Examples for Freelance Developers (Upwork & Remote)
@@ -820,9 +806,7 @@ Cheers,
 
 Hi \[Client Name], here's a simple architecture and plan based on your requirement.
 
-***
-
-### 🔧 Tech Stack
+#### 🔧 Tech Stack
 
 * **Backend**: Node.js (Express.js)
 * **Database**: PostgreSQL / MongoDB
@@ -830,11 +814,9 @@ Hi \[Client Name], here's a simple architecture and plan based on your requireme
 * **Deployment**: Docker + Render / Railway / Vercel
 * **Monitoring**: Log output or health endpoint
 
-***
+#### 🧩 Solution Outline
 
-### 🧩 Solution Outline
-
-> 📘 Example 1 – Node.js with Stripe & Email
+📘 Example 1 – Node.js with Stripe & Email
 
 * User submits payment through frontend
 * Backend Node.js service uses **Stripe SDK** to create a charge
@@ -842,33 +824,27 @@ Hi \[Client Name], here's a simple architecture and plan based on your requireme
 * Saves order in **PostgreSQL**
 * Simple `/healthz` route to monitor service
 
-***
-
-> 🤖 Example 2 – AI Agent with OpenAI + Deployment
+🤖 Example 2 – AI Agent with OpenAI + Deployment
 
 * User sends question or task via endpoint (e.g., GET `/ask?text=...`)
 * Node.js service forwards it to **OpenAI API** using LangChain or custom prompt logic
 * AI returns result → response formatted and sent back to client
 * Hosted on **Render** or **Vercel** with Docker
 
-***
+#### 🔄 Simple Architecture Diagram (Text-Based)
 
-### 🔄 Simple Architecture Diagram (Text-Based)
-
+```
 User
 │
-▼
 Frontend (optional or Postman)
 │
-▼
-Backend (Node.js)
+├─→ Backend (Node.js)
 ├─→ 3rd API (e.g., Stripe / OpenAI / OAuth)
 ├─→ Database (PostgreSQL / MongoDB)
 └─→ Email Service (SendGrid or SMTP)
+```
 
-***
-
-### ✅ What You’ll Get
+#### ✅ What You’ll Get
 
 * Clean, documented code (GitHub)
 * REST API or simple UI if needed
@@ -888,16 +864,6 @@ I’ve worked on similar tasks using Node.js and 3rd-party integrations. Here’
 Let me know if this looks good — I can start with a demo version in 1–2 days.
 🧠 Extra Tip: Use [Mermaid.js] Diagrams for GitHub
 If you're posting on GitHub, use this format:
-```
-
-```
-<details><summary>Mermaid Example</summary>
-graph TD
-  A[User Input] --> B[Node.js Backend]
-  B --> C[OpenAI API]
-  B --> D[Email Service]
-  B --> E[PostgreSQL]
-</details>
 ```
 
 
