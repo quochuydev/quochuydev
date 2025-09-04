@@ -9,6 +9,10 @@ export default defineConfig({
       link: "/",
     },
     {
+      text: "Work experience",
+      link: "/work-experience",
+    },
+    {
       text: "Woocommerce with resend.com",
       link: "/woocommerce-with-resend",
     },
@@ -33,8 +37,8 @@ export default defineConfig({
       link: "/zitadel-lemonldap-integration",
     },
     {
-      text: "AI Agent",
-      link: "/ai-agent",
+      text: "Prompts",
+      link: "/prompts",
     },
     {
       text: "AWS Machine Learning",
