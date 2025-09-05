@@ -1,4 +1,4 @@
-import{u as s,j as e}from"./index-DNpcHpGe.js";const a={title:"Work Breakdown Structure (WBS) Management",description:"undefined"};function i(r){const n={a:"a",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...s(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"work-breakdown-structure-wbs-management",children:["Work Breakdown Structure (WBS) Management",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#work-breakdown-structure-wbs-management",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as i,j as e}from"./index-BMnpjcRt.js";const a={title:"Work Breakdown Structure (WBS) Management",description:"undefined"};function s(r){const n={a:"a",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",img:"img",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...i(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"work-breakdown-structure-wbs-management",children:["Work Breakdown Structure (WBS) Management",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#work-breakdown-structure-wbs-management",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsx(n.p,{children:"Work Breakdown Structure (WBS) is one of the most critical project management tools that helps break down complex projects into manageable, smaller components. This guide will walk you through the fundamentals of WBS management, including practical examples and best practices for effective project planning."}),`
 `,e.jsxs(n.h2,{id:"what-is-work-breakdown-structure",children:["What is Work Breakdown Structure?",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#what-is-work-breakdown-structure",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:"A Work Breakdown Structure is a hierarchical decomposition of the total scope of work to be carried out by the project team. It organizes and defines the total scope of the project, where each descending level represents an increasingly detailed definition of the project work."}),`
@@ -52,34 +52,6 @@ import{u as s,j as e}from"./index-DNpcHpGe.js";const a={title:"Work Breakdown St
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Stakeholder Understanding"}),": Survey results on WBS clarity"]}),`
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Project Success Rate"}),": Correlation with project success metrics"]}),`
 `]}),`
-`,e.jsxs(n.h2,{id:"case-study-software-development-project",children:["Case Study: Software Development Project",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#case-study-software-development-project",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.h3,{id:"project-e-commerce-platform-development",children:["Project: E-commerce Platform Development",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#project-e-commerce-platform-development",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Level 1"}),": E-commerce Platform"]}),`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Level 2"}),":"]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"1.0 Project Management"}),`
-`,e.jsx(n.li,{children:"2.0 Analysis & Design"}),`
-`,e.jsx(n.li,{children:"3.0 Development"}),`
-`,e.jsx(n.li,{children:"4.0 Testing"}),`
-`,e.jsx(n.li,{children:"5.0 Deployment"}),`
-`,e.jsx(n.li,{children:"6.0 Training & Documentation"}),`
-`]}),`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Level 3 (Example for Development)"}),":"]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"3.1 Frontend Development"}),`
-`,e.jsx(n.li,{children:"3.2 Backend Development"}),`
-`,e.jsx(n.li,{children:"3.3 Database Development"}),`
-`,e.jsx(n.li,{children:"3.4 API Development"}),`
-`,e.jsx(n.li,{children:"3.5 Integration Development"}),`
-`]}),`
-`,e.jsxs(n.p,{children:[e.jsx(n.strong,{children:"Level 4 (Example for Frontend)"}),":"]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"3.1.1 User Interface Design"}),`
-`,e.jsx(n.li,{children:"3.1.2 Product Catalog Module"}),`
-`,e.jsx(n.li,{children:"3.1.3 Shopping Cart Module"}),`
-`,e.jsx(n.li,{children:"3.1.4 User Authentication Module"}),`
-`,e.jsx(n.li,{children:"3.1.5 Payment Processing Module"}),`
-`]}),`
 `,e.jsxs(n.h2,{id:"conclusion",children:["Conclusion",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#conclusion",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(n.p,{children:"Work Breakdown Structure is a fundamental project management technique that provides the foundation for successful project planning and execution. When properly implemented, WBS enhances project visibility, improves estimation accuracy, and facilitates better communication among stakeholders."}),`
 `,e.jsx(n.p,{children:"Key takeaways:"}),`
@@ -89,15 +61,4 @@ import{u as s,j as e}from"./index-DNpcHpGe.js";const a={title:"Work Breakdown St
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Focus on deliverables"}),": What will be produced, not how it will be done"]}),`
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Maintain and update"}),": WBS is a living document that evolves with the project"]}),`
 `,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Integrate with other tools"}),": Combine with estimation, scheduling, and risk management"]}),`
-`]}),`
-`,e.jsx(n.p,{children:"By following the principles and best practices outlined in this guide, project managers can create effective WBS structures that serve as the backbone for successful project delivery."}),`
-`,e.jsxs(n.h2,{id:"references-and-further-reading",children:["References and Further Reading",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#references-and-further-reading",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"Project Management Institute (PMI) - PMBOK Guide"}),`
-`,e.jsx(n.li,{children:"Work Breakdown Structure: A Practical Guide to Development and Application"}),`
-`,e.jsx(n.li,{children:"Agile Estimating and Planning by Mike Cohn"}),`
-`,e.jsx(n.li,{children:"Microsoft Project Official Documentation"}),`
-`,e.jsx(n.li,{children:"IEEE Standards for Work Breakdown Structure"}),`
-`]}),`
-`,e.jsx(n.hr,{}),`
-`,e.jsx(n.p,{children:e.jsx(n.em,{children:"This guide provides a comprehensive overview of WBS management techniques. For specific implementation guidance or advanced topics, consider consulting with project management professionals or taking specialized courses in project management methodologies."})})]})}function l(r={}){const{wrapper:n}={...s(),...r.components};return n?e.jsx(n,{...r,children:e.jsx(i,{...r})}):i(r)}export{l as default,a as frontmatter};
+`]})]})}function l(r={}){const{wrapper:n}={...i(),...r.components};return n?e.jsx(n,{...r,children:e.jsx(s,{...r})}):s(r)}export{l as default,a as frontmatter};
