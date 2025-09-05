@@ -1,4 +1,4 @@
-import{u as s,j as e}from"./index-BErKG5-T.js";const t={title:"Practical Freelancer Guide for Software Developers (Starting from Scratch)",description:"undefined"};function r(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"practical-freelancer-guide-for-software-developers-starting-from-scratch",children:["Practical Freelancer Guide for Software Developers (Starting from Scratch)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#practical-freelancer-guide-for-software-developers-starting-from-scratch",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as s,j as e}from"./index-C4dL6IWc.js";const t={title:"Practical Freelancer Guide for Software Developers (Starting from Scratch)",description:"undefined"};function r(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"practical-freelancer-guide-for-software-developers-starting-from-scratch",children:["Practical Freelancer Guide for Software Developers (Starting from Scratch)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#practical-freelancer-guide-for-software-developers-starting-from-scratch",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsxs(n.h2,{id:"1-mindset--skill-preparation",children:["1. Mindset & Skill Preparation",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#1-mindset--skill-preparation",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"11-minimum-technical-skills",children:["1.1 Minimum Technical Skills",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#11-minimum-technical-skills",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
@@ -19,7 +19,6 @@ import{u as s,j as e}from"./index-BErKG5-T.js";const t={title:"Practical Freelan
 `,e.jsxs(n.li,{children:["Ability to ",e.jsx(n.strong,{children:"ask clarifying questions"})," and understand vague requirements."]}),`
 `,e.jsx(n.li,{children:"Self-discipline and time management (especially with multiple clients)."}),`
 `]}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"2-setting-up-your-freelancer-profile",children:["2. Setting Up Your Freelancer Profile",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#2-setting-up-your-freelancer-profile",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"21-choose-your-platform",children:["2.1 Choose Your Platform",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#21-choose-your-platform",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
@@ -38,7 +37,6 @@ import{u as s,j as e}from"./index-BErKG5-T.js";const t={title:"Practical Freelan
 `,e.jsxs(n.blockquote,{children:[`
 `,e.jsxs(n.p,{children:["💡 Highlight your strengths, such as ",e.jsx(n.strong,{children:'"I’m strong in debugging, fast delivery, and clear communication."'})]}),`
 `]}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"3-how-to-get-first-jobs",children:["3. How to Get First Jobs",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#3-how-to-get-first-jobs",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"31-apply-to-simple-tasks",children:["3.1 Apply to Simple Tasks",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#31-apply-to-simple-tasks",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
@@ -97,7 +95,6 @@ Learning Udemy, YouTube, buildspace.so`}),`
 `,e.jsx(n.p,{children:`Final Notes
 Starting out is hard — low visibility, few replies, and possibly unpaid time learning how to "sell" yourself. But if you stay consistent, focus on value, and treat every project seriously, you’ll build momentum.`}),`
 `,e.jsx(n.p,{children:'💬 "You don’t need 100 clients — you just need 3–5 that love working with you."'}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h3,{id:"-you-can-now",children:["✅ You can now:",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-you-can-now",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
 `,e.jsx(n.li,{children:"Use this file as RAG content (LangChain + vector store)."}),`

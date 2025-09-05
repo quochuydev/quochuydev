@@ -1,6 +1,5 @@
-import{u as a,j as e}from"./index-BErKG5-T.js";const s={title:"✅ Freelancer Task Checklist (Upwork / Remote Client)",description:"undefined"};function t(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",hr:"hr",li:"li",p:"p",pre:"pre",span:"span",ul:"ul",...a(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-freelancer-task-checklist-upwork--remote-client",children:["✅ Freelancer Task Checklist (Upwork / Remote Client)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-freelancer-task-checklist-upwork--remote-client",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as a,j as e}from"./index-C4dL6IWc.js";const s={title:"✅ Freelancer Task Checklist (Upwork / Remote Client)",description:"undefined"};function t(i){const n={a:"a",blockquote:"blockquote",code:"code",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",li:"li",p:"p",pre:"pre",span:"span",ul:"ul",...a(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-freelancer-task-checklist-upwork--remote-client",children:["✅ Freelancer Task Checklist (Upwork / Remote Client)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-freelancer-task-checklist-upwork--remote-client",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsx(n.p,{children:e.jsx(n.em,{children:"A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally."})}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-1-before-accepting-the-task",children:["🟢 1. Before Accepting the Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-1-before-accepting-the-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"-read-the-full-job-description-carefully",children:["🔲 Read the full job description carefully",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-read-the-full-job-description-carefully",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.blockquote,{children:[`
@@ -31,7 +30,6 @@ import{u as a,j as e}from"./index-BErKG5-T.js";const s={title:"✅ Freelancer Ta
 `,e.jsx(n.li,{children:"Communication channel (Upwork, Slack, email)"}),`
 `,e.jsx(n.li,{children:"Payment (fixed/hourly, upfront, milestones)"}),`
 `]}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-2-task-setup--preparation",children:["🧰 2. Task Setup & Preparation",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-2-task-setup--preparation",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"-create-a-local-folder-or-git-repo-for-the-task",children:["🔲 Create a local folder or Git repo for the task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-create-a-local-folder-or-git-repo-for-the-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.blockquote,{children:[`
@@ -44,7 +42,6 @@ import{u as a,j as e}from"./index-BErKG5-T.js";const s={title:"✅ Freelancer Ta
 `,e.jsx(n.p,{children:"Clone boilerplate, prepare Postman, Docker, etc."}),`
 `]}),`
 `,e.jsxs(n.h3,{id:"-confirm-timezone-dailyweekly-update-schedule",children:["🔲 Confirm timezone, daily/weekly update schedule",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-confirm-timezone-dailyweekly-update-schedule",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"️-3-while-working-on-the-task",children:["🛠️ 3. While Working on the Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#️-3-while-working-on-the-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"-use-version-control-git",children:["🔲 Use version control (Git)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-use-version-control-git",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
@@ -61,7 +58,6 @@ import{u as a,j as e}from"./index-BErKG5-T.js";const s={title:"✅ Freelancer Ta
 `,e.jsx(n.li,{children:"Naming, comments, structure"}),`
 `]}),`
 `,e.jsxs(n.h3,{id:"-write-basic-test-cases-unitintegration-if-needed",children:["🔲 Write basic test cases (unit/integration if needed)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-write-basic-test-cases-unitintegration-if-needed",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsx(n.hr,{}),`
 `,e.jsxs(n.h2,{id:"-4-delivering-the-task",children:["📤 4. Delivering the Task",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-4-delivering-the-task",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.h3,{id:"-prepare-a-final-summary-to-send-to-client",children:["🔲 Prepare a final summary (to send to client)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-prepare-a-final-summary-to-send-to-client",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"✅ Task Summary:"})}),`
@@ -93,16 +89,4 @@ Use for testimonials in portfolio`}),`
 `,e.jsx(n.li,{children:"Any part worth writing a blog or tweet about?"}),`
 `]}),`
 `,e.jsx(n.p,{children:`💬 "Freelancing = delivery + communication + consistency."
-This checklist helps you avoid common beginner mistakes and shows professionalism even if you’re new.`}),`
-`,e.jsx(n.hr,{}),`
-`,e.jsxs(n.h3,{id:"-gợi-ý-sử-dụng",children:["✅ Gợi ý sử dụng:",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-gợi-ý-sử-dụng",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"Bạn có thể in ra, pin lên Notion, hoặc tạo 1 project template dùng mỗi lần có task."}),`
-`,e.jsx(n.li,{children:'Dùng nó làm "working standard" khi làm việc với khách hàng trên Upwork hay ngoài Upwork.'}),`
-`,e.jsxs(n.li,{children:["Nếu dùng LangChain RAG, bạn có thể hỏi bot:",`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"“What should I check before accepting a task?”"}),`
-`,e.jsx(n.li,{children:"“How do I write a summary when submitting work?”"}),`
-`]}),`
-`]}),`
-`]})]})}function d(i={}){const{wrapper:n}={...a(),...i.components};return n?e.jsx(n,{...i,children:e.jsx(t,{...i})}):t(i)}export{d as default,s as frontmatter};
+This checklist helps you avoid common beginner mistakes and shows professionalism even if you’re new.`})]})}function d(i={}){const{wrapper:n}={...a(),...i.components};return n?e.jsx(n,{...i,children:e.jsx(t,{...i})}):t(i)}export{d as default,s as frontmatter};

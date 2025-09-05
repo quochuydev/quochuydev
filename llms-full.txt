@@ -286,8 +286,6 @@ Don’t be too formal — be human.
 * Ability to **ask clarifying questions** and understand vague requirements.
 * Self-discipline and time management (especially with multiple clients).
 
-***
-
 ### 2. Setting Up Your Freelancer Profile
 
 #### 2.1 Choose Your Platform
@@ -305,8 +303,6 @@ Don’t be too formal — be human.
 * Skill tags and rates: Start slightly below market rate if you're new (e.g., $15–$25/hr).
 
 > 💡 Highlight your strengths, such as **"I’m strong in debugging, fast delivery, and clear communication."**
-
-***
 
 ### 3. How to Get First Jobs
 
@@ -396,8 +392,6 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 
 💬 "You don’t need 100 clients — you just need 3–5 that love working with you."
 
-***
-
 #### ✅ You can now:
 
 * Use this file as RAG content (LangChain + vector store).
@@ -410,8 +404,6 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 ## ✅ Freelancer Task Checklist (Upwork / Remote Client)
 
 *A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally.*
-
-***
 
 ### 🟢 1. Before Accepting the Task
 
@@ -442,8 +434,6 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 * Communication channel (Upwork, Slack, email)
 * Payment (fixed/hourly, upfront, milestones)
 
-***
-
 ### 🧰 2. Task Setup & Preparation
 
 #### 🔲 Create a local folder or Git repo for the task
@@ -459,8 +449,6 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 > Clone boilerplate, prepare Postman, Docker, etc.
 
 #### 🔲 Confirm timezone, daily/weekly update schedule
-
-***
 
 ### 🛠️ 3. While Working on the Task
 
@@ -481,8 +469,6 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 * Naming, comments, structure
 
 #### 🔲 Write basic test cases (unit/integration if needed)
-
-***
 
 ### 📤 4. Delivering the Task
 
@@ -522,16 +508,6 @@ Use for testimonials in portfolio
 
 💬 "Freelancing = delivery + communication + consistency."
 This checklist helps you avoid common beginner mistakes and shows professionalism even if you’re new.
-
-***
-
-#### ✅ Gợi ý sử dụng:
-
-* Bạn có thể in ra, pin lên Notion, hoặc tạo 1 project template dùng mỗi lần có task.
-* Dùng nó làm "working standard" khi làm việc với khách hàng trên Upwork hay ngoài Upwork.
-* Nếu dùng LangChain RAG, bạn có thể hỏi bot:
-  * “What should I check before accepting a task?”
-  * “How do I write a summary when submitting work?”
 
 
 ## Multi-OIDC Session Management  Application
@@ -701,8 +677,6 @@ Got it 👍 Since you can’t render Mermaid, here’s your flowchart rewritten 
 
 Use these as templates when applying to jobs — always **customize to fit the client’s need**, keep it short (100–200 words), and always show that you understand the task.
 
-***
-
 ### 🧾 1. API Integration Task
 
 > **Client Job**: “Need someone to integrate Stripe into my Node.js backend”
@@ -722,8 +696,6 @@ Thanks,
 [Your Name]
 ```
 
-***
-
 ### 🧾 2. Bug Fix / Debugging Task
 
 > **Client Job**: “Need help fixing a CORS error on my Express app”
@@ -740,8 +712,6 @@ Happy to help and explain the root cause so it won’t happen again.
 Best,
 [Your Name]
 ```
-
-***
 
 ### 🧾 3. Long-Term Backend Support
 
@@ -762,8 +732,6 @@ Best regards,
 [Your Name]
 ```
 
-***
-
 ### 🧾 4. Fast One-Off Script
 
 > **Client Job**: “Need a script to scrape data and send email report”
@@ -781,8 +749,6 @@ Cheers,
 [Your Name]
 ```
 
-***
-
 #### ✅ Tips to Improve Your Proposals
 
 * Open with proof you understand the problem.
@@ -792,8 +758,6 @@ Cheers,
 * Keep it human, short, and respectful.
 
 🧠 “Clients don’t hire resumes. They hire people who make them feel confident and understood.”
-
-***
 
 #### 🛠 Bạn có thể làm gì tiếp theo?
 
