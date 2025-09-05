@@ -4,8 +4,8 @@
 
 - [Commands](/ai-prompts)
 - [AI Website Builder](/ai-website-builder): Keep the template ready as a snippet or form in Notion/Obsidian.
-- [💬 Client Communication Guide for Freelancers](/client-communication-guide): Communicate with clarity. Be professional. Keep things simple.
-- [Practical Freelancer Guide for Software Developers (Starting from Scratch)](/freelance-guide): Solid foundation in **one backend language** (e.g., Node.js, Python, Go).
+- [💬 Freelancer Client Communication Guide](/freelance-communication): Always **confirm understanding**
+- [Freelance Guide](/freelance-guide): Solid foundation in **one backend language** (e.g., Node.js, Python, Go).
 - [✅ Freelancer Task Checklist (Upwork / Remote Client)](/freelance-task-checklist): *A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally.*
 - [Multi-OIDC Session Management  Application](/multiple-oidc-session-management): Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently.
 - [Node.js x AWS x Github Action](/nodejs-aws-github-cicd): Application and OS Images:

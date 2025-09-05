@@ -143,23 +143,17 @@ You can also include sections like “Preferred CMS integration” or “E-comme
 Loading...
 
 
-## 💬 Client Communication Guide for Freelancers
+## 💬 Freelancer Client Communication Guide
 
-> Communicate with clarity. Be professional. Keep things simple.
+#### 📌 1. General Principles
 
-***
+* Always **confirm understanding**
+* Keep messages short but informative
+* Use bullet points when sharing updates
+* Use the client’s tone (formal/informal, emojis if they use them)
+* Over communicate at the start, under communicate later
 
-### 📌 1. General Principles
-
-* ✅ Always **confirm understanding** ("Just to clarify, you mean...")
-* ✅ Keep messages short but informative
-* ✅ Use bullet points when sharing updates
-* ✅ Use the client’s tone (formal/informal, emojis if they use them)
-* ✅ Overcommunicate at the start, undercommunicate later
-
-***
-
-### 📥 2. When You Receive a New Task
+#### 📥 2. When You Receive a New Task
 
 > 🔹 Your goal: Clarify scope, avoid assumptions
 
@@ -174,8 +168,9 @@ Just to confirm, here’s what I understand:
 Please let me know if I missed anything. Once confirmed, I’ll start right away.
 ```
 
-⚒️ 3. While Working On The Task
-🔹 Your goal: Keep the client in the loop
+#### ⚒️ 3. While Working On The Task
+
+> 🔹 Your goal: Keep the client in the loop
 
 🔁 Regular Update Template:
 
@@ -191,8 +186,9 @@ Let me know if you want me to adjust anything!
 📷 Screenshot + GitHub Link:
 Include these to build trust even when things are in progress.
 
-📤 4. When You Deliver the Task
-🔹 Your goal: Make it easy to review and approve
+### 📤 4. When You Deliver the Task
+
+> 🔹 Your goal: Make it easy to review and approve
 
 ````txt
 Hey [Client Name],
@@ -214,7 +210,7 @@ Just checking in to see if everything looks good with the last delivery.
 Let me know if you need tweaks — happy to help!
 `````
 
-✍️ 5. Requesting Feedback (After Completion)
+#### ✍️ 5. Requesting Feedback (After Completion)
 
 ````txt
 Glad we wrapped that up!
@@ -222,9 +218,11 @@ Glad we wrapped that up!
 If you’re happy with the work, I’d really appreciate a short review on Upwork.
 It helps me a lot as I grow my freelance profile. 🙏
 
-Also feel free to ping me anytime you need backend/API help!
-🚫 6. If There's a Problem
-🔹 Always own it, never blame, give solutions
+Also feel free to ping me anytime you need backend/API help!s
+
+### 🚫 6. If There's a Problem
+
+> 🔹 Always own it, never blame, give solutions
 
 ```txt
 Hi [Client Name],
@@ -235,7 +233,7 @@ New ETA is [date], and I’ll update you again by [time].
 Thanks for your patience — I’ll make sure the final result is solid.
 ````
 
-💡 7. Communication Tools & Etiquette
+#### 💡 7. Communication Tools & Etiquette
 
 | Tool       | Rule                                                        |
 | ---------- | ----------------------------------------------------------- |
@@ -255,16 +253,8 @@ Don’t be too formal — be human.
 
 💬 "Good code is great. Good communication makes you irreplaceable."
 
-***
 
-#### 🛠 Bạn nên dùng thế nào?
-
-* Paste nội dung vào Notion hoặc VSCode snippets.
-* Dùng mỗi khi làm task Upwork hoặc remote project nhỏ.
-* Luyện viết theo cấu trúc này mỗi ngày để tạo phản xạ chuyên nghiệp.
-
-
-## Practical Freelancer Guide for Software Developers (Starting from Scratch)
+## Freelance Guide
 
 ### 1. Mindset & Skill Preparation
 
@@ -854,36 +844,6 @@ A Work Breakdown Structure is a hierarchical decomposition of the total scope of
 
 The WBS must include 100% of the work defined by the project scope and capture all deliverables – internal, external, and interim – in terms of the work to be completed, including project management.
 
-#### Hierarchical Levels
-
-1. **Level 1**: Project Title/Final Deliverable
-2. **Level 2**: Major Deliverables or Phases
-3. **Level 3**: Sub-deliverables
-4. **Level 4+**: Work Packages (lowest level)
-
-### WBS Creation Process
-
-#### Step 1: Define Project Scope
-
-Start with a clear understanding of project objectives, deliverables, and constraints.
-
-#### Step 2: Identify Major Deliverables
-
-Break down the project into major components or phases.
-
-#### Step 3: Decompose Deliverables
-
-Continue breaking down each major deliverable into smaller, manageable components.
-
-#### Step 4: Create Work Packages
-
-Define the lowest level of work that can be:
-
-* Estimated (time and cost)
-* Scheduled
-* Monitored
-* Assigned to a responsible party
-
 ### WBS Management Sheet
 
 A well-structured WBS sheet should include the following elements:
@@ -892,139 +852,29 @@ A well-structured WBS sheet should include the following elements:
 
 The WBS sheet above demonstrates a practical approach to organizing project work with:
 
-* **WBS ID**: Unique identifier for each work package
-* **Task Description**: Clear description of the work to be performed
-* **Deliverables**: Expected outcomes for each task
-* **Dependencies**: Relationships between tasks
-* **Assigned Resources**: Team members responsible for each work package
-* **Priority Level**: Task priority for resource allocation
-
-#### Key Components of the WBS Sheet:
-
-1. **Hierarchical Numbering**: Each element has a unique WBS code (1.1, 1.2, 1.1.1, etc.)
-2. **Task Names**: Descriptive names for each work component
-3. **Work Package Details**: Specific activities that need to be completed
-4. **Responsibility Assignment**: Clear ownership for each task
-5. **Deliverable Specifications**: Expected outputs and quality criteria
-
-### Estimation and Time Management
-
-Accurate estimation is crucial for successful project delivery. The estimation process should be integrated with your WBS structure.
-
-![Estimation Sheet](/wbs-management/est-sheet.png)
-
-The estimation sheet complements the WBS by providing:
-
-* **Time Estimates**: Duration for each work package
-* **Resource Requirements**: Human resources needed
-* **Cost Calculations**: Budget allocation for each component
-* **Risk Factors**: Contingency planning for uncertainties
-* **Dependencies Mapping**: Critical path identification
-
-#### Estimation Techniques:
-
-1. **Expert Judgment**: Leveraging experience from similar projects
-2. **Analogous Estimation**: Using historical data from comparable projects
-3. **Parametric Estimation**: Using statistical relationships between variables
-4. **Three-Point Estimation**: Considering optimistic, pessimistic, and most likely scenarios
-5. **Bottom-Up Estimation**: Aggregating estimates from work package level
+* **Category**:
+* **Feature ID**:
+* **Feature**:
+* **Task ID**:
+* **Task**:
+* **Subtask ID**:
+* **Subtask**:
+* **Description**:
+* **Effort Estimation (Hours)**:
+* **Assignee**:
+* **Start Date**:
+* **End Date**:
+* **Status**: Backlog, Ready, In Progress, Testing, Done, Closed
+* **Priority**: Critical, High, Medium, Low
+* **Notes**:
 
 ### Best Practices for WBS Management
 
-#### 1. Keep It Simple and Clear
-
-* Use clear, concise language
-* Avoid technical jargon when possible
-* Ensure understanding across all stakeholders
-
-#### 2. Focus on Deliverables
-
-* Structure around deliverables, not activities
-* Each element should represent a tangible outcome
-* Avoid mixing deliverables with activities
-
-#### 3. Maintain Appropriate Level of Detail
-
-* Don't over-decompose (too granular)
-* Don't under-decompose (too high-level)
-* Aim for work packages of 8-80 hours duration
-
-#### 4. Ensure Completeness
-
-* Include all project work
-* Account for project management activities
-* Consider integration and testing phases
-
-#### 5. Regular Updates and Reviews
-
-* Review WBS regularly as project evolves
-* Update based on change requests
-* Maintain version control
-
-### WBS Templates and Tools
-
-#### Common WBS Formats:
-
-1. **Hierarchical/Tree Structure**: Traditional org-chart style
-2. **Tabular Format**: Spreadsheet-based approach
-3. **Mind Map**: Visual, creative representation
-
-#### Recommended Tools:
-
-* **Microsoft Project**: Professional project management
-* **Excel/Google Sheets**: Simple, accessible option
-* **Lucidchart**: Visual diagramming
-* **Smartsheet**: Collaborative project management
-* **Notion**: All-in-one workspace
-* **Jira**: Agile project management
-
-### Integration with Project Management Methodologies
-
-#### Traditional/Waterfall Projects
-
-* WBS aligns with sequential phases
-* Clear deliverables at each stage
-* Detailed upfront planning
-
-#### Agile Projects
-
-* Epic/Feature breakdown structure
-* User story decomposition
-* Sprint planning integration
-* Continuous refinement
-
-#### Hybrid Approaches
-
-* Combination of detailed planning and iterative delivery
-* Phased WBS development
-* Adaptive planning techniques
-
-### Common Pitfalls and How to Avoid Them
-
-#### 1. Over-Decomposition
-
-**Problem**: Breaking down work into unnecessarily small pieces
-**Solution**: Use the 8-80 hour rule for work packages
-
-#### 2. Activity-Based WBS
-
-**Problem**: Focusing on activities instead of deliverables
-**Solution**: Structure around "what" will be delivered, not "how"
-
-#### 3. Incomplete Scope Coverage
-
-**Problem**: Missing work components
-**Solution**: Use structured review process and stakeholder validation
-
-#### 4. Poor Naming Conventions
-
-**Problem**: Unclear or inconsistent naming
-**Solution**: Establish and follow naming standards
-
-#### 5. Static WBS
-
-**Problem**: Not updating WBS as project evolves
-**Solution**: Regular reviews and version control
+* Keep It Simple and Clear
+* Focus on Deliverables
+* Maintain Appropriate Level of Detail
+* Ensure Completeness
+* Regular Updates and Reviews
 
 ### Measuring WBS Effectiveness
 
@@ -1035,26 +885,6 @@ The estimation sheet complements the WBS by providing:
 3. **Change Request Frequency**: Number of scope changes required
 4. **Stakeholder Understanding**: Survey results on WBS clarity
 5. **Project Success Rate**: Correlation with project success metrics
-
-### Advanced WBS Techniques
-
-#### 1. Rolling Wave Planning
-
-* Detailed planning for near-term work
-* High-level planning for future phases
-* Progressive elaboration as more information becomes available
-
-#### 2. WBS Dictionary
-
-* Detailed descriptions for each WBS element
-* Acceptance criteria and quality standards
-* Resource requirements and assumptions
-
-#### 3. Integrated Change Control
-
-* Formal process for WBS updates
-* Impact assessment procedures
-* Stakeholder approval workflows
 
 ### Case Study: Software Development Project
 
