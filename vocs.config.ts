@@ -13,20 +13,24 @@ export default defineConfig({
       link: "/work-experience",
     },
     {
+      text: "AI Prompts",
+      link: "/ai-prompts",
+    },
+    {
+      text: "AI Website Builder",
+      link: "/ai-website-builder",
+    },
+    {
       text: "Woocommerce with resend.com",
       link: "/woocommerce-with-resend",
     },
     {
-      text: "Woocommerce Nganluong Gateway Plugin",
+      text: "Nganluong Gateway Plugin",
       link: "/woocommerce-nganluong-gateway",
     },
     {
       text: "Woocommerce Marketplace",
       link: "/woocommerce-marketplace",
-    },
-    {
-      text: "Node.js x AWS x Github Action",
-      link: "/nodejs-aws-github-cicd",
     },
     {
       text: "Multi OIDC Session Management",
@@ -37,44 +41,40 @@ export default defineConfig({
       link: "/zitadel-lemonldap-integration",
     },
     {
-      text: "Prompts",
-      link: "/prompts",
+      text: "Node.js x AWS x Github Action",
+      link: "/nodejs-aws-github-cicd",
     },
-    {
-      text: "AWS Machine Learning",
-      link: "/aws-machine-learning",
-    },
-    {
-      text: "PayPal and Stripe transaction",
-      link: "/paypal-stripe-transaction",
-    },
+    // {
+    //   text: "AWS Machine Learning",
+    //   link: "/aws-machine-learning",
+    // },
+    // {
+    //   text: "PayPal and Stripe transaction",
+    //   link: "/paypal-stripe-transaction",
+    // },
     {
       text: "WBS Management",
       link: "/wbs-management",
     },
     {
-      text: "Freelancer guide",
-      link: "/freelancer-guide",
+      text: "Freelance guide",
+      link: "/freelance-guide",
     },
     {
-      text: "Solution template",
+      text: "Freelance communication",
+      link: "/freelance-communication",
+    },
+    {
+      text: "Freelance task checklist",
+      link: "/freelance-task-checklist",
+    },
+    {
+      text: "Freelance solution template",
       link: "/solution-template",
     },
     {
-      text: "Proposal examples",
+      text: "Freelance proposal examples",
       link: "/proposal-examples",
-    },
-    {
-      text: "Freelancer task checklist",
-      link: "/freelancer-task-checklist",
-    },
-    {
-      text: "Client communication guide",
-      link: "/client-communication-guide",
-    },
-    {
-      text: "AI Website Builder",
-      link: "/ai-website-builder",
     },
   ],
 });

@@ -1,0 +1,460 @@
+{
+  "page": {
+    "id": "page_home_001",
+    "meta": {
+      "title": "Home — Demo Store",
+      "slug": "/",
+      "description": "Demo store homepage",
+      "locale": "en-US",
+      "published": true,
+      "version": 7,
+      "lastModified": "2025-09-05T08:23:00Z",
+      "authors": ["author_12"],
+      "seo": {
+        "title": "Demo Store — Best Templates",
+        "description": "High quality templates and themes.",
+        "ogImage": "/assets/og/home.jpg",
+        "robots": "index,follow"
+      }
+    },
+    "settings": {
+      "grid": {
+        "columns": 12,
+        "gutter": 24,
+        "maxWidth": 1400
+      },
+      "snapToGrid": true,
+      "unit": "px"
+    },
+    "styles": {
+      "theme": {
+        "colors": {
+          "primary": "#0ea5a4",
+          "secondary": "#063970",
+          "accent": "#ff6b6b",
+          "background": "#ffffff",
+          "text": "#111827"
+        },
+        "typography": {
+          "fontFamily": "Inter, system-ui, sans-serif",
+          "baseSize": 16,
+          "scale": [12, 14, 16, 18, 24, 32, 48]
+        }
+      }
+    },
+    "sections": [
+      {
+        "id": "sec_hero_001",
+        "type": "section",
+        "name": "Hero",
+        "layout": {
+          "flow": "full-width",
+          "zIndex": 10
+        },
+        "editor": {
+          "collapsible": true,
+          "locked": false
+        },
+        "style": {
+          "padding": { "desktop": "80px 0", "mobile": "40px 0" },
+          "background": {
+            "image": "/assets/hero-bg.jpg",
+            "overlay": { "color": "rgba(6,57,112,0.5)" }
+          }
+        },
+        "components": [
+          {
+            "id": "comp_hero_container_1",
+            "type": "container",
+            "name": "HeroContainer",
+            "props": {
+              "maxWidth": 1200,
+              "align": "center"
+            },
+            "style": {
+              "display": "flex",
+              "flexDirection": "column",
+              "alignItems": "center",
+              "gap": 20
+            },
+            "components": [
+              {
+                "id": "comp_hero_title_1",
+                "type": "text",
+                "name": "HeroTitle",
+                "props": {
+                  "text": {
+                    "en-US": "Welcome to Demo Store",
+                    "de-DE": "Willkommen im Demo Store"
+                  },
+                  "tag": "h1"
+                },
+                "style": {
+                  "typography": {
+                    "fontSize": { "desktop": 48, "tablet": 36, "mobile": 28 },
+                    "fontWeight": 700,
+                    "lineHeight": 1.05,
+                    "color": "{{theme.colors.background}}"
+                  },
+                  "textAlign": "center"
+                },
+                "editor": {
+                  "selectable": true,
+                  "resizable": false
+                }
+              },
+              {
+                "id": "comp_hero_sub_1",
+                "type": "text",
+                "name": "HeroSubtitle",
+                "props": {
+                  "text": {
+                    "en-US": "High-quality templates to power your site.",
+                    "de-DE": "Hochwertige Vorlagen für Ihre Website."
+                  },
+                  "tag": "p"
+                },
+                "style": {
+                  "typography": {
+                    "fontSize": { "desktop": 18, "mobile": 16 },
+                    "color": "#f3f4f6"
+                  },
+                  "maxWidth": 800,
+                  "textAlign": "center"
+                },
+                "editor": {
+                  "resizable": true,
+                  "minWidth": 240,
+                  "maxWidth": 1000
+                }
+              },
+              {
+                "id": "comp_hero_cta_1",
+                "type": "button",
+                "name": "HeroCTA",
+                "props": {
+                  "label": {
+                    "en-US": "Shop Templates",
+                    "de-DE": "Vorlagen Shop"
+                  },
+                  "variant": "primary",
+                  "action": { "type": "navigate", "payload": "/shop" }
+                },
+                "style": {
+                  "padding": "12px 28px",
+                  "borderRadius": 8
+                },
+                "editor": {
+                  "resizable": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "sec_featured_001",
+        "type": "section",
+        "name": "FeaturedProducts",
+        "layout": { "flow": "contained" },
+        "style": { "padding": "48px 0", "background": "#fff" },
+        "components": [
+          {
+            "id": "comp_section_header_1",
+            "type": "header",
+            "name": "SectionHeader",
+            "props": {
+              "title": "Featured Products",
+              "subtitle": "Hand-picked for you"
+            },
+            "style": { "textAlign": "left", "marginBottom": 24 },
+            "editor": { "resizable": false }
+          },
+          {
+            "id": "comp_products_grid_1",
+            "type": "product-grid",
+            "name": "ProductGrid",
+            "props": {
+              "limit": 8,
+              "columns": 4,
+              "layout": "card",
+              "showPrice": true,
+              "showAddToCart": true
+            },
+            "dataBinding": {
+              "type": "rest",
+              "endpoint": "/api/products?featured=true&limit={{props.limit}}",
+              "method": "GET",
+              "cache": 60
+            },
+            "style": {
+              "gap": 20
+            },
+            "editor": {
+              "resizable": true,
+              "minWidth": 320,
+              "maxWidth": 1200,
+              "gridConstraints": { "colSpan": [1, 12] }
+            },
+            "components": [
+              {
+                "id": "comp_product_item",
+                "type": "product-item",
+                "name": "ProductItemTemplate",
+                "repeatBinding": "{{data.items}}",
+                "props": {
+                  "titleField": "title",
+                  "imageField": "images[0]",
+                  "priceField": "price",
+                  "skuField": "sku"
+                },
+                "style": {
+                  "card": {
+                    "padding": 16,
+                    "borderRadius": 10,
+                    "boxShadow": "0 6px 18px rgba(0,0,0,0.06)"
+                  }
+                },
+                "components": [
+                  {
+                    "id": "comp_prod_img",
+                    "type": "image",
+                    "name": "ProductImage",
+                    "props": {
+                      "src": "{{item.images[0]}}",
+                      "alt": "{{item.title}}"
+                    },
+                    "style": {
+                      "height": 180,
+                      "objectFit": "cover",
+                      "borderRadius": 8
+                    },
+                    "editor": { "resizable": true, "aspectRatio": "16/9" }
+                  },
+                  {
+                    "id": "comp_prod_title",
+                    "type": "text",
+                    "name": "ProductTitle",
+                    "props": { "text": "{{item.title}}", "tag": "h3" },
+                    "style": {
+                      "marginTop": 12,
+                      "fontSize": 16,
+                      "fontWeight": 600
+                    }
+                  },
+                  {
+                    "id": "comp_prod_price",
+                    "type": "text",
+                    "name": "ProductPrice",
+                    "props": {
+                      "text": "{{formatCurrency(item.price, 'USD')}}",
+                      "dataType": "price"
+                    },
+                    "style": {
+                      "marginTop": 8,
+                      "fontSize": 14,
+                      "color": "#0ea5a4"
+                    }
+                  },
+                  {
+                    "id": "comp_prod_btn",
+                    "type": "button",
+                    "name": "AddToCart",
+                    "props": {
+                      "label": "Add to Cart",
+                      "action": {
+                        "type": "addToCart",
+                        "payload": { "sku": "{{item.sku}}", "quantity": 1 }
+                      }
+                    },
+                    "style": { "marginTop": 12 },
+                    "editor": { "resizable": false }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "sec_builder_flex_001",
+        "type": "section",
+        "name": "FlexibleRow",
+        "layout": { "flow": "contained" },
+        "style": { "padding": "36px 0", "background": "#f8fafc" },
+        "components": [
+          {
+            "id": "comp_row_1",
+            "type": "row",
+            "name": "TwoColumnRow",
+            "props": { "columns": 2 },
+            "style": {
+              "display": "grid",
+              "gridTemplateColumns": "1fr 1fr",
+              "gap": 24
+            },
+            "editor": { "resizable": true, "snap": true },
+            "components": [
+              {
+                "id": "comp_image_block_1",
+                "type": "image",
+                "name": "ResizableImage",
+                "props": { "src": "/assets/sample-2.jpg", "alt": "Sample" },
+                "style": {
+                  "width": "100%",
+                  "height": 360,
+                  "objectFit": "cover"
+                },
+                "responsive": {
+                  "mobile": { "height": 220 }
+                },
+                "editor": {
+                  "resizable": true,
+                  "resizeHandles": ["se", "e"],
+                  "minWidth": 180,
+                  "maxWidth": 800,
+                  "minHeight": 120,
+                  "maxHeight": 1200,
+                  "snapToGrid": true
+                }
+              },
+              {
+                "id": "comp_text_block_2",
+                "type": "text",
+                "name": "RichTextBlock",
+                "props": {
+                  "text": "<p>Flexible content block. You can edit text and resize the neighboring image.</p>"
+                },
+                "style": {
+                  "padding": "12px",
+                  "background": "#fff",
+                  "borderRadius": 8
+                },
+                "editor": { "resizable": true, "minHeight": 120 }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "sec_cta_modal_001",
+        "type": "section",
+        "name": "CTA",
+        "layout": { "flow": "contained" },
+        "components": [
+          {
+            "id": "comp_cta_1",
+            "type": "cta",
+            "name": "NewsletterCTA",
+            "props": {
+              "title": "Subscribe for updates",
+              "button": {
+                "label": "Subscribe",
+                "action": {
+                  "type": "openModal",
+                  "payload": "modal_subscribe_01"
+                }
+              }
+            },
+            "style": { "padding": "36px", "textAlign": "center" }
+          }
+        ]
+      },
+
+      {
+        "id": "sec_footer_001",
+        "type": "section",
+        "name": "Footer",
+        "layout": { "flow": "full-width" },
+        "style": {
+          "padding": "40px 0",
+          "background": "#0f172a",
+          "color": "#e6eef8"
+        },
+        "components": [
+          {
+            "id": "comp_footer_cols_1",
+            "type": "footer-columns",
+            "name": "FooterColumns",
+            "props": { "columns": 4 },
+            "components": [
+              {
+                "id": "comp_ft_col_1",
+                "type": "text",
+                "name": "FooterCol1",
+                "props": {
+                  "text": "<strong>About</strong><p>Company info...</p>"
+                }
+              },
+              {
+                "id": "comp_ft_col_2",
+                "type": "links",
+                "name": "FooterLinks",
+                "props": {
+                  "items": [
+                    { "label": "Contact", "href": "/contact" },
+                    { "label": "Privacy", "href": "/privacy" }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "modals": [
+      {
+        "id": "modal_subscribe_01",
+        "type": "modal",
+        "name": "SubscribeModal",
+        "props": {
+          "title": "Subscribe to our newsletter",
+          "fields": [
+            {
+              "id": "email",
+              "type": "email",
+              "label": "Email address",
+              "required": true
+            }
+          ],
+          "submitAction": { "type": "post", "endpoint": "/api/subscribe" }
+        },
+        "editor": { "closable": true }
+      }
+    ],
+    "editorState": {
+      "selectedComponentId": null,
+      "canvasMode": "desktop",
+      "zoom": 1
+    },
+    "componentLibrary": {
+      "text": {
+        "displayName": "Text",
+        "category": "Basic",
+        "propsSchema": { "text": "string", "tag": "string" },
+        "editor": { "resizable": true, "minHeight": 24 }
+      },
+      "image": {
+        "displayName": "Image",
+        "category": "Media",
+        "propsSchema": { "src": "string", "alt": "string" },
+        "editor": { "resizable": true, "aspectRatioLock": false }
+      },
+      "button": {
+        "displayName": "Button",
+        "category": "Action",
+        "propsSchema": { "label": "string", "action": "object" },
+        "editor": { "resizable": false }
+      },
+      "product-grid": {
+        "displayName": "Product Grid",
+        "category": "Ecommerce",
+        "propsSchema": { "limit": "number", "columns": "number" },
+        "editor": { "resizable": true, "gridSpan": true }
+      }
+    }
+  }
+}

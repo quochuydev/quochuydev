@@ -2,8 +2,6 @@
 
 _A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally._
 
----
-
 ## 🟢 1. Before Accepting the Task
 
 ### 🔲 Read the full job description carefully
@@ -33,8 +31,6 @@ _A step-by-step guide for receiving, preparing, working on, and delivering freel
 - Communication channel (Upwork, Slack, email)
 - Payment (fixed/hourly, upfront, milestones)
 
----
-
 ## 🧰 2. Task Setup & Preparation
 
 ### 🔲 Create a local folder or Git repo for the task
@@ -50,8 +46,6 @@ _A step-by-step guide for receiving, preparing, working on, and delivering freel
 > Clone boilerplate, prepare Postman, Docker, etc.
 
 ### 🔲 Confirm timezone, daily/weekly update schedule
-
----
 
 ## 🛠️ 3. While Working on the Task
 
@@ -72,8 +66,6 @@ _A step-by-step guide for receiving, preparing, working on, and delivering freel
 - Naming, comments, structure
 
 ### 🔲 Write basic test cases (unit/integration if needed)
-
----
 
 ## 📤 4. Delivering the Task
 
@@ -113,13 +105,3 @@ Use for testimonials in portfolio
 
 💬 "Freelancing = delivery + communication + consistency."
 This checklist helps you avoid common beginner mistakes and shows professionalism even if you’re new.
-
----
-
-### ✅ Gợi ý sử dụng:
-
-- Bạn có thể in ra, pin lên Notion, hoặc tạo 1 project template dùng mỗi lần có task.
-- Dùng nó làm "working standard" khi làm việc với khách hàng trên Upwork hay ngoài Upwork.
-- Nếu dùng LangChain RAG, bạn có thể hỏi bot:
-  - “What should I check before accepting a task?”
-  - “How do I write a summary when submitting work?”

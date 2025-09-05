@@ -19,7 +19,6 @@ if (process.env.ENV_PATH) {
 const loader = new MultiFileLoader(
   [
     // "./example_data/movies.json",
-    "./example_data/care-providers.csv",
     "./example_data/security-key.pdf",
     "./example_data/teddy.jpeg",
   ],

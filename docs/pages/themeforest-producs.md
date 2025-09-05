@@ -1,50 +1,49 @@
-# AI Website Builder
+# ThemeForest Products
 
-You are a senior fullstack developer and UI/UX expert. Generate a complete **MULTI-PAGE** modern responsive website for the following business:
+You are a Senior Fullstack Developer and UI/UX expert.
+Generate a complete **MULTI-PAGE** modern responsive website for the following business:
 
-## Business Details:
+### Business Details:
+
 - Business Name: ANA MANDARA VILLAS DALAT RESORT & SPA
 - Type: Resort & services booking
 - Target Audience: Tourist, local members
 - Purpose of Site: Attract local members, show services and allow booking
-- Main Features Needed:
-  - Hero section with CTA
-  - Services section
-  - Testimonials
-  - Membership pricing
-  - Contact form + embedded map
 
-## APIs
+### APIs
 
 ```
-├── app
-│ ├── api
-│ │ ├── 
-│ │ ├── 
+
+├── /app
+│ ├── /api
+│ │ ├── /
+│ │ ├── /
+
 ```
 
-## Pages
+### Pages
 
 ```
 
 ```
 
-## components
+### Components
 
-### SEO
+#### SEO
 
 - Support (Optional) Google Analytics ID
 - Support (Optional) plausible.io ENV
 
-### Header
+#### Header
 
 - Left Menu
 - Logo
 - Language switcher (EN/VI)
 
-### Campaign
+#### Campaign
 
 ```
+
 GIẤC MƠ MÙA THU
 
 TỪ 4.600.000 VND/ 3N2Đ / 02 KHÁCH
@@ -56,34 +55,38 @@ TỪ 4.600.000 VND/ 3N2Đ / 02 KHÁCH
 - Miễn phí sử dụng hồ bơi nước ấm ngoài trời, Gym, và nhiều tiện ích hấp dẫn khác. (Áp dụng: 03.09.2025 – 31.10.2025)
 
 Button: ĐẶT NGAY
-```
-
-### Booking
 
 ```
+
+#### Booking
+
+```
+
 Form
-  Input: Phone number
-  Input: Name
-  Input: Number of people
-  Date Select: Check-in date
-  Date Select: Check-out date
-  Button: Book now
+Input: Phone number
+Input: Name
+Input: Number of people
+Date Select: Check-in date
+Date Select: Check-out date
+Button: Book now
+
 ```
 
-### Gallery
+#### Gallery
 
-### Contact
+#### Contact
 
-### Footer
+#### Footer
 
-## Design Preferences:
+### Design Preferences:
 
 - Style: Bold, modern, energetic
 - Colors: Black, red, and white
 - Font Preferences: Modern sans-serif, high-impact headline fonts
 - Example Sites for Inspiration: https://www.fitnesssf.com/, https://www.f45training.com/
 
-## Tech Stack:
+### Tech Stack:
+
 - Typescript
 - Next.js app router
 - Tailwind CSS
@@ -93,10 +96,15 @@ Form
 - React Query for data fetching
 - React Router for routing
 
-## Deliverables:
+### Deliverables:
+
 - Full working code (including all components/pages)
 - Clean modular code structure
 - SEO & accessibility best practices
 - /llm-full.txt
 - Responsive design for all screen sizes
 - Dummy data for images/content
+
+```
+
+```

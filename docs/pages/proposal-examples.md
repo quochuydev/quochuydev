@@ -2,8 +2,6 @@
 
 Use these as templates when applying to jobs — always **customize to fit the client’s need**, keep it short (100–200 words), and always show that you understand the task.
 
----
-
 ## 🧾 1. API Integration Task
 
 > **Client Job**: “Need someone to integrate Stripe into my Node.js backend”
@@ -23,8 +21,6 @@ Thanks,
 [Your Name]
 ```
 
----
-
 ## 🧾 2. Bug Fix / Debugging Task
 
 > **Client Job**: “Need help fixing a CORS error on my Express app”
@@ -41,8 +37,6 @@ Happy to help and explain the root cause so it won’t happen again.
 Best,
 [Your Name]
 ```
-
----
 
 ## 🧾 3. Long-Term Backend Support
 
@@ -63,8 +57,6 @@ Best regards,
 [Your Name]
 ```
 
----
-
 ## 🧾 4. Fast One-Off Script
 
 > **Client Job**: “Need a script to scrape data and send email report”
@@ -82,8 +74,6 @@ Cheers,
 [Your Name]
 ```
 
----
-
 ### ✅ Tips to Improve Your Proposals
 
 - Open with proof you understand the problem.
@@ -93,8 +83,6 @@ Cheers,
 - Keep it human, short, and respectful.
 
 🧠 “Clients don’t hire resumes. They hire people who make them feel confident and understood.”
-
----
 
 ### 🛠 Bạn có thể làm gì tiếp theo?
 
