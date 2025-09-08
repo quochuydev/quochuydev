@@ -38,7 +38,7 @@ const data = await response.json();
 ```ts
 console.log(
   "Command:CreateProduct",
-  JSON.stringify(title, description, price, stock, categoryId, images)
+  JSON.stringify({ title, description, price, stock, categoryId, images })
 );
 ```
 

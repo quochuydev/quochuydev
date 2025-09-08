@@ -21,11 +21,12 @@ app/
 ├─── orders/
 ├── web/
 ├─── products/
+├─── products/[productId]
 ├─── users/profile
 ├─── users/orders-history
 ├─── cart/
 ├─── checkout/
-├─── reviews/ #
+├─── reviews/
 ├─ auth/
 ├─ admin/
 ├── products/
