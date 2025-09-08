@@ -10,4 +10,3 @@ set -e
 curl -o ./llms/vercel.md https://vercel.com/llms.txt
 
 echo "Ingesting docs into Qdrant..."
-npx tsx ./scripts/ingest.ts
