@@ -12,6 +12,7 @@ export function createChromaService(apiKey: string | undefined) {
   // Upsert
   async function upsertDocs(
     vector: number[],
+    document: string,
     metadata: Record<string, boolean | number | string | null>
   ) {
     const pointId = uuidv4();
@@ -27,9 +28,8 @@ export function createChromaService(apiKey: string | undefined) {
       ids: [pointId],
       embeddings: [vector],
       metadatas: [metadata],
+      documents: [document],
     });
-
-    return { pointId };
   }
 
   // Search

@@ -37,7 +37,7 @@ async function learn() {
       for (let i = 0; i < chunks.length; i++) {
         const chunk = chunks[i];
         const vector = await llmService.embed(chunk);
-        await memoryService.upsertDocs(vector, { fileName });
+        await memoryService.upsertDocs(vector, chunk, { fileName });
       }
     }
   }

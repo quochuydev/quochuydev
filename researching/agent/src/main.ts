@@ -51,7 +51,7 @@ server.tool(
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
       const vector = await llmService.embed(chunk);
-      await memoryService.upsertDocs(vector, { query });
+      await memoryService.upsertDocs(vector, chunk, { query });
     }
 
     return { content };
