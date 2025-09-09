@@ -1,15 +1,14 @@
-# WEB INSTRUCTION TEMPLATE: CLIENT -> DESIGN+FRONTEND AGENT
+# WEB INSTRUCTION
 
 Metadata:
 
 - request_id: {{request_id}}
 - client_id: {{client_id}}
 - page_or_flow: {{e.g., "Create onboarding flow", "Admin dashboard - user details"}}
-- target_platforms: {{web|mobile-web|ios|android|responsive}}
+- target_platforms: {{web|mobile-web|ios|android|responsive|system|backend|some-of-these}}
 - design_system: {{company-design-system or "none"}}
 - accessibility_level: {{AA|AAA|none}}
 - localization: {{languages required}}
-- performance_budget: {{initial load ms, bundle size KB}}
 
 Client UX brief:
 
@@ -26,8 +25,8 @@ Processing steps (agent MUST follow)
 
 2. **Information architecture & flows**
 
-   - Provide sitemap or flow diagram (mermaid or indented list).
-   - For each screen, provide purpose, preconditions, postconditions, and data required.
+   - Provide flow diagram: **mermaid**
+   - For each screen, provide purpose, preconditions, post conditions, and data required.
 
 3. **Wireframe / Low-fidelity**
 
@@ -40,11 +39,18 @@ Processing steps (agent MUST follow)
 
    - Provide component list with props and behavior:
      - Example component spec:
+       ```json
        {
-       "name": "UserCard",
-       "props": {"id":"string","avatar_url":"url","name":"string","role":"string"},
-       "behavior": "onClick -> open /users/:id; keyboard focusable; aria role='button'"
+         "name": "UserCard",
+         "props": {
+           "id": "string",
+           "avatar_url": "url",
+           "name": "string",
+           "role": "string"
+         },
+         "behavior": "onClick -> open /users/:id; keyboard focusable; aria role='button'"
        }
+       ```
    - Provide layout grid breakpoints (mobile, tablet, desktop) with column counts and gutters.
    - Provide spacing scale (e.g., 4/8/16/24/32) and type scale for headings/body.
 
@@ -108,10 +114,3 @@ EXAMPLE COMPONENT SPEC (short):
   "keyboard": "Enter triggers search, Esc clears input"
 }
 ```
-
-Notes:
-
-- When asked to generate code for UI, default to React + Tailwind single-file components. Use semantic HTML and include accessible attributes.
-- Avoid embedding production secrets or direct links to production assets. Use placeholder tokens (e.g., `{{ASSET_BASE_URL}}`).
-
-End of Web Instruction Template.

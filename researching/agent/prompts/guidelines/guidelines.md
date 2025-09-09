@@ -1,4 +1,6 @@
-## Guidelines
+# Coding Guidelines
+
+## General Guidelines
 
 - Ensure output matches **Envato marketplace checklist**
 - Each time run the command for code generation:
@@ -47,3 +49,7 @@ console.log(
 ```ts
 console.log("Event:ProductCreated", JSON.stringify(productId));
 ```
+
+## Backend Guidelines `./be-guideline.md`
+
+## Frontend Guidelines `./fe-guideline.md`

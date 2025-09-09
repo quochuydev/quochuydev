@@ -1,7 +1,13 @@
 # Event Storming
 
-## 🟢 Commands
+## 🟡 Sub process
 
-## 🟠 Domain Events
+## 🔵 Command (User action)
 
-## 🔵 Aggregates
+## 🟠 Events
+
+## 🟣 Rule / Policy
+
+## 🟢 Screen / Read model
+
+## 🔴 External

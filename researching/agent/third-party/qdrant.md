@@ -4,6 +4,8 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ url, apiKey });
 
 // Upsert
+const pointId = uuidv4();
+
 await qdrant.upsert("docs", {
   points: [
     {
@@ -11,7 +13,6 @@ await qdrant.upsert("docs", {
       vector,
       payload: {
         text: chunk,
-        source: file,
       },
     },
   ],

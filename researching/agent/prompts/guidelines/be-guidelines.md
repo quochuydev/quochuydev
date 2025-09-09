@@ -1,4 +1,4 @@
-## Guidelines
+# Backend Guidelines
 
 - Always assume **Next.js App Router API** `/api/*`
 - Always integrate **Supabase Storage** for storage

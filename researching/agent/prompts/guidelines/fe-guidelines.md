@@ -1,4 +1,4 @@
-## Guidelines
+# Frontend Guidelines
 
 - Client in `./app/(web)` can only use fetch API to call API routes `./app/api/web`
 
