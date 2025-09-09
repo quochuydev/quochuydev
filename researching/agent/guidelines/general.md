@@ -2,7 +2,7 @@
 
 ## General Guidelines
 
-- Ensure output matches **Envato marketplace checklist**
+- Use `camelCase` for variable names
 - Each time run the command for code generation:
   - Review current existing code
   - Don't change too much

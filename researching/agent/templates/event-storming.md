@@ -1,13 +1,14 @@
 # Event Storming
 
-## 🟡 Sub process
+## Rules:
 
-## 🔵 Command (User action)
+- Use `camelCase` for the name
 
-## 🟠 Events
+## Types:
 
-## 🟣 Rule / Policy
-
-## 🟢 Screen / Read model
-
-## 🔴 External
+- 🟡 Sub process
+- 🔵 Command (User action)
+- 🟠 Events
+- 🟣 Rule / Policy
+- 🟢 Screen / Read model
+- 🔴 External
