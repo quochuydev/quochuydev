@@ -1,4 +1,4 @@
-Answer: **Task Summary**
+**Task Summary**
 The analysis of the Shopify Web Designer & Developer job posting focuses on identifying key requirements that candidates should meet, recognizing potential red flags in the job posting, and providing recommendations for prospective applicants.
 
 **Assumptions**

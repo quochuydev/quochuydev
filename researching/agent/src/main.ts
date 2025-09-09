@@ -16,27 +16,9 @@ const openaiService = createOpenAIService(env.OPENAI_API_KEY);
 const chromaService = createChromaService(env.CHROMA_API_KEY);
 
 const server = new McpServer({
-  name: "app-builder-knowledge-base",
+  name: "x-agent",
   version: "1.0.0",
 });
-
-server.tool(
-  "my_personal_info",
-  "Get my personal information.",
-  {},
-  async () => {
-    const content: CallToolResult["content"] = [
-      {
-        type: "text",
-        text: "My name is Quoc Huy",
-        email: "quochuy.dev@gmail.com",
-        role: "Software Engineer",
-      },
-    ];
-
-    return { content };
-  }
-);
 
 const systemPrompt = fs.readFileSync("../prompts/analyze-prompt.md", "utf-8");
 console.log(`debug:systemPrompt`, systemPrompt);
