@@ -4,13 +4,14 @@
   "description": "AWS Knowledge Base MCP Server",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx main.ts"
+    "start": "tsx main.ts",
+    "learn": "tsx learn.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@anthropic-ai/sdk": "0.61.0",
+    "@chroma-core/default-embed": "^0.1.8",
     "@llamaindex/chroma": "^0.0.34",
     "@llamaindex/openai": "^0.4.18",
     "@modelcontextprotocol/sdk": "1.17.5",

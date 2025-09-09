@@ -23,10 +23,9 @@ async function learn() {
 
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
-      const pointId = uuidv4();
 
       const vector = await llmService.embed(chunk);
-      await memoryService.upsertDocs(vector);
+      const { pointId } = await memoryService.upsertDocs(file, vector);
 
       console.log(`upsert:pointId`, pointId);
     }

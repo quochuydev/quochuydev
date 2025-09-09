@@ -28,8 +28,15 @@ server.tool(
   "Analyze the requirement.",
   { query: z.string() },
   async ({ query }) => {
-    const answer = await openaiService.generateAnswer(systemPrompt, query);
-    console.log(`Answer: ${answer}`);
+    const vector = await openaiService.embed(query);
+    const context = await chromaService.searchDocs(vector);
+
+    const answer = await openaiService.generateAnswer(
+      systemPrompt,
+      `Context:${context}\n\nQuestion: ${query}`
+    );
+
+    console.log(answer);
 
     const content: CallToolResult["content"] = [
       {
@@ -42,32 +49,6 @@ server.tool(
   }
 );
 
-// server.tool(
-//   "search_knowledge_base",
-//   "Search for documentation of infrastructure",
-//   { query: z.string() },
-//   async ({ query }) => {
-//     const vector = await openaiService.embed(query);
-//     const context = await chromaService.searchDocs(vector);
-
-//     const answer = await openaiService.generateAnswer(
-//       systemPrompt,
-//       `Context:${context}\n\nQuestion: ${query}`
-//     );
-
-//     console.log(`Answer: ${answer}`);
-
-//     const content: CallToolResult["content"] = [
-//       {
-//         type: "text",
-//         text: answer,
-//       },
-//     ];
-
-//     return { content };
-//   }
-// );
-
 const app = express();
 app.use(express.json());
 
@@ -76,16 +57,11 @@ const transports = {
   sse: {} as Record<string, SSEServerTransport>,
 };
 
-// Modern Streamable HTTP endpoint
-app.all("/mcp", async (req, res) => {
-  // Handle Streamable HTTP transport for modern clients
-  // Implementation as shown in the "With Session Management" example
-  // ...
+app.all("/mcp", async (_, res) => {
+  //
 });
 
-// Legacy SSE endpoint for older clients
-app.get("/sse", async (req, res) => {
-  // Create SSE transport for legacy clients
+app.get("/sse", async (_, res) => {
   const transport = new SSEServerTransport("/messages", res);
   transports.sse[transport.sessionId] = transport;
 
@@ -96,10 +72,10 @@ app.get("/sse", async (req, res) => {
   await server.connect(transport);
 });
 
-// Legacy message endpoint for older clients
 app.post("/messages", async (req, res) => {
   const sessionId = req.query.sessionId as string;
   const transport = transports.sse[sessionId];
+
   if (transport) {
     await transport.handlePostMessage(req, res, req.body);
   } else {

@@ -1,7 +1,3 @@
-Got it — below is a TASK-ANALYZER style deliverable, produced as a single, structured response in the format you requested. I could not access your private RAG/KBase or the local guideline files, so I state that as an assumption and provide practical schemas, representative contents, and explicit file paths you asked for so you can drop them into your repo/KB.
-
----
-
 ## 1. Tagging
 
 **Extracted keywords (Tech / Framework / Tools / Services)**
@@ -58,10 +54,24 @@ Got it — below is a TASK-ANALYZER style deliverable, produced as a single, str
 
 ## 3. Event Storming (`../templates/event-storming.md`)
 
+
+## 🟡 Sub process
+
+## 🔵 Command (User action)
+
+## 🟠 Events
+
+## 🟣 Rule / Policy
+
+## 🟢 Screen / Read model
+
+## 🔴 External
+
+
 ```markdown
 # Event Storming — Shopify Enhancements
 
-## Events
+## 🟠 Events
 
 - UserVisitedHomePage
 - SectionRendered(hero/features/testimonials)
@@ -75,7 +85,7 @@ Got it — below is a TASK-ANALYZER style deliverable, produced as a single, str
 - LighthouseAuditCompleted
 - TaskCreated / TaskCompleted
 
-## Commands
+## 🔵 Commands
 
 - render_section(section_id)
 - update_theme_asset(asset_path, content)
@@ -85,7 +95,7 @@ Got it — below is a TASK-ANALYZER style deliverable, produced as a single, str
 - create_task(title, description, assignee)
 - run_checkout_test(payment_method)
 
-## Policies
+## 🟣 Policies
 
 - Code style: follow `../guidelines/general.md` (linting, comment rules)
 - Backend secrets: DO NOT store API keys in theme assets
@@ -94,7 +104,7 @@ Got it — below is a TASK-ANALYZER style deliverable, produced as a single, str
 - Performance: Target Lighthouse >= 90 (desktop), >= 75 (mobile) as feasible
 - Checkout: Use Shopify-hosted checkout or approved gateways only
 
-## External Systems
+## 🔴 External Systems
 
 - Shopify Admin (REST/GraphQL APIs)
 - Shopify CDN for images
@@ -102,7 +112,7 @@ Got it — below is a TASK-ANALYZER style deliverable, produced as a single, str
 - Vector DB / RAG (Pinecone / Weaviate / Milvus)
 - Analytics (GA4), Monitoring (Sentry)
 
-## Sub processes
+## 🟡 Sub processes
 
 1. Access & Backup
    - Acquire collaborator access
