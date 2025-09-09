@@ -94,7 +94,16 @@ const transports = {
   sse: {} as Record<string, SSEServerTransport>,
 };
 
+// Modern Streamable HTTP endpoint
+app.all("/mcp", async (req, res) => {
+  // Handle Streamable HTTP transport for modern clients
+  // Implementation as shown in the "With Session Management" example
+  // ...
+});
+
+// Legacy SSE endpoint for older clients
 app.get("/sse", async (req, res) => {
+  // Create SSE transport for legacy clients
   const transport = new SSEServerTransport("/messages", res);
   transports.sse[transport.sessionId] = transport;
 
@@ -103,6 +112,17 @@ app.get("/sse", async (req, res) => {
   });
 
   await server.connect(transport);
+});
+
+// Legacy message endpoint for older clients
+app.post("/messages", async (req, res) => {
+  const sessionId = req.query.sessionId as string;
+  const transport = transports.sse[sessionId];
+  if (transport) {
+    await transport.handlePostMessage(req, res, req.body);
+  } else {
+    res.status(400).send("No transport found for sessionId");
+  }
 });
 
 const port = 8079;
