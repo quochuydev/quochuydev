@@ -10,35 +10,35 @@ export function createChromaService(apiKey: string | undefined) {
   const client = new CloudClient({ apiKey });
 
   // Upsert
-  async function upsertDocs(fileName: string, vector: number[]) {
+  async function upsertDocs(
+    vector: number[],
+    metadata: Record<string, boolean | number | string | null>
+  ) {
     const pointId = uuidv4();
 
     const collection = await client.getOrCreateCollection({
       name: "docs",
-      metadata: { "hnsw:space": "cosine" }, // or "l2", "ip" depending on your use case
+      metadata: {
+        "hnsw:space": "cosine",
+      },
     });
-
-    console.log(`debug:collection.metadata`, collection.metadata);
 
     await collection.add({
       ids: [pointId],
       embeddings: [vector],
-      metadatas: [
-        {
-          fileName,
-        },
-      ],
+      metadatas: [metadata],
     });
 
-    return {
-      pointId,
-    };
+    return { pointId };
   }
 
   // Search
   async function searchDocs(vector: number[], limit = 10): Promise<string> {
     const collection = await client.getOrCreateCollection({
       name: "docs",
+      metadata: {
+        "hnsw:space": "cosine",
+      },
     });
 
     const results = await collection.query({

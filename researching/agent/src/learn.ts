@@ -1,7 +1,6 @@
 import { config } from "dotenv";
 import fs from "fs";
 import path from "path";
-import { v4 as uuidv4 } from "uuid";
 import { createChromaService } from "./memory/chroma";
 import { createOpenAIService } from "./models/openai";
 import { chunkText } from "./utils";
@@ -12,22 +11,34 @@ const memoryService = createChromaService(process.env.CHROMA_API_KEY);
 const llmService = createOpenAIService(process.env.OPENAI_API_KEY);
 
 async function learn() {
-  const filesDir = path.resolve("./docs");
-  const files = fs.readdirSync(filesDir).filter((f) => f.endsWith(".md"));
+  const rootDir = path.resolve("./docs");
 
-  for (const file of files) {
-    const content = fs.readFileSync(path.join(filesDir, file), "utf-8");
-    const chunks = chunkText(content);
+  const subDirs = fs
+    .readdirSync(rootDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(rootDir, entry.name));
 
-    console.log(`debug:chunks.length`, chunks.length);
+  for (const dir of subDirs) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
 
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i];
+    const files = entries
+      .filter((entry) => entry.isFile())
+      .map((entry) => entry.name);
 
-      const vector = await llmService.embed(chunk);
-      const { pointId } = await memoryService.upsertDocs(file, vector);
+    console.log(`📂 Found ${files.length}:`, files);
 
-      console.log(`upsert:pointId`, pointId);
+    for (const fileName of files) {
+      const filePath = path.join(dir, fileName);
+      const content = fs.readFileSync(filePath, "utf-8");
+      const chunks = chunkText(content);
+
+      console.log(`Processing file: [${fileName}] chunks [${chunks.length}]`);
+
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i];
+        const vector = await llmService.embed(chunk);
+        await memoryService.upsertDocs(vector, { fileName });
+      }
     }
   }
 

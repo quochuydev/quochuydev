@@ -1,163 +1,134 @@
-**Tagging**
+1. **Tagging**
 
-- Keywords: Polymarket, login flow, web3 wallet authentication, MetaMask, WalletConnect, social login, Google, Apple, email registration, KYC verification, user onboarding, session management, compliance requirements, prediction market platform.
+   - Keywords: Polymarket, login flow, web3, wallet authentication, MetaMask, WalletConnect, social login, Google, Apple, email registration, KYC verification, user onboarding, session management, compliance requirements, prediction market platform.
 
-**Entities and Relations**
+2. **Entities and Relations**
 
-- Entities:
+   - Entities:
+     - Polymarket
+     - User
+     - Web3 Wallet (MetaMask, WalletConnect)
+     - Social Login (Google, Apple)
+     - Email
+     - KYC (Know Your Customer)
+     - Session
+     - Compliance Requirements
+   - Relations:
+     - User authenticates using Web3 Wallet
+     - User authenticates using Social Login
+     - User registers via Email
+     - User undergoes KYC verification
+     - Session is created for User
+     - Compliance requirements are satisfied for User
+   - Entities that could be used for this task:
+     - User
+     - Web3 Wallet
+     - Social Login
+     - Compliance Requirements
+   - Relations that could be used for this task:
+     - Authentication processes
+     - Registration workflows
+     - Verification processes
 
-  - Polymarket
-  - User
-  - Web3 Wallet
-  - MetaMask
-  - WalletConnect
-  - Social Login
-  - Google
-  - Apple
-  - Email Registration
-  - KYC (Know Your Customer) Verification
-  - Session Management
-  - Compliance
-  - Prediction Market Platform
+3. **Event Storming**
 
-- Relations:
+   ```markdown
+   # Event Storming for Polymarket Login Flow
 
-  - User authenticates via Web3 Wallet (MetaMask or WalletConnect)
-  - User authenticates via Social Login (Google, Apple)
-  - User can register via Email
-  - KYC verification is required for User
-  - User onboarding process after registration
-  - Session Management to maintain user state
-  - Compliance checks are necessary for platform operations
+   🟡 web3WalletAuthenticated
+   🟡 socialLoginAuthenticated
+   🟡 emailRegistered
+   🟡 kycVerified
+   🟡 userOnboarded
+   🟡 sessionManaged
+   🟡 complianceChecked
 
-- Entities that could be used for this task:
+   🔵 authenticateWithMetaMask - User logs in with MetaMask
+   🔵 authenticateWithWalletConnect - User logs in with WalletConnect
+   🔵 authenticateWithGoogle - User logs in with Google
+   🔵 authenticateWithApple - User logs in with Apple
+   🔵 registerWithEmail - User registers with email
+   🔵 completeKYC - User completes KYC verification
 
-  - User
-  - Authentication methods (Web3, Social, Email)
-  - KYC verification process
+   🟣 sessionPolicyManaged
+   🟣 kycCompliancePolicyApplied
+   🟣 loginFlowPolicyEnforced
 
-- Relations that could be used for this task:
-  - Authentication flow
-  - Onboarding flow
-  - Verification process
+   🟢 loginScreen
+   🟢 registrationScreen
+   🟢 kycVerificationScreen
+   🟢 userDashboard
 
-**Event Storming**
+   🔴 externalComplianceService
+   ```
 
-```markdown
-# Event Storming for Polymarket Login Flow
+4. **UI Prototype Prompt**
 
-🟠 Events
+   ```markdown
+   # Web UI Prototype for Polymarket Login Flow
 
-- User initiates login
-- User successfully authenticates via Web3 Wallet
-- User successfully authenticates via Social Login
-- User registers via Email
-- User completes KYC verification
-- User is onboarded into the platform
-- User session is created
+   ## Login Screen
 
-🔵 Commands
+   - Include options for:
+     - MetaMask Login
+     - WalletConnect Login
+     - Google Login
+     - Apple Login
+     - Email Registration
 
-- Authenticate with MetaMask
-- Authenticate with WalletConnect
-- Authenticate via Google
-- Authenticate via Apple
-- Register Email
-- Submit KYC information
-- Initiate User Onboarding
-- Create User Session
+   ## Registration Screen
 
-🟣 Policies
+   - Collect user email and password
+   - Include KYC verification prompt post-registration
 
-- KYC policies for user verification
-- Compliance policies for prediction market operations
+   ## KYC Verification Screen
 
-🔴 External system
+   - Display fields for KYC document upload
+   - Show existing rules for compliance
 
-- Web3 wallet service (MetaMask, WalletConnect)
-- Social login API (Google, Apple)
-- Email service for registration
-- KYC verification service
+   ## User Dashboard
 
-🟡 Sub process
+   - Overview of user's prediction market activities
+   ```
 
-- User Authentication process
-- KYC Verification process
-- Session management process
-```
+5. **Implementation Step**
 
-**UI Prototype Prompt**
+   - **Step 1: Setup Authentication Methods**
 
-```markdown
-# UI Prototype for Polymarket Login Flow
+     - Follow guidelines to integrate Web3 wallet authentication:
 
-## Main Components:
+       - For MetaMask:
 
-1. **Login Page**
+         ```javascript
+         import Web3 from "web3";
 
-   - Options for Web3 Wallet (MetaMask, WalletConnect)
-   - Social Login buttons (Google, Apple)
-   - Email Registration Form
+         const web3 = new Web3(window.ethereum);
+         window.ethereum.enable().then(() => {
+           // User is logged in using MetaMask
+         });
+         ```
 
-2. **KYC Verification Interface**
+       - For WalletConnect, utilize WalletConnect SDK.
 
-   - Submission form for identification documents
-   - Progress bar for KYC status
+   - **Step 2: Social Login Integration**
 
-3. **Onboarding Tutorial**
+     - Implement Google and Apple login using their OAuth APIs.
+     - Reference documentation for Google Sign-In and Apple Sign In for client setup.
 
-   - Step-by-step guide for new users after successful login
+   - **Step 3: Email Registration**
 
-4. **Session Management**
-   - User dashboard to manage account settings and session details
-```
+     - Create a form for email registration.
+     - Handle verification via email (sending a verification link).
 
-**Implementation Step**
+   - **Step 4: KYC Verification Process**
 
-1. **Web3 Wallet Authentication**
+     - Setup a backend service to collect and verify KYC documents from users.
+     - Ensure all document uploads comply with data protection regulations.
 
-   - Integrate MetaMask and WalletConnect SDKs into the application.
-   - Set up a connection to the user's wallet.
-   - Example code (using Web3.js):
-     ```javascript
-     if (typeof window.ethereum !== "undefined") {
-       const provider = new ethers.providers.Web3Provider(window.ethereum);
-       await provider.send("eth_requestAccounts", []);
-       const signer = provider.getSigner();
-       const address = await signer.getAddress();
-       console.log("Connected account:", address);
-     }
-     ```
+   - **Step 5: Session Management**
 
-2. **Social Login Integration**
+     - Use JWT (JSON Web Tokens) for managing user sessions.
+     - Implement middleware to check user authentication on protected routes.
 
-   - Use OAuth integrations for Google and Apple.
-   - Example for Google Sign-In:
-     ```javascript
-     function onSignIn(googleUser) {
-       const profile = googleUser.getBasicProfile();
-       console.log("ID: " + profile.getId());
-       console.log("Name: " + profile.getName());
-     }
-     ```
-
-3. **Email Registration**
-
-   - Create a registration form that captures user email and password.
-   - Store user details securely in a database with encryption.
-
-4. **KYC Verification**
-
-   - Integrate a third-party KYC service that allows document uploads.
-   - Create a submission flow in the application.
-
-5. **User Onboarding**
-
-   - Design a tutorial or walkthrough for users after login.
-
-6. **Session Management**
-
-   - Set up user sessions with JWT tokens or cookies to manage authenticated states.
-
-7. **Compliance Checks**
-   - Ensure that your KYC process adheres to local regulations and guidelines for prediction markets.
+   - **Step 6: Compliance Requirements**
+     - Ensure your implementation meets relevant compliance standards for the prediction market, such as GDPR and specific regulatory requirements in your operating regions.

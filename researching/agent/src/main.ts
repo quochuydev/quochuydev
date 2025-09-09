@@ -8,12 +8,13 @@ import fs from "fs";
 import { z } from "zod";
 import { createChromaService } from "./memory/chroma";
 import { createOpenAIService } from "./models/openai";
+import { chunkText } from "./utils";
 
 config();
 
 const env = process.env as Record<string, string>;
-const openaiService = createOpenAIService(env.OPENAI_API_KEY);
-const chromaService = createChromaService(env.CHROMA_API_KEY);
+const llmService = createOpenAIService(env.OPENAI_API_KEY);
+const memoryService = createChromaService(env.CHROMA_API_KEY);
 
 const server = new McpServer({
   name: "x-agent",
@@ -28,10 +29,10 @@ server.tool(
   "Analyze the requirement.",
   { query: z.string() },
   async ({ query }) => {
-    const vector = await openaiService.embed(query);
-    const context = await chromaService.searchDocs(vector);
+    const vector = await llmService.embed(query);
+    const context = await memoryService.searchDocs(vector);
 
-    const answer = await openaiService.generateAnswer(
+    const answer = await llmService.generateAnswer(
       systemPrompt,
       `Context:${context}\n\nQuestion: ${query}`
     );
@@ -44,6 +45,14 @@ server.tool(
         text: answer,
       },
     ];
+
+    const chunks = chunkText(answer);
+
+    for (let i = 0; i < chunks.length; i++) {
+      const chunk = chunks[i];
+      const vector = await llmService.embed(chunk);
+      await memoryService.upsertDocs(vector, { query });
+    }
 
     return { content };
   }
