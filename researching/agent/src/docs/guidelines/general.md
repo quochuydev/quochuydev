@@ -49,9 +49,3 @@ console.log(
 ```ts
 console.log("Event:ProductCreated", JSON.stringify(productId));
 ```
-
-## Backend Guidelines `./be-guideline.md`
-
-## Frontend Guidelines `./fe-guideline.md`
-
----

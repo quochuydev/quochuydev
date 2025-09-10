@@ -4,5 +4,5 @@
 **Status:** Open
 **Assignee:** developer
 **Reporter:** product owner
-**Customer:** clinic
-**Created Date:** 2025-09-15
+**Customer:** developer
+**Created Date:** 2025-09-09

@@ -31,7 +31,6 @@ type AdminCreateProductApi = {
 
 ```ts
 // API
-
 try {
   //
 } catch (err) {

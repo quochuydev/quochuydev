@@ -16,47 +16,81 @@ const env = process.env as Record<string, string>;
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 const memoryService = createChromaService(env.CHROMA_API_KEY);
 
-const server = new McpServer({
-  name: "x-agent",
-  version: "1.0.0",
-});
+const server = new McpServer({ name: "x-agent", version: "1.0.0" });
 
-const systemPrompt = fs.readFileSync("../prompts/analyze-prompt.md", "utf-8");
-console.log(`debug:systemPrompt`, systemPrompt);
+const analyzeSystemPrompt = fs.readFileSync(
+  "../prompts/analyze-prompt.md",
+  "utf-8"
+);
+console.log(`debug:analyzeSystemPrompt`, analyzeSystemPrompt);
+
+const searchSystemPrompt = fs.readFileSync(
+  "../prompts/search-prompt.md",
+  "utf-8"
+);
+console.log(`debug:searchSystemPrompt`, searchSystemPrompt);
 
 server.tool(
   "analyze_requirement",
   "Analyze the requirement.",
-  { query: z.string() },
+  {
+    query: z.string(),
+  },
   async ({ query }) => {
     const vector = await llmService.embed(query);
     const context = await memoryService.searchDocs(vector);
 
     const answer = await llmService.generateAnswer(
-      systemPrompt,
+      analyzeSystemPrompt,
       `Context:${context}\n\nQuestion: ${query}`
     );
 
     console.log(answer);
 
-    const content: CallToolResult["content"] = [
-      {
-        type: "text",
-        text: answer,
-      },
-    ];
+    const content: CallToolResult["content"] = [{ type: "text", text: answer }];
 
     const chunks = chunkText(answer);
 
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i];
-      const vector = await llmService.embed(chunk);
-      await memoryService.upsertDocs(vector, chunk, { query });
+    for (const chunk of chunks) {
+      const chunkVector = await llmService.embed(chunk);
+      await memoryService.upsertDocs(chunkVector, chunk, { query });
     }
 
     return { content };
   }
 );
+
+server.tool(
+  "search_knowledge_base",
+  "Search the knowledge base.",
+  {
+    query: z.string(),
+  },
+  async ({ query }) => searchKnowledgeBase(query)
+);
+
+async function searchKnowledgeBase(query: string) {
+  const vector = await llmService.embed(query);
+  const context = await memoryService.searchDocs(vector);
+
+  const answer = await llmService.generateAnswer(
+    searchSystemPrompt,
+    `Context:${context}\n\nQuestion: ${query}`
+  );
+
+  console.log(answer);
+
+  const content: CallToolResult["content"] = [{ type: "text", text: answer }];
+
+  const chunks = chunkText(answer);
+
+  for (const chunk of chunks) {
+    const chunkVector = await llmService.embed(chunk);
+    await memoryService.upsertDocs(chunkVector, chunk, { query });
+  }
+
+  return { content };
+}
 
 const app = express();
 app.use(express.json());
@@ -65,10 +99,6 @@ const transports = {
   streamable: {} as Record<string, StreamableHTTPServerTransport>,
   sse: {} as Record<string, SSEServerTransport>,
 };
-
-app.all("/mcp", async (_, res) => {
-  //
-});
 
 app.get("/sse", async (_, res) => {
   const transport = new SSEServerTransport("/messages", res);

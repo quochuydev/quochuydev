@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "tsx main.ts",
+    "analyze": "tsx analyze.ts",
     "learn": "tsx learn.ts"
   },
   "author": "",

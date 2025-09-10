@@ -12,3 +12,13 @@ windsurf ~/.codeium/windsurf/mcp_config.json
   }
 }
 ```
+
+
+Agent - Defines input/output template:
+
+1. Input:
+- Requirement files
+
+2. Output:
+- Web instruction: Waiting for Gary team
+- Event storming: Waiting for Core team defined (mermaid until now)
