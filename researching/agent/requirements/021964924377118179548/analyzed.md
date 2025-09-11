@@ -1,46 +1,53 @@
-### 1. Upwork Proposal Form
+### 1. UpWork proposal form
 
-- How do you want to be paid? **By milestone**
-- If by milestone: List out milestones and amount for each milestone (10% Freelancer Service Fee)
-  
-  1. **Milestone 1:** Requirements Gathering and Solution Design - **$150**
-  2. **Milestone 2:** Development of Product Generation Functionality - **$350**
-  3. **Milestone 3:** Integration with Shopify for Product Uploads - **$200**
-  4. **Milestone 4:** Testing and Deployment - **$100**
+#### Proposal Cost and Payment Structure
 
-- Cover Letter:
+- Cost for gathering and solution design is **free**.
+- Fee for updating the proposed solution is **up to 3 times**.
+- How do you want to be paid? **By milestone**.
 
-```md
-Dear Hiring Manager,
+**Milestones:**
+1. Requirement Analysis and Solution Design - **$200**
+2. App Development (initial functional version) - **$300**
+3. Testing and Deployment - **$200**
 
-I am excited about the opportunity to develop an internal Shopify app to streamline the generation of new products for your business. Your need for an automated process to create product listings from your sofa textiles is well understood, and I believe I can deliver a solution that not only meets but exceeds your expectations.
+**Total Estimate for Client Proposal (including 10% Freelancer Service Fee):** **$770**
 
-## Problem Statement
-You currently perform a manual workflow to generate product listings, which is time-consuming and inefficient. The objective is to create a Shopify app that automates the product generation process by populating necessary fields like product names, descriptions, size and color variants, and image links based on client requirements.
+#### Cover letter: 
 
-## Proposed Solution
-I propose to develop a Shopify app that will:
-1. Take user input for product details (name, description, dimensions, variants).
-2. Automate image generation that combines a client's sofa image with your new textile.
-3. Integrate seamlessly with Shopify to upload the generated products directly to your store.
-4. Provide an easy-to-use interface where operators can manage the inputs and view the generated products before finalizing.
+```markdown
+## Cover Letter
 
-## Feature List
-1. **User Input Form**: A simple form to collect details for the new product.
-2. **Image Generation**: Backend functionality to create the composite images as specified (500px x 250px).
-3. **Shopify Integration**: Direct integration with Shopify's Admin API to create product listings.
-4. **Testing and Validation**: Ensure product data is correctly uploaded to Shopify without errors.
+### Problem Statement
+The client seeks to automate the generation of new product listings in their Shopify store for sofa textiles. Currently relying on manual Excel processes for product naming, description, sizing, and image linking, they are looking to streamline this process through a Shopify app.
 
-## Next Steps and Responsibilities
-1. **Requirements Gathering**: Collaborate with your team to finalize all application details (Milestone 1).
-2. **App Development**: Build the application functionalities as defined (Milestone 2).
-3. **Integration**: Connect the app with the Shopify Admin API for product listings (Milestone 3).
-4. **Testing and Deployment**: Conduct thorough testing and assist in deployment (Milestone 4).
+### Proposed Solution
+I propose developing a custom Shopify app that integrates with the Shopify API to automate the generation of products. This app will facilitate the following key functionalities:
+1. **Product Naming:** Automatically generate product names based on defined templates.
+2. **Image Generation:** Utilize a provided image format to create a showcase of the client's textile on existing product images.
+3. **Variants Management:** Allow user input for size and color variants that will update product listings automatically.
+4. **Integration with Shopify:** Seamlessly push newly created product listings to Shopify with appropriate attributes.
 
-I am dedicated to delivering a solution that enhances your efficiency in generating product listings on Shopify. I look forward to discussing this further and starting this exciting project.
+### Feature / Task List
+- **Feature 1:** Product Naming Logic
+   - Implement naming templates within the app.
+- **Feature 2:** Image Upload and Processing
+   - Develop functionality to upload existing product images and textile images.
+   - Create dynamic image generation logic.
+- **Feature 3:** Size and Color Variants
+   - Add UI components for variant input and manage them within the product creation process.
+- **Feature 4:** Shopify API Integration
+   - Ensure that each new product listing is correctly pushed to Shopify with necessary attributes and fields.
 
-Best Regards,
-[Your Name]
+### Next Steps and Responsibilities
+1. **Requirement Gathering:** Initial consultations to finalize app specifications and features.
+2. **Development:** Begin development of app features as per milestones outlined above.
+3. **Testing:** Conduct thorough testing to ensure the app functions as intended before launching.
+4. **Deployment:** Deploy the app and provide training/support on its usage.
+
+I am confident that my experience with Shopify app development, along with a streamlined, structured approach to meeting your requirements, will lead to a successful project that meets your business goals effectively.
+
+Thank you for considering my proposal. I look forward to discussing this project further!
 ```
 
 ---
@@ -50,8 +57,8 @@ Best Regards,
 ```yaml
 Actors:
   - Name: Merchant
-    Role: User who generates products
-    Description: The person using the app to create new products.
+    Role: Owner of the product catalog
+    Description: A user who manages products within a Shopify store through the created app.
 
 Commands:
   - Name: CreateProduct
@@ -65,20 +72,22 @@ Events:
     Next: none
 
 Policies:
-  - Name: ProductCreationPolicy
-    Notes: Only allow product creation with valid data
-    Pre: ProductCreated
-    Next: none
+  - Name: ProductValidationPolicy
+    Notes: Ensures all product data adheres to Shopify's rules.
+    Pre: CreateProduct
+    Next: ProductCreated
 
 External systems:
-  - Name: ShopifyAdminAPI
+  - Name: Shopify API
     Pre: CreateProduct
     Next: ProductCreated
 
 Read models:
-  - Name: ProductCreationForm
+  - Name: ProductList
     BelongsTo: CreateProduct
 ```
+
+---
 
 ### 3. Frontend Prompt Template (Frontend Input)
 
@@ -89,28 +98,28 @@ Style:
   - UI Elements: Rounded
 
 Color Scheme:
-  - Primary: #007bff
-  - Secondary: #6c757d
-  - Neutral: #f8f9fa
-  - Accent: #28a745
-  - Background: #ffffff
-  - Text: #212529
+  - Primary: #5C6BC0
+  - Secondary: #FFAB40
+  - Neutral: #FFFFFF
+  - Accent: #FFC107
+  - Background: #F5F5F5
+  - Text: #212121
 
 Main Features:
-  - Feature: Product Input Form
-    Description: A form to capture product details such as name, description, images, and variants.
-    Components: [TextInput, ImageUploader, DropdownSelector]
+  - Feature: Product Generator
+    Description: Tool for generating and listing new products based on user-defined parameters.
+    Components: [Image Upload, Product Naming, Variant Selection]
     DataBinding: API endpoint
 
 Navigation:
-  - Type: Sidebar
-  - Structure: [Dashboard, Create Product, View Products]
+  - Type: Topbar
+  - Structure: [Home, Generate Product, View Inventory]
 
 Interactions:
   - Animations: Subtle
-  - Human-in-the-Loop Inputs: Forms
+  - Human-in-the-Loop Inputs: [Forms, Feedback]
 
 Accessibility:
   - Compliance: WCAG 2.1 AA
-  - Features: [High contrast mode, Screen reader support]
+  - Features: [Screen reader support, High contrast mode]
 ```
