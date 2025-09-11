@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { createChromaService } from "./memory/chroma";
 import { createOpenAIService } from "./models/openai";
-import { chunkText } from "./utils";
+// import { chunkText } from "./utils";
 
 config();
 
@@ -20,7 +20,6 @@ async function analyzeKnowledgeBase(query: string) {
 
   const answer = await llmService.generateAnswer(
     systemPrompt,
-    // `Question: ${query}`
     `Context:${context}\n\nQuestion: ${query}`
   );
 
@@ -38,48 +37,56 @@ async function analyzeKnowledgeBase(query: string) {
   return { content, answer };
 }
 
-const rootDir = path.resolve("../requirements");
+// const rootDir = path.resolve("../requirements");
 
-const subDirs = fs
-  .readdirSync(rootDir, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
-  .map((entry) => path.join(rootDir, entry.name));
+// const subDirs = fs
+//   .readdirSync(rootDir, { withFileTypes: true })
+//   .filter((entry) => entry.isDirectory())
+//   .map((entry) => path.join(rootDir, entry.name));
 
-for (const dir of subDirs) {
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
+// for (const dir of subDirs) {
+//   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
-  const files = entries
-    .filter((entry) => entry.isFile())
-    .map((entry) => entry.name);
+//   const files = entries
+//     .filter((entry) => entry.isFile())
+//     .map((entry) => entry.name);
 
-  console.log(`📂 Found ${files.length}:`, files);
+//   console.log(`📂 Found ${files.length}:`, files);
 
-  for (const fileName of files) {
-    if (fileName === "requirement.md") {
-      console.log(`Processing file: [${fileName}]`);
+//   for (const fileName of files) {
+//     if (fileName === "requirement.md") {
+//       console.log(`Processing file: [${fileName}]`);
 
-      const filePath = path.join(dir, fileName);
-      const requirement = fs.readFileSync(filePath, "utf-8");
+//       const filePath = path.join(dir, fileName);
+//       const requirement = fs.readFileSync(filePath, "utf-8");
 
-      // const { answer } = await analyzeKnowledgeBase(requirement);
-      // fs.writeFileSync(path.join(dir, "analysis.md"), answer);
-    }
-  }
+//       const { answer } = await analyzeKnowledgeBase(requirement);
+//       fs.writeFileSync(path.join(dir, "analyzed.md"), answer);
+//     }
+//   }
+// }
+
+const folder = process.argv[2];
+
+if (!folder) {
+  console.error("❌ Please provide the requirement folder name");
+  process.exit(1);
 }
 
-analyzeKnowledgeBase(`We need a Shopify app to help us speed up the work of generating new products.
+const requirement = fs.readFileSync(
+  path.join(`../requirements/${folder}/requirement.md`),
+  "utf-8"
+);
+console.log(`debug:requirement`, requirement);
 
-We sell sofa textiles that replaces your current textile.
-
-In order to showcase our clients our product we've find a unique way of generating pictures with the clients sofa on the top (500 px \*250 px) and the new textile on the bottom like the one attached to this description.
-
-Until now we're doing a manual job in excel in order to first name the new product, then adding product description, size variants, color variants as well as a link to the image from within Shopify.
-
-We'd like now to create a Shopify app that can do this for us!`)
+analyzeKnowledgeBase(requirement)
   .then((res) => res.answer)
   .then((answer) => {
     console.log(answer);
-    fs.writeFileSync(path.join(`./${Date.now()}.md`), answer);
+    fs.writeFileSync(
+      path.join(`../requirements/${folder}/analyzed.md`),
+      answer
+    );
   })
   .catch((err) => {
     console.error(err);
