@@ -1,81 +1,118 @@
-### 1. Solution Proposal
+### Solution Proposal
 
 #### Problem Statement
-The client seeks to streamline the process of generating new product listings for their Shopify store, specifically for sofa textiles. The current method relies on manual input in Excel, which is time-consuming. They need a Shopify app that automatically generates these product entries, including names, descriptions, size and color variants, and links to images of the product.
+
+The client requires a Shopify application to automate the tedious process of generating new product entries for sofa textiles. Currently, this task involves manually updating Excel spreadsheets and then inputting data into Shopify for each product, which is inefficient and prone to errors. Additionally, they want to streamline the image creation for products by overlaying their textiles on clients' sofas, enhancing the visualization for prospective buyers.
 
 #### Proposed Solution
-To address this need, we propose developing a Shopify app that incorporates the following features:
 
-1. **User Interface for Input:**
-   - A front-end interface where users can input required data including:
+1. **Automated Product Creation**
+   - Implement a function that generates new product entries directly in Shopify, utilizing the Shopify Admin API.
+   - The app will allow users to input key attributes such as:
      - Product name
      - Product description
      - Size variants
      - Color variants
-     - Image upload or linking
+     - Image links
 
-2. **Image Generation:**
-   - Use a library (such as Fabric.js or a similar image-processing library) to combine images (client’s sofa and new textile) and generate a final product image that meets the specified dimensions (500x250 pixels).
+2. **Image Generation**
+   - Integrate an image processing library to allow dynamic composition of images, where the clients' sofas can be layered with the new textiles. Suggested libraries include:
+     - **Canvas** (JavaScript)
+     - **Pillow** (Python)
+     - **Sharp** (Node.js)
+   - Allow users to upload or link their sofa images, which the system will overlay with the selected textile image.
 
-3. **Shopify API Integration:**
-   - Use Shopify's REST or GraphQL Admin API to create products with the provided details:
-     - Create product profiles, assign variant options (size and color), and upload images.
+3. **User Interface**
+   - Develop a user-friendly UI within Shopify using Polaris components, so users can easily interact with the app.
+   - Create a step-by-step wizard to guide users through the product creation process, ensuring they can input all necessary product information seamlessly.
 
-4. **Export and Save:**
-   - Automatic saving of generated products to the Shopify store, ensuring each entry includes appropriate metafields for future modifications.
+4. **Data Validation and Error Handling**
+   - Ensure appropriate validation for user inputs at every step (e.g., ensuring image links are valid, product names are unique).
+   - Implement comprehensive error handling to manage API requests and provide clear feedback to users.
 
-5. **Webhook Notifications:**
-   - Set up webhooks to notify users once the product generation process is complete.
+### Tech Stack
 
-#### Library/Tech Stack
-- **Backend:** Node.js + Express for the API
-- **Frontend:** React for the user interface
-- **Image Processing:** Fabric.js or HTML Canvas API
-- **Database:** MongoDB or Firestore for storing app data (if needed)
-- **Hosting:** Cloud provider (Heroku, AWS, etc.) for deploying the app
+- **Frontend**: React (Shopify Polaris for UI components)
+- **Backend**: Node.js with Express
+- **Image Processing**: Sharp (Node.js) or Canvas (if building as an embedded app)
+- **Database**: Use Shopify's existing infrastructure for storing product entries
+- **API**: Shopify Admin API for product management
 
-#### Next Steps and Responsibilities
-1. Gather detailed requirements from the client regarding the sizes and colors to be included.
-2. Design wireframes/mockups for the user interface.
-3. Develop the app with the outlined features.
-4. Conduct testing, followed by deploying the app and providing training to the client.
-5. Maintain the app with regular updates based on client feedback.
+### Next Steps and Responsibilities
 
----
+1. **Kick-off Meeting**: Schedule a meeting with the client to refine requirements, clarify any ambiguities, and finalize the scope of work.
+2. **Project Planning**: Develop a project timeline with milestones for major deliverables, including interface design, backend development, testing, and deployment.
+3. **Prototype Development**: Create an initial prototype focusing on the product creation workflow.
+4. **Image Processing Implementation**: Develop and integrate the image generation functionality.
+5. **Testing Phase**: Conduct thorough testing (unit, integration, and user acceptance testing) to ensure reliability and usability.
+6. **Deployment**: Deploy the application and provide documentation and training materials for the client.
 
-### 2. Event Storming (Backend Input)
+### Event Storming (Backend Input)
 
 ```yaml
 Actors:
-  - Name: AdminUser
+  - Name: Merchant
     Role: User
-    Description: The user that inputs product data and initiates product generation.
+    Description: User who manages and generates product data in Shopify.
 
 Commands:
   - Name: CreateProduct
-    TriggeredBy: AdminUser
-    Pre: none
+    TriggeredBy: Merchant
+    Pre: ValidateProductInput
     Next: ProductCreated
 
 Events:
   - Name: ProductCreated
     Pre: CreateProduct
-    Next: none
+    Next: ProductToInventory
 
 Policies:
-  - Name: ValidateProductData
-    Notes: Ensures that the product data provided by the user is complete and correct. 
+  - Name: ValidateInputPolicy
+    Notes: Ensures that product inputs are valid and unique.
     Pre: none
     Next: CreateProduct
 
 External systems:
-  - Name: ShopifyAdminAPI
-    Pre: ProductCreated
-    Next: none
+  - Name: ShopifyAPI
+    Pre: CreateProduct
+    Next: ProductCreated
 
 Read models:
   - Name: ProductModel
     BelongsTo: CreateProduct
 ```
 
-This structured output captures the business needs succinctly while also establishing the necessary functionalities through a visually defined event storming process.
+### Frontend Prompt Template (Frontend Input)
+
+```yaml
+Style:
+  - Theme: Corporate
+  - Typography: Sans-serif
+  - UI Elements: Rounded
+
+Color Scheme:
+  - Primary: #007bff
+  - Secondary: #6c757d
+  - Neutral: #ffffff
+  - Accent: #ffc107
+  - Background: #f8f9fa
+  - Text: #343a40
+
+Main Features:
+  - Feature: Automated Product Creation
+    Description: Streamlines the process for generating new product entries in Shopify.
+    Components: [Input Fields, Submission Button, Image Upload]
+    DataBinding: API endpoint for Shopify Admin API
+
+Navigation:
+  - Type: Topbar
+  - Structure: [Home, Create Product, View Products]
+
+Interactions:
+  - Animations: Subtle
+  - Human-in-the-Loop Inputs: [Forms, Image Uploads]
+
+Accessibility:
+  - Compliance: WCAG 2.1 AA
+  - Features: [High contrast mode, Screen reader support]
+```
