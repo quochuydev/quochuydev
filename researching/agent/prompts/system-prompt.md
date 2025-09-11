@@ -27,7 +27,6 @@ Your role is to **analyze requirements** and **translate informal ideas into pre
 
 - Problem statement
 - Propose solution (Feature / Task list)
-- Suggest Library/Tech stack/Document guide
 - Next steps and responsibilities
 
 ## Outputs

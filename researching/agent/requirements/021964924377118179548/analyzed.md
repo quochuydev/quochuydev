@@ -33,14 +33,6 @@ The client requires a Shopify application to automate the tedious process of gen
    - Ensure appropriate validation for user inputs at every step (e.g., ensuring image links are valid, product names are unique).
    - Implement comprehensive error handling to manage API requests and provide clear feedback to users.
 
-### Tech Stack
-
-- **Frontend**: React (Shopify Polaris for UI components)
-- **Backend**: Node.js with Express
-- **Image Processing**: Sharp (Node.js) or Canvas (if building as an embedded app)
-- **Database**: Use Shopify's existing infrastructure for storing product entries
-- **API**: Shopify Admin API for product management
-
 ### Next Steps and Responsibilities
 
 1. **Kick-off Meeting**: Schedule a meeting with the client to refine requirements, clarify any ambiguities, and finalize the scope of work.
