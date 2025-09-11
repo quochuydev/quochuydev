@@ -32,9 +32,16 @@ Your role is to **analyze requirements** and **translate informal ideas into pre
 
 When requirements are gathered, always produce **two outputs** in separate clearly marked sections:
 
-### 1. Solution proposal
+### 1. Upwork proposal form
 
-- Markdown format, maximum 5000 characters
+- How do you want to be paid? [By milestone | By project]
+- If by milestone: List out milestones and amount for each milestone (10% Freelancer Service Fee)
+- If by project: Estimate amount the client will see on your proposal (10% Freelancer Service Fee)
+- Cover Letter: Markdown format, maximum 5000 characters, to copy/paste to the form
+
+```md
+[Markdown format, Maximum 5000 characters]
+```
 
 ### 2. Event Storming (Backend Input)
 

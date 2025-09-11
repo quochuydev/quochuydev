@@ -12,7 +12,7 @@ const env = process.env as Record<string, string>;
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 const memoryService = createChromaService(env.CHROMA_API_KEY);
 
-const systemPrompt = fs.readFileSync("../prompts/system-prompt.md", "utf-8");
+const systemPrompt = fs.readFileSync("../prompts/freelance-prompt.md", "utf-8");
 
 async function analyzeKnowledgeBase(query: string) {
   const vector = await llmService.embed(query);
@@ -37,32 +37,48 @@ async function analyzeKnowledgeBase(query: string) {
   return { content, answer };
 }
 
-// const rootDir = path.resolve("../requirements");
+const getFiles = (rootDir: string) => {
+  console.log(`📂 rootDir`, rootDir);
 
-// const subDirs = fs
-//   .readdirSync(rootDir, { withFileTypes: true })
-//   .filter((entry) => entry.isDirectory())
-//   .map((entry) => path.join(rootDir, entry.name));
+  const result: Array<{
+    fileName: string;
+    fileDir: string;
+    filePath: string;
+    content: string;
+  }> = [];
 
-// for (const dir of subDirs) {
-//   const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const subDirs = fs
+    .readdirSync(rootDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(rootDir, entry.name));
 
-//   const files = entries
-//     .filter((entry) => entry.isFile())
-//     .map((entry) => entry.name);
+  for (const fileDir of subDirs) {
+    const entries = fs.readdirSync(fileDir, { withFileTypes: true });
 
-//   console.log(`📂 Found ${files.length}:`, files);
+    const files = entries
+      .filter((entry) => entry.isFile())
+      .map((entry) => entry.name);
 
-//   for (const fileName of files) {
-//     if (fileName === "requirement.md") {
-//       console.log(`Processing file: [${fileName}]`);
+    console.log(`📂 Found ${files.length}:`, files);
 
-//       const filePath = path.join(dir, fileName);
-//       const requirement = fs.readFileSync(filePath, "utf-8");
+    for (const fileName of files) {
+      const filePath = path.join(fileDir, fileName);
+      const content = fs.readFileSync(filePath, "utf-8");
+      result.push({ fileName, fileDir, filePath, content });
+    }
+  }
 
-//       const { answer } = await analyzeKnowledgeBase(requirement);
-//       fs.writeFileSync(path.join(dir, "analyzed.md"), answer);
-//     }
+  return result;
+};
+
+const rootDir = path.resolve("../requirements");
+const files = getFiles(rootDir);
+
+// for (const file of files) {
+//   if (file.fileName === "requirement.md") {
+//     console.log(`Processing file: [${file.fileName}]`);
+//     const { answer } = await analyzeKnowledgeBase(file.content);
+//     fs.writeFileSync(path.join(file.fileDir, "analyzed.md"), answer);
 //   }
 // }
 
@@ -77,16 +93,13 @@ const requirement = fs.readFileSync(
   path.join(`../requirements/${folder}/requirement.md`),
   "utf-8"
 );
-console.log(`debug:requirement`, requirement);
 
 analyzeKnowledgeBase(requirement)
   .then((res) => res.answer)
   .then((answer) => {
-    console.log(answer);
-    fs.writeFileSync(
-      path.join(`../requirements/${folder}/analyzed.md`),
-      answer
-    );
+    const storePath = path.join(`../requirements/${folder}/analyzed.md`);
+    fs.writeFileSync(storePath, answer);
+    console.log(`✅ Analyzed`);
   })
   .catch((err) => {
     console.error(err);
