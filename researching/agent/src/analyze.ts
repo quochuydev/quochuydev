@@ -41,9 +41,9 @@ const getFiles = (rootDir: string) => {
   console.log(`📂 rootDir`, rootDir);
 
   const result: Array<{
-    fileName: string;
-    fileDir: string;
-    filePath: string;
+    name: string;
+    dir: string;
+    path: string;
     content: string;
   }> = [];
 
@@ -64,7 +64,7 @@ const getFiles = (rootDir: string) => {
     for (const fileName of files) {
       const filePath = path.join(fileDir, fileName);
       const content = fs.readFileSync(filePath, "utf-8");
-      result.push({ fileName, fileDir, filePath, content });
+      result.push({ name: fileName, dir: fileDir, path: filePath, content });
     }
   }
 
@@ -75,10 +75,10 @@ const rootDir = path.resolve("../requirements");
 const files = getFiles(rootDir);
 
 // for (const file of files) {
-//   if (file.fileName === "requirement.md") {
-//     console.log(`Processing file: [${file.fileName}]`);
+//   if (file.name === "requirement.md") {
+//     console.log(`Processing file: [${file.name}]`);
 //     const { answer } = await analyzeKnowledgeBase(file.content);
-//     fs.writeFileSync(path.join(file.fileDir, "analyzed.md"), answer);
+//     fs.writeFileSync(path.join(file.dir, "analyzed.md"), answer);
 //   }
 // }
 
