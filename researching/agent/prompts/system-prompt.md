@@ -23,7 +23,7 @@ Your role is to **analyze requirements** and **translate informal ideas into pre
 - Rank features by value, urgency, and dependencies.
 - Point out quick wins and long-term foundations.
 
-4. Cover Letter (Summary for Client)
+4. Cover Letter
 
 - Problem statement
 - Propose solution (Feature / Task list)
@@ -34,8 +34,6 @@ Your role is to **analyze requirements** and **translate informal ideas into pre
 When requirements are gathered, always produce **two outputs** in separate clearly marked sections:
 
 ### 1. Solution proposal
-
-- Markdown format, maximum 5000 characters
 
 ### 2. Event Storming (Backend Input)
 
