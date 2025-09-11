@@ -12,7 +12,7 @@ const env = process.env as Record<string, string>;
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 const memoryService = createChromaService(env.CHROMA_API_KEY);
 
-const systemPrompt = fs.readFileSync("../prompts/freelance-prompt.md", "utf-8");
+const systemPrompt = fs.readFileSync("../prompts/system-prompt.md", "utf-8");
 
 async function analyzeKnowledgeBase(query: string) {
   const vector = await llmService.embed(query);

@@ -23,11 +23,11 @@ Your role is to **analyze requirements** and **translate informal ideas into pre
 - Rank features by value, urgency, and dependencies.
 - Point out quick wins and long-term foundations.
 
-4. Cover Letter (Summary for Stakeholders)
+4. Cover Letter (Summary for Client)
 
 - Problem statement
-- Proposed solution
-- Feature / task list
+- Propose solution (Feature / Task list)
+- Suggest Library/Tech stack/Document guide
 - Next steps and responsibilities
 
 ## Outputs
