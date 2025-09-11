@@ -1,5 +1,9 @@
 ### Setup
 
+```sh
+windsurf ~/.codeium/windsurf/mcp_config.json
+```
+
 ```json
 {
   "mcpServers": {
@@ -14,9 +18,12 @@
 ### Commands
 
 ```sh
-windsurf ~/.codeium/windsurf/mcp_config.json
+# Format job: upwork-job-formatter.md
 
-npm run analyze
+# Analyze
+npm run analyze job_id
+
+npm run analyze 021964924377118179548
 ```
 
 ### Sources

@@ -8,7 +8,7 @@ import fs from "fs";
 import { z } from "zod";
 import { createChromaService } from "./memory/chroma";
 import { createOpenAIService } from "./models/openai";
-import { chunkText } from "./utils";
+// import { chunkText } from "./utils";
 
 config();
 
@@ -18,17 +18,8 @@ const memoryService = createChromaService(env.CHROMA_API_KEY);
 
 const server = new McpServer({ name: "x-agent", version: "1.0.0" });
 
-const analyzeSystemPrompt = fs.readFileSync(
-  "../prompts/analyze-prompt.md",
-  "utf-8"
-);
-console.log(`debug:analyzeSystemPrompt`, analyzeSystemPrompt);
-
-const searchSystemPrompt = fs.readFileSync(
-  "../prompts/search-prompt.md",
-  "utf-8"
-);
-console.log(`debug:searchSystemPrompt`, searchSystemPrompt);
+const systemPrompt = fs.readFileSync("../prompts/analyze-prompt.md", "utf-8");
+console.log(`debug:systemPrompt`, systemPrompt);
 
 server.tool(
   "analyze_requirement",
@@ -41,56 +32,23 @@ server.tool(
     const context = await memoryService.searchDocs(vector);
 
     const answer = await llmService.generateAnswer(
-      analyzeSystemPrompt,
+      systemPrompt,
       `Context:${context}\n\nQuestion: ${query}`
     );
-
     console.log(answer);
 
     const content: CallToolResult["content"] = [{ type: "text", text: answer }];
 
-    const chunks = chunkText(answer);
+    // const chunks = chunkText(answer);
 
-    for (const chunk of chunks) {
-      const chunkVector = await llmService.embed(chunk);
-      await memoryService.upsertDocs(chunkVector, chunk, { query });
-    }
+    // for (const chunk of chunks) {
+    //   const chunkVector = await llmService.embed(chunk);
+    //   await memoryService.upsertDocs(chunkVector, chunk, { query });
+    // }
 
     return { content };
   }
 );
-
-server.tool(
-  "search_knowledge_base",
-  "Search the knowledge base.",
-  {
-    query: z.string(),
-  },
-  async ({ query }) => searchKnowledgeBase(query)
-);
-
-async function searchKnowledgeBase(query: string) {
-  const vector = await llmService.embed(query);
-  const context = await memoryService.searchDocs(vector);
-
-  const answer = await llmService.generateAnswer(
-    searchSystemPrompt,
-    `Context:${context}\n\nQuestion: ${query}`
-  );
-
-  console.log(answer);
-
-  const content: CallToolResult["content"] = [{ type: "text", text: answer }];
-
-  const chunks = chunkText(answer);
-
-  for (const chunk of chunks) {
-    const chunkVector = await llmService.embed(chunk);
-    await memoryService.upsertDocs(chunkVector, chunk, { query });
-  }
-
-  return { content };
-}
 
 const app = express();
 app.use(express.json());
