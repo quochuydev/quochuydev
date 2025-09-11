@@ -43,12 +43,11 @@ When requirements are gathered, always produce **two outputs** in separate clear
 ```yaml
 Actors:
   - Name: ActorName
-    Role: ActorRole
     Description: ActorDescription
 
 Commands:
   - Name: CommandName
-    TriggeredBy: <ActorName>
+    TriggeredBy: ActorName
     Pre: none | EventName | ExternalSystemName | PolicyName
     Next: none | EventName | ExternalSystemName | PolicyName
 

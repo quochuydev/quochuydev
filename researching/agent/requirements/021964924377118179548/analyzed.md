@@ -7,6 +7,7 @@ The client requires a Shopify application to automate the tedious process of gen
 #### Proposed Solution
 
 1. **Automated Product Creation**
+
    - Implement a function that generates new product entries directly in Shopify, utilizing the Shopify Admin API.
    - The app will allow users to input key attributes such as:
      - Product name
@@ -16,6 +17,7 @@ The client requires a Shopify application to automate the tedious process of gen
      - Image links
 
 2. **Image Generation**
+
    - Integrate an image processing library to allow dynamic composition of images, where the clients' sofas can be layered with the new textiles. Suggested libraries include:
      - **Canvas** (JavaScript)
      - **Pillow** (Python)
@@ -23,6 +25,7 @@ The client requires a Shopify application to automate the tedious process of gen
    - Allow users to upload or link their sofa images, which the system will overlay with the selected textile image.
 
 3. **User Interface**
+
    - Develop a user-friendly UI within Shopify using Polaris components, so users can easily interact with the app.
    - Create a step-by-step wizard to guide users through the product creation process, ensuring they can input all necessary product information seamlessly.
 
@@ -52,8 +55,7 @@ The client requires a Shopify application to automate the tedious process of gen
 ```yaml
 Actors:
   - Name: Merchant
-    Role: User
-    Description: User who manages and generates product data in Shopify.
+    Description: Merchant who manages and generates product data in Shopify.
 
 Commands:
   - Name: CreateProduct
