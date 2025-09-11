@@ -1,108 +1,121 @@
-### 1. Solution Proposal
+### **1. Solution proposal**
 
-#### Problem Statement
-The client, a Shopify merchant, is seeking to establish a seamless wholesale customer experience. This includes setting up user accounts, managing login access, configuring permissions, and creating an intuitive checkout process tailored specifically for wholesale customers. The current challenge is to effectively utilize Shopify’s wholesale features while ensuring an easy and user-friendly interface for wholesale clients.
+**Problem Statement:**
+The client is looking to set up a seamless wholesale customer experience on Shopify. This includes configuring wholesale account access, managing user permissions, and facilitating an intuitive checkout process specifically tailored for wholesale clients. The solution must take into consideration the existing functionality of Shopify's wholesale features while ensuring a user-friendly interface.
 
-#### Proposed Solution
-The approach to tackle this project can be broken down into the following key tasks:
+**Proposed Solution (Feature / Task List):**
 
-1. **Account Management Setup**:
-   - Set up wholesale customer accounts, including registration and login flows.
-   - Implement account verification processes to ensure authenticity.
+1. **Configuration of Wholesale Accounts:**
+   - Set up user accounts for wholesale customers.
+   - Define roles and permissions for different customer groups.
 
-2. **User Permissions Configuration**:
-   - Create different user roles (e.g., admin, wholesale) with specific access rights across products, collections, discounts, etc.
-   - Ensure proper navigation and visibility of exclusive wholesale products.
+2. **Custom Login Experience:**
+   - Create a unique login page for wholesale customers that distinguishes them from regular users.
+   - Implement password recovery and account management features.
 
-3. **Checkout Process Customization**:
-   - Tailor the checkout experience specific to wholesale customers, possibly by integrating discounts and bulk order pricing.
-   - Ensure that payments, shipping options, and taxes are appropriately configured for wholesale transactions.
+3. **User Interface Development:**
+   - Design and implement an intuitive interface that allows wholesale customers to easily navigate the platform.
+   - Ensure that account dashboard displays relevant information such as order history, account settings, and personalized offers.
 
-4. **User Interface Enhancements**:
-   - Design and implement a user-friendly UI for wholesale customers, making it easier for them to navigate and manage their accounts.
-   - Utilize Shopify's Liquid templates to customize the wholesale storefront and ensure responsiveness and accessibility.
+4. **Checkout Process Customization:**
+   - Tailor the checkout experience for wholesale clients by integrating bulk order functionalities and payment methods suitable for high-volume purchases.
+   - Introduce wholesale pricing structures and discounts.
 
-5. **Testing and Feedback**:
-   - Conduct thorough testing to ensure all functionalities work as intended.
-   - Gather feedback from a small group of wholesale customers to identify areas for improvement before a full launch.
+5. **Testing and Quality Assurance:**
+   - Conduct thorough testing of user account functionalities to ensure that everything works as intended.
+   - Gather feedback from a small group of wholesale customers to validate the experience.
 
-#### Next Steps and Responsibilities
-1. Schedule a video call with the client to discuss the above plan in detail, aligning on expectations and tasks.
-2. Engage a Shopify development team that has experience with wholesale configurations and user experience design.
-3. Establish a project timeline with milestones, ensuring transparency in the ongoing development process.
+**Next Steps & Responsibilities:**
+1. Schedule a meeting with the client to discuss project details and gather specific requirements regarding wholesale features.
+2. Prepare a project timeline that outlines the phases of account setup, UI development, and testing.
+3. Assign responsibilities among team members for different aspects of the project (e.g., UI design, backend setup, testing).
+4. Begin development once all requirements are gathered and the plan is approved by the client.
 
----
-
-### 2. Event Storming (Backend Input)
+### **2. Event Storming (Backend Input)**
 
 ```yaml
 Actors:
   - Name: Wholesale Customer
-    Description: User who operates wholesale purchases.
-  - Name: Shopify Admin
-    Description: Administrative user managing wholesale functionalities.
+    Description: A business customer who has access to wholesale account features.
+  - Name: Shopify Developer
+    Description: The developer responsible for configuring the wholesale experience.
 
 Commands:
-  - Name: CreateAccount
-    TriggeredBy: Wholesale Customer
+  - Name: CreateWholesaleAccount
+    TriggeredBy: Shopify Developer
     Pre: none
-    Next: AccountCreated
+    Next: EventWholesaleAccountCreated
 
-  - Name: ConfigurePermissions
-    TriggeredBy: Shopify Admin
-    Pre: none
-    Next: PermissionsConfigured
+  - Name: UpdateWholesaleAccount
+    TriggeredBy: Shopify Developer
+    Pre: EventWholesaleAccountCreated
+    Next: EventWholesaleAccountUpdated
 
-  - Name: CustomizeCheckout
-    TriggeredBy: Shopify Admin
-    Pre: none
-    Next: CheckoutCustomized
-
-  - Name: UpdateUserDetails
-    TriggeredBy: Wholesale Customer
-    Pre: AccountExists
-    Next: UserDetailsUpdated
+  - Name: DeleteWholesaleAccount
+    TriggeredBy: Shopify Developer
+    Pre: EventWholesaleAccountCreated
+    Next: EventWholesaleAccountDeleted
 
 Events:
-  - Name: AccountCreated
+  - Name: EventWholesaleAccountCreated
     Pre: none
-    Next: UserNotified
+    Next: EventWholesaleLoginCreated
 
-  - Name: PermissionsConfigured
-    Pre: none
-    Next: WholesaleCustomerNotified
+  - Name: EventWholesaleAccountUpdated
+    Pre: EventWholesaleAccountCreated
+    Next: EventWholesaleAccountDetailsUpdated
 
-  - Name: CheckoutCustomized
-    Pre: none
-    Next: CheckoutConfiguredSuccessfully
-
-  - Name: UserDetailsUpdated
-    Pre: AccountExists
-    Next: UserNotificationSent
+  - Name: EventWholesaleAccountDeleted
+    Pre: EventWholesaleAccountCreated
+    Next: none
 
 Policies:
-  - Name: AccountCreationPolicy
-    Notes: Ensures account creation meets certain criteria.
+  - Name: AccountAccessPolicy
+    Notes: Rules governing access to wholesale accounts.
     Pre: none
-    Next: AccountCreated
-
-  - Name: PermissionManagementPolicy
-    Notes: Governs the proper management of permissions based on user roles.
-    Pre: none
-    Next: PermissionsConfigured
+    Next: EventWholesaleAccountCreated | EventWholesaleAccountUpdated
 
 External systems:
-  - Name: Customer Management System
+  - Name: Shopify Admin API
     Pre: none
-    Next: AccountCreated | PermissionsConfigured
-
-  - Name: Payment Gateway
-    Pre: none
-    Next: CheckoutCustomized
+    Next: EventWholesaleAccountCreated
 
 Read models:
-  - Name: CustomerAccount
-    BelongsTo: [CreateAccount, UpdateUserDetails]
+  - Name: WholesaleAccountModel
+    BelongsTo: CreateWholesaleAccount
 ```
 
-In summary, this structured approach combines understanding client requirements with effectively utilizing Shopify's capabilities to enhance the wholesale customer experience, while also ensuring clarity and organization in the project management side.
+### **3. Frontend Prompt Template (Frontend Input)**
+
+```yaml
+Style:
+  - Theme: Minimalist
+  - Typography: Sans-serif
+  - UI Elements: Rounded
+
+Color Scheme:
+  - Primary: #4A90E2
+  - Secondary: #7B9ACC
+  - Neutral: #F5F7FA
+  - Accent: #FF6F61
+  - Background: #FFFFFF
+  - Text: #333333
+
+Main Features:
+  - Feature: Wholesale Account Dashboard
+    Description: An interactive dashboard for wholesale customers to manage their accounts.
+    Components: [Account Overview, Order History, Payment Options]
+    DataBinding: API endpoint /wholesale/accounts
+
+Navigation:
+  - Type: Sidebar
+  - Structure: [Dashboard, Order History, Account Settings, Logout]
+
+Interactions:
+  - Animations: Subtle
+  - Human-in-the-Loop Inputs: Forms for updating account details, uploading necessary documents
+
+Accessibility:
+  - Compliance: WCAG 2.1 AA
+  - Features: [High contrast mode, Screen reader support]
+```

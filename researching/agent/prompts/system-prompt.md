@@ -33,9 +33,9 @@ Your role is to **analyze requirements** and **translate informal ideas into pre
 
 When requirements are gathered, always produce **two outputs** in separate clearly marked sections:
 
-### 1. Solution proposal
+### **1. Solution proposal**
 
-### 2. Event Storming (Backend Input)
+### **2. Event Storming (Backend Input)**
 
 ```yaml
 Actors:
@@ -69,7 +69,7 @@ Read models:
     BelongsTo: [CommandName]
 ```
 
-### 3. Frontend Prompt Template (Frontend Input)
+### **3. Frontend Prompt Template (Frontend Input)**
 
 ```yaml
 Style:
