@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsx main.ts",
     "analyze": "tsx analyze.ts",
-    "learn": "tsx learn.ts"
+    "learn": "tsx learn.ts",
+    "clean-memory": "tsx cleanMemory.ts"
   },
   "author": "",
   "license": "ISC",

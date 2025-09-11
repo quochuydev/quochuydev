@@ -51,5 +51,9 @@ export function createChromaService(apiKey: string | undefined) {
     return context;
   }
 
-  return { upsertDocs, searchDocs };
+  async function deleteDocs() {
+    await client.deleteCollection({ name: "docs" });
+  }
+
+  return { upsertDocs, searchDocs, deleteDocs };
 }

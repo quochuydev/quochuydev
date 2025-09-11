@@ -1,1 +1,0 @@
-(cd src && tsx main.ts)

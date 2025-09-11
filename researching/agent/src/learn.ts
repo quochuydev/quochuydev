@@ -18,6 +18,8 @@ async function learn() {
     .filter((entry) => entry.isDirectory())
     .map((entry) => path.join(rootDir, entry.name));
 
+  console.log(`📂 Found ${subDirs.length}:`, subDirs);
+
   for (const dir of subDirs) {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -34,10 +36,16 @@ async function learn() {
 
       console.log(`Processing file: [${fileName}] chunks [${chunks.length}]`);
 
+      if (chunks.length > 15) {
+        console.log(`Skipping file: [${fileName}]`);
+        continue;
+      }
+
       for (let i = 0; i < chunks.length; i++) {
         const chunk = chunks[i];
         const vector = await llmService.embed(chunk);
         await memoryService.upsertDocs(vector, chunk, { fileName });
+        console.log(`✅ [${fileName}] chunk [${i + 1}/${chunks.length}]`);
       }
     }
   }

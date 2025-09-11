@@ -12,22 +12,15 @@ const env = process.env as Record<string, string>;
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 const memoryService = createChromaService(env.CHROMA_API_KEY);
 
-const analyzeSystemPrompt = fs.readFileSync(
-  "../prompts/analyze-prompt.md",
-  "utf-8"
-);
-
-const searchSystemPrompt = fs.readFileSync(
-  "../prompts/search-prompt.md",
-  "utf-8"
-);
+const systemPrompt = fs.readFileSync("../prompts/system-prompt.md", "utf-8");
 
 async function analyzeKnowledgeBase(query: string) {
   const vector = await llmService.embed(query);
   const context = await memoryService.searchDocs(vector);
 
   const answer = await llmService.generateAnswer(
-    analyzeSystemPrompt,
+    systemPrompt,
+    // `Question: ${query}`
     `Context:${context}\n\nQuestion: ${query}`
   );
 
@@ -35,35 +28,12 @@ async function analyzeKnowledgeBase(query: string) {
 
   const content: CallToolResult["content"] = [{ type: "text", text: answer }];
 
-  const chunks = chunkText(answer);
+  // const chunks = chunkText(answer);
 
-  for (const chunk of chunks) {
-    const chunkVector = await llmService.embed(chunk);
-    await memoryService.upsertDocs(chunkVector, chunk, { query });
-  }
-
-  return { content };
-}
-
-async function searchKnowledgeBase(query: string) {
-  const vector = await llmService.embed(query);
-  const context = await memoryService.searchDocs(vector);
-
-  const answer = await llmService.generateAnswer(
-    searchSystemPrompt,
-    `Context:${context}\n\nQuestion: ${query}`
-  );
-
-  console.log(answer);
-
-  const content: CallToolResult["content"] = [{ type: "text", text: answer }];
-
-  const chunks = chunkText(answer);
-
-  for (const chunk of chunks) {
-    const chunkVector = await llmService.embed(chunk);
-    await memoryService.upsertDocs(chunkVector, chunk, { query });
-  }
+  // for (const chunk of chunks) {
+  //   const chunkVector = await llmService.embed(chunk);
+  //   await memoryService.upsertDocs(chunkVector, chunk, { query });
+  // }
 
   return { content, answer };
 }
@@ -85,14 +55,33 @@ for (const dir of subDirs) {
   console.log(`📂 Found ${files.length}:`, files);
 
   for (const fileName of files) {
-    console.log(`Processing file: [${fileName}]`);
-
     if (fileName === "requirement.md") {
+      console.log(`Processing file: [${fileName}]`);
+
       const filePath = path.join(dir, fileName);
       const requirement = fs.readFileSync(filePath, "utf-8");
 
-      const { answer } = await searchKnowledgeBase(requirement);
-      fs.writeFileSync(path.join(dir, "searched.md"), answer);
+      // const { answer } = await analyzeKnowledgeBase(requirement);
+      // fs.writeFileSync(path.join(dir, "analysis.md"), answer);
     }
   }
 }
+
+analyzeKnowledgeBase(`We need a Shopify app to help us speed up the work of generating new products.
+
+We sell sofa textiles that replaces your current textile.
+
+In order to showcase our clients our product we've find a unique way of generating pictures with the clients sofa on the top (500 px \*250 px) and the new textile on the bottom like the one attached to this description.
+
+Until now we're doing a manual job in excel in order to first name the new product, then adding product description, size variants, color variants as well as a link to the image from within Shopify.
+
+We'd like now to create a Shopify app that can do this for us!`)
+  .then((res) => res.answer)
+  .then((answer) => {
+    console.log(answer);
+    fs.writeFileSync(path.join(`./${Date.now()}.md`), answer);
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
