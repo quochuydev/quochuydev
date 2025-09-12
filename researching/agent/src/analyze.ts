@@ -15,12 +15,13 @@ const memoryService = createChromaService(env.CHROMA_API_KEY);
 const systemPrompt = fs.readFileSync("../prompts/system-prompt.md", "utf-8");
 
 async function analyzeKnowledgeBase(query: string) {
-  const vector = await llmService.embed(query);
-  const context = await memoryService.searchDocs(vector);
+  // const vector = await llmService.embed(query);
+  // const context = await memoryService.searchDocs(vector);
 
   const answer = await llmService.generateAnswer(
     systemPrompt,
-    `Context:${context}\n\nQuestion: ${query}`
+    // `Context:${context}\n\nQuestion: ${query}`
+    query
   );
 
   console.log(answer);
@@ -71,9 +72,8 @@ const getFiles = (rootDir: string) => {
   return result;
 };
 
-const rootDir = path.resolve("../requirements");
-const files = getFiles(rootDir);
-
+// const rootDir = path.resolve("../requirements");
+// const files = getFiles(rootDir);
 // for (const file of files) {
 //   if (file.name === "requirement.md") {
 //     console.log(`Processing file: [${file.name}]`);

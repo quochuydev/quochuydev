@@ -9,7 +9,7 @@
 
 We are seeking an experienced Shopify developer to set up a seamless wholesale customer experience through login and account management. The ideal candidate will have a strong understanding of Shopify's wholesale features and be able to create an intuitive interface for our wholesale customers. This project involves configuring account access, managing user permissions, and ensuring a smooth checkout process tailored for wholesale clients. If you have a passion for e-commerce and have worked with Shopify's wholesale solutions, we want to hear from you!
 
-Please let me know when you are free to jump on a video call and set it up directly with us. The candidate must have experience with this
+Please let me know when you are free to jump on a video call and set it up directly with us. The candidate must have experience with this.
 
 ### Details
 
