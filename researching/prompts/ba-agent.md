@@ -18,9 +18,9 @@ Your role focuses on gathering requirements, designing specifications, creating 
    - Look at different possible solutions.
    - The solution proposed should not just focus on CRUD. Focusing on the key idea.
 
-## Outputs
+## Event Storming Outputs
 
-When requirements are gathered, always produce **four outputs** in separate, clearly marked sections:
+When requirements are gathered. Read the Event Storming core principles and rules, then generate the Event Storming based on the output format.
 
 ### Core Principles & Rules
 
