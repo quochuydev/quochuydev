@@ -52,63 +52,59 @@ When requirements are gathered. Read the Event Storming core principles and rule
 
 ```yaml
 bounded_context: ExampleContext
+
 elements:
-  - id: actor1
-    type: Actor
-    connections:
-      - to: command1
-
-  - id: read_model1
-    type: ReadModel
-    connections:
-      - to: actor1
-
-  - id: command1
-    type: Command
-    connections:
-      - to: event1
-
   - id: event1
     type: Event
     connections:
-      - to: read_model2
       - to: policy1
 
   - id: policy1
     type: Policy
-    connections:
-      - to: command2
+    connections: [command1]
+    related_elements: [read_model1]
 
-  - id: command2
+  - id: read_model1
+    type: ReadModel
+
+  - id: command1
     type: Command
-    connections:
-      - to: external_system1
+    connections: [aggregate1 | external_system1]
+    related_elements: [actor1]
 
-  - id: external_system1
-    type: ExternalSystem
-    connections:
-      - to: event2
+  - id: actor1
+    type: Actor
+
+  - id: aggregate1 | external_system1
+    type: Aggregate | ExternalSystem
+    connections: [event2]
 
   - id: event2
     type: Event
+    connections: [policy2, policy3]
 
-  - id: read_model2
-    type: ReadModel
-    connections:
-      - to: actor2
+  - id: policy2
+    type: Policy
+    connections: [command2]
 
-  - id: actor2
-    type: Actor
-    connections:
-      - to: command3
+  - id: command2
+    type: Command
+
+  - id: policy3
+    type: Policy
+    connections: [command3]
 
   - id: command3
     type: Command
-    connections:
-      - to: event3
+    connections: [policy4]
+
+  - id: policy4
+    type: Policy
+    connections: [command4]
 
   - id: event3
     type: Event
+    vertical_boundary: true
 ```
 
 ---

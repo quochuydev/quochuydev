@@ -19,6 +19,11 @@ elements:
   - id: read_model1
     type: ReadModel
 
+  - id: command1
+    type: Command
+    connections:
+      - to: aggregate1 | external_system1
+
   - id: aggregate1 | external_system1
     type: Aggregate | ExternalSystem
     connections:
@@ -45,3 +50,14 @@ elements:
 
   - id: command3
     type: Command
+    connections:
+      - to: policy4
+
+  - id: policy4
+    type: Policy
+    connections:
+      - to: command4
+
+  - id: event3
+    type: Event
+    vertical_boundary: true
