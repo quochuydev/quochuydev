@@ -55,72 +55,60 @@ bounded_context: ExampleContext
 elements:
   - id: actor1
     type: Actor
-    label: Actor
     connections:
       - to: command1
 
   - id: read_model1
     type: ReadModel
-    label: Read/View Model
     connections:
       - to: actor1
 
   - id: command1
     type: Command
-    label: Command / Action
     connections:
       - to: event1
 
   - id: event1
     type: Event
-    label: Event
     connections:
       - to: read_model2
       - to: policy1
 
   - id: policy1
     type: Policy
-    label: Policy / Reaction
     connections:
       - to: command2
 
   - id: command2
     type: Command
-    label: Command
     connections:
       - to: external_system1
 
   - id: external_system1
     type: ExternalSystem
-    label: External System
     connections:
       - to: event2
 
   - id: event2
     type: Event
-    label: Event
 
   - id: read_model2
     type: ReadModel
-    label: Read/View Model
     connections:
       - to: actor2
 
   - id: actor2
     type: Actor
-    label: Actor
     connections:
       - to: command3
 
   - id: command3
     type: Command
-    label: Command
     connections:
       - to: event3
 
   - id: event3
     type: Event
-    label: Event
 ```
 
 ---

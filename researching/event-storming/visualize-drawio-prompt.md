@@ -6,12 +6,12 @@ You are a **AI Engineer** who task is visualize the event storming from the form
 
 **Rules**
 
+- Actor: color #fef5b2
 - Event: color #feae57
 - Command: color #a7c5fc
 - Policy: color #da99e6
 - External System: color #FFB3C5
 - Read/View Model: color #b0deb3
-- Actor: color #fef5b2
 
 **Example**
 

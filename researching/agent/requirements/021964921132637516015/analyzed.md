@@ -6,18 +6,22 @@ The client is looking to set up a seamless wholesale customer experience on Shop
 **Proposed Solution (Feature / Task List):**
 
 1. **Configuration of Wholesale Accounts:**
+
    - Set up user accounts for wholesale customers.
    - Define roles and permissions for different customer groups.
 
 2. **Custom Login Experience:**
+
    - Create a unique login page for wholesale customers that distinguishes them from regular users.
    - Implement password recovery and account management features.
 
 3. **User Interface Development:**
+
    - Design and implement an intuitive interface that allows wholesale customers to easily navigate the platform.
    - Ensure that account dashboard displays relevant information such as order history, account settings, and personalized offers.
 
 4. **Checkout Process Customization:**
+
    - Tailor the checkout experience for wholesale clients by integrating bulk order functionalities and payment methods suitable for high-volume purchases.
    - Introduce wholesale pricing structures and discounts.
 
@@ -26,6 +30,7 @@ The client is looking to set up a seamless wholesale customer experience on Shop
    - Gather feedback from a small group of wholesale customers to validate the experience.
 
 **Next Steps & Responsibilities:**
+
 1. Schedule a meeting with the client to discuss project details and gather specific requirements regarding wholesale features.
 2. Prepare a project timeline that outlines the phases of account setup, UI development, and testing.
 3. Assign responsibilities among team members for different aspects of the project (e.g., UI design, backend setup, testing).

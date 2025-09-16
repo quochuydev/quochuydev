@@ -1,0 +1,47 @@
+bounded_context: ExampleContext
+
+elements:
+  - id: event1
+    type: Event
+    connections:
+      - to: policy1
+
+  - id: policy1
+    type: Policy
+    connections:
+      - to: read_model1
+      - to: actor1
+      - to: command1
+
+  - id: actor1
+    type: Actor
+
+  - id: read_model1
+    type: ReadModel
+
+  - id: aggregate1 | external_system1
+    type: Aggregate | ExternalSystem
+    connections:
+      - to: event2
+
+  - id: event2
+    type: Event
+    connections:
+      - to: policy2
+      - to: policy3
+
+  - id: policy2
+    type: Policy
+    connections:
+      - to: command2
+
+  - id: command2
+    type: Command
+
+  - id: policy3
+    type: Policy
+    connections:
+      - to: command3
+
+  - id: command3
+    type: Command

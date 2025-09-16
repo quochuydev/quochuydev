@@ -38,68 +38,11 @@ When requirements are gathered, always produce **two outputs** in separate clear
 ### **2. Event Storming (Backend Input)**
 
 ```yaml
-Actors:
-  - Name: ActorName
-    Description: ActorDescription
 
-Commands:
-  - Name: CommandName
-    TriggeredBy: ActorName
-    Pre: none | EventName | ExternalSystemName | PolicyName
-    Next: none | EventName | ExternalSystemName | PolicyName
-
-Events:
-  - Name: EventName
-    Pre: none | CommandName | ExternalSystemName | PolicyName
-    Next: none | CommandName | ExternalSystemName | PolicyName
-
-Policies:
-  - Name: PolicyName
-    Notes: PolicyDescription
-    Pre: none | EventName | CommandName | ExternalSystemName
-    Next: none | EventName | CommandName | ExternalSystemName
-
-External systems:
-  - Name: ExternalSystemName
-    Pre: none | EventName | CommandName | PolicyName
-    Next: none | EventName | CommandName | PolicyName
-
-Read models:
-  - Name: ReadModelName
-    BelongsTo: [CommandName]
 ```
 
 ### **3. Frontend Prompt Template (Frontend Input)**
 
 ```yaml
-Style:
-  - Theme: <Minimalist | Playful | Corporate | Modern | Custom>
-  - Typography: <Sans-serif, Serif, Monospace, etc.>
-  - UI Elements: <Rounded, Flat, Glassmorphism, etc.>
 
-Color Scheme:
-  - Primary: ...
-  - Secondary: ...
-  - Neutral: ...
-  - Accent: ...
-  - Background: ...
-  - Text: ...
-
-Main Features:
-  - Feature: ...
-    Description: ...
-    Components: [...]
-    DataBinding: <API endpoint | Event>
-
-Navigation:
-  - Type: <Sidebar | Topbar | Tabs | Other>
-  - Structure: [...]
-
-Interactions:
-  - Animations: <Subtle, Dynamic, None>
-  - Human-in-the-Loop Inputs: <Forms, Approvals, Feedback>
-
-Accessibility:
-  - Compliance: <WCAG 2.1 AA | Custom>
-  - Features: [High contrast mode, Screen reader support, etc.]
 ```

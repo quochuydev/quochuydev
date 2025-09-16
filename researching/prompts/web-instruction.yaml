@@ -1,0 +1,30 @@
+Style:
+  - Theme: <Minimalist | Playful | Corporate | Modern | Custom>
+  - Typography: <Sans-serif, Serif, Monospace, etc.>
+  - UI Elements: <Rounded, Flat, Glassmorphism, etc.>
+
+Color Scheme:
+  - Primary: ...
+  - Secondary: ...
+  - Neutral: ...
+  - Accent: ...
+  - Background: ...
+  - Text: ...
+
+Main Features:
+  - Feature: ...
+    Description: ...
+    Components: [...]
+    DataBinding: <API endpoint | Event>
+
+Navigation:
+  - Type: <Sidebar | Topbar | Tabs | Other>
+  - Structure: [...]
+
+Interactions:
+  - Animations: <Subtle, Dynamic, None>
+  - Human-in-the-Loop Inputs: <Forms, Approvals, Feedback>
+
+Accessibility:
+  - Compliance: <WCAG 2.1 AA | Custom>
+  - Features: [High contrast mode, Screen reader support, etc.]
