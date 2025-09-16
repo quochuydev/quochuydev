@@ -1,8 +1,8 @@
-# ✅ Freelancer Task Checklist (Upwork / Remote Client)
+# Freelancer Task Checklist (Upwork / Remote Client)
 
 _A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally._
 
-## 🟢 1. Before Accepting the Task
+## 1. Before Accepting the Task
 
 ### 🔲 Read the full job description carefully
 
@@ -31,7 +31,7 @@ _A step-by-step guide for receiving, preparing, working on, and delivering freel
 - Communication channel (Upwork, Slack, email)
 - Payment (fixed/hourly, upfront, milestones)
 
-## 🧰 2. Task Setup & Preparation
+## 2. Task Setup & Preparation
 
 ### 🔲 Create a local folder or Git repo for the task
 
@@ -47,7 +47,7 @@ _A step-by-step guide for receiving, preparing, working on, and delivering freel
 
 ### 🔲 Confirm timezone, daily/weekly update schedule
 
-## 🛠️ 3. While Working on the Task
+## 3. While Working on the Task
 
 ### 🔲 Use version control (Git)
 

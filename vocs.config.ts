@@ -44,14 +44,14 @@ export default defineConfig({
       text: "Node.js x AWS x Github Action",
       link: "/nodejs-aws-github-cicd",
     },
-    // {
-    //   text: "AWS Machine Learning",
-    //   link: "/aws-machine-learning",
-    // },
-    // {
-    //   text: "PayPal and Stripe transaction",
-    //   link: "/paypal-stripe-transaction",
-    // },
+    {
+      text: "AWS Copilot",
+      link: "/aws-copilot",
+    },
+    {
+      text: "PayPal/Stripe Payment",
+      link: "/paypal-stripe-payment",
+    },
     {
       text: "WBS Management",
       link: "/wbs-management",
@@ -75,6 +75,18 @@ export default defineConfig({
     {
       text: "Freelance proposal examples",
       link: "/proposal-examples",
+    },
+    {
+      text: "Event Storming with Miro",
+      link: "/event-storming-miro",
+    },
+    {
+      text: "Event Storming with Mermaid",
+      link: "/event-storming-mermaid",
+    },
+    {
+      text: "WebRTC",
+      link: "/webrtc",
     },
   ],
 });

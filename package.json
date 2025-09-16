@@ -10,11 +10,11 @@
     "release": "gh-pages -d ./docs/dist -t true"
   },
   "dependencies": {
-    "@types/react": "latest",
+    "@types/react": "^19.1.13",
     "gh-pages": "^6.1.1",
-    "react": "latest",
-    "react-dom": "latest",
-    "typescript": "latest",
-    "vocs": "latest"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "typescript": "^5.9.2",
+    "vocs": "1.0.13"
   }
 }

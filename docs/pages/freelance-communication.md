@@ -23,7 +23,7 @@ Just to confirm, here’s what I understand:
 Please let me know if I missed anything. Once confirmed, I’ll start right away.
 ```
 
-### ⚒️ 3. While Working On The Task
+### 3. While Working On The Task
 
 > 🔹 Your goal: Keep the client in the loop
 

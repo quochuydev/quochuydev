@@ -1,14 +1,9 @@
-import { encodingForModel } from "js-tiktoken";
-
-export function chunkText(text: string, maxTokens = 8000) {
-  const enc = encodingForModel("text-embedding-3-small");
-
-  const tokens = enc.encode(text);
+export function chunkText(text: string, maxLength = 8000) {
   const chunks: string[] = [];
 
-  for (let i = 0; i < tokens.length; i += maxTokens) {
-    const chunk = tokens.slice(i, i + maxTokens);
-    chunks.push(enc.decode(chunk));
+  for (let i = 0; i < text.length; i += maxLength) {
+    const chunk = text.slice(i, i + maxLength);
+    chunks.push(chunk);
   }
 
   return chunks;

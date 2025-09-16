@@ -10,16 +10,25 @@ export function createChromaService(apiKey: string | undefined) {
   const client = new CloudClient({ apiKey });
 
   // Upsert
-  async function upsertDocs(vector: number[]) {
+  async function upsertDocs(
+    vector: number[],
+    document: string,
+    metadata: Record<string, boolean | number | string | null>
+  ) {
     const pointId = uuidv4();
 
     const collection = await client.getOrCreateCollection({
       name: "docs",
+      metadata: {
+        "hnsw:space": "cosine",
+      },
     });
 
-    await collection.upsert({
+    await collection.add({
       ids: [pointId],
       embeddings: [vector],
+      metadatas: [metadata],
+      documents: [document],
     });
   }
 
@@ -27,6 +36,9 @@ export function createChromaService(apiKey: string | undefined) {
   async function searchDocs(vector: number[], limit = 10): Promise<string> {
     const collection = await client.getOrCreateCollection({
       name: "docs",
+      metadata: {
+        "hnsw:space": "cosine",
+      },
     });
 
     const results = await collection.query({
@@ -39,5 +51,9 @@ export function createChromaService(apiKey: string | undefined) {
     return context;
   }
 
-  return { upsertDocs, searchDocs };
+  async function deleteDocs() {
+    await client.deleteCollection({ name: "docs" });
+  }
+
+  return { upsertDocs, searchDocs, deleteDocs };
 }
