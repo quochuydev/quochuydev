@@ -1,0 +1,11 @@
+{
+  "name": "paypal-stripe-payment",
+  "version": "1.0.0",
+  "description": "``` lsof -ti :2022 | grep -q . && kill -9 $(lsof -ti :2022)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
