@@ -85,9 +85,9 @@ classDiagram
 
 ```mermaid
 stateDiagram
-  [*] --> Idle
+  [*] --> Start
 
-  Idle --> PayInProcessing : clickPayIn
+  Start --> PayInProcessing : clickPayIn
 
   state PayInProcessing {
     [*] --> StripeCreateIntent : provider=stripe
@@ -99,12 +99,13 @@ stateDiagram
     PaypalConfirmPayment --> CreateTransaction
   }
 
-  Idle --> PayOutProcessing : clickPayOut
+  Start --> PayOutProcessing : clickPayOut
   PayOutProcessing --> PaypalRequestPayOut
   PaypalRequestPayOut --> CreateTransaction
 
-  CreateTransaction --> Success : providerSuccess
-  CreateTransaction --> Error : providerFail
+  CreateTransaction --> End
+  PaypalRequestPayOut --> Failed
+  PaypalConfirmPayment --> Failed
 ```
 
 ## Pay-in sequence diagram
