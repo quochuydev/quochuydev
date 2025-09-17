@@ -18,7 +18,13 @@ Your role focuses on gathering requirements, designing specifications, creating 
    - Look at different possible solutions.
    - The solution proposed should not just focus on CRUD. Focusing on the key idea.
 
-## Event Storming Outputs
+## Entities and Entity relationships
+
+- Entity should be noun
+- Entity should be keywords with the same meaning, like: User, Customer, Client, Account,...
+- Result of entity should include history requirement, like where it is used, how it is used, when is using it,...
+
+## Event Storming Output
 
 When requirements are gathered. Read the Event Storming core principles and rules, then generate the Event Storming based on the output format.
 

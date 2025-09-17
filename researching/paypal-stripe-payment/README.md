@@ -26,3 +26,34 @@ Email: sb-j8euh32540685@business.example.com
 Client ID: *
 Secret key 1: *
 ```
+
+```
+node-sqlite-payapp/
+├─ backend/
+│ ├─ package.json
+│ ├─ tsconfig.json
+│ ├─ .env.example
+│ ├─ prisma/
+│ │ └─ schema.prisma
+│ └─ src/
+│ ├─ server.ts
+│ ├─ db.ts
+│ ├─ trpc.ts
+│ ├─ routes/
+│ │ ├─ transactions.ts
+│ │ ├─ payin.ts
+│ │ └─ payout.ts
+│ └─ utils.ts
+├─ frontend/
+│ ├─ package.json
+│ ├─ tsconfig.json
+│ └─ src/
+│ ├─ main.tsx
+│ ├─ App.tsx
+│ ├─ components/
+│ │ ├─ PayIn.tsx
+│ │ ├─ PayOut.tsx
+│ │ └─ TransactionList.tsx
+│ └─ config.ts
+└─ README.md
+```

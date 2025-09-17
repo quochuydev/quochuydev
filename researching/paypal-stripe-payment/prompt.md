@@ -8,21 +8,19 @@ You are to generate a Node.js + SQLite web application based on the following Me
 - `@trpc/client`
 - `@trpc/server`
 - `express`
+- `dotenv`
+- `prisma`
 - `zod`
 - `tsx` for typescript
 - `@stripe/react-stripe-js @stripe/stripe-js`
+- Use trpc for query API
+- DO NOT use `axios`
 
 1. Backend:
 
    - Node.js with Express.
    - SQLite database.
-   - Endpoints:
-     - `POST /api/stripe/create-intent`
-     - `POST /api/payin/stripe`
-     - `POST /api/payin/paypal`
-     - `POST /api/payout/paypal`
-     - `GET /api/transactions`
-   - Each successful call inserts into TRANSACTION table.
+   - Each successful call inserts into Transaction table.
 
 2. Frontend:
 
@@ -86,26 +84,86 @@ classDiagram
 ## Interaction Flow
 
 ```mermaid
-stateDiagram-v2
+stateDiagram
   [*] --> Idle
 
   Idle --> PayInProcessing : clickPayIn
-  PayInProcessing --> Success : providerSuccess
-  PayInProcessing --> Error : providerFail
+
+  state PayInProcessing {
+    [*] --> StripeCreateIntent : provider=stripe
+    StripeCreateIntent --> StripeConfirmPayment
+    StripeConfirmPayment --> CreateTransaction
+
+    [*] --> PaypalCreateOrder : provider=paypal
+    PaypalCreateOrder --> PaypalConfirmPayment
+    PaypalConfirmPayment --> CreateTransaction
+  }
 
   Idle --> PayOutProcessing : clickPayOut
-  PayOutProcessing --> Success : providerSuccess
-  PayOutProcessing --> Error : providerFail
+  PayOutProcessing --> PaypalRequestPayOut
+  PaypalRequestPayOut --> CreateTransaction
 
-  Success --> Idle
-  Error --> Idle
+  CreateTransaction --> Success : providerSuccess
+  CreateTransaction --> Error : providerFail
+```
+
+## Pay-in sequence diagram
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant FE as Frontend (React)
+  participant BE as Backend (Express API)
+  participant P as PayPal API
+  participant S as Stripe API
+  participant DB as SQLite DB
+
+  %% Stripe Pay-In
+  U->>FE: Click "Pay with Stripe"
+  FE->>BE: call api stripeCreateIntent
+  BE->>S: Create PaymentIntent
+  S-->>BE: client_secret
+  BE-->>FE: client_secret
+  FE->>S: Confirm Payment with Stripe.js
+  S-->>FE: Payment Success
+  FE->>BE: call api transactions
+  BE->>DB: Insert Transaction row
+  DB-->>BE: ok
+  BE-->>FE: { success: true }
+
+  Note over U,DB: Stripe flow = frontend & Stripe.js handle confirmation, backend records transaction.
+
+  %% PayPal Pay-In
+  U->>FE: Click "Pay with PayPal"
+  FE->>BE: call api paypalCreateOrder
+  BE->>P: Create Order
+  P-->>BE: orderID
+  BE-->>FE: orderID
+  FE->>P: PayPal popup / approve UI
+  U->>P: Authorizes payment in PayPal UI
+  P-->>FE: Order approved
+  FE->>BE: call api paypalCaptureOrder
+  BE->>P: Capture Order
+  P-->>BE: Capture success
+  BE->>DB: Insert Transaction row
+  DB-->>BE: ok
+  BE-->>FE: { success: true }
+
+  %% PayPal Pay-Out
+  U->>FE: Enter email + amount, click "Payout with PayPal"
+  FE->>BE: call api paypalPayout
+  BE->>P: Create Payout (Payouts API)
+  P-->>BE: Payout success
+  BE->>DB: Insert Transaction row
+  DB-->>BE: ok
+  BE-->>FE: { success: true }
 ```
 
 ## Database Schema
 
 ```mermaid
 erDiagram
-  TRANSACTION {
+  Transaction {
     int id PK
     string type
     float amount
@@ -148,6 +206,7 @@ const CheckoutForm = () => {
 
     // Trigger form validation and wallet collection
     const { error: submitError } = await elements.submit();
+
     if (submitError) {
       // Show error to your customer
       setErrorMessage(submitError.message);
@@ -166,7 +225,7 @@ const CheckoutForm = () => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: "/complete",
+        return_url: "/",
       },
     });
 
@@ -215,7 +274,7 @@ const App = () => (
 ReactDOM.render(<App />, document.body);
 ```
 
-### create-intent
+### Stripe - create-intent
 
 ```sh
 curl https://api.stripe.com/v1/payment_intents \
@@ -278,14 +337,300 @@ curl -v -X POST https://api-m.sandbox.paypal.com/v1/payments/payouts \
 }'
 ```
 
+### Paypal - UI
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PayPal JS SDK Standard Integration</title>
+  </head>
+  <body>
+    <div id="paypal-button-container"></div>
+    <p id="result-message"></p>
+
+    <!-- Initialize the JS-SDK -->
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=test&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo,paylater,card"
+      data-sdk-integration-source="developer-studio"
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+```
+
+### Paypal - FE
+
+```ts
+const paypalButtons = window.paypal.Buttons({
+  style: {
+    shape: "rect",
+    layout: "vertical",
+    color: "gold",
+    label: "paypal",
+  },
+  message: {
+    amount: 100,
+  },
+  async createOrder() {
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // use the "body" param to optionally pass additional order information
+        // like product ids and quantities
+        body: JSON.stringify({
+          cart: [
+            {
+              id: "YOUR_PRODUCT_ID",
+              quantity: "YOUR_PRODUCT_QUANTITY",
+            },
+          ],
+        }),
+      });
+
+      const orderData = await response.json();
+
+      if (orderData.id) {
+        return orderData.id;
+      }
+      const errorDetail = orderData?.details?.[0];
+      const errorMessage = errorDetail
+        ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+        : JSON.stringify(orderData);
+
+      throw new Error(errorMessage);
+    } catch (error) {
+      console.error(error);
+      // resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
+    }
+  },
+  async onApprove(data, actions) {
+    try {
+      const response = await fetch(`/api/orders/${data.orderID}/capture`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const orderData = await response.json();
+      // Three cases to handle:
+      //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+      //   (2) Other non-recoverable errors -> Show a failure message
+      //   (3) Successful transaction -> Show confirmation or thank you message
+
+      const errorDetail = orderData?.details?.[0];
+
+      if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+        // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+        // recoverable state, per
+        // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
+        return actions.restart();
+      } else if (errorDetail) {
+        // (2) Other non-recoverable errors -> Show a failure message
+        throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
+      } else if (!orderData.purchase_units) {
+        throw new Error(JSON.stringify(orderData));
+      } else {
+        // (3) Successful transaction -> Show confirmation or thank you message
+        // Or go to another URL:  actions.redirect('thank_you.html');
+        const transaction =
+          orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+          orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+        resultMessage(
+          `Transaction ${transaction.status}: ${transaction.id}<br>
+          <br>See console for all available details`
+        );
+        console.log(
+          "Capture result",
+          orderData,
+          JSON.stringify(orderData, null, 2)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      resultMessage(
+        `Sorry, your transaction could not be processed...<br><br>${error}`
+      );
+    }
+  },
+});
+paypalButtons.render("#paypal-button-container");
+
+// Example function to show a result to the user. Your site's UI library can be used instead.
+function resultMessage(message) {
+  const container = document.querySelector("#result-message");
+  container.innerHTML = message;
+}
+```
+
+### Paypal - BE
+
+```ts
+import express from "express";
+import "dotenv/config";
+import {
+  ApiError,
+  CheckoutPaymentIntent,
+  Client,
+  Environment,
+  LogLevel,
+  OrdersController,
+  PaymentsController,
+  PaypalExperienceLandingPage,
+  PaypalExperienceUserAction,
+  ShippingPreference,
+} from "@paypal/paypal-server-sdk";
+import bodyParser from "body-parser";
+
+const app = express();
+app.use(bodyParser.json());
+
+const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8080 } = process.env;
+
+const client = new Client({
+  clientCredentialsAuthCredentials: {
+    oAuthClientId: PAYPAL_CLIENT_ID,
+    oAuthClientSecret: PAYPAL_CLIENT_SECRET,
+  },
+  timeout: 0,
+  environment: Environment.Sandbox,
+  logging: {
+    logLevel: LogLevel.Info,
+    logRequest: { logBody: true },
+    logResponse: { logHeaders: true },
+  },
+});
+
+const ordersController = new OrdersController(client);
+const paymentsController = new PaymentsController(client);
+
+/**
+ * Create an order to start the transaction.
+ * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
+ */
+const createOrder = async (cart) => {
+  const collect = {
+    body: {
+      intent: "CAPTURE",
+      purchaseUnits: [
+        {
+          amount: {
+            currencyCode: "USD",
+            value: "100",
+            breakdown: {
+              itemTotal: {
+                currencyCode: "USD",
+                value: "100",
+              },
+            },
+          },
+          // lookup item details in `cart` from database
+          items: [
+            {
+              name: "T-Shirt",
+              unitAmount: {
+                currencyCode: "USD",
+                value: "100",
+              },
+              quantity: "1",
+              description: "Super Fresh Shirt",
+              sku: "sku01",
+            },
+          ],
+        },
+      ],
+    },
+    prefer: "return=minimal",
+  };
+
+  try {
+    const { body, ...httpResponse } = await ordersController.createOrder(
+      collect
+    );
+    // Get more response info...
+    // const { statusCode, headers } = httpResponse;
+    return {
+      jsonResponse: JSON.parse(body),
+      httpStatusCode: httpResponse.statusCode,
+    };
+  } catch (error) {
+    if (error instanceof ApiError) {
+      // const { statusCode, headers } = error;
+      throw new Error(error.message);
+    }
+  }
+};
+
+// createOrder route
+app.post("/api/orders", async (req, res) => {
+  try {
+    // use the cart information passed from the front-end to calculate the order amount detals
+    const { cart } = req.body;
+    const { jsonResponse, httpStatusCode } = await createOrder(cart);
+    res.status(httpStatusCode).json(jsonResponse);
+  } catch (error) {
+    console.error("Failed to create order:", error);
+    res.status(500).json({ error: "Failed to create order." });
+  }
+});
+
+/**
+ * Capture payment for the created order to complete the transaction.
+ * @see https://developer.paypal.com/docs/api/orders/v2/#orders_capture
+ */
+const captureOrder = async (orderID) => {
+  const collect = {
+    id: orderID,
+    prefer: "return=minimal",
+  };
+
+  try {
+    const { body, ...httpResponse } = await ordersController.captureOrder(
+      collect
+    );
+    // Get more response info...
+    // const { statusCode, headers } = httpResponse;
+    return {
+      jsonResponse: JSON.parse(body),
+      httpStatusCode: httpResponse.statusCode,
+    };
+  } catch (error) {
+    if (error instanceof ApiError) {
+      // const { statusCode, headers } = error;
+      throw new Error(error.message);
+    }
+  }
+};
+
+// captureOrder route
+app.post("/api/orders/:orderID/capture", async (req, res) => {
+  try {
+    const { orderID } = req.params;
+    const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
+    res.status(httpStatusCode).json(jsonResponse);
+  } catch (error) {
+    console.error("Failed to create order:", error);
+    res.status(500).json({ error: "Failed to capture order." });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Node server listening at http://localhost:${PORT}/`);
+});
+```
+
 ### TRPC Client
 
 ```ts
 import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client";
 import { tap } from "@trpc/server/observable";
 import type { AppRouter } from "./server";
-
-const sleep = (ms = 100) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function main() {
   const url = `http://localhost:2021/trpc`;
@@ -308,8 +653,6 @@ async function main() {
     ],
   });
 
-  await sleep();
-
   // parallel queries
   await Promise.all([
     //
@@ -321,18 +664,15 @@ async function main() {
     title: "hello client",
   });
   console.log("created post", postCreate.title);
-  await sleep();
 
   const postList = await trpc.post.listPosts.query();
   console.log("has posts", postList, "first:", postList[0].title);
-  await sleep();
 
   try {
     await trpc.admin.secret.query();
   } catch (cause) {
     // will fail
   }
-  await sleep();
 
   const authedClient = createTRPCClient<AppRouter>({
     links: [
@@ -508,3 +848,34 @@ PAYPAL_SECRET=
 ```
 
 ## Coding guidelines
+
+- Use `camelCase` for variable names
+- Don't expect use `switch case` to handle different actions
+- Don't use direct `process.env.` and hard code URL
+
+```ts
+// BAD
+const baseUrl =
+  typeof window !== "undefined"
+    ? window.location.origin
+    : `http://localhost:${process.env.PORT || 3000}`;
+
+const response = await fetch(`${baseUrl}/api/admin/products/${productId}`);
+const data = await response.json();
+
+// GOOD
+import { config } from "./config";
+
+const response = await fetch(
+  `${config.appUrl}/api/admin/products/${productId}`
+);
+const data = await response.json();
+```
+
+- Logging: Using `console.log` must be matching with a command/event in diagram
+
+```ts
+console.log("Command:CreateProduct", JSON.stringify(params));
+
+console.log("Event:ProductCreated", JSON.stringify(result));
+```

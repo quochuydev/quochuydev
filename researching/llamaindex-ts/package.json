@@ -1,5 +1,5 @@
 {
-  "name": "x-agent-ts",
+  "name": "llamaindex-ts",
   "version": "0.1.0",
   "scripts": {
     "generate": "tsx src/generate.ts datasource",

@@ -16,7 +16,7 @@ const env = process.env as Record<string, string>;
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 const memoryService = createChromaService(env.CHROMA_API_KEY);
 
-const server = new McpServer({ name: "x-agent", version: "1.0.0" });
+const server = new McpServer({ name: "agent", version: "1.0.0" });
 
 const systemPrompt = fs.readFileSync("../prompts/analyze-prompt.md", "utf-8");
 console.log(`debug:systemPrompt`, systemPrompt);
