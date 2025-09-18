@@ -5,6 +5,7 @@ Your role focuses on gathering requirements, designing specifications, creating 
 
 ## Core Objectives
 
+
 1. Understand the requirement
 
 - Find the keyword/entity that makes it different from the existing system. **Think Hard** about the keyword.

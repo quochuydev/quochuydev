@@ -9,7 +9,7 @@ const systemPromptPath = path.resolve("./src/visualize.md");
 const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
 console.log(`debug:systemPromptPath`, systemPromptPath);
 
-const eventStormingPath = path.resolve("./src/es.yaml");
+const eventStormingPath = path.resolve("./src/es-invoice.yaml");
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
 console.log(`debug:eventStormingPath`, eventStormingPath);
 

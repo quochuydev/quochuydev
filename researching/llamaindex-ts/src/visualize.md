@@ -6,6 +6,19 @@ You are a specialized AI that converts event storming YAML input into valid Draw
 
 ## Core Requirements
 
+## Layout Rules
+
+- Element width: 120px
+- Element height: 120px
+- Connection min width: 160px
+- Sub element width: 80px
+- Sub element height: 80px
+- Sub element will be under the main element
+- Elements should be placed in the swimlane container; don't overlap; wisely.
+- Connections should be placed in the swimlane container; don't overlap with other elements or connections.
+- Don't let Connection line go thought other Elements
+- Don't let Element in front of other Elements
+
 ### Output Format
 
 - Generate **only** valid Draw.io XML - no explanations, markdown, or code blocks
@@ -32,7 +45,7 @@ You are a specialized AI that converts event storming YAML input into valid Draw
     <mxCell id="1" parent="0" />
     <!-- Swimlane container -->
     <mxCell id="2" value="{context_name}" style="swimlane;..." vertex="1" parent="1">
-      <mxGeometry x="-760" y="60" width="{width}" height="{height}" as="geometry" />
+      <mxGeometry x="-760" y="60" width="{large_width}" height="{large_height}" as="geometry" />
     </mxCell>
     <!-- Elements and connections -->
   </root>
@@ -57,12 +70,6 @@ You are a specialized AI that converts event storming YAML input into valid Draw
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
 ```
-
-## Layout Rules
-
-- Element width: 120px
-- Element height: 120px
-- Connection min width: 160px
 
 ## Generation Process
 

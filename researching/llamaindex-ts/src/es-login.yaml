@@ -1,0 +1,36 @@
+meta:
+  name: "User Login"
+  version: "1.0"
+
+actors:
+  - id: A.User
+    name: "User"
+    targets: [C.SubmitLogin]
+
+read_models:
+  - id: RM.LoginPage
+    name: "Login Page"
+    targets: ["A.User"]
+  - id: RM.Dashboard
+    name: "Dashboard"
+    targets: ["A.User"]
+
+commands:
+  - id: C.SubmitLogin
+    name: "Submit Login"
+    targets: [P.SessionPolicy]
+
+policies:
+  - id: P.SessionPolicy
+    name: "Session Management Policy"
+    targets: [E.SessionCreated]
+
+events:
+  - id: E.LoginAttempted
+    name: "Login Attempted"
+    targets: [P.SessionPolicy]
+  - id: E.SessionCreated
+    name: "Session Created"
+    targets: [RM.Dashboard]
+
+external_systems: []
