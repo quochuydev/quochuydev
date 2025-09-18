@@ -7,7 +7,9 @@
     "generate:ui": "tsx src/generate.ts ui",
     "dev": "nodemon",
     "start": "tsx src/index.ts",
-    "eject": "llamaindex-server eject"
+    "eject": "llamaindex-server eject",
+    "visualize": "tsx src/visualize.ts",
+    "order": "tsx src/order.ts"
   },
   "dependencies": {
     "@llamaindex/openai": "~0.4.0",
@@ -15,7 +17,7 @@
     "@llamaindex/server": "^0.4.1",
     "@llamaindex/tools": "~0.1.2",
     "@llamaindex/workflow": "~1.1.8",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
     "llamaindex": "~0.11.0",
     "zod": "^3.23.8"
   },

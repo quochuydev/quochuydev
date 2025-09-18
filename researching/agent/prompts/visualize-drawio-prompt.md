@@ -49,5 +49,8 @@
 
 - Do not add `xml or ` in the response.
 - Do not explain. Return XML only.
+- Do not truncate tags.
+- Always close all elements: <mxCell>, <mxGeometry>, <mxGraphModel>, <diagram>, <mxfile>.
+- Use correct nesting according to draw.io schema.
 
 ---

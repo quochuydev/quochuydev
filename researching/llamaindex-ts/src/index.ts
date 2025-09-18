@@ -1,12 +1,12 @@
 import { LlamaIndexServer } from "@llamaindex/server";
 import "dotenv/config";
+import { eventStormingFactory } from "./app/eventStorming";
 import { initSettings } from "./app/settings";
-import { workflowFactory } from "./app/workflow";
 
 initSettings();
 
 new LlamaIndexServer({
-  workflow: workflowFactory,
+  workflow: eventStormingFactory,
   uiConfig: {
     componentsDir: "components",
     devMode: true,

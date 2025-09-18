@@ -1,0 +1,316 @@
+bounded_context: PrivateMedicalBilling
+
+elements:
+  # Patient Registration Flow
+  - id: doctor_mfa
+    type: Actor
+    label: "Doctor/MFA"
+    connections:
+      - to: read_private_card_command
+
+  - id: patient_card_reader
+    type: ReadModel
+    label: "Private Card Data"
+    connections:
+      - to: doctor_mfa
+
+  - id: read_private_card_command
+    type: Command
+    label: "Read Private Card"
+    connections:
+      - to: private_patient_created_event
+
+  - id: create_patient_manually_command
+    type: Command
+    label: "Create Private Patient Manually"
+    connections:
+      - to: private_patient_created_event
+
+  - id: private_patient_created_event
+    type: Event
+    label: "Private Patient Created"
+    connections:
+      - to: patient_registry
+      - to: auto_preselect_private_insurance_policy
+
+  - id: auto_preselect_private_insurance_policy
+    type: Policy
+    label: "Auto-preselect Private Insurance"
+    connections:
+      - to: create_private_schein_command
+
+  - id: patient_registry
+    type: ReadModel
+    label: "Patient Registry"
+    connections:
+      - to: doctor_mfa
+
+  # Schein & Service Documentation Flow
+  - id: create_private_schein_command
+    type: Command
+    label: "Create Private Schein"
+    connections:
+      - to: private_schein_created_event
+
+  - id: private_schein_created_event
+    type: Event
+    label: "Private Schein Created"
+    connections:
+      - to: active_schein_overview
+      - to: enable_goa_documentation_policy
+
+  - id: active_schein_overview
+    type: ReadModel
+    label: "Active Schein Overview"
+    connections:
+      - to: doctor_mfa
+
+  - id: enable_goa_documentation_policy
+    type: Policy
+    label: "Enable GOÄ Documentation"
+    connections:
+      - to: document_goa_service_command
+
+  - id: document_goa_service_command
+    type: Command
+    label: "Document GOÄ Service Code"
+    connections:
+      - to: goa_service_documented_event
+
+  - id: goa_service_documented_event
+    type: Event
+    label: "GOÄ Service Documented"
+    connections:
+      - to: billable_services_view
+      - to: invoice_readiness_policy
+
+  - id: billable_services_view
+    type: ReadModel
+    label: "Billable Services Overview"
+    connections:
+      - to: doctor_mfa
+
+  # Invoice Generation & Management Flow
+  - id: invoice_readiness_policy
+    type: Policy
+    label: "Check Invoice Readiness"
+    connections:
+      - to: print_invoice_command
+
+  - id: print_invoice_command
+    type: Command
+    label: "Print Invoice"
+    connections:
+      - to: invoice_printed_event
+
+  - id: invoice_printed_event
+    type: Event
+    label: "Invoice Printed"
+    connections:
+      - to: private_billing_history
+      - to: invoice_status_transition_policy
+
+  - id: invoice_status_transition_policy
+    type: Policy
+    label: "Transition Status: No Invoice → Unpaid"
+    connections:
+      - to: update_invoice_status_command
+
+  - id: update_invoice_status_command
+    type: Command
+    label: "Update Invoice Status"
+    connections:
+      - to: invoice_status_changed_event
+
+  - id: invoice_status_changed_event
+    type: Event
+    label: "Invoice Status Changed"
+    connections:
+      - to: private_billing_history
+      - to: reminder_scheduling_policy
+
+  - id: private_billing_history
+    type: ReadModel
+    label: "Private Billing History"
+    connections:
+      - to: doctor_mfa
+
+  # Reminder Management Flow
+  - id: reminder_scheduling_policy
+    type: Policy
+    label: "Schedule Reminder Based on Days Elapsed"
+    connections:
+      - to: print_reminder_command
+
+  - id: print_reminder_command
+    type: Command
+    label: "Print 1st/2nd/3rd Reminder"
+    connections:
+      - to: reminder_printed_event
+
+  - id: reminder_printed_event
+    type: Event
+    label: "Reminder Printed"
+    connections:
+      - to: private_billing_overview
+      - to: reminder_status_policy
+
+  - id: reminder_status_policy
+    type: Policy
+    label: "Update Reminder Status & Add Alarm"
+    connections:
+      - to: update_invoice_status_command
+
+  - id: private_billing_overview
+    type: ReadModel
+    label: "Private Billing Overview (with Alarms)"
+    connections:
+      - to: doctor_mfa
+
+  # Payment Management Flow
+  - id: mark_partial_payment_command
+    type: Command
+    label: "Mark as Partially Paid"
+    connections:
+      - to: partial_payment_recorded_event
+
+  - id: partial_payment_recorded_event
+    type: Event
+    label: "Partial Payment Recorded"
+    connections:
+      - to: private_billing_history
+      - to: payment_timeline_policy
+
+  - id: mark_full_payment_command
+    type: Command
+    label: "Mark as Paid"
+    connections:
+      - to: full_payment_recorded_event
+
+  - id: full_payment_recorded_event
+    type: Event
+    label: "Full Payment Recorded"
+    connections:
+      - to: private_billing_history
+      - to: payment_timeline_policy
+
+  - id: payment_timeline_policy
+    type: Policy
+    label: "Create Timeline Entry"
+    connections:
+      - to: update_timeline_command
+
+  - id: update_timeline_command
+    type: Command
+    label: "Update Payment Timeline"
+    connections:
+      - to: timeline_updated_event
+
+  - id: timeline_updated_event
+    type: Event
+    label: "Timeline Updated"
+    connections:
+      - to: invoice_timeline_view
+
+  - id: invoice_timeline_view
+    type: ReadModel
+    label: "Invoice Timeline View"
+    connections:
+      - to: doctor_mfa
+
+  # Status Reversal Flow
+  - id: mark_as_unpaid_command
+    type: Command
+    label: "Mark Paid Invoice as Unpaid"
+    connections:
+      - to: payment_status_reversed_event
+
+  - id: payment_status_reversed_event
+    type: Event
+    label: "Payment Status Reversed"
+    connections:
+      - to: private_billing_history
+      - to: payment_timeline_policy
+
+  # Cancellation & Error Correction Flow
+  - id: cancel_invoice_command
+    type: Command
+    label: "Cancel Invoice"
+    connections:
+      - to: invoice_cancelled_event
+
+  - id: invoice_cancelled_event
+    type: Event
+    label: "Invoice Cancelled"
+    connections:
+      - to: schein_history_view
+      - to: cancellation_policy
+
+  - id: cancellation_policy
+    type: Policy
+    label: "Remove GOÄ Billing Icons & Block Further Documentation"
+    connections:
+      - to: deactivate_schein_command
+
+  - id: deactivate_schein_command
+    type: Command
+    label: "Deactivate Cancelled Schein"
+    connections:
+      - to: schein_deactivated_event
+
+  - id: schein_deactivated_event
+    type: Event
+    label: "Schein Deactivated"
+    connections:
+      - to: schein_history_view
+
+  - id: schein_history_view
+    type: ReadModel
+    label: "Schein History (with Cancellation Icons)"
+    connections:
+      - to: doctor_mfa
+
+  # Unbilling Flow
+  - id: unbill_cancelled_schein_command
+    type: Command
+    label: "Unbill Cancelled Schein"
+    connections:
+      - to: schein_unbilled_event
+
+  - id: schein_unbilled_event
+    type: Event
+    label: "Schein Unbilled"
+    connections:
+      - to: active_schein_overview
+      - to: reactivate_goa_services_policy
+
+  - id: reactivate_goa_services_policy
+    type: Policy
+    label: "Reactivate GOÄ Services & Reopen Case"
+    connections:
+      - to: document_goa_service_command
+
+  # External Systems
+  - id: card_reader_system
+    type: ExternalSystem
+    label: "Private Card Reader System"
+    connections:
+      - to: private_patient_created_event
+
+  - id: goa_validation_system
+    type: ExternalSystem
+    label: "GOÄ Code Validation System"
+    connections:
+      - to: goa_service_documented_event
+
+  - id: invoice_template_system
+    type: ExternalSystem
+    label: "Invoice Template Generator"
+    connections:
+      - to: invoice_printed_event
+
+  - id: reminder_template_system
+    type: ExternalSystem
+    label: "Reminder Template Generator"
+    connections:
+      - to: reminder_printed_event

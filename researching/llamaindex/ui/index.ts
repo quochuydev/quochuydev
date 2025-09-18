@@ -6,7 +6,4 @@ new LlamaIndexServer({
     layoutDir: "layout",
     llamaDeploy: { deployment: "chat", workflow: "workflow" },
   },
-  llamaCloud: {
-    outputDir: "output/llamacloud",
-  },
 }).start();

@@ -1,0 +1,78 @@
+meta:
+  name: "User Authentication and Profile Management"
+  version: "1.0"
+
+actors:
+  - id: A.User
+    name: "User"
+    targets: [C.LoginUser, C.ViewProfile, C.LogoutUser]
+
+read_models:
+  - id: RM.LoginForm
+    name: "Login Form"
+    targets: [A.User]
+  - id: RM.UserDashboard
+    name: "User Dashboard"
+    targets: [A.User]
+  - id: RM.UserProfile
+    name: "User Profile"
+    targets: [A.User]
+  - id: RM.SessionStatus
+    name: "Session Status"
+    targets: [A.User]
+
+commands:
+  - id: C.LoginUser
+    name: "Login User"
+    targets: [P.ValidateCredentials]
+  - id: C.ViewProfile
+    name: "View Profile"
+    targets: [P.CheckAuthentication]
+  - id: C.LogoutUser
+    name: "Logout User"
+    targets: [P.TerminateSession]
+
+policies:
+  - id: P.ValidateCredentials
+    name: "Validate User Credentials"
+    targets: [E.UserAuthenticated, E.LoginFailed]
+  - id: P.CheckAuthentication
+    name: "Check User Authentication"
+    targets: [E.ProfileAccessGranted, E.AccessDenied]
+  - id: P.TerminateSession
+    name: "Terminate User Session"
+    targets: [E.UserLoggedOut]
+  - id: P.SessionExpiry
+    name: "Session Expiry Management"
+    targets: [E.SessionExpired]
+
+events:
+  - id: E.UserAuthenticated
+    name: "User Authenticated"
+    targets: [RM.UserDashboard]
+  - id: E.LoginFailed
+    name: "Login Failed"
+    targets: [RM.LoginForm]
+  - id: E.SessionCreated
+    name: "Session Created"
+    targets: [RM.SessionStatus]
+  - id: E.ProfileAccessGranted
+    name: "Profile Access Granted"
+    targets: [RM.UserProfile]
+  - id: E.AccessDenied
+    name: "Access Denied"
+    targets: [RM.LoginForm]
+  - id: E.UserLoggedOut
+    name: "User Logged Out"
+    targets: [RM.LoginForm]
+  - id: E.SessionExpired
+    name: "Session Expired"
+    targets: [RM.LoginForm]
+
+external_systems:
+  - id: XS.AuthenticationService
+    name: "Authentication Service"
+    targets: [E.UserAuthenticated, E.LoginFailed]
+  - id: XS.SessionStore
+    name: "Session Store"
+    targets: [E.SessionCreated, E.SessionExpired]

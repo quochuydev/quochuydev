@@ -1,0 +1,82 @@
+bounded_context: UserProfileManagement
+elements:
+  # Login Flow
+  - id: user
+    type: Actor
+    label: User
+    connections:
+      - to: login_command
+
+  - id: login_form
+    type: ReadModel
+    label: Login Form
+    connections:
+      - to: user
+
+  - id: login_command
+    type: Command
+    label: Attempt Login
+    connections:
+      - to: credentials_validated_event
+      - to: login_failed_event
+
+  - id: credentials_validated_event
+    type: Event
+    label: Credentials Validated
+    connections:
+      - to: authentication_policy
+      - to: session_created_event
+      - to: dashboard_view
+
+  - id: login_failed_event
+    type: Event
+    label: Login Failed
+    connections:
+      - to: security_policy
+      - to: login_form
+
+  - id: authentication_policy
+    type: Policy
+    label: Check Account Status & Security
+    connections:
+      - to: session_create_command
+
+  - id: security_policy
+    type: Policy
+    label: Handle Failed Attempts & Security
+    connections:
+      - to: account_lock_command
+
+  - id: session_create_command
+    type: Command
+    label: Create User Session
+    connections:
+      - to: session_created_event
+
+  - id: session_created_event
+    type: Event
+    label: User Session Created
+    connections:
+      - to: dashboard_view
+
+  - id: account_lock_command
+    type: Command
+    label: Lock Account After Failed Attempts
+    connections:
+      - to: account_locked_event
+
+  - id: account_locked_event
+    type: Event
+    label: Account Locked
+    connections:
+      - to: security_notification_system
+
+  - id: security_notification_system
+    type: ExternalSystem
+    label: Security Notification System
+    connections:
+      - to: security_alert_sent_event
+
+  - id: security_alert_sent_event
+    type: Event
+    label: Security Alert Sent

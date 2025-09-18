@@ -1,124 +1,160 @@
-### **1. Solution proposal**
+### **1. Keywords/Entities**
 
-**Problem Statement:**
-The client is looking to set up a seamless wholesale customer experience on Shopify. This includes configuring wholesale account access, managing user permissions, and facilitating an intuitive checkout process specifically tailored for wholesale clients. The solution must take into consideration the existing functionality of Shopify's wholesale features while ensuring a user-friendly interface.
+- Shopify wholesale customer experience
+- Login and account management for wholesale users
+- User permissions management
+- Seamless checkout process tailored for wholesale clients
+- Shopify wholesale features configuration
+- Intuitive interface for wholesale customers
 
-**Proposed Solution (Feature / Task List):**
+### **2. Solution proposal**
 
-1. **Configuration of Wholesale Accounts:**
+**Objective**  
+To establish a seamless and secure wholesale customer experience on Shopify, focused on customized login/account management, user permission controls, and a checkout process designed specifically for wholesale clients.
 
-   - Set up user accounts for wholesale customers.
-   - Define roles and permissions for different customer groups.
+**Proposed Solution**  
+Implement Shopify's Wholesale channel (Shopify Plus necessary) or integrate a vetted wholesale app that supports customer segmentation and tiered pricing. Configure wholesale customer accounts with separate login portals. Customize account dashboards to manage orders, pricing, and permissions specific to wholesale customers. Setup automated workflows for order processing and approval where needed. Optimize the checkout flow by enabling wholesale pricing, minimum order quantities, and payment terms tailored to wholesale buyers. Ensure responsive design for ease of use and strong security measures, using Shopify's native authentication and permission APIs.
 
-2. **Custom Login Experience:**
+**Benefits**
 
-   - Create a unique login page for wholesale customers that distinguishes them from regular users.
-   - Implement password recovery and account management features.
+- Enhanced customer satisfaction and loyalty by providing a dedicated and easy-to-use wholesale portal
+- Streamlined management of wholesale customer access and permissions for admins
+- Reduction in manual order handling through automation
+- Increased sales via tailored pricing and checkout experience
+- Scalable solution leveraging Shopify’s robust platform and ecosystem
 
-3. **User Interface Development:**
+**Deliverables**
 
-   - Design and implement an intuitive interface that allows wholesale customers to easily navigate the platform.
-   - Ensure that account dashboard displays relevant information such as order history, account settings, and personalized offers.
+- Wholesale customer login and account management system configured
+- User permission roles and access controls implemented
+- Customized wholesale checkout process with pricing and order rules
+- Documentation on usage and admin management
+- Training session or video call setup for live implementation and walkthrough
 
-4. **Checkout Process Customization:**
+**Notes**  
+Project requires Shopify Plus or a suitable wholesale app. Candidate must have demonstrated experience with Shopify wholesale setups. Scheduling should align to client’s time zone for smooth live configuration.
 
-   - Tailor the checkout experience for wholesale clients by integrating bulk order functionalities and payment methods suitable for high-volume purchases.
-   - Introduce wholesale pricing structures and discounts.
+---
 
-5. **Testing and Quality Assurance:**
-   - Conduct thorough testing of user account functionalities to ensure that everything works as intended.
-   - Gather feedback from a small group of wholesale customers to validate the experience.
-
-**Next Steps & Responsibilities:**
-
-1. Schedule a meeting with the client to discuss project details and gather specific requirements regarding wholesale features.
-2. Prepare a project timeline that outlines the phases of account setup, UI development, and testing.
-3. Assign responsibilities among team members for different aspects of the project (e.g., UI design, backend setup, testing).
-4. Begin development once all requirements are gathered and the plan is approved by the client.
-
-### **2. Event Storming (Backend Input)**
+### **3. Event Storming**
 
 ```yaml
 Actors:
-  - Name: Wholesale Customer
-    Description: A business customer who has access to wholesale account features.
-  - Name: Shopify Developer
-    Description: The developer responsible for configuring the wholesale experience.
+  - Name: WholesaleCustomer
+    Description: Registered wholesale buyer using the Shopify store
+  - Name: Admin
+    Description: Store administrator managing wholesale settings and user permissions
 
 Commands:
-  - Name: CreateWholesaleAccount
-    TriggeredBy: Shopify Developer
-    Pre: none
-    Next: EventWholesaleAccountCreated
+  - Name: RegisterWholesaleAccount
+    TriggeredBy: [WholesaleCustomer]
+    Pre: [none]
+    Next: [WholesaleAccountCreated]
 
-  - Name: UpdateWholesaleAccount
-    TriggeredBy: Shopify Developer
-    Pre: EventWholesaleAccountCreated
-    Next: EventWholesaleAccountUpdated
+  - Name: LoginWholesaleAccount
+    TriggeredBy: [WholesaleCustomer]
+    Pre: [none]
+    Next: [WholesaleAccountLoggedIn]
 
-  - Name: DeleteWholesaleAccount
-    TriggeredBy: Shopify Developer
-    Pre: EventWholesaleAccountCreated
-    Next: EventWholesaleAccountDeleted
+  - Name: UpdateUserPermissions
+    TriggeredBy: [Admin]
+    Pre: [none]
+    Next: [UserPermissionsUpdated]
+
+  - Name: ProcessWholesaleCheckout
+    TriggeredBy: [WholesaleCustomer]
+    Pre: [WholesaleAccountLoggedIn]
+    Next: [WholesaleOrderPlaced]
 
 Events:
-  - Name: EventWholesaleAccountCreated
-    Pre: none
-    Next: EventWholesaleLoginCreated
+  - Name: WholesaleAccountCreated
+    Pre: [RegisterWholesaleAccount]
+    Next: [none]
+    EndTimeLine: false
 
-  - Name: EventWholesaleAccountUpdated
-    Pre: EventWholesaleAccountCreated
-    Next: EventWholesaleAccountDetailsUpdated
+  - Name: WholesaleAccountLoggedIn
+    Pre: [LoginWholesaleAccount]
+    Next: [none]
+    EndTimeLine: false
 
-  - Name: EventWholesaleAccountDeleted
-    Pre: EventWholesaleAccountCreated
-    Next: none
+  - Name: UserPermissionsUpdated
+    Pre: [UpdateUserPermissions]
+    Next: [none]
+    EndTimeLine: false
+
+  - Name: WholesaleOrderPlaced
+    Pre: [ProcessWholesaleCheckout]
+    Next: [none]
+    EndTimeLine: true
 
 Policies:
-  - Name: AccountAccessPolicy
-    Notes: Rules governing access to wholesale accounts.
-    Pre: none
-    Next: EventWholesaleAccountCreated | EventWholesaleAccountUpdated
+  - Name: VerifyWholesaleEligibility
+    Notes: Validate if customer meets wholesale criteria before account creation or login
+    Pre: [RegisterWholesaleAccount, LoginWholesaleAccount]
+    Next: [none]
 
-External systems:
-  - Name: Shopify Admin API
-    Pre: none
-    Next: EventWholesaleAccountCreated
+ExternalSystems:
+  - Name: ShopifyPlatform
+    Pre: [none]
+    Next:
+      [
+        RegisterWholesaleAccount,
+        LoginWholesaleAccount,
+        ProcessWholesaleCheckout,
+        UpdateUserPermissions,
+      ]
+
+SubProcesses:
+  - Name: WholesaleAccountSetup
+    Pre: [none]
+    Next: [RegisterWholesaleAccount, UpdateUserPermissions]
 
 Read models:
-  - Name: WholesaleAccountModel
-    BelongsTo: CreateWholesaleAccount
+  - Name: WholesaleCustomerDashboard
+    BelongsTo: [LoginWholesaleAccount]
 ```
 
-### **3. Frontend Prompt Template (Frontend Input)**
+---
+
+### **4. Frontend Prompt Template**
 
 ```yaml
 Style:
-  - Theme: Minimalist
+  - Theme: Corporate
   - Typography: Sans-serif
   - UI Elements: Rounded
 
 Color Scheme:
-  - Primary: #4A90E2
-  - Secondary: #7B9ACC
-  - Neutral: #F5F7FA
-  - Accent: #FF6F61
-  - Background: #FFFFFF
-  - Text: #333333
+  - Primary: "#003366" # Dark Blue
+  - Secondary: "#006699" # Medium Blue
+  - Neutral: "#f5f5f5" # Light Gray
+  - Accent: "#ff6600" # Orange
+  - Background: "#ffffff" # White
+  - Text: "#333333" # Dark Gray
 
 Main Features:
-  - Feature: Wholesale Account Dashboard
-    Description: An interactive dashboard for wholesale customers to manage their accounts.
-    Components: [Account Overview, Order History, Payment Options]
-    DataBinding: API endpoint /wholesale/accounts
+  - Feature: Wholesale Customer Login
+    Description: Secure login interface exclusive to wholesale clients
+    Components: [LoginForm, PasswordReset]
+    DataBinding: API endpoint /wholesale/login
+
+  - Feature: Account Management Dashboard
+    Description: Personalized dashboard displaying order history, pricing tiers, and account info
+    Components: [OrderList, PricingTierDisplay, ProfileEditor]
+    DataBinding: API endpoint /wholesale/account
+
+  - Feature: Wholesale Checkout Process
+    Description: Customized checkout flow enforcing wholesale rules and pricing
+    Components: [CartSummary, PaymentOptions, OrderApproval]
+    DataBinding: API endpoint /wholesale/checkout
 
 Navigation:
   - Type: Sidebar
-  - Structure: [Dashboard, Order History, Account Settings, Logout]
+  - Structure: [Dashboard, Orders, Account Settings, Support]
 
 Interactions:
   - Animations: Subtle
-  - Human-in-the-Loop Inputs: Forms for updating account details, uploading necessary documents
+  - Human-in-the-Loop Inputs: Forms for account updates and order approvals
 
 Accessibility:
   - Compliance: WCAG 2.1 AA

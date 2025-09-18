@@ -77,6 +77,17 @@ source .venv/bin/activate
 pip install uv
 
 $HOME/.local/bin/uv run generate
+
+$HOME/.local/bin/uv run llamactl deploy llama_deploy.yml
+
+# Drawio
+npm run generate billing
+
+npm run generate login-feature
+
+npm run generate login-feature-2
+
+
 ```
 
 ### Sources

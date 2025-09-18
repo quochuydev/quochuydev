@@ -1,0 +1,3 @@
+```sh
+ollama run model
+```
