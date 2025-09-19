@@ -1,0 +1,82 @@
+meta:
+  name: "GSM Booking"
+  version: "1.0"
+
+actors:
+  - id: User
+    name: "User"
+    references: [User.1, User.2, User.3]
+
+read_models:
+  - id: Offer
+    name: "Offer"
+  - id: Booking
+    name: "Booking"
+
+commands:
+  - id: RequestOffer
+    name: "Request Offer"
+  - id: SubmitBooking
+    name: "Submit Booking"
+  - id: MatchDriver
+    name: "Match Driver"
+  - id: CancelBooking
+    name: "Cancel Booking"
+
+policies:
+  - id: Policy1
+    name: "To calculate fare, information below must be provided: pick- up location, drop- oﬀ location, payment method, service type."
+  - id: Policy2
+    name: "user accept the oﬀer and start to booking\n- user can add a message to driver"
+  - id: AssignDriverProcess
+    name: "Assign Driver Process"
+  - id: AllocationAlgorithms
+    name: "Allocation algorithms will strive to\n- meet passenger and driver needs\n- ensure fairness for drivers"
+  - id: CancelBookingPolicy
+    name: "users can cancel the booking anytime before the driver accept the booking without any cancellation fee"
+
+events:
+  - id: OfferSent
+    name: "Offer Sent"
+  - id: BookingSubmitted
+    name: "Booking Submitted"
+  - id: DriverMatched
+    name: "Driver Matched"
+  - id: BookingCancelled
+    name: "Booking Cancelled"
+
+external_systems: []
+
+flows:
+  - source_id: User.1
+    target_id: RequestOffer
+  - source_id: RequestOffer
+    target_id: Policy1
+  - source_id: Policy1
+    target_id: OfferSent
+  - source_id: OfferSent
+    target_id: Offer
+  - source_id: Offer
+    target_id: User.2
+  - source_id: User.2
+    target_id: SubmitBooking
+  - source_id: SubmitBooking
+    target_id: Policy2
+  - source_id: Policy2
+    target_id: BookingSubmitted
+  - source_id: BookingSubmitted
+    target_id: [Booking, AssignDriverProcess]
+  - source_id: AssignDriverProcess
+    target_id: MatchDriver
+  - source_id: MatchDriver
+    target_id: AllocationAlgorithms
+  - source_id: AllocationAlgorithms
+    target_id: DriverMatched
+  - source_id: Booking
+    target_id: User.3
+  - source_id: User.3
+    target_id: CancelBooking
+  - source_id: CancelBooking
+    target_id: CancelBookingPolicy
+  - source_id: CancelBookingPolicy
+    target_id: BookingCancelled
