@@ -15,7 +15,7 @@ const llm: "deepseek-chat" | "openai" = "openai";
 
 // Event Storming
 const eventStormingYaml: "es-gsm-booking" | "es-gsm-registration" | "es-login" =
-  "es-gsm-registration";
+  "es-gsm-booking";
 const eventStormingPath = path.resolve(`./src/${eventStormingYaml}.yaml`);
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
 

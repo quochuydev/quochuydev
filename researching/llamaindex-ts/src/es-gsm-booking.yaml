@@ -42,6 +42,7 @@ events:
     name: "Booking Submitted"
   - id: DriverMatched
     name: "Driver Matched"
+    vertical_boundary: true
   - id: BookingCancelled
     name: "Booking Cancelled"
 

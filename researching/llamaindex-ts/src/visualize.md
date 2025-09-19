@@ -43,18 +43,28 @@ You are a specialized AI that converts event storming YAML input into valid Draw
       to: C.LoginUser
   ```
 
-- If the element `policy` stayed before `event` OR the element `policy` stayed after `command`
+- If the element `policy` stayed before `event` OR the element `policy` stayed after `command`.
 
   - Example:
 
   ```yaml
-  - from: P.Policy1
-    to: E.Event1
-  - from: C.Command1
-    to: P.Policy2
+  flows:
+    - from: P.Policy1
+      to: E.Event1
+    - from: C.Command1
+      to: P.Policy2
   ```
 
-  - In this case, the element `fill color` must be `#fef5b2`, width `240px`, height `180px`
+  - In this case, the element `fill color` must be `#fef5b2`, width `240px`, height `180px`.
+
+- `vertical_boundary` in an `event` is the line the go through the element (under the element). Example:
+
+  ```yaml
+  events:
+    - id: E.Event1
+      name: "Event 1"
+      vertical_boundary: true
+  ```
 
 4. Read `flows` list, generate connection lines, link `source_id` to `target_id` is a connection line.
 5. Ensure all XML tags are properly closed
@@ -119,6 +129,14 @@ flows:
 <mxCell id="{id}" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
   edge="1" parent="2" source="{source_id}" target="{target_id}">
   <mxGeometry relative="1" as="geometry" />
+</mxCell>
+```
+
+**Vertical boundary pattern**
+
+```xml
+<mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=#eae847;rotation=90;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="{>=300}" height="10" as="geometry" />
 </mxCell>
 ```
 
