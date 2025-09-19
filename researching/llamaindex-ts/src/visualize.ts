@@ -14,8 +14,8 @@ const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
 const llm: "deepseek-chat" | "openai" = "openai";
 
 // Event Storming
-const eventStormingYaml: "gsm-booking" | "gsm-registration" | "es-login" =
-  "gsm-registration";
+const eventStormingYaml: "es-gsm-booking" | "es-gsm-registration" | "es-login" =
+  "es-gsm-registration";
 const eventStormingPath = path.resolve(`./src/${eventStormingYaml}.yaml`);
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
 
