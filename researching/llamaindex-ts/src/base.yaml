@@ -1,0 +1,78 @@
+meta:
+  name: "Bounded Context"
+  version: "1.0"
+
+actors:
+  - id: A.Actor1
+    name: "Actor 1"
+  - id: A.Actor2
+    name: "Actor 2"
+
+read_models:
+  - id: RM.ReadModel1
+    name: "Read Model 1"
+    targets: ["A.Actor1"]
+  - id: RM.ReadModel2
+    name: "Read Model 2"
+    targets: ["A.Actor2"]
+
+commands:
+  - id: C.Command1
+    name: "Command 1"
+    targets: [P.Policy1]
+  - id: C.Command2
+    name: "Command 2"
+    targets: [XS.ExternalSystem1]
+  - id: C.Command3
+    name: "Command 3"
+    targets: [P.Policy3]
+
+policies:
+  - id: P.Policy1
+    name: "Policy 1"
+    targets: [E.Event1]
+  - id: P.Policy2
+    name: "Policy 2"
+    targets: [C.Command2]
+  - id: P.Policy3
+    name: "Policy 3"
+    targets: [E.Event3]
+
+events:
+  - id: E.Event1
+    name: "Event 1"
+    targets: [P.Policy1, RM.ReadModel2]
+  - id: E.Event2
+    name: "Event 2"
+  - id: E.Event3
+    name: "Event 3"
+
+external_systems:
+  - id: XS.ExternalSystem1
+    targets: [E.Event2]
+
+flows:
+  - from: A.Actor1
+    to: C.Command1
+  - from: A.Actor2
+    to: C.Command3
+  - from: RM.ReadModel1
+    to: A.Actor1
+  - from: RM.ReadModel2
+    to: A.Actor2
+  - from: C.Command1
+    to: P.Policy1
+  - from: C.Command2
+    to: XS.ExternalSystem1
+  - from: C.Command3
+    to: P.Policy3
+  - from: P.Policy1
+    to: E.Event1
+  - from: P.Policy2
+    to: C.Command2
+  - from: P.Policy3
+    to: E.Event3
+  - from: E.Event1
+    to: [P.Policy1, RM.ReadModel2]
+  - from: XS.ExternalSystem1
+    to: [E.Event2]

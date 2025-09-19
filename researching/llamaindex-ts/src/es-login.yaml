@@ -1,5 +1,5 @@
 meta:
-  name: "User Login"
+  name: "Login and Preferences"
   version: "1.0"
 
 actors:
@@ -13,7 +13,6 @@ read_models:
     targets: ["A.User"]
   - id: RM.Dashboard
     name: "Dashboard"
-    targets: ["A.User"]
 
 commands:
   - id: C.SubmitLogin
@@ -23,14 +22,23 @@ commands:
 policies:
   - id: P.SessionPolicy
     name: "Session Management Policy"
-    targets: [E.SessionCreated]
+    targets: [E.LoginAttempted]
+  - id: P.OnSuccessNavigate
+    name: "On Success"
+    targets: [E.LoginSucceeded]
+  - id: P.OnFailureShowError
+    name: "On Failure"
+    targets: [E.LoginFailed]
 
 events:
   - id: E.LoginAttempted
     name: "Login Attempted"
-    targets: [P.SessionPolicy]
-  - id: E.SessionCreated
-    name: "Session Created"
+    targets: [P.OnSuccessNavigate, P.OnFailureShowError]
+  - id: E.LoginSucceeded
+    name: "Login Succeeded"
     targets: [RM.Dashboard]
+  - id: E.LoginFailed
+    name: "Login Failed"
+    targets: [RM.LoginPage]
 
 external_systems: []

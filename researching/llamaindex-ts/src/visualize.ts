@@ -1,21 +1,34 @@
-import "dotenv/config";
 import { openai } from "@llamaindex/openai";
-import { agent } from "@llamaindex/workflow";
+import {
+  agent,
+  agentStreamEvent,
+  agentToolCallEvent,
+} from "@llamaindex/workflow";
+import "dotenv/config";
 import fs from "fs";
 import path from "path";
-import { agentToolCallEvent, agentStreamEvent } from "@llamaindex/workflow";
 
+// System Prompt
 const systemPromptPath = path.resolve("./src/visualize.md");
 const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
-console.log(`debug:systemPromptPath`, systemPromptPath);
 
-const eventStormingPath = path.resolve("./src/es-invoice.yaml");
+// Event Storming
+const eventStormingYaml: "gsm-booking" | "gsm-registration" = "gsm-booking";
+const eventStormingPath = path.resolve(`./src/${eventStormingYaml}.yaml`);
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
-console.log(`debug:eventStormingPath`, eventStormingPath);
 
+// Output
 const xmlOutputPath = path.resolve(`./src/result/${Date.now()}.xml`);
 const drawioOutputPath = path.resolve(`./src/result/${Date.now()}.drawio`);
+const drawioOutputFormattedPath = path.resolve(
+  `./src/result/${Date.now()}-2.drawio`
+);
+
+// Debug
+console.log(`debug:systemPromptPath`, systemPromptPath);
+console.log(`debug:eventStormingPath`, eventStormingPath);
 console.log(`debug:xmlOutputPath`, xmlOutputPath);
+console.log(`debug:drawioOutputPath`, drawioOutputPath);
 
 const llm: "deepseek-chat" | "openai" = "openai";
 
@@ -53,6 +66,7 @@ async function main() {
 
   fs.writeFileSync(drawioOutputPath, finalText, "utf-8");
   fs.writeFileSync(xmlOutputPath, finalText, "utf-8");
+  fs.writeFileSync(drawioOutputFormattedPath, finalText, "utf-8");
   console.log(`\n\n✅ Final result written to ${xmlOutputPath}`);
 }
 

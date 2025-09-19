@@ -1,0 +1,69 @@
+meta:
+  name: "User Authentication"
+  version: "1.0"
+
+read_models:
+  - id: RM.UserProfile
+    name: "User Profile"
+  - id: RM.SessionStatus
+    name: "Session Status"
+
+actors:
+  - id: A.User
+    name: "User"
+
+commands:
+  - id: C.LoginUser
+    name: "Login User"
+  - id: C.CreateSession
+    name: "Create Session"
+
+policies:
+  - id: P.LoginPolicy
+    name: "Login Policy"
+  - id: P.SessionPolicy
+    name: "Session Management Policy"
+  - id: P.OnSuccessNavigate
+    name: "On Success"
+  - id: P.OnFailureShowError
+    name: "On Failure"
+
+events:
+  - id: E.LoginAttempted
+    name: "Login Attempted"
+  - id: E.LoginSucceeded
+    name: "Login Succeeded"
+  - id: E.LoginFailed
+    name: "Login Failed"
+  - id: E.SessionEstablished
+    name: "Session Established"
+
+external_systems: []
+
+flows:
+  - id: Flow.Login
+    edges:
+      - from: RM.UserProfile
+        to: A.User
+      - from: A.User
+        to: C.LoginUser
+      - from: C.LoginUser
+        to: P.LoginPolicy
+      - from: P.LoginPolicy
+        to: E.LoginAttempted
+      - from: E.LoginAttempted
+        to: P.OnSuccessNavigate
+      - from: E.LoginAttempted
+        to: P.OnFailureShowError
+      - from: P.OnFailureShowError
+        to: E.LoginFailed
+      - from: P.OnSuccessNavigate
+        to: E.LoginSucceeded
+      - from: E.LoginSucceeded
+        to: C.CreateSession
+      - from: C.CreateSession
+        to: P.SessionPolicy
+      - from: P.SessionPolicy
+        to: E.SessionEstablished
+      - from: [E.SessionEstablished, E.LoginFailed]
+        to: RM.SessionStatus

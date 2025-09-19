@@ -1,0 +1,87 @@
+meta:
+  name: "GSM Registration"
+  version: "1.0"
+
+actors:
+  - id: A.User
+    name: "User"
+
+read_models:
+  - id: RM.Offer
+    name: "Offer"
+  - id: RM.DraftUserProfile
+    name: "Draft User Profile"
+
+commands:
+  - id: C.RegisterUser
+    name: "Register User"
+  - id: C.GenerateOTP
+    name: "Generate OTP"
+  - id: C.SendOTP
+    name: "Send OTP"
+  - id: C.ResendOTP
+    name: "Resend OTP"
+
+policies:
+  - id: P.Policy1
+    name: "- email, password and name must be provided\n- email is unique\n- password: 8-16 characters, include number, uppercase, lowercase\n- referral code is optional"
+  - id: P.GenerateOTPProcess
+    name: "Generate OTP Process"
+  - id: P.ValidateOTPProcess
+    name:"- OTP is a 6- digit string\n- OTP is only valid for 4 minutes"
+  - id: P.SendOTPProcess
+    name: "Send OTP Process"
+  - id: P.ResendOTPProcess
+    name: "users can request a new OTP if\nthey do not receive OPT\n- timeout will be reset\n- user cannot request more than\n5 OTPs continuously"
+
+events:
+  - id: E.UserRegistered
+    name: "User Registered"
+  - id: E.RegisterOTPGenerated
+    name: "Register OTP Generated"
+  - id: E.RegisterOTPSent
+    name: "Register OTP Sent"
+  - id: E.ResendOTPSent
+    name: "Resend OTP Sent"
+
+external_systems: 
+  - id: ES.Email
+    name: "Email"
+
+flows:
+  - from: A.User
+    to: C.RegisterUser
+  - from: C.RegisterUser
+    to: P.Policy1
+  - from: P.Policy1
+    to: E.UserRegistered
+  - from: E.UserRegistered
+    to: P.GenerateOTPProcess
+  - from: P.GenerateOTPProcess
+    to: C.GenerateOTP
+  - from: C.GenerateOTP
+    to: P.ValidateOTPProcess
+  - from: P.ValidateOTPProcess
+    to: E.RegisterOTPGenerated
+  - from: E.RegisterOTPGenerated
+    to: P.SendOTPProcess
+  - from: P.SendOTPProcess
+    to: C.SendOTP
+  - from: C.SendOTP
+    to: ES.Email
+  - from: ES.Email
+    to: E.RegisterOTPSent
+  - from: E.UserRegistered
+    to: RM.DraftUserProfile
+  - from: RM.DraftUserProfile
+    to: A.User
+  - from: A.User
+    to: C.ResendOTP
+  - from: C.ResendOTP
+    to: P.ResendOTPProcess
+  - from: P.ResendOTPProcess
+    to: E.ResendOTPSent
+  - from: E.ResendOTPSent
+    to: P.SendOTPProcess
+    
+    

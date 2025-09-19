@@ -2,16 +2,23 @@ meta:
   name: "Invoice"
   version: "1.0"
 
+read_models:
+  - id: RM.PaymentTerms
+    name: "Payment terms"
+    targets: [E.InvoiceReceived]
+  - id: RM.ExpectedBills
+    name: "Expected bills"
+    targets: [E.InvoiceReceived]
+
 events:
   - id: E.InvoiceReceived
     name: "Invoice received"
     targets: [P.RecurringPaymentPolicy, P.UnusualPaymentPolicy]
-    subs: [RM.PaymentTerms, RM.ExpectedBills]
 
 policies:
   - id: P.RecurringPaymentPolicy
     name: "Recurring payment policy"
-    targets: [E.InvoiceReceived]
+    targets: [C.SchedulePayment]
   - id: P.UnusualPaymentPolicy
     name: "Unusual payment policy"
     targets: [C.AskForReview]
@@ -29,9 +36,3 @@ external_systems:
     name: "Payment system"
   - id: XS.Email
     name: "Email"
-
-read_models:
-  - id: RM.PaymentTerms
-    name: "Payment terms"
-  - id: RM.ExpectedBills
-    name: "Expected bills"

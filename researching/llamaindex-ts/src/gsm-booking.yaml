@@ -1,0 +1,82 @@
+meta:
+  name: "GSM Booking"
+  version: "1.0"
+
+actors:
+  - id: A.User
+    name: "User"
+    references: [A.User.1, A.User.2, A.User.3]
+
+read_models:
+  - id: RM.Offer
+    name: "Offer"
+  - id: RM.Booking
+    name: "Booking"
+
+commands:
+  - id: C.RequestOffer
+    name: "Request Offer"
+  - id: C.SubmitBooking
+    name: "Submit Booking"
+  - id: C.MatchDriver
+    name: "Match Driver"
+  - id: C.CancelBooking
+    name: "Cancel Booking"
+
+policies:
+  - id: P.Policy1
+    name: "To calculate fare, information below must be provided: pick- up location, drop- oﬀ location, payment method, service type."
+  - id: P.Policy2
+    name: "user accept the oﬀer and start to booking\n- user can add a message to driver"
+  - id: P.AssignDriverProcess
+    name: "Assign Driver Process"
+  - id: P.AllocationAlgorithms
+    name: "Allocation algorithms will strive to:\n- meet passenger and driver needs\n- ensure fairness for drivers"
+  - id: P.CancelBookingPolicy
+    name: "users can cancel the booking anytime before the driver accept the booking without any cancellation fee"
+
+events:
+  - id: E.OfferSent
+    name: "Offer Sent"
+  - id: E.BookingSubmitted
+    name: "Booking Submitted"
+  - id: E.DriverMatched
+    name: "Driver Matched"
+  - id: E.BookingCancelled
+    name: "Booking Cancelled"
+
+external_systems: []
+
+flows:
+  - from: A.User.1
+    to: C.RequestOffer
+  - from: C.RequestOffer
+    to: P.Policy1
+  - from: P.Policy1
+    to: E.OfferSent
+  - from: E.OfferSent
+    to: RM.Offer
+  - from: RM.Offer
+    to: A.User.2
+  - from: A.User.2
+    to: C.SubmitBooking
+  - from: C.SubmitBooking
+    to: P.Policy2
+  - from: P.Policy2
+    to: E.BookingSubmitted
+  - from: E.BookingSubmitted
+    to: [RM.Booking, P.AssignDriverProcess]
+  - from: P.AssignDriverProcess
+    to: C.MatchDriver
+  - from: C.MatchDriver
+    to: P.AllocationAlgorithms
+  - from: P.AllocationAlgorithms
+    to: E.DriverMatched
+  - from: RM.Booking
+    to: A.User.3
+  - from: A.User.3
+    to: C.CancelBooking
+  - from: C.CancelBooking
+    to: P.CancelBookingPolicy
+  - from: P.CancelBookingPolicy
+    to: E.BookingCancelled

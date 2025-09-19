@@ -1,0 +1,64 @@
+meta:
+  name: "User Profile Management"
+  version: "1.0"
+
+actors:
+  - id: A.User
+    name: "User"
+
+read_models:
+  - id: RM.ProfileDisplay
+    name: "Profile Display"
+  - id: RM.EditableProfile
+    name: "Editable Profile"
+
+commands:
+  - id: C.EditProfile
+    name: "Edit Profile"
+  - id: C.SaveProfileChanges
+    name: "Save Profile Changes"
+
+policies:
+  - id: P.ProfileEditPolicy
+    name: "Profile Edit Policy"
+  - id: P.ValidateProfileData
+    name: "Validate Profile Data"
+  - id: P.PersistProfileChanges
+    name: "Persist Profile Changes"
+
+events:
+  - id: E.EditModeActivated
+    name: "Edit Mode Activated"
+  - id: E.ProfileDataValidated
+    name: "Profile Data Validated"
+  - id: E.ProfileUpdated
+    name: "Profile Updated"
+
+external_systems: []
+
+flows:
+  - id: Flow.EditProfile
+    edges:
+      - from: RM.ProfileDisplay
+        to: A.User
+      - from: A.User
+        to: C.EditProfile
+      - from: C.EditProfile
+        to: P.ProfileEditPolicy
+      - from: P.ProfileEditPolicy
+        to: E.EditModeActivated
+
+  - id: Flow.SaveProfile
+    edges:
+      - from: RM.EditableProfile
+        to: A.User
+      - from: A.User
+        to: C.SaveProfileChanges
+      - from: C.SaveProfileChanges
+        to: P.ValidateProfileData
+      - from: P.ValidateProfileData
+        to: E.ProfileDataValidated
+      - from: E.ProfileDataValidated
+        to: P.PersistProfileChanges
+      - from: P.PersistProfileChanges
+        to: E.ProfileUpdated

@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import { agentToolCallEvent, agentStreamEvent } from "@llamaindex/workflow";
 
-const xmlInputOutputPath = path.resolve("./src/result/1758194330947.xml");
+const xmlInputOutputPath = path.resolve("./src/result/1758206724190.xml");
 const xmlInputOutput = fs.readFileSync(xmlInputOutputPath, "utf-8");
 console.log(`debug:xmlInputOutputPath`, xmlInputOutputPath);
 
@@ -17,14 +17,19 @@ const llm: "deepseek-chat" | "openai" = "openai";
 
 async function main() {
   const myAgent = agent({
-    systemPrompt: `## Instruction
+    systemPrompt: `## Role
 - You are a specialized AI that help re-order Draw.io XML format
+## Instruction
 - Make it more beautiful and easy to understand.
-- Width/height should be calculated based on the elements existing.
+- Width/height of Bounded Context should be calculated based on the elements existing.
+- Element width: 120px
+- Element height: 120px
+- Connection min width: 160px
+- Sub element (in subs)width: 80px; height: 80px; will be under the main element
 - Elements should be placed in the swimlane container; don't overlap; wisely.
 - Connections should be placed in the swimlane container; don't overlap with other elements or connections.
-- Don't let Connection line go thought Element
-- Don't let Element in front of other Element
+- Don't let Connection line go thought other Elements
+- Don't let Element in front of other Elements
 ## Output Format
 - Generate **only** valid and beautiful Draw.io XML - no explanations, markdown, or code blocks
 - Ensure all XML tags are properly closed and nested

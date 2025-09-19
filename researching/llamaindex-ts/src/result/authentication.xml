@@ -1,0 +1,66 @@
+<mxGraphModel>
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="2" value="User Authentication" style="swimlane;horizontal=1;startSize=40;resize=1;showLine=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="-760" y="60" width="800" height="600" as="geometry" />
+    </mxCell>
+    <mxCell id="3" value="User" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fee750;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="40" y="40" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="4" value="Login User" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#a7c5fc;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="240" y="40" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="5" value="Validate User Credentials" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#da99e6;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="440" y="40" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="6" value="User Authenticated" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#feae57;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="640" y="40" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="7" value="Login Failed" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#feae57;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="640" y="200" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="8" value="Check User Status" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#da99e6;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="440" y="200" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="9" value="Session Management Policy" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#da99e6;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="440" y="360" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="10" value="Session Established" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#feae57;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="640" y="360" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="11" value="User Profile" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#b0deb3;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="40" y="200" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="12" value="Session Status" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#b0deb3;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" vertex="1" parent="2">
+      <mxGeometry x="40" y="360" width="120" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="3" target="4">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="4" target="5">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="5" target="6">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="4" target="7">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="5" target="8">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="8" target="9">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="9" target="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="6" target="11">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="2" source="7" target="12">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel>

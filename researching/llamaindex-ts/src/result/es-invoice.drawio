@@ -1,0 +1,104 @@
+<mxfile host="65bd71144e">
+    <diagram id="Im0wb3b7KpbfJL7KZe-q" name="Page-1">
+        <mxGraphModel dx="1764" dy="768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Invoice" style="swimlane;horizontal=1;startSize=40;showLine=1;fillColor=#ffffff;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry width="1090" height="440" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Payment terms" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#b0deb3;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="40" y="120" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Expected bills" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#b0deb3;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="40" y="270" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Invoice received" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#feae57;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="260" y="195" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Recurring payment policy" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#da99e6;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="480" y="120" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Unusual payment policy" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#da99e6;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="480" y="270" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Schedule payment" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#a7c5fc;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="700" y="120" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Ask for review" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#a7c5fc;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="700" y="270" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="3" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="172" y="180"/>
+                            <mxPoint x="248" y="227.5"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="4" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="172" y="330"/>
+                            <mxPoint x="248" y="282.5"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="5" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="392" y="227.5"/>
+                            <mxPoint x="468" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="5" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="392" y="282.5"/>
+                            <mxPoint x="468" y="330"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="6" target="8" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="612" y="180"/>
+                            <mxPoint x="688" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="7" target="9" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="612" y="330"/>
+                            <mxPoint x="688" y="330"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="Payment system" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#ffb3c5;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="920" y="120" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="Email" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#ffb3c5;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                    <mxGeometry x="920" y="270" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="8" target="16" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="832" y="180"/>
+                            <mxPoint x="908" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" parent="2" source="9" target="17" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="832" y="330"/>
+                            <mxPoint x="908" y="330"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
