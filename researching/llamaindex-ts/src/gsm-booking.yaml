@@ -3,80 +3,82 @@ meta:
   version: "1.0"
 
 actors:
-  - id: A.User
+  - id: User
     name: "User"
-    references: [A.User.1, A.User.2, A.User.3]
+    references: [User.1, User.2, User.3]
 
 read_models:
-  - id: RM.Offer
+  - id: Offer
     name: "Offer"
-  - id: RM.Booking
+  - id: Booking
     name: "Booking"
 
 commands:
-  - id: C.RequestOffer
+  - id: RequestOffer
     name: "Request Offer"
-  - id: C.SubmitBooking
+  - id: SubmitBooking
     name: "Submit Booking"
-  - id: C.MatchDriver
+  - id: MatchDriver
     name: "Match Driver"
-  - id: C.CancelBooking
+  - id: CancelBooking
     name: "Cancel Booking"
 
 policies:
-  - id: P.Policy1
+  - id: Policy1
     name: "To calculate fare, information below must be provided: pick- up location, drop- oﬀ location, payment method, service type."
-  - id: P.Policy2
+  - id: Policy2
     name: "user accept the oﬀer and start to booking\n- user can add a message to driver"
-  - id: P.AssignDriverProcess
+  - id: AssignDriverProcess
     name: "Assign Driver Process"
-  - id: P.AllocationAlgorithms
-    name: "Allocation algorithms will strive to:\n- meet passenger and driver needs\n- ensure fairness for drivers"
-  - id: P.CancelBookingPolicy
+  - id: AllocationAlgorithms
+    name: "Allocation algorithms will strive to\n- meet passenger and driver needs\n- ensure fairness for drivers"
+  - id: CancelBookingPolicy
     name: "users can cancel the booking anytime before the driver accept the booking without any cancellation fee"
 
 events:
-  - id: E.OfferSent
+  - id: OfferSent
     name: "Offer Sent"
-  - id: E.BookingSubmitted
+  - id: BookingSubmitted
     name: "Booking Submitted"
-  - id: E.DriverMatched
+  - id: DriverMatched
     name: "Driver Matched"
-  - id: E.BookingCancelled
+  - id: BookingCancelled
     name: "Booking Cancelled"
 
 external_systems: []
 
 flows:
-  - from: A.User.1
-    to: C.RequestOffer
-  - from: C.RequestOffer
-    to: P.Policy1
-  - from: P.Policy1
-    to: E.OfferSent
-  - from: E.OfferSent
-    to: RM.Offer
-  - from: RM.Offer
-    to: A.User.2
-  - from: A.User.2
-    to: C.SubmitBooking
-  - from: C.SubmitBooking
-    to: P.Policy2
-  - from: P.Policy2
-    to: E.BookingSubmitted
-  - from: E.BookingSubmitted
-    to: [RM.Booking, P.AssignDriverProcess]
-  - from: P.AssignDriverProcess
-    to: C.MatchDriver
-  - from: C.MatchDriver
-    to: P.AllocationAlgorithms
-  - from: P.AllocationAlgorithms
-    to: E.DriverMatched
-  - from: RM.Booking
-    to: A.User.3
-  - from: A.User.3
-    to: C.CancelBooking
-  - from: C.CancelBooking
-    to: P.CancelBookingPolicy
-  - from: P.CancelBookingPolicy
-    to: E.BookingCancelled
+  - source_id: User.1
+    target_id: RequestOffer
+  - source_id: RequestOffer
+    target_id: Policy1
+  - source_id: Policy1
+    target_id: OfferSent
+  - source_id: OfferSent
+    target_id: Offer
+  - source_id: Offer
+    target_id: User.2
+  - source_id: User.2
+    target_id: SubmitBooking
+  - source_id: SubmitBooking
+    target_id: Policy2
+  - source_id: Policy2
+    target_id: BookingSubmitted
+  - source_id: BookingSubmitted
+    target_id: [Booking, AssignDriverProcess]
+
+  - source_id: AssignDriverProcess
+    target_id: MatchDriver
+  - source_id: MatchDriver
+    target_id: AllocationAlgorithms
+  - source_id: AllocationAlgorithms
+    target_id: DriverMatched
+
+  - source_id: Booking
+    target_id: User.3
+  - source_id: User.3
+    target_id: CancelBooking
+  - source_id: CancelBooking
+    target_id: CancelBookingPolicy
+  - source_id: CancelBookingPolicy
+    target_id: BookingCancelled

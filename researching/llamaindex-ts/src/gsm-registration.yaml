@@ -3,85 +3,81 @@ meta:
   version: "1.0"
 
 actors:
-  - id: A.User
+  - id: User
     name: "User"
 
 read_models:
-  - id: RM.Offer
-    name: "Offer"
-  - id: RM.DraftUserProfile
+  - id: DraftUserProfile
     name: "Draft User Profile"
 
 commands:
-  - id: C.RegisterUser
+  - id: RegisterUser
     name: "Register User"
-  - id: C.GenerateOTP
+  - id: GenerateOTP
     name: "Generate OTP"
-  - id: C.SendOTP
+  - id: SendOTP
     name: "Send OTP"
-  - id: C.ResendOTP
+  - id: ResendOTP
     name: "Resend OTP"
 
 policies:
-  - id: P.Policy1
+  - id: Policy1
     name: "- email, password and name must be provided\n- email is unique\n- password: 8-16 characters, include number, uppercase, lowercase\n- referral code is optional"
-  - id: P.GenerateOTPProcess
+  - id: GenerateOTPProcess
     name: "Generate OTP Process"
-  - id: P.ValidateOTPProcess
+  - id: ValidateOTPProcess
     name:"- OTP is a 6- digit string\n- OTP is only valid for 4 minutes"
-  - id: P.SendOTPProcess
+  - id: SendOTPProcess
     name: "Send OTP Process"
-  - id: P.ResendOTPProcess
-    name: "users can request a new OTP if\nthey do not receive OPT\n- timeout will be reset\n- user cannot request more than\n5 OTPs continuously"
+  - id: ResendOTPProcess
+    name: "Users can request a new OTP if\nthey do not receive OPT\n- timeout will be reset\n- user cannot request more than\n5 OTPs continuously"
 
 events:
-  - id: E.UserRegistered
+  - id: UserRegistered
     name: "User Registered"
-  - id: E.RegisterOTPGenerated
+  - id: RegisterOTPGenerated
     name: "Register OTP Generated"
-  - id: E.RegisterOTPSent
+  - id: ResendOTPGenerated
+    name: "Resend OTP Generated"
+  - id: RegisterOTPSent
     name: "Register OTP Sent"
-  - id: E.ResendOTPSent
-    name: "Resend OTP Sent"
 
 external_systems: 
-  - id: ES.Email
-    name: "Email"
+  - id: EmailService
+    name: "Email Service"
 
 flows:
-  - from: A.User
-    to: C.RegisterUser
-  - from: C.RegisterUser
-    to: P.Policy1
-  - from: P.Policy1
-    to: E.UserRegistered
-  - from: E.UserRegistered
-    to: P.GenerateOTPProcess
-  - from: P.GenerateOTPProcess
-    to: C.GenerateOTP
-  - from: C.GenerateOTP
-    to: P.ValidateOTPProcess
-  - from: P.ValidateOTPProcess
-    to: E.RegisterOTPGenerated
-  - from: E.RegisterOTPGenerated
-    to: P.SendOTPProcess
-  - from: P.SendOTPProcess
-    to: C.SendOTP
-  - from: C.SendOTP
-    to: ES.Email
-  - from: ES.Email
-    to: E.RegisterOTPSent
-  - from: E.UserRegistered
-    to: RM.DraftUserProfile
-  - from: RM.DraftUserProfile
-    to: A.User
-  - from: A.User
-    to: C.ResendOTP
-  - from: C.ResendOTP
-    to: P.ResendOTPProcess
-  - from: P.ResendOTPProcess
-    to: E.ResendOTPSent
-  - from: E.ResendOTPSent
-    to: P.SendOTPProcess
-    
-    
+  - source_id: User.1
+    target_id: RegisterUser
+  - source_id: RegisterUser
+    target_id: Policy1
+  - source_id: Policy1
+    target_id: UserRegistered
+  - source_id: UserRegistered
+    target_id: DraftUserProfile
+  - source_id: DraftUserProfile
+    target_id: User.2
+  - source_id: User.2
+    target_id: ResendOTP
+  - source_id: ResendOTP
+    target_id: ResendOTPProcess
+  - source_id: ResendOTPProcess
+    target_id: ResendOTPGenerated
+  - source_id: ResendOTPGenerated
+    target_id: SendOTPProcess
+  - source_id: UserRegistered
+    target_id: GenerateOTPProcess
+  - source_id: GenerateOTPProcess
+    target_id: GenerateOTP
+  - source_id: GenerateOTP
+    target_id: ValidateOTPProcess
+  - source_id: ValidateOTPProcess
+    target_id: RegisterOTPGenerated
+  - source_id: RegisterOTPGenerated
+    target_id: SendOTPProcess
+  - source_id: SendOTPProcess
+    target_id: SendOTP
+  - source_id: SendOTP
+    target_id: EmailService
+  - source_id: EmailService
+    target_id: RegisterOTPSent

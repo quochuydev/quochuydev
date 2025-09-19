@@ -11,9 +11,11 @@ import path from "path";
 // System Prompt
 const systemPromptPath = path.resolve("./src/visualize.md");
 const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
+const llm: "deepseek-chat" | "openai" = "openai";
 
 // Event Storming
-const eventStormingYaml: "gsm-booking" | "gsm-registration" = "gsm-booking";
+const eventStormingYaml: "gsm-booking" | "gsm-registration" =
+  "gsm-registration";
 const eventStormingPath = path.resolve(`./src/${eventStormingYaml}.yaml`);
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
 
@@ -29,8 +31,7 @@ console.log(`debug:systemPromptPath`, systemPromptPath);
 console.log(`debug:eventStormingPath`, eventStormingPath);
 console.log(`debug:xmlOutputPath`, xmlOutputPath);
 console.log(`debug:drawioOutputPath`, drawioOutputPath);
-
-const llm: "deepseek-chat" | "openai" = "openai";
+console.log(`----- XML -----`);
 
 async function main() {
   const myAgent = agent({
