@@ -5,40 +5,49 @@ meta:
 actors:
   - id: A.User
     name: "User"
-    targets: [C.SubmitLogin]
 
 read_models:
   - id: RM.LoginPage
     name: "Login Page"
-    targets: ["A.User"]
   - id: RM.Dashboard
     name: "Dashboard"
 
 commands:
   - id: C.SubmitLogin
     name: "Submit Login"
-    targets: [P.SessionPolicy]
 
 policies:
   - id: P.SessionPolicy
     name: "Session Management Policy"
-    targets: [E.LoginAttempted]
   - id: P.OnSuccessNavigate
     name: "On Success"
-    targets: [E.LoginSucceeded]
   - id: P.OnFailureShowError
     name: "On Failure"
-    targets: [E.LoginFailed]
 
 events:
   - id: E.LoginAttempted
     name: "Login Attempted"
-    targets: [P.OnSuccessNavigate, P.OnFailureShowError]
   - id: E.LoginSucceeded
     name: "Login Succeeded"
-    targets: [RM.Dashboard]
   - id: E.LoginFailed
     name: "Login Failed"
-    targets: [RM.LoginPage]
 
 external_systems: []
+
+flows:
+  - source_id: A.User
+    target_id: C.SubmitLogin
+  - source_id: C.SubmitLogin
+    target_id: P.SessionPolicy
+  - source_id: P.SessionPolicy
+    target_id: E.LoginAttempted
+  - source_id: E.LoginAttempted
+    target_id: [P.OnSuccessNavigate, P.OnFailureShowError]
+  - source_id: P.OnSuccessNavigate
+    target_id: E.LoginSucceeded
+  - source_id: E.LoginSucceeded
+    target_id: RM.Dashboard
+  - source_id: P.OnFailureShowError
+    target_id: E.LoginFailed
+  - source_id: E.LoginFailed
+    target_id: RM.LoginPage

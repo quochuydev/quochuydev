@@ -66,14 +66,12 @@ flows:
     target_id: BookingSubmitted
   - source_id: BookingSubmitted
     target_id: [Booking, AssignDriverProcess]
-
   - source_id: AssignDriverProcess
     target_id: MatchDriver
   - source_id: MatchDriver
     target_id: AllocationAlgorithms
   - source_id: AllocationAlgorithms
     target_id: DriverMatched
-
   - source_id: Booking
     target_id: User.3
   - source_id: User.3

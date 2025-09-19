@@ -5,6 +5,7 @@ meta:
 actors:
   - id: User
     name: "User"
+    references: [User.1, User.2]
 
 read_models:
   - id: DraftUserProfile
@@ -65,6 +66,7 @@ flows:
     target_id: ResendOTPGenerated
   - source_id: ResendOTPGenerated
     target_id: SendOTPProcess
+
   - source_id: UserRegistered
     target_id: GenerateOTPProcess
   - source_id: GenerateOTPProcess
@@ -75,6 +77,7 @@ flows:
     target_id: RegisterOTPGenerated
   - source_id: RegisterOTPGenerated
     target_id: SendOTPProcess
+
   - source_id: SendOTPProcess
     target_id: SendOTP
   - source_id: SendOTP

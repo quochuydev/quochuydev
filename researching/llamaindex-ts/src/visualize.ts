@@ -14,8 +14,8 @@ const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
 const llm: "deepseek-chat" | "openai" = "openai";
 
 // Event Storming
-const eventStormingYaml: "gsm-booking" | "gsm-registration" =
-  "gsm-registration";
+const eventStormingYaml: "gsm-booking" | "gsm-registration" | "es-login" =
+  "es-login";
 const eventStormingPath = path.resolve(`./src/${eventStormingYaml}.yaml`);
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
 
@@ -45,7 +45,7 @@ async function main() {
           })
         : openai({
             apiKey: process.env.OPENAI_API_KEY,
-            model: "gpt-4o-mini",
+            model: "gpt-4o",
           }),
     verbose: false,
   });
