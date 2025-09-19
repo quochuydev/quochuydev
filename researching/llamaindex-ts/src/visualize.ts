@@ -15,7 +15,7 @@ const llm: "deepseek-chat" | "openai" = "openai";
 
 // Event Storming
 const eventStormingYaml: "gsm-booking" | "gsm-registration" | "es-login" =
-  "es-login";
+  "gsm-registration";
 const eventStormingPath = path.resolve(`./src/${eventStormingYaml}.yaml`);
 const eventStorming = fs.readFileSync(eventStormingPath, "utf-8");
 
@@ -31,6 +31,7 @@ console.log(`debug:systemPromptPath`, systemPromptPath);
 console.log(`debug:eventStormingPath`, eventStormingPath);
 console.log(`debug:xmlOutputPath`, xmlOutputPath);
 console.log(`debug:drawioOutputPath`, drawioOutputPath);
+console.log(`debug:drawioOutputFormattedPath`, drawioOutputFormattedPath);
 console.log(`----- XML -----`);
 
 async function main() {
@@ -45,7 +46,7 @@ async function main() {
           })
         : openai({
             apiKey: process.env.OPENAI_API_KEY,
-            model: "gpt-4o",
+            model: "gpt-4o", // gpt-4o | gpt-4o-mini
           }),
     verbose: false,
   });
@@ -67,7 +68,7 @@ async function main() {
 
   fs.writeFileSync(drawioOutputPath, finalText, "utf-8");
   fs.writeFileSync(xmlOutputPath, finalText, "utf-8");
-  fs.writeFileSync(drawioOutputFormattedPath, finalText, "utf-8");
+  // fs.writeFileSync(drawioOutputFormattedPath, finalText, "utf-8");
   console.log(`\n\n✅ Final result written to ${xmlOutputPath}`);
 }
 
