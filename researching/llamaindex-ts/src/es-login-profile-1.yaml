@@ -41,29 +41,27 @@ events:
 external_systems: []
 
 flows:
-  - id: Flow.Login
-    edges:
-      - from: RM.UserProfile
-        to: A.User
-      - from: A.User
-        to: C.LoginUser
-      - from: C.LoginUser
-        to: P.LoginPolicy
-      - from: P.LoginPolicy
-        to: E.LoginAttempted
-      - from: E.LoginAttempted
-        to: P.OnSuccessNavigate
-      - from: E.LoginAttempted
-        to: P.OnFailureShowError
-      - from: P.OnFailureShowError
-        to: E.LoginFailed
-      - from: P.OnSuccessNavigate
-        to: E.LoginSucceeded
-      - from: E.LoginSucceeded
-        to: C.CreateSession
-      - from: C.CreateSession
-        to: P.SessionPolicy
-      - from: P.SessionPolicy
-        to: E.SessionEstablished
-      - from: [E.SessionEstablished, E.LoginFailed]
-        to: RM.SessionStatus
+  - from: RM.UserProfile
+    to: A.User
+  - from: A.User
+    to: C.LoginUser
+  - from: C.LoginUser
+    to: P.LoginPolicy
+  - from: P.LoginPolicy
+    to: E.LoginAttempted
+  - from: E.LoginAttempted
+    to: P.OnSuccessNavigate
+  - from: E.LoginAttempted
+    to: P.OnFailureShowError
+  - from: P.OnFailureShowError
+    to: E.LoginFailed
+  - from: P.OnSuccessNavigate
+    to: E.LoginSucceeded
+  - from: E.LoginSucceeded
+    to: C.CreateSession
+  - from: C.CreateSession
+    to: P.SessionPolicy
+  - from: P.SessionPolicy
+    to: E.SessionEstablished
+  - from: [E.SessionEstablished, E.LoginFailed]
+    to: RM.SessionStatus

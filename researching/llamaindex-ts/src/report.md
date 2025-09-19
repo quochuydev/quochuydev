@@ -1,76 +1,18 @@
 # Event Storming to Draw.io XML Generator
 
-## 1. Overview
+## LLM Pricing
 
-- This document show the demo of event storming to draw.io xml generator.
-- This document compares several Large Language Models (LLMs) based on their capabilities, performance, cost, and usability.
+**Standard** _Prices per 1M tokens_
 
-**Models Compared:**
+| Model       | Input | Cached input | Output |
+| ----------- | ----- | ------------ | ------ |
+| gpt-4o      | $2.50 | $1.25        | $10.00 |
+| gpt-4o-mini | $0.15 | $0.075       | $0.60  |
 
-- GPT-4 Turbo
-- DeepSeek-Chat
-- Llama 3 (70B)
+## Model Specifications
 
-## 2. Use Case 1: Event Storming Login Flow & Profile Management
-
-### Input
-
-```yaml
-
-```
-
-### DrawIO XML Generation
-
-XML
-
-### Formatted DrawIO XML Generation
-
-XML
-
-### Model Specifications
-
-| Model         | Max Tokens | Quality | Cost  |
-| ------------- | ---------- | ------- | ----- |
-| gpt-4-mini    | ~10000     | ✅      | $0.01 |
-| deepseek-chat | ~8000      | ⚠️      | $0.27 |
-| llama-3       | ~4000      | ❌      | $0.01 |
-
-### Pros
-
--
-
-### Cons
-
--
-
-## Use Case 2: Event Storming Invoice Flow
-
-### Input
-
-```yaml
-
-```
-
-### DrawIO XML Generation
-
-XML
-
-### Formatted DrawIO XML Generation
-
-XML
-
-### Model Specifications
-
-| Model         | Max Tokens | Quality | Cost  |
-| ------------- | ---------- | ------- | ----- |
-| gpt-4-mini    | ~10000     | ✅      | $0.01 |
-| deepseek-chat | ~8000      | ⚠️      | $0.27 |
-| llama-3       | ~4000      | ❌      | $0.01 |
-
-### Pros
-
--
-
-### Cons
-
--
+| Use case         | Model       | Time  | Request Tokens | Response Tokens | Request cost | Response cost | Total cost | Quality |
+| ---------------- | ----------- | ----- | -------------- | --------------- | ------------ | ------------- | ---------- | ------- |
+| GSM Booking      | gpt-4o-mini |       |                |                 |              |               |            | ❌      |
+| GSM Booking      | gpt-4o      | 27.6s | ~1897t         | ~3310t          | $0.009485    | $0.04965      | $0.0592    | ✅      |
+| GSM Registration | gpt-4o      | 26.2s | ~5864t         | ~3221t          | $0.02932     | $0.048315     | $0.0776    | ✅      |

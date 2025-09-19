@@ -37,28 +37,23 @@ events:
 external_systems: []
 
 flows:
-  - id: Flow.EditProfile
-    edges:
-      - from: RM.ProfileDisplay
-        to: A.User
-      - from: A.User
-        to: C.EditProfile
-      - from: C.EditProfile
-        to: P.ProfileEditPolicy
-      - from: P.ProfileEditPolicy
-        to: E.EditModeActivated
-
-  - id: Flow.SaveProfile
-    edges:
-      - from: RM.EditableProfile
-        to: A.User
-      - from: A.User
-        to: C.SaveProfileChanges
-      - from: C.SaveProfileChanges
-        to: P.ValidateProfileData
-      - from: P.ValidateProfileData
-        to: E.ProfileDataValidated
-      - from: E.ProfileDataValidated
-        to: P.PersistProfileChanges
-      - from: P.PersistProfileChanges
-        to: E.ProfileUpdated
+  - from: RM.ProfileDisplay
+    to: A.User
+  - from: A.User
+    to: C.EditProfile
+  - from: C.EditProfile
+    to: P.ProfileEditPolicy
+  - from: P.ProfileEditPolicy
+    to: E.EditModeActivated
+  - from: RM.EditableProfile
+    to: A.User
+  - from: A.User
+    to: C.SaveProfileChanges
+  - from: C.SaveProfileChanges
+    to: P.ValidateProfileData
+  - from: P.ValidateProfileData
+    to: E.ProfileDataValidated
+  - from: E.ProfileDataValidated
+    to: P.PersistProfileChanges
+  - from: P.PersistProfileChanges
+    to: E.ProfileUpdated
