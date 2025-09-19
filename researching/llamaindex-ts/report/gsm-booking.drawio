@@ -43,10 +43,10 @@
                 <mxCell id="14" value="Assign Driver Process" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#da99e6;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
                     <mxGeometry x="2330" y="348.75" width="120" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="15" value="Allocation algorithms will strive to\n- meet passenger and driver needs\n- ensure fairness for drivers" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                <mxCell id="15" value="Allocation algorithms will strive to\n- meet passenger and driver needs\n- ensure fairness for drivers" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FEF5B2;strokeColor=#d6b656;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
                     <mxGeometry x="2770" y="328.125" width="240" height="180" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" value="users can cancel the booking anytime before the driver accept the booking without any cancellation fee" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
+                <mxCell id="16" value="users can cancel the booking anytime before the driver accept the booking without any cancellation fee" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FEF5B2;strokeColor=#d6b656;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
                     <mxGeometry x="3110" y="150" width="240" height="180" as="geometry"/>
                 </mxCell>
                 <mxCell id="17" value="Offer Sent" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#feae57;strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;" parent="2" vertex="1">
