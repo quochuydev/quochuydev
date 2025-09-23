@@ -24,12 +24,6 @@ pyenv exec python3 ./src/index.py
 
 ```
 
-### Plans:
-
-- a
-- b
-- c
-
 ### Hotel Booking
 
 ```
