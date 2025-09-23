@@ -105,4 +105,46 @@ CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", descript
     (p1)-[:EMITS]->(e2),
     (e2)-[:NOTIFIES]->(a1),
     (a2)-[:HANDLES]->(p1);
+
+CREATE (p: Project {
+    id: "Project:BookingApp",
+    name: "BookingApp",
+    created_at: "2025-09-23"
+});
+
+-- Version 1
+CREATE (v: Version {
+    id: "Version:v1",
+    name: "v1",
+    created_at: "2025-09-23"
+});
+
+MATCH (p: Project {id: "Project:BookingApp"}),
+      (v: Version {id: "Version:v1"})
+CREATE (v)-[:SNAPSHOT]->(p);
+
+-- Entities
+CREATE (entity: Entity {id: "Entity:Booking", type: "Entity", content: "GuestDetails, Dates, RoomSelection, PaymentInformation"});
+
+MATCH (entity: Entity {id: "Entity:Booking"}),
+      (v: Version {id: "Version:v1"})
+CREATE (entity)-[:SNAPSHOT]->(v);
+
+-- Version 2
+CREATE (v: Version {
+    id: "Version:v2",
+    name: "v2",
+    created_at: "2025-09-25"
+});
+
+MATCH (p: Project {id: "Project:BookingApp"}),
+      (v: Version {id: "Version:v2"})
+CREATE (v)-[:SNAPSHOT]->(p);
+
+-- Entities
+CREATE (entity: Entity {id: "Entity:Booking", type: "Entity", content: "GuestDetails, Dates, RoomSelection, PaymentInformation"});
+
+MATCH (entity: Entity {id: "Entity:Booking"}),
+      (v: Version {id: "Version:v2"})
+CREATE (entity)-[:SNAPSHOT]->(v);
 ```
