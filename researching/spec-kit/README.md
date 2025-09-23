@@ -22,6 +22,19 @@ pyenv exec pip install dotenv llama-index pydantic tavily-python
 
 pyenv exec python3 ./src/index.py
 
+pyenv exec pip install llama-index-graph-stores-neo4j
+
+docker run \
+  --name neo4j \
+  -p7474:7474 -p7687:7687 \
+  -e NEO4J_AUTH=neo4j/Qwerty@123 \
+  -e NEO4JLABS_PLUGINS='["apoc"]' \
+  -e APOC_IMPORT_FILE_ENABLED=true \
+  -e APOC_EXPORT_FILE_ENABLED=true \
+  neo4j:latest
+
+docker cp ./apoc-5.26.12-core.jar neo4j:/plugins/
+
 ```
 
 ### Hotel Booking
