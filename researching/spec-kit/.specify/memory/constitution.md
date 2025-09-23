@@ -9,13 +9,6 @@
 - **Technical Debt**: Document and track technical debt; include remediation plans in the project backlog.
 - **Documentation**: Maintain up-to-date API documentation, inline comments for complex logic, and clear README files.
 
-### II. Testing Standards (NON-NEGOTIABLE)
-- **Test Coverage**: Minimum 80% test coverage for all new code, with critical paths requiring 95%+.
-- **Testing Pyramid**: Follow the testing pyramid: 70% unit tests, 20% integration tests, 10% E2E tests.
-- **Test Data Management**: Use factories/fixtures for test data; avoid hard-coded values in tests.
-- **Test Isolation**: Tests must be independent, isolated, and not rely on external services unless absolutely necessary.
-- **Automated Testing**: All tests must run in CI/CD pipelines; no code merges allowed on failing tests.
-
 ### III. User Experience Consistency
 - **Design System**: Adhere to a centralized design system for UI components and patterns.
 - **Accessibility**: Meet WCAG 2.1 AA standards for all user interfaces.

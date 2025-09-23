@@ -3,27 +3,6 @@
 ### Command
 
 ```sh
-
-python3 -V
-
-python3 -m venv ./venv
-
-source ./venv/bin/activate
-
-./venv/bin/pip install --upgrade pip
-
-./venv/bin/pip install dotenv llama-index pydantic tavily-python gradio
-
-./venv/bin/pip freeze > requirements.txt
-
-./venv/bin/pip install -r requirements.txt
-
-./venv/bin/pip install "urllib3<2"
-
-./venv/bin/mcp run ./src/mcp.py
-
-./venv/bin/python3 ./src/workflow.py
-
 pyenv install 3.11.9
 
 pyenv local 3.11.9
@@ -33,9 +12,16 @@ pyenv rehash
 
 pyenv exec pip install --upgrade pip
 
-pyenv exec pip install fastmcp
+pyenv exec pip install fastmcp "mcp[cli]"
 
-pyenv exec pip install "mcp[cli]"
+pyenv exec pip install llama-index-llms-openai llama-index-embeddings-openai
+
+pyenv exec pip install llama-index-vector-stores-neo4jvector neo4j
+
+pyenv exec pip install dotenv llama-index pydantic tavily-python
+
+pyenv exec python3 ./src/index.py
+
 ```
 
 ### Plans:
@@ -89,8 +75,6 @@ Expect features:
 ### Neo4j
 
 ```sql
-MATCH (n) DETACH DELETE n;
-
 CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", description: "User initiates booking with dates and room type"}),
     (e1:DomainEvent {id: "Event:BookingCreated", name: "BookingCreated", description: "Booking successfully created", timestamp: "t0"}),
     (agg1:Aggregate {id: "Aggregate:Booking", name: "Booking", entity: "Booking"}),
@@ -105,46 +89,62 @@ CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", descript
     (p1)-[:EMITS]->(e2),
     (e2)-[:NOTIFIES]->(a1),
     (a2)-[:HANDLES]->(p1);
+```
+
+```sql
+MATCH (n) DETACH DELETE n;
 
 CREATE (p: Project {
     id: "Project:BookingApp",
-    name: "BookingApp",
-    created_at: "2025-09-23"
+    name: "BookingApp"
 });
 
--- Version 1
-CREATE (v: Version {
-    id: "Version:v1",
-    name: "v1",
-    created_at: "2025-09-23"
+CREATE (entity: Entity {
+    id: "Entity:Booking",
+    version: "v1",
+    content: "GuestDetails, Dates, RoomSelection, PaymentInformation"
 });
 
-MATCH (p: Project {id: "Project:BookingApp"}),
-      (v: Version {id: "Version:v1"})
-CREATE (v)-[:SNAPSHOT]->(p);
+MATCH (entity: Entity {id: "Entity:Booking", version: "v1"}),
+      (p: Project { id: "Project:BookingApp" })
+CREATE (entity)-[:Related]->(p);
 
--- Entities
-CREATE (entity: Entity {id: "Entity:Booking", type: "Entity", content: "GuestDetails, Dates, RoomSelection, PaymentInformation"});
-
-MATCH (entity: Entity {id: "Entity:Booking"}),
-      (v: Version {id: "Version:v1"})
-CREATE (entity)-[:SNAPSHOT]->(v);
-
--- Version 2
-CREATE (v: Version {
-    id: "Version:v2",
-    name: "v2",
-    created_at: "2025-09-25"
+CREATE (entity: Entity {
+    id: "Entity:Room",
+    version: "v1",
+    content: "RoomType, RoomNumber, RoomCapacity, RoomPrice"
 });
 
-MATCH (p: Project {id: "Project:BookingApp"}),
-      (v: Version {id: "Version:v2"})
-CREATE (v)-[:SNAPSHOT]->(p);
+MATCH (entity: Entity {id: "Entity:Room", version: "v1"}),
+      (p: Project { id: "Project:BookingApp" })
+CREATE (entity)-[:Related]->(p);
 
--- Entities
-CREATE (entity: Entity {id: "Entity:Booking", type: "Entity", content: "GuestDetails, Dates, RoomSelection, PaymentInformation"});
+CREATE (entity: Entity {
+    id: "Entity:Booking",
+    version: "v2",
+    content: "GuestDetails, Dates, RoomSelection, PaymentInformation"
+});
 
-MATCH (entity: Entity {id: "Entity:Booking"}),
-      (v: Version {id: "Version:v2"})
-CREATE (entity)-[:SNAPSHOT]->(v);
+MATCH (entity: Entity {id: "Entity:Booking", version: "v2"}),
+      (p: Project { id: "Project:BookingApp" })
+CREATE (entity)-[:Related]->(p);
+
+CREATE (entity: Entity {
+    id: "Entity:User",
+    version: "v3",
+    content: "FirstName, LastName, Email, Phone, Address"
+});
+
+MATCH (entity: Entity {id: "Entity:User", version: "v3"}),
+      (p: Project { id: "Project:BookingApp" })
+CREATE (entity)-[:Related]->(p);
+
+CREATE (p: Project {
+    id: "Project:LoanApp",
+    name: "LoanApp"
+});
+
+MATCH (entity: Entity { id: "Entity:User", version: "v3" }),
+      (p: Project { id: "Project:LoanApp" })
+CREATE (entity)-[:Related]->(p);
 ```
