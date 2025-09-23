@@ -98,28 +98,31 @@ async def main():
     parsed_entities: SpecEntities = response.get_pydantic_model(SpecEntities)
 
     print("Parsed Entities as Python object:", parsed_entities)
-    # Parsed Entities as Python object: entities=[SpecEntity(id='Booking', attributes=['Guest Details', 'Dates', 'Room Selection', 'Payment Information']), SpecEntity(id='Room Type', attributes=['Size', 'Max Occupancy', 'Amenities']), SpecEntity(id='Rate Plan', attributes=['Pricing Rules', 'Cancellation Policy', 'Included Services']), SpecEntity(id='Guest Profile', attributes=['Preferences', 'Booking History']), SpecEntity(id='Hotel', attributes=['Location', 'Contact Information', 'Amenities'])]
+    # entities = [
+    #     SpecEntity(id="Booking", attributes=["GuestDetails", "Dates", "RoomSelection", "PaymentInformation"]),
+    #     SpecEntity(id="Room Type", attributes=["Size", "MaxOccupancy", "Amenities"]),
+    #     SpecEntity(id="Rate Plan", attributes=["PricingRules", "CancellationPolicy", "IncludedServices"]),
+    #     SpecEntity(id="Guest Profile", attributes=["Preferences", "BookingHistory"]),
+    #     SpecEntity(id="Hotel", attributes=["Location", "ContactInfo", "Amenities"]),
+    # ]
 
-    # Convert parsed entities into LlamaIndex Documents
     documents_to_index = []
-    for e in parsed_entities.entities:  # make sure SpecEntities has a field `entities`
+
+    for e in entities:
         text = f"Entity {e.id} has attributes: {', '.join(e.attributes)}"
         documents_to_index.append(
             Document(text=text, metadata={"entity": e.id, "attributes": e.attributes})
         )
 
-    # Create storage context using Neo4jGraphStore
     storage_context = StorageContext.from_defaults(graph_store=graph_store)
 
-    # Build Knowledge Graph Index and insert into Neo4j
-    index = KnowledgeGraphIndex.from_documents(
+    KnowledgeGraphIndex.from_documents(
         documents_to_index,
         storage_context=storage_context,
         max_triplets_per_chunk=2,
     )
 
     print("✅ Entities inserted into Neo4j!")
-    print(index)
 
 
 if __name__ == "__main__":
