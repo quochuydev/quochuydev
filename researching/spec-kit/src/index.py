@@ -91,10 +91,7 @@ async def main():
         llm=llm,
     )
 
-    # Run the extractor on the first document
     response = await extractor.run(documents[0].text)
-
-    # Parse into SpecEntities Pydantic model
     parsed_entities: SpecEntities = response.get_pydantic_model(SpecEntities)
 
     print("Parsed Entities as Python object:", parsed_entities)
@@ -106,12 +103,25 @@ async def main():
     #     SpecEntity(id="Hotel", attributes=["Location", "ContactInfo", "Amenities"]),
     # ]
 
-    documents_to_index = []
+    project_node = Document(
+        text="Project BookingApp",
+        metadata={"id": "Project:BookingApp", "name": "BookingApp"},
+    )
 
-    for e in entities:
+    documents_to_index = [project_node]
+
+    for e in parsed_entities.entities:
         text = f"Entity {e.id} has attributes: {', '.join(e.attributes)}"
         documents_to_index.append(
-            Document(text=text, metadata={"entity": e.id, "attributes": e.attributes})
+            Document(
+                text=text,
+                metadata={
+                    "id": f"Entity:{e.id}",
+                    "attributes": e.attributes,
+                    "project_id": "Project:BookingApp",
+                    "version": 1,
+                },
+            )
         )
 
     storage_context = StorageContext.from_defaults(graph_store=graph_store)
@@ -122,7 +132,7 @@ async def main():
         max_triplets_per_chunk=2,
     )
 
-    print("✅ Entities inserted into Neo4j!")
+    print("✅ Entities inserted into Neo4j")
 
 
 if __name__ == "__main__":
