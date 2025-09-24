@@ -127,9 +127,27 @@ async def main():
         """<poml>
     <role>You are an AI engineer</role>
     <task>
+        Return the result strictly as JSON in the following format:
         Get the detail Booking entity and detail related entities.
         Show me as JSON schema
     </task>
+    <output-format>
+{
+  "entity": "string",
+  "version": "integer",
+  "fields": {
+    "fieldName": "fieldType"
+  },
+  "relatedEntities": [
+    {
+      "entity": "string",
+      "version": "integer",
+      "fields": {...},
+      "relatedEntities": [...]
+    }
+  ]
+}
+    </output-format>
 </poml>"""
     )
 
@@ -165,6 +183,23 @@ async def main():
     CreditApp is a loan application system for the user and the bank.
     Return output as JSON schema.
   </task>
+    <output-format>
+{
+  "entity": "string",
+  "version": "integer",
+  "fields": {
+    "fieldName": "fieldType"
+  },
+  "relatedEntities": [
+    {
+      "entity": "string",
+      "version": "integer",
+      "fields": {...},
+      "relatedEntities": [...]
+    }
+  ]
+}
+    </output-format>
 </poml>"""
     )
     print("Q2 ✅", response)
@@ -177,6 +212,23 @@ async def main():
         Get newest User entity.
         Return output as JSON schema.
     </task>
+    <output-format>
+{
+  "entity": "string",
+  "version": "integer",
+  "fields": {
+    "fieldName": "fieldType"
+  },
+  "relatedEntities": [
+    {
+      "entity": "string",
+      "version": "integer",
+      "fields": {...},
+      "relatedEntities": [...]
+    }
+  ]
+}
+    </output-format>
 </poml>"""
     )
     print("Q3 ✅", response)
@@ -202,6 +254,23 @@ async def main():
         Get User entity version 1.
         Return output as JSON schema.
     </task>
+    <output-format>
+{
+  "entity": "string",
+  "version": "integer",
+  "fields": {
+    "fieldName": "fieldType"
+  },
+  "relatedEntities": [
+    {
+      "entity": "string",
+      "version": "integer",
+      "fields": {...},
+      "relatedEntities": [...]
+    }
+  ]
+}
+    </output-format>
 </poml>
         """
     )
@@ -215,6 +284,23 @@ async def main():
         Get User entity version 2.
         Return output as JSON schema.
     </task>
+    <output-format>
+{
+  "entity": "string",
+  "version": "integer",
+  "fields": {
+    "fieldName": "fieldType"
+  },
+  "relatedEntities": [
+    {
+      "entity": "string",
+      "version": "integer",
+      "fields": {...},
+      "relatedEntities": [...]
+    }
+  ]
+}
+    </output-format>
 </poml>"""
     )
     print("Q5 ✅", response)
@@ -227,6 +313,23 @@ async def main():
         Get User entity.
         Return output as JSON schema.
     </task>
+    <output-format>
+{
+  "entity": "string",
+  "version": "integer",
+  "fields": {
+    "fieldName": "fieldType"
+  },
+  "relatedEntities": [
+    {
+      "entity": "string",
+      "version": "integer",
+      "fields": {...},
+      "relatedEntities": [...]
+    }
+  ]
+}
+    </output-format>
 </poml>"""
     )
     print("Q6 ✅", response)
