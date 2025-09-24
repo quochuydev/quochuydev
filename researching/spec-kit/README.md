@@ -35,6 +35,8 @@ docker run \
 
 docker cp ./apoc-5.26.12-core.jar neo4j:/plugins/
 
+pyenv exec pip install llama-index llama-index-graph-stores-neo4j graspologic
+
 ```
 
 ### Hotel Booking

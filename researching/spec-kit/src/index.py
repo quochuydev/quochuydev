@@ -16,7 +16,7 @@ from llama_index.graph_stores.neo4j import Neo4jGraphStore
 
 load_dotenv()
 
-llm = OpenAI(model="gpt-4")
+llm = OpenAI(model="gpt-4o")
 
 
 username = "neo4j"
@@ -58,54 +58,147 @@ async def main():
     print("Start")
     documents = SimpleDirectoryReader("./specs").load_data()
 
+    KG_TRIPLET_EXTRACT_TMPL = """
+        You are an assistant that extracts structured entities and relationships from spec-kit documents.
+        - Use camelCase for both nodes and relationships.
+        - Entity have Fields (like SQL).
+        - Stay consistent across runs."""
+
     extractor = FunctionAgent(
         name="spec_extractor",
-        system_prompt=(
-            "You are an assistant that extracts structured entities and relationships from spec-kit documents."
-            "Your output must always follow this format:"
-            "- entities: an array of objects with 'id' (camelCase) and 'fields' (camelCase list)."
-            "- relationships: an array of objects with 'source', 'target', and 'type'."
-            "Use consistent IDs (Booking, RoomType, RatePlan, GuestProfile, Hotel)."
-            "Use camelCase for fields."
-            "Relationship types must be short verbs in UPPERCASE (e.g., HAS, BELONGS_TO, USES, OFFERS, MAKES)."
-            "Do not invent extra entities or fields. Stay consistent across runs."
-        ),
-        output_cls=SpecEntities,
+        system_prompt=(KG_TRIPLET_EXTRACT_TMPL),
+        # output_cls=SpecEntities,
         llm=llm,
     )
 
     # response = await extractor.run(documents[0].text)
 
-    response = await extractor.run(
-        """## Key Entities
-- **Booking**: Contains guest details, dates, room selection, and payment information
-- **Room Type**: Defines room categories and their fields (size, max occupancy, amenities)
-- **Rate Plan**: Includes pricing rules, cancellation policies, and included services
-- **Guest Profile**: Stores guest preferences and booking history
-- **Hotel**: Contains location, contact information, and available amenities"""
-    )
+    #     response = await extractor.run(
+    #         """## Key Entities
+    # - **Booking**: Contains guest details, dates, room selection, and payment information
+    # - **Room Type**: Defines room categories and their fields (size, max occupancy, amenities)
+    # - **Rate Plan**: Includes pricing rules, cancellation policies, and included services
+    # - **Guest Profile**: Stores guest preferences and booking history
+    # - **Hotel**: Contains location, contact information, and available amenities"""
+    #     )
 
-    parsed_entities: SpecEntities = response.get_pydantic_model(SpecEntities)
-    print("Parsed Entities as Python object:", parsed_entities)
+    #     print("Response:", response)
+
+    # parsed_entities: SpecSchema = response.get_pydantic_model(SpecSchema)
+    # print("Parsed Entities as Python object:", parsed_entities)
 
     storage_context = StorageContext.from_defaults(graph_store=graph_store)
 
-    documents_to_index = [
-        Document(text="Project (node) BookingApp has entities: Booking, RoomType."),
+    project_id = "bookingApp"
+
+    documents = [
+        Document(
+            text="booking is a process. It has fields: guestDetails, bookingDates, roomSelection, paymentInformation.",
+            metadata={"projectId": project_id},
+        ),
+        Document(
+            text="roomType is a category. It has fields: size, maximumOccupancy, amenities.",
+            metadata={"projectId": project_id},
+        ),
+        Document(
+            text="ratePlan is a policy. It has fields: pricingRules, cancellationPolicies, includedServices.",
+            metadata={"projectId": project_id},
+        ),
+        Document(
+            text="guestProfile is a record. It has fields: guestPreferences, bookingHistory.",
+            metadata={"projectId": project_id},
+        ),
+        Document(
+            text="hotel is a location. It has fields: hotelLocation, contactInformation, availableAmenities.",
+            metadata={"projectId": project_id},
+        ),
+        Document(
+            text="""
+            booking includes roomType.
+            booking applies ratePlan.
+            booking relatesTo guestProfile.
+            booking takesPlaceAt hotel.
+            """,
+            metadata={"projectId": project_id},
+        ),
     ]
 
-    for e in parsed_entities.entities:
-        documents_to_index.append(
-            Document(text=f"Entity (node) {e.id} has fields: {', '.join(e.fields)}")
-        )
-
-    KnowledgeGraphIndex.from_documents(
-        documents_to_index,
+    kg_index = KnowledgeGraphIndex.from_documents(
+        documents=documents,
         storage_context=storage_context,
         max_triplets_per_chunk=2,
     )
 
-    print("✅ Entities inserted into Neo4j")
+    query_engine = kg_index.as_query_engine()
+    response = query_engine.query(
+        """
+        I'm working on BookingApp project.
+        Detail Booking entity, show me as JSON schema.
+        """
+    )
+    print("✅", response)
+
+    kg_index = KnowledgeGraphIndex.from_documents(
+        documents=[
+            Document(
+                text="CreditApp is a Project node",
+                metadata={"project": "CreditApp"},
+            ),
+            Document(
+                text="CreditApp has entity nodes: Loan, User",
+                metadata={"project": "CreditApp"},
+            ),
+        ],
+        storage_context=storage_context,
+        max_triplets_per_chunk=2,
+    )
+
+    response = query_engine.query(
+        """
+        I'm working on CreditApp project.
+        Get all the entities that I can reuse for CreditApp project.
+        Return output as JSON schema.
+        """
+    )
+    print("✅", response)
+
+    response = query_engine.query(
+        """
+        I'm working on CreditApp project.
+        Get newest User entity.
+        Return output as JSON schema.
+        """
+    )
+    print("✅", response)
+
+    kg_index = KnowledgeGraphIndex.from_documents(
+        documents=[
+            Document(
+                text="User add field nodes to current User entity: firstName, lastName, email, phone, address.",
+                metadata={"project": "CreditApp"},
+            )
+        ],
+        storage_context=storage_context,
+        max_triplets_per_chunk=2,
+    )
+
+    response = query_engine.query(
+        """
+        I'm working on CreditApp project.
+        Get newest User entity.
+        Return output as JSON schema.
+        """
+    )
+    print("✅", response)
+
+    response = query_engine.query(
+        """
+        I'm working on BookingApp project.
+        Get current User entity.
+        Return output as JSON schema.
+        """
+    )
+    print("✅", response)
 
 
 if __name__ == "__main__":
