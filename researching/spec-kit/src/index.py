@@ -1,3 +1,6 @@
+import nest_asyncio
+
+nest_asyncio.apply()
 import asyncio
 from llama_index.vector_stores.neo4jvector import Neo4jVectorStore
 from llama_index.core import (
@@ -13,10 +16,16 @@ from llama_index.llms.openai import OpenAI
 from pydantic import BaseModel, Field
 from typing import List
 from llama_index.graph_stores.neo4j import Neo4jGraphStore
+from llama_index.graph_stores.neo4j import Neo4jPropertyGraphStore
+from llama_index.core import (
+    PropertyGraphIndex,
+    SimpleDirectoryReader,
+    StorageContext,
+)
 
 load_dotenv()
 
-llm = OpenAI(model="gpt-4o")
+llm = OpenAI(model="gpt-4")
 
 
 username = "neo4j"
@@ -26,6 +35,12 @@ embed_dim = 768
 database = "neo4j"
 
 graph_store = Neo4jGraphStore(
+    username=username,
+    password=password,
+    url=url,
+)
+
+property_graph_store = Neo4jPropertyGraphStore(
     username=username,
     password=password,
     url=url,
@@ -55,7 +70,6 @@ class SpecSchema(BaseModel):
 
 
 async def main():
-    print("Start")
     documents = SimpleDirectoryReader("./specs").load_data()
 
     KG_TRIPLET_EXTRACT_TMPL = """
@@ -67,7 +81,7 @@ async def main():
     extractor = FunctionAgent(
         name="spec_extractor",
         system_prompt=(KG_TRIPLET_EXTRACT_TMPL),
-        # output_cls=SpecEntities,
+        output_cls=SpecSchema,
         llm=llm,
     )
 
@@ -78,7 +92,7 @@ async def main():
     # - **Booking**: Contains guest details, dates, room selection, and payment information
     # - **Room Type**: Defines room categories and their fields (size, max occupancy, amenities)
     # - **Rate Plan**: Includes pricing rules, cancellation policies, and included services
-    # - **Guest Profile**: Stores guest preferences and booking history
+    # - **Guest Profile**: Stores guest preferences and Booking history
     # - **Hotel**: Contains location, contact information, and available amenities"""
     #     )
 
@@ -87,65 +101,91 @@ async def main():
     # parsed_entities: SpecSchema = response.get_pydantic_model(SpecSchema)
     # print("Parsed Entities as Python object:", parsed_entities)
 
-    storage_context = StorageContext.from_defaults(graph_store=graph_store)
-
-    project_id = "bookingApp"
+    # storage_context = StorageContext.from_defaults(graph_store=graph_store)
 
     documents = [
         Document(
-            text="booking is a process. It has fields: guestDetails, bookingDates, roomSelection, paymentInformation.",
-            metadata={"projectId": project_id},
+            text="BookingApp has entities: Booking, Room, Pricing, User",
+            metadata={"projectId": "BookingApp"},
         ),
         Document(
-            text="roomType is a category. It has fields: size, maximumOccupancy, amenities.",
-            metadata={"projectId": project_id},
+            text="Booking entity HAS_FIELD: guestDetails, BookingDates, room, paymentInformation",
+            metadata={"projectId": "BookingApp"},
         ),
         Document(
-            text="ratePlan is a policy. It has fields: pricingRules, cancellationPolicies, includedServices.",
-            metadata={"projectId": project_id},
+            text="Room entity HAS_FIELD: size, maximumOccupancy, amenities",
+            metadata={"projectId": "BookingApp"},
         ),
         Document(
-            text="guestProfile is a record. It has fields: guestPreferences, bookingHistory.",
-            metadata={"projectId": project_id},
+            text="Pricing entity HAS_FIELD: price, discount",
+            metadata={"projectId": "BookingApp"},
         ),
         Document(
-            text="hotel is a location. It has fields: hotelLocation, contactInformation, availableAmenities.",
-            metadata={"projectId": project_id},
+            text="User entity HAS_FIELD: guestPreferences, BookingHistory",
+            metadata={"projectId": "BookingApp"},
+        ),
+        Document(
+            text="Hotel entity HAS_FIELD: hotelLocation, contactInformation, availableAmenities",
+            metadata={"projectId": "BookingApp"},
         ),
         Document(
             text="""
-            booking includes roomType.
-            booking applies ratePlan.
-            booking relatesTo guestProfile.
-            booking takesPlaceAt hotel.
+            Booking RELATED_TO Hotel
+            Booking RELATED_TO Room
+            Booking RELATED_TO Pricing
+            Booking RELATED_TO User
             """,
-            metadata={"projectId": project_id},
+            metadata={"projectId": "BookingApp"},
         ),
     ]
 
-    kg_index = KnowledgeGraphIndex.from_documents(
-        documents=documents,
-        storage_context=storage_context,
-        max_triplets_per_chunk=2,
+    try:
+        storage_context = StorageContext.from_defaults(persist_dir="./storage_n4")
+
+        kg_index = PropertyGraphIndex.from_existing(
+            llm=llm, property_graph_store=property_graph_store
+        )
+        print("✅ Existing index")
+    except FileNotFoundError as e:
+        print("❌ Creating new index")
+        storage_context = StorageContext.from_defaults(graph_store=property_graph_store)
+
+        kg_index = PropertyGraphIndex.from_documents(
+            llm=llm,
+            documents=documents,
+            storage_context=storage_context,
+            max_triplets_per_chunk=10,
+            include_embeddings=True,
+            property_graph_store=property_graph_store,
+        )
+
+        storage_context.persist(persist_dir="./storage_n4")
+
+    query_engine = kg_index.as_query_engine(
+        include_text=True,
+        similarity_top_k=2,
     )
 
-    query_engine = kg_index.as_query_engine()
     response = query_engine.query(
-        """
-        I'm working on BookingApp project.
-        Detail Booking entity, show me as JSON schema.
-        """
+        """<poml>
+    <role>You are an AI engineer</role>
+    <task>
+        Get the detail Booking entity and detail related entities.
+        Show me as JSON schema
+    </task>
+</poml>"""
     )
-    print("✅", response)
+
+    print("Q1 ✅", response)
 
     kg_index = KnowledgeGraphIndex.from_documents(
         documents=[
             Document(
-                text="CreditApp is a Project node",
+                text="CreditApp has entities: Loan, User",
                 metadata={"project": "CreditApp"},
             ),
             Document(
-                text="CreditApp has entity nodes: Loan, User",
+                text="Loan entity HAS_FIELD: loanAmount, loanTerm, interestRate",
                 metadata={"project": "CreditApp"},
             ),
         ],
@@ -154,27 +194,33 @@ async def main():
     )
 
     response = query_engine.query(
-        """
-        I'm working on CreditApp project.
-        Get all the entities that I can reuse for CreditApp project.
-        Return output as JSON schema.
-        """
+        """<poml>
+  <role>You are a AI engineer</role>
+  <task>
+    I'm working on CreditApp project.
+    Get all the entities that I can reuse for CreditApp project.
+    Return output as JSON schema.
+  </task>
+</poml>"""
     )
-    print("✅", response)
+    print("Q2 ✅", response)
 
     response = query_engine.query(
-        """
+        """<poml>
+    <role>You are a AI engineer</role>
+    <task>
         I'm working on CreditApp project.
         Get newest User entity.
         Return output as JSON schema.
-        """
+    </task>
+    </poml>"""
     )
-    print("✅", response)
+    print("Q3 ✅", response)
 
     kg_index = KnowledgeGraphIndex.from_documents(
         documents=[
             Document(
-                text="User add field nodes to current User entity: firstName, lastName, email, phone, address.",
+                text="User entity has fields: firstName, lastName, email, phone, address.",
                 metadata={"project": "CreditApp"},
             )
         ],
@@ -184,21 +230,29 @@ async def main():
 
     response = query_engine.query(
         """
-        I'm working on CreditApp project.
-        Get newest User entity.
-        Return output as JSON schema.
+        <poml>
+        <role>You are a AI engineer</role>
+        <task>
+            I'm working on CreditApp project.
+            Get newest User entity.
+            Return output as JSON schema.
+        </task>
+        </poml>
         """
     )
-    print("✅", response)
+    print("Q4 ✅", response)
 
     response = query_engine.query(
-        """
-        I'm working on BookingApp project.
-        Get current User entity.
-        Return output as JSON schema.
-        """
+        """<poml>
+        <role>You are a AI engineer</role>
+        <task>
+            I'm working on BookingApp project.
+            Get current User entity.
+            Return output as JSON schema.
+        </task>
+    </poml>"""
     )
-    print("✅", response)
+    print("Q5 ✅", response)
 
 
 if __name__ == "__main__":
