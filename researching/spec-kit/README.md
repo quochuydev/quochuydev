@@ -98,52 +98,74 @@ CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", descript
     (p1)-[:EMITS]->(e2),
     (e2)-[:NOTIFIES]->(a1),
     (a2)-[:HANDLES]->(p1);
-```
 
-    ```sql
-    MATCH (n) DETACH DELETE n;
+MATCH (n) DETACH DELETE n;
 
 CREATE (p: Project {
-    id: "Project:BookingApp",
-    name: "BookingApp"
+id: "Project:BookingApp",
+name: "BookingApp"
 });
 
 CREATE (entity: Entity {
-    id: "Entity:Booking",
-    version: "v1",
-    content: "GuestDetails, Dates, RoomSelection, PaymentInformation"
+id: "Entity:Booking",
+version: "v1",
+content: "GuestDetails, Dates, RoomSelection, PaymentInformation"
 });
 
 MATCH (entity: Entity {id: "Entity:Booking", version: "v1"}),
-      (p: Project { id: "Project:BookingApp" })
+(p: Project { id: "Project:BookingApp" })
 CREATE (entity)-[:Related]->(p);
 
 CREATE (entity: Entity {
-    id: "Entity:Room",
-    version: "v1",
-    content: "RoomType, RoomNumber, RoomCapacity, RoomPrice"
+id: "Entity:Room",
+version: "v1",
+content: "RoomType, RoomNumber, RoomCapacity, RoomPrice"
 });
 
 MATCH (entity: Entity {id: "Entity:Room", version: "v1"}),
-      (p: Project { id: "Project:BookingApp" })
+(p: Project { id: "Project:BookingApp" })
 CREATE (entity)-[:Related]->(p);
 
 CREATE (entity: Entity {
-    id: "Entity:User",
-    version: "v3",
-    content: "FirstName, LastName, Email, Phone, Address"
+id: "Entity:User",
+version: "v3",
+content: "FirstName, LastName, Email, Phone, Address"
 });
 
 MATCH (entity: Entity {id: "Entity:User", version: "v3"}),
-      (p: Project { id: "Project:BookingApp" })
+(p: Project { id: "Project:BookingApp" })
 CREATE (entity)-[:Related]->(p);
 
 CREATE (p: Project {
-    id: "Project:LoanApp",
-    name: "LoanApp"
+id: "Project:LoanApp",
+name: "LoanApp"
 });
 
 MATCH (entity: Entity { id: "Entity:User", version: "v3" }),
-      (p: Project { id: "Project:LoanApp" })
+(p: Project { id: "Project:LoanApp" })
 CREATE (entity)-[:Related]->(p);
+
+```
+
+### Question for Core App
+
+```markdown
+I'm working on BookingApp project.
+Detail Booking entity, show me as JSON schema.
+
+I'm working on CreditApp project.
+Get all the entities that I can reuse for CreditApp project.
+Return output as JSON schema.
+
+I'm working on CreditApp project.
+Get newest User entity.
+Return output as JSON schema.
+
+I'm working on CreditApp project.
+Get newest User entity.
+Return output as JSON schema.
+
+I'm working on BookingApp project.
+Get current User entity.
+Return output as JSON schema.
 ```
