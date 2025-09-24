@@ -3,7 +3,6 @@ from llama_index.vector_stores.neo4jvector import Neo4jVectorStore
 from llama_index.core import (
     StorageContext,
     KnowledgeGraphIndex,
-    VectorStoreIndex,
     SimpleDirectoryReader,
     Document,
 )
@@ -17,39 +16,7 @@ from llama_index.graph_stores.neo4j import Neo4jGraphStore
 
 load_dotenv()
 
-llm = OpenAI(model="gpt-4o")
-
-
-class SpecEntity(BaseModel):
-    id: str = Field(description="Unique identifier for the entity, e.g. Booking")
-    attributes: List[str] = Field(description="List of key attributes for the entity")
-
-
-class SpecEntities(BaseModel):
-    entities: List[SpecEntity] = Field(
-        description="List of extracted entities from spec-kit"
-    )
-
-
-def extract_entities_from_spec(text: str) -> List[SpecEntity]:
-    """
-    Extract entities from a spec-kit description.
-    Input: plain text spec
-    Output: array of entities with attributes
-    """
-    return [
-        SpecEntity(
-            id="Booking",
-            attributes=["GuestDetails", "Dates", "RoomSelection", "PaymentInformation"],
-        ),
-        SpecEntity(id="RoomType", attributes=["Size", "MaxOccupancy", "Amenities"]),
-        SpecEntity(
-            id="RatePlan",
-            attributes=["PricingRules", "CancellationPolicy", "IncludedServices"],
-        ),
-        SpecEntity(id="GuestProfile", attributes=["Preferences", "BookingHistory"]),
-        SpecEntity(id="Hotel", attributes=["Location", "ContactInfo", "Amenities"]),
-    ]
+llm = OpenAI(model="gpt-4")
 
 
 username = "neo4j"
@@ -64,67 +31,73 @@ graph_store = Neo4jGraphStore(
     url=url,
 )
 
-neo4j_vector = Neo4jVectorStore(
-    username=username,
-    password=password,
-    url=url,
-    embedding_dimension=embed_dim,
-    hybrid_search=True,
-)
-print(neo4j_vector)
 
-# storage_context = StorageContext.from_defaults(vector_store=neo4j_vector)
-# index = VectorStoreIndex.from_documents(documents, storage_context=storage_context)
+class SpecRelationship(BaseModel):
+    source: str = Field(description="The source entity ID, e.g. Booking")
+    target: str = Field(description="The target entity ID, e.g. Hotel")
+    type: str = Field(
+        description="The relationship type, e.g. HAS, BELONGS_TO, APPLIES_TO"
+    )
+
+
+class SpecEntity(BaseModel):
+    id: str = Field(description="Unique identifier for the entity, e.g. Booking")
+    fields: List[str] = Field(description="List of key fields for the entity")
+
+
+class SpecSchema(BaseModel):
+    entities: List[SpecEntity] = Field(
+        description="List of extracted entities from spec-kit"
+    )
+    relationships: List[SpecRelationship] = Field(
+        description="List of relationships between entities"
+    )
 
 
 async def main():
     print("Start")
     documents = SimpleDirectoryReader("./specs").load_data()
+
     extractor = FunctionAgent(
-        tools=[extract_entities_from_spec],
         name="spec_extractor",
         system_prompt=(
-            "You are an assistant that extracts structured entities from spec-kit documents. "
-            "Always return them as an array of objects with id and attributes."
+            "You are an assistant that extracts structured entities and relationships from spec-kit documents."
+            "Your output must always follow this format:"
+            "- entities: an array of objects with 'id' (camelCase) and 'fields' (camelCase list)."
+            "- relationships: an array of objects with 'source', 'target', and 'type'."
+            "Use consistent IDs (Booking, RoomType, RatePlan, GuestProfile, Hotel)."
+            "Use camelCase for fields."
+            "Relationship types must be short verbs in UPPERCASE (e.g., HAS, BELONGS_TO, USES, OFFERS, MAKES)."
+            "Do not invent extra entities or fields. Stay consistent across runs."
         ),
         output_cls=SpecEntities,
         llm=llm,
     )
 
-    response = await extractor.run(documents[0].text)
-    parsed_entities: SpecEntities = response.get_pydantic_model(SpecEntities)
+    # response = await extractor.run(documents[0].text)
 
-    print("Parsed Entities as Python object:", parsed_entities)
-    # entities = [
-    #     SpecEntity(id="Booking", attributes=["GuestDetails", "Dates", "RoomSelection", "PaymentInformation"]),
-    #     SpecEntity(id="Room Type", attributes=["Size", "MaxOccupancy", "Amenities"]),
-    #     SpecEntity(id="Rate Plan", attributes=["PricingRules", "CancellationPolicy", "IncludedServices"]),
-    #     SpecEntity(id="Guest Profile", attributes=["Preferences", "BookingHistory"]),
-    #     SpecEntity(id="Hotel", attributes=["Location", "ContactInfo", "Amenities"]),
-    # ]
-
-    project_node = Document(
-        text="Project BookingApp",
-        metadata={"id": "Project:BookingApp", "name": "BookingApp"},
+    response = await extractor.run(
+        """## Key Entities
+- **Booking**: Contains guest details, dates, room selection, and payment information
+- **Room Type**: Defines room categories and their fields (size, max occupancy, amenities)
+- **Rate Plan**: Includes pricing rules, cancellation policies, and included services
+- **Guest Profile**: Stores guest preferences and booking history
+- **Hotel**: Contains location, contact information, and available amenities"""
     )
 
-    documents_to_index = [project_node]
-
-    for e in parsed_entities.entities:
-        text = f"Entity {e.id} has attributes: {', '.join(e.attributes)}"
-        documents_to_index.append(
-            Document(
-                text=text,
-                metadata={
-                    "id": f"Entity:{e.id}",
-                    "attributes": e.attributes,
-                    "project_id": "Project:BookingApp",
-                    "version": 1,
-                },
-            )
-        )
+    parsed_entities: SpecEntities = response.get_pydantic_model(SpecEntities)
+    print("Parsed Entities as Python object:", parsed_entities)
 
     storage_context = StorageContext.from_defaults(graph_store=graph_store)
+
+    documents_to_index = [
+        Document(text="Project (node) BookingApp has entities: Booking, RoomType."),
+    ]
+
+    for e in parsed_entities.entities:
+        documents_to_index.append(
+            Document(text=f"Entity (node) {e.id} has fields: {', '.join(e.fields)}")
+        )
 
     KnowledgeGraphIndex.from_documents(
         documents_to_index,

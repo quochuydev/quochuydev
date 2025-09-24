@@ -98,8 +98,8 @@ CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", descript
     (a2)-[:HANDLES]->(p1);
 ```
 
-```sql
-MATCH (n) DETACH DELETE n;
+    ```sql
+    MATCH (n) DETACH DELETE n;
 
 CREATE (p: Project {
     id: "Project:BookingApp",
@@ -123,16 +123,6 @@ CREATE (entity: Entity {
 });
 
 MATCH (entity: Entity {id: "Entity:Room", version: "v1"}),
-      (p: Project { id: "Project:BookingApp" })
-CREATE (entity)-[:Related]->(p);
-
-CREATE (entity: Entity {
-    id: "Entity:Booking",
-    version: "v2",
-    content: "GuestDetails, Dates, RoomSelection, PaymentInformation"
-});
-
-MATCH (entity: Entity {id: "Entity:Booking", version: "v2"}),
       (p: Project { id: "Project:BookingApp" })
 CREATE (entity)-[:Related]->(p);
 
