@@ -44,17 +44,13 @@ const StreamProvider: React.FC<Props> = ({ children }) => {
       video: true,
       audio: true,
     });
-
     setLocalStream(localStreamData);
 
     const remoteVideo = document.getElementById(
       "remoteStream",
     ) as HTMLVideoElement;
 
-    await setupStream({
-      localStreamData,
-      remoteVideo,
-    });
+    await setupStream({ localStreamData, remoteVideo });
   };
 
   function pauseVideo() {

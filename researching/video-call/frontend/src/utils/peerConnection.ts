@@ -1,5 +1,7 @@
 import type { IceCandidate } from "@/types/room.ts";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000";
+
 const servers = {
   iceServers: [
     {
@@ -59,13 +61,16 @@ export const setupTheAnswer = async (
   offerDescription: any,
 ): Promise<RTCSessionDescriptionInit> => {
   if (!pc) await setupPeerConnection();
+
   const description = new RTCSessionDescription({
     sdp: offerDescription.sdp,
     type: offerDescription.type as RTCSdpType,
   });
   await pc!.setRemoteDescription(description);
+
   const answerDescription = await pc!.createAnswer();
   await pc!.setLocalDescription(answerDescription);
+
   return answerDescription;
 };
 
@@ -97,28 +102,47 @@ export const peerConnectionIcecandidate = async ({
   roomId: string;
   roomMemberId: string;
 }) => {
+  // console.log(`debug:pc`, !!pc, {
+  //   roomId,
+  //   roomMemberId,
+  // });
+
   if (!pc) await setupPeerConnection();
 
   pc!.onicecandidate = async (event) => {
     if (event.candidate) {
-      //
+      const candidate = {
+        candidate: event.candidate.candidate,
+        sdpMid: event.candidate.sdpMid,
+        sdpMLineIndex: event.candidate.sdpMLineIndex,
+        usernameFragment: event.candidate.usernameFragment,
+      };
+
+      const res = await fetch(`${API_BASE}/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ type: "candidate", data: candidate }),
+      });
     }
   };
 
   pc!.onconnectionstatechange = (event) => {
-    console.log("connectionstatechange", event.target);
+    // console.log("connectionstatechange", event.target);
   };
 
   pc!.onsignalingstatechange = (event) => {
-    console.log("onsignalingstatechange", event.target);
+    // console.log("onsignalingstatechange", event.target);
   };
 
   pc!.addEventListener("iceconnectionstatechange", (event) => {
-    console.log("iceConnectionState", event.target!);
+    // console.log("iceConnectionState", event.target!);
   });
 
   pc!.ondatachannel = (event) => {
     const dataChannel = event.channel;
+    console.log(`debug:dataChannel`, dataChannel);
   };
 };
 
@@ -140,7 +164,7 @@ export const setupStream = async ({
   remoteVideo.srcObject = remoteStream;
 
   pc!.ontrack = (ev: any) => {
-    console.log(`debug:ev.streams`, ev.streams);
+    console.log(`debug:ev.streams`, !!ev.streams?.[0]);
 
     if (ev.streams && ev.streams[0]) {
       remoteVideo.srcObject = ev.streams[0];

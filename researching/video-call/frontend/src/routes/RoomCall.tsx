@@ -27,54 +27,21 @@ import VideoOffSVG from "@/assets/icons/videoOff";
 import EndCallSVG from "@/assets/icons/endCall";
 import CallerUserSVG from "@/assets/icons/callerUserSVG";
 import { useStream } from "@/contexts/stream";
+import type { PCDescription } from "@/types/room";
+import { io } from "socket.io-client";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000";
 
 export default function RoomCall() {
   const { id } = useParams<{ id: string }>();
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const localVideoRef = useRef<HTMLVideoElement>(null);
-
-  // Read token from query string
-  useEffect(() => {
-    const qs = new URLSearchParams(window.location.search);
-    const t = qs.get("token");
-    if (!t) {
-      setError("Missing token in URL (?token=...)");
-    } else {
-      setToken(t);
-    }
-  }, []);
+  const socket = io("ws://localhost:4000");
+  const [offer, setOffer] = useState<any | null>(null);
 
   const [remoteVideo, setRemoteVideo] = useState<HTMLVideoElement>();
   const [localVideo, setLocalVideo] = useState<HTMLVideoElement>();
-
-  // useEffect(() => {
-  //   async function getMedia() {
-  //     try {
-  //       const stream = await navigator.mediaDevices.getUserMedia({
-  //         video: true,
-  //         audio: true,
-  //       });
-
-  //       const localVideoData = document.getElementById(
-  //         "localStream",
-  //       ) as HTMLVideoElement;
-
-  //       setLocalVideo(localVideoData);
-
-  //       if (localVideoData && localVideoData instanceof HTMLVideoElement) {
-  //         localVideoData.srcObject = stream;
-  //       }
-
-  //       if (localVideoRef.current) {
-  //         localVideoRef.current.srcObject = stream;
-  //       }
-  //     } catch (e: any) {
-  //       setError(e?.message || "Unable to access camera/microphone");
-  //     }
-  //   }
-  //   getMedia();
-  // }, []);
 
   const roomLabel = useMemo(() => id ?? "unknown", [id]);
 
@@ -98,28 +65,102 @@ export default function RoomCall() {
     //TODO
   }
 
-  const [localStreams, setLocalStreams] = useState([
-    {
-      id: "1",
-      stream: null,
-    },
-  ]);
-
   const [isConnected, setIsConnected] = useState(false);
   const [transport, setTransport] = useState("N/A");
 
   useEffect(() => {
-    setupChannel();
+    const qs = new URLSearchParams(window.location.search);
+    const t = qs.get("token");
+    console.log(`debug:token`, t);
+
+    if (!t) {
+      setError("Missing token in URL (?token=...)");
+    } else {
+      setToken(t);
+    }
+
+    socket.io.on("reconnect", (attempt) => {
+      console.log(`debug:reconnected`);
+    });
+
+    socket.on("offer", async (offer) => {
+      if (!t) {
+        console.log(`debug:ANSWER_OFFER`);
+
+        const answer = await setupTheAnswer({
+          sdp: offer.sdp,
+          type: offer.type as RTCSdpType,
+        });
+
+        await fetch(`${API_BASE}/send`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ type: "description", data: answer }),
+        });
+      }
+    });
+
+    socket.on("candidate", async (data) => {
+      addIce({ ...data });
+    });
+
+    socket.on("description", async (data) => {
+      if (t) {
+        console.log(`debug:ANSWERED`, data);
+
+        peerSetRemoteDescription(data);
+      }
+    });
   }, []);
+
+  useEffect(() => {
+    setupChannel();
+  }, [token]);
 
   const setupChannel = async () => {
     setLoading(true);
-    console.log(`debug:123`, 123);
 
-    setStream();
-    // await setupDataChannel("room-1");
+    await setStream();
+    await setupDataChannel("room-1");
 
-    // const pc = getPeerConnection();
+    const pc = getPeerConnection();
+
+    await peerConnectionIcecandidate({
+      roomId: "room-1",
+      roomMemberId: "roomMemberId",
+    });
+
+    if (token) {
+      console.log(`debug:START_SEND_OFFER`);
+      // OWNER
+      const offerDescription = await setupTheOffer();
+
+      const offer: PCDescription = {
+        sdp: offerDescription.sdp,
+        type: offerDescription.type,
+      };
+
+      console.log(`debug:offer`, !!offer);
+
+      const res = await fetch(`${API_BASE}/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ type: "offer", data: offer }),
+      });
+
+      const data = (await res.json()) as { roomId: string; joinUrl: string };
+      console.log(`debug:data`, !!data);
+    }
+
+    pc.addEventListener("negotiationneeded", async (event) => {
+      console.log(`debug:negotiationneeded`);
+    });
+
+    // addIce();
 
     setLoading(false);
   };
@@ -137,7 +178,6 @@ export default function RoomCall() {
   }, [remoteStream]);
 
   useEffect(() => {
-    console.log(`debug:localStream`, localStream);
     if (localStream) {
       const localVideoData = document.getElementById(
         "localStream",
@@ -171,7 +211,7 @@ export default function RoomCall() {
         <div className="max-h-[900px] h-[91%] w-full bg-green-200 rounded-md relative overflow-hidden mt-4">
           {/* remote participants */}
           <div
-            className="w-full h-full grid gap-2 p-2"
+            className="hidden w-full h-full grid gap-2 p-2"
             style={{
               gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`,
             }}
@@ -183,7 +223,7 @@ export default function RoomCall() {
                   className="relative bg-black rounded-md overflow-hidden flex items-center justify-center"
                 >
                   <video
-                    id="removeStream"
+                    id="remoteStream"
                     autoPlay
                     playsInline
                     className="w-full h-full object-cover"
@@ -199,6 +239,18 @@ export default function RoomCall() {
                 <CallerUserSVG className="w-32 h-32" />
               </div>
             )}
+          </div>
+
+          <div className="relative bg-black rounded-md overflow-hidden flex items-center justify-center">
+            <video
+              id="remoteStream"
+              autoPlay
+              playsInline
+              className="w-full h-full object-cover"
+            />
+            <div className="hidden absolute inset-0 flex items-center justify-center text-white pointer-events-none">
+              <CallerUserSVG className="w-16 h-16 opacity-70" />
+            </div>
           </div>
 
           {/* local stream floating window */}
