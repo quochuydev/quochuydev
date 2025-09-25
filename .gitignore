@@ -4,3 +4,8 @@ dist
 sensitive.md
 .env
 ignore/
+.dist
+dist
+.env
+.env.*
+.DS_Store
