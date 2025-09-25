@@ -130,6 +130,7 @@ export const setupStream = async ({
   remoteVideo: HTMLVideoElement;
 }) => {
   if (!pc) await setupPeerConnection();
+
   localStreamData.getTracks().forEach((track) => {
     pc!.addTrack(track, localStreamData);
   });
@@ -139,6 +140,8 @@ export const setupStream = async ({
   remoteVideo.srcObject = remoteStream;
 
   pc!.ontrack = (ev: any) => {
+    console.log(`debug:ev.streams`, ev.streams);
+
     if (ev.streams && ev.streams[0]) {
       remoteVideo.srcObject = ev.streams[0];
     } else {

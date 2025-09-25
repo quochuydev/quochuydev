@@ -6,6 +6,7 @@ import React, { useContext, useState } from "react";
 const initialValues: {
   localStream?: MediaStream;
   remoteStream?: MediaStream;
+  remoteStreams: MediaStream[];
   setStream: Function;
   pauseVideo: Function;
   resumeVideo: Function;
@@ -15,6 +16,7 @@ const initialValues: {
 } = {
   localStream: undefined,
   remoteStream: undefined,
+  remoteStreams: [],
   setStream: () => {},
   pauseVideo: () => {},
   resumeVideo: () => {},
@@ -33,20 +35,21 @@ const useStream = () => useContext(StreamContext);
 
 const StreamProvider: React.FC<Props> = ({ children }) => {
   const [localStream, setLocalStream] = useState<MediaStream>();
-  const remoteStream = new MediaStream();
 
-  // called on the useEffect to setup the streams
+  const remoteStream = new MediaStream();
+  const [remoteStreams, setRemoteStreams] = useState<MediaStream[]>([]);
+
   const setStream = async () => {
     const localStreamData = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true,
     });
+
+    setLocalStream(localStreamData);
+
     const remoteVideo = document.getElementById(
       "remoteStream",
     ) as HTMLVideoElement;
-
-    const pc = getPeerConnection();
-    setLocalStream(localStreamData);
 
     await setupStream({
       localStreamData,
@@ -60,21 +63,18 @@ const StreamProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
-  // Function to resume video
   function resumeVideo() {
     if (localStream && localStream.getVideoTracks().length > 0) {
       localStream.getVideoTracks()[0].enabled = true;
     }
   }
 
-  // Function to pause audio
   function pauseAudio() {
     if (localStream && localStream.getAudioTracks().length > 0) {
       localStream.getAudioTracks()[0].enabled = false;
     }
   }
 
-  // Function to resume audio
   function resumeAudio() {
     if (localStream && localStream.getAudioTracks().length > 0) {
       localStream.getAudioTracks()[0].enabled = true;
@@ -92,6 +92,7 @@ const StreamProvider: React.FC<Props> = ({ children }) => {
       value={{
         localStream,
         remoteStream,
+        remoteStreams,
         setStream,
         pauseVideo,
         resumeVideo,
