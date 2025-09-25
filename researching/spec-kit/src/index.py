@@ -260,15 +260,7 @@ async def main():
   "version": "integer",
   "fields": {
     "fieldName": "fieldType"
-  },
-  "relatedEntities": [
-    {
-      "entity": "string",
-      "version": "integer",
-      "fields": {...},
-      "relatedEntities": [...]
-    }
-  ]
+  }
 }
     </output-format>
 </poml>
@@ -290,15 +282,7 @@ async def main():
   "version": "integer",
   "fields": {
     "fieldName": "fieldType"
-  },
-  "relatedEntities": [
-    {
-      "entity": "string",
-      "version": "integer",
-      "fields": {...},
-      "relatedEntities": [...]
-    }
-  ]
+  }
 }
     </output-format>
 </poml>"""
