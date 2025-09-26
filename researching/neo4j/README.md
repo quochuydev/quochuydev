@@ -25,7 +25,7 @@ pyenv exec python3 ./src/index.py
 pyenv exec pip install llama-index-graph-stores-neo4j
 
 docker run \
-  --name neo4j \
+  --name neo4j -d \
   -p7474:7474 -p7687:7687 \
   -e NEO4J_AUTH=neo4j/Qwerty@123 \
   -e NEO4JLABS_PLUGINS='["apoc"]' \
