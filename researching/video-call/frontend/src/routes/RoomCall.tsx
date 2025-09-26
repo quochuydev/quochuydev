@@ -71,7 +71,6 @@ export default function RoomCall() {
   useEffect(() => {
     const qs = new URLSearchParams(window.location.search);
     const t = qs.get("token");
-    console.log(`debug:token`, t);
 
     if (!t) {
       setError("Missing token in URL (?token=...)");
@@ -144,23 +143,18 @@ export default function RoomCall() {
 
       console.log(`debug:offer`, !!offer);
 
-      const res = await fetch(`${API_BASE}/send`, {
+      await fetch(`${API_BASE}/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ type: "offer", data: offer }),
       });
-
-      const data = (await res.json()) as { roomId: string; joinUrl: string };
-      console.log(`debug:data`, !!data);
     }
 
     pc.addEventListener("negotiationneeded", async (event) => {
       console.log(`debug:negotiationneeded`);
     });
-
-    // addIce();
 
     setLoading(false);
   };
