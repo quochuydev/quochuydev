@@ -178,7 +178,8 @@ agent = FunctionAgent(
 async def main():
 
     response = await agent.run(
-        """create BookingApp project HAS_ENTITY: Booking, Room, Pricing, User"""
+        """first create BookingApp project (unique)"""
+        """BookingApp HAS_ENTITY: Booking, Room, Pricing, User"""
         """create Booking entity HAS_FIELD: user, bookingDates, room, pricing"""
         """create Room entity HAS_FIELD: size, maximumOccupancy, amenities, hotel"""
         """create Pricing entity HAS_FIELD: price, discount"""
