@@ -10,6 +10,8 @@ pyenv local 3.11.9
 # Optional
 pyenv rehash
 
+pyenv exec pip3 --version
+
 pyenv exec pip install --upgrade pip
 
 pyenv exec pip install fastmcp "mcp[cli]"
@@ -19,8 +21,6 @@ pyenv exec pip install llama-index-llms-openai llama-index-embeddings-openai
 pyenv exec pip install llama-index-vector-stores-neo4jvector neo4j
 
 pyenv exec pip install dotenv llama-index pydantic tavily-python
-
-pyenv exec python3 ./src/index.py
 
 docker run \
   --name neo4j -d \
@@ -35,6 +35,8 @@ docker cp ./apoc-5.26.12-core.jar neo4j:/plugins/
 
 pyenv exec pip install llama-index llama-index-graph-stores-neo4j graspologic
 
+# Run: cd researching/neo4j
+pyenv exec python3 ./src/index.py
 ```
 
 ### Hotel Booking
@@ -97,55 +99,50 @@ CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", descript
     (e2)-[:NOTIFIES]->(a1),
     (a2)-[:HANDLES]->(p1);
 
- CREATE (project:BookingApp { id: "Project:BookingApp", name: "BookingApp" }),
-    (entity: Entity { id: "Entity:Booking" }),
-    (field: Field { id: "Field:guestDetails" }),
-    (field2: Field { id: "Field:BookingDates" }),
-    (field3: Field { id: "Field:room" }),
-    (field4: Field { id: "Field:paymentInformation" }),
-    (entity)-[:BELONGS_TO]->(project),
-    (field)-[:BELONGS_TO]->(entity),
-    (field2)-[:BELONGS_TO]->(entity),
-    (field3)-[:BELONGS_TO]->(entity),
-    (field4)-[:BELONGS_TO]->(entity),
-    (entity2: Entity { id: "Entity:Room" }),
-    (field5: Field { id: "Field:size" }),
-    (field6: Field { id: "Field:maximumOccupancy" }),
-    (field7: Field { id: "Field:amenities" }),
-    (entity2)-[:BELONGS_TO]->(project),
-    (field5)-[:BELONGS_TO]->(entity2),
-    (field6)-[:BELONGS_TO]->(entity2),
-    (field7)-[:BELONGS_TO]->(entity2),
-    (entity3: Entity { id: "Entity:Pricing" }),
-    (field8: Field { id: "Field:price" }),
-    (field9: Field { id: "Field:discount" }),
-    (entity3)-[:BELONGS_TO]->(project),
-    (field8)-[:BELONGS_TO]->(entity3),
-    (field9)-[:BELONGS_TO]->(entity3),
-    (entity4: Entity { id: "Entity:User" }),
-    (field10: Field { id: "Field:guestPreferences" }),
-    (field11: Field { id: "Field:BookingHistory" }),
-    (entity4)-[:BELONGS_TO]->(project),
-    (field10)-[:BELONGS_TO]->(entity4),
-    (field11)-[:BELONGS_TO]->(entity4),
-    (entity5: Entity { id: "Entity:Hotel" }),
-    (field12: Field { id: "Field:hotelLocation" }),
-    (field13: Field { id: "Field:contactInformation" }),
-    (field14: Field { id: "Field:availableAmenities" }),
-    (entity5)-[:BELONGS_TO]->(project),
-    (field12)-[:BELONGS_TO]->(entity5),
-    (field13)-[:BELONGS_TO]->(entity5),
-    (field14)-[:BELONGS_TO]->(entity5),
-    (entity)-[:RELATED_TO]->(entity2),
-    (entity)-[:RELATED_TO]->(entity3),
-    (entity)-[:RELATED_TO]->(entity4),
-    (entity)-[:RELATED_TO]->(entity5),
-    (entity2)-[:RELATED_TO]->(entity3),
-    (entity2)-[:RELATED_TO]->(entity4),
-    (entity2)-[:RELATED_TO]->(entity5),
-    (entity3)-[:RELATED_TO]->(entity4),
-    (entity3)-[:RELATED_TO]->(entity5),
-    (entity4)-[:RELATED_TO]->(entity5);
+MATCH (n) DETACH DELETE n;
+
+CREATE (project:BookingApp { id: "Project:BookingApp", name: "BookingApp" }),
+    (eBooking: Entity { id: "Entity:Booking" }),
+    (fUser: Field { id: "Field:guestDetails" }),
+    (fBookingDates: Field { id: "Field:BookingDates" }),
+    (fRoom: Field { id: "Field:room" }),
+    (fPricing: Field { id: "Field:pricing" }),
+    (eBooking)-[:BELONGS_TO]->(project),
+    (fUser)-[:BELONGS_TO]->(eBooking),
+    (fBookingDates)-[:BELONGS_TO]->(eBooking),
+    (fRoom)-[:BELONGS_TO]->(eBooking),
+    (fPricing)-[:BELONGS_TO]->(eBooking),
+    (eRoom: Entity { id: "Entity:Room" }),
+    (fSize: Field { id: "Field:size" }),
+    (fMaximumOccupancy: Field { id: "Field:maximumOccupancy" }),
+    (fAmenities: Field { id: "Field:amenities" }),
+    (eRoom)-[:BELONGS_TO]->(project),
+    (fSize)-[:BELONGS_TO]->(eRoom),
+    (fMaximumOccupancy)-[:BELONGS_TO]->(eRoom),
+    (fAmenities)-[:BELONGS_TO]->(eRoom),
+    (ePricing: Entity { id: "Entity:Pricing" }),
+    (fPrice: Field { id: "Field:price" }),
+    (fDiscount: Field { id: "Field:discount" }),
+    (ePricing)-[:BELONGS_TO]->(project),
+    (fPrice)-[:BELONGS_TO]->(ePricing),
+    (fDiscount)-[:BELONGS_TO]->(ePricing),
+    (eUser: Entity { id: "Entity:User" }),
+    (fGuestPreferences: Field { id: "Field:guestPreferences" }),
+    (fBookingHistory: Field { id: "Field:BookingHistory" }),
+    (eUser)-[:BELONGS_TO]->(project),
+    (fGuestPreferences)-[:BELONGS_TO]->(eUser),
+    (fBookingHistory)-[:BELONGS_TO]->(eUser),
+    (eHotel: Entity { id: "Entity:Hotel" }),
+    (fHotelLocation: Field { id: "Field:hotelLocation" }),
+    (fContactInformation: Field { id: "Field:contactInformation" }),
+    (fAvailableAmenities: Field { id: "Field:availableAmenities" }),
+    (eHotel)-[:BELONGS_TO]->(project),
+    (fHotelLocation)-[:BELONGS_TO]->(eHotel),
+    (fContactInformation)-[:BELONGS_TO]->(eHotel),
+    (fAvailableAmenities)-[:BELONGS_TO]->(eHotel),
+    (fRoom)-[:RELATED]->(eRoom),
+    (fPricing)-[:RELATED]->(ePricing),
+    (fUser)-[:RELATED]->(eUser);
 
 MATCH (n) DETACH DELETE n;
 
