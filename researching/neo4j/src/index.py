@@ -36,22 +36,22 @@ index = PropertyGraphIndex.from_existing(
 )
 
 
-def run_cypher(query: str) -> str:
-    result = property_graph_store.structured_query(query)
-    return result
-
-
-run_cypher_tool = FunctionTool.from_defaults(
-    fn=run_cypher,
-    name="run_cypher",
-    description="Execute arbitrary Cypher queries against the Neo4j property graph store.",
-)
-
-
 class EntityDetails(BaseModel):
     entity: str
     fields: List[str]
     relatedEntities: List[str]
+
+
+class CreateEntityResponse(BaseModel):
+    project: str
+    entity: str
+    fields: List[str]
+    status: str = "success"
+
+
+def run_cypher(query: str) -> str:
+    result = property_graph_store.structured_query(query)
+    return result
 
 
 def get_entity_details(entity: str) -> EntityDetails:
@@ -80,20 +80,6 @@ def get_entity_details(entity: str) -> EntityDetails:
     return EntityDetails(entity=entity, fields=[], relatedEntities=[])
 
 
-get_entity_tool = FunctionTool.from_defaults(
-    fn=get_entity_details,
-    name="get_entity_details",
-    description="Fetch an entity with its fields and related entities from Neo4j. Input = entity name (e.g. 'Booking'). Output = strict JSON.",
-)
-
-
-class CreateEntityResponse(BaseModel):
-    project: str
-    entity: str
-    fields: List[str]
-    status: str = "success"
-
-
 def create_entity(project: str, entity: str, fields: list) -> str:
     statements = []
 
@@ -118,6 +104,19 @@ def create_entity(project: str, entity: str, fields: list) -> str:
     property_graph_store.structured_query(cypher)
 
     return CreateEntityResponse(project=project, entity=entity, fields=fields).dict()
+
+
+run_cypher_tool = FunctionTool.from_defaults(
+    fn=run_cypher,
+    name="run_cypher",
+    description="Execute arbitrary Cypher queries against the Neo4j property graph store.",
+)
+
+get_entity_tool = FunctionTool.from_defaults(
+    fn=get_entity_details,
+    name="get_entity_details",
+    description="Fetch an entity with its fields and related entities from Neo4j. Input = entity name (e.g. 'Booking'). Output = strict JSON.",
+)
 
 
 create_entity_tool = FunctionTool.from_defaults(
