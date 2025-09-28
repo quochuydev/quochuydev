@@ -49,9 +49,61 @@ class CreateEntityResponse(BaseModel):
     status: str = "success"
 
 
-def run_cypher(query: str) -> str:
-    result = property_graph_store.structured_query(query)
-    return result
+class CreateRelationResponse(BaseModel):
+    source: str
+    target: str
+    relation: str
+    status: str = "success"
+
+
+def create_entity(project: str, entity: str, fields: List[str]) -> dict:
+    """
+    Create a project if not exists, an entity under it,
+    and its fields in Neo4j.
+    """
+    statements = []
+
+    # Ensure project exists
+    statements.append(f'MERGE (p:Project {{id:"Project:{project}", name:"{project}"}})')
+
+    # Ensure entity exists and link to project
+    statements.append(
+        f'MERGE (e:Entity {{id:"Entity:{entity}"}}) ' f"MERGE (e)-[:BELONGS_TO]->(p)"
+    )
+
+    # Ensure fields exist and link to entity
+    for field in fields:
+        statements.append(
+            f'MERGE (f:Field {{id:"Field:{field}"}}) ' f"MERGE (f)-[:BELONGS_TO]->(e)"
+        )
+
+    cypher = "\n".join(statements)
+    print("Cypher create_entity:\n", cypher)
+
+    property_graph_store.structured_query(cypher)
+
+    return CreateEntityResponse(project=project, entity=entity, fields=fields).dict()
+
+
+# ----------------------------
+# Create relationship between entities
+# ----------------------------
+def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> dict:
+    """
+    Create a relationship between two entities.
+    """
+    cypher = f"""
+    MATCH (s:Entity {{id:"Entity:{source}"}})
+    MATCH (t:Entity {{id:"Entity:{target}"}})
+    MERGE (s)-[:{relation}]->(t)
+    """
+    print("Cypher create_relation:\n", cypher)
+
+    property_graph_store.structured_query(cypher)
+
+    return CreateRelationResponse(
+        source=source, target=target, relation=relation
+    ).dict()
 
 
 def get_entity_details(entity: str) -> EntityDetails:
@@ -80,38 +132,6 @@ def get_entity_details(entity: str) -> EntityDetails:
     return EntityDetails(entity=entity, fields=[], relatedEntities=[])
 
 
-def create_entity(project: str, entity: str, fields: list) -> str:
-    statements = []
-
-    statements.append(
-        f'MERGE (p{project}: Project {{id:"Project:{project}", name:"{project}"}})'
-    )
-
-    statements.append(
-        f'MERGE (e{entity}: Entity {{id:"Entity:{entity}"}}) '
-        f"MERGE (e{entity})-[:BELONGS_TO]->(p{project})"
-    )
-
-    for field in fields:
-        statements.append(
-            f"""MERGE (f{field}: Field {{id:"Field:{field}"}}) """
-            f"MERGE (f{field})-[:BELONGS_TO]->(e{entity})"
-        )
-
-    cypher = "\n".join(statements)
-    print(cypher)
-
-    property_graph_store.structured_query(cypher)
-
-    return CreateEntityResponse(project=project, entity=entity, fields=fields).dict()
-
-
-run_cypher_tool = FunctionTool.from_defaults(
-    fn=run_cypher,
-    name="run_cypher",
-    description="Execute arbitrary Cypher queries against the Neo4j property graph store.",
-)
-
 get_entity_tool = FunctionTool.from_defaults(
     fn=get_entity_details,
     name="get_entity_details",
@@ -125,36 +145,43 @@ create_entity_tool = FunctionTool.from_defaults(
     description="Create an entity with fields inside a project in the Neo4j graph store.",
 )
 
+create_relation_tool = FunctionTool.from_defaults(
+    fn=create_relation,
+    name="create_relation",
+    description="Create a relationship between two entities.",
+)
+
+
 agent = FunctionAgent(
-    # tools=[get_entity_tool, create_entity_tool],
-    tools=[
-        get_entity_tool,
-    ],
     verbose=True,
-    output_cls=EntityDetails,
+    tools=[get_entity_tool, create_entity_tool, create_relation_tool],
+    # tools=[
+    #     get_entity_tool,
+    # ],
+    # output_cls=EntityDetails,
 )
 
 
 async def main():
 
-    # response = await agent.run(
-    #     """create BookingApp project HAS_ENTITY: Booking, Room, Pricing, User"""
-    #     """create Booking entity HAS_FIELD: user, bookingDates, room, pricing"""
-    #     """create Room entity HAS_FIELD: size, maximumOccupancy, amenities, hotel"""
-    #     """create Pricing entity HAS_FIELD: price, discount"""
-    #     """create User entity HAS_FIELD: firstName, lastName, bookingHistory"""
-    #     """create Hotel entity HAS_FIELD: location, contactInformation, availableAmenities"""
-    #     """create Hotel RELATED_TO Room"""
-    #     """create Booking RELATED_TO Room"""
-    #     """create Booking RELATED_TO Pricing"""
-    #     """create Booking RELATED_TO User"""
-    # )
-    # print("Insert 1 ✅", response)
-
     response = await agent.run(
-        "Get the detail Booking entity and detail related entities. Return strict JSON."
+        """create BookingApp project HAS_ENTITY: Booking, Room, Pricing, User"""
+        """create Booking entity HAS_FIELD: user, bookingDates, room, pricing"""
+        """create Room entity HAS_FIELD: size, maximumOccupancy, amenities, hotel"""
+        """create Pricing entity HAS_FIELD: price, discount"""
+        """create User entity HAS_FIELD: firstName, lastName, bookingHistory"""
+        """create Hotel entity HAS_FIELD: location, contactInformation, availableAmenities"""
+        """create Hotel RELATED_TO Room"""
+        """create Booking RELATED_TO Room"""
+        """create Booking RELATED_TO Pricing"""
+        """create Booking RELATED_TO User"""
     )
-    print("Q1 ✅", response)
+    print("Insert 1 ✅", response)
+
+    # response = await agent.run(
+    #     "Get the detail Booking entity and detail related entities. Return strict JSON."
+    # )
+    # print("Q1 ✅", response)
 
     # response = await agent.run("""create Credit project HAS_ENTITY: Loan, User""")
     # print("Insert 2 ✅", response)
