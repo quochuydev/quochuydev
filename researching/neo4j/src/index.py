@@ -81,16 +81,11 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     and its fields in Neo4j.
     """
     statements = []
-
-    # Ensure project exists
     statements.append(f'MERGE (p:Project {{id:"Project:{project}", name:"{project}"}})')
-
-    # Ensure entity exists and link to project
     statements.append(
         f'MERGE (e:Entity {{id:"Entity:{entity}"}}) ' f"MERGE (e)-[:BELONGS_TO]->(p)"
     )
 
-    # Ensure fields exist and link to entity (unique vars per field)
     for i, field in enumerate(fields):
         var = f"f{i}"
         statements.append(
