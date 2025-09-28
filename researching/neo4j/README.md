@@ -22,8 +22,6 @@ pyenv exec pip install dotenv llama-index pydantic tavily-python
 
 pyenv exec python3 ./src/index.py
 
-pyenv exec pip install llama-index-graph-stores-neo4j
-
 docker run \
   --name neo4j -d \
   -p7474:7474 -p7687:7687 \
@@ -98,6 +96,56 @@ CREATE (c1:Command {id: "Command:CreateBooking", name: "CreateBooking", descript
     (p1)-[:EMITS]->(e2),
     (e2)-[:NOTIFIES]->(a1),
     (a2)-[:HANDLES]->(p1);
+
+ CREATE (project:BookingApp { id: "Project:BookingApp", name: "BookingApp" }),
+    (entity: Entity { id: "Entity:Booking" }),
+    (field: Field { id: "Field:guestDetails" }),
+    (field2: Field { id: "Field:BookingDates" }),
+    (field3: Field { id: "Field:room" }),
+    (field4: Field { id: "Field:paymentInformation" }),
+    (entity)-[:BELONGS_TO]->(project),
+    (field)-[:BELONGS_TO]->(entity),
+    (field2)-[:BELONGS_TO]->(entity),
+    (field3)-[:BELONGS_TO]->(entity),
+    (field4)-[:BELONGS_TO]->(entity),
+    (entity2: Entity { id: "Entity:Room" }),
+    (field5: Field { id: "Field:size" }),
+    (field6: Field { id: "Field:maximumOccupancy" }),
+    (field7: Field { id: "Field:amenities" }),
+    (entity2)-[:BELONGS_TO]->(project),
+    (field5)-[:BELONGS_TO]->(entity2),
+    (field6)-[:BELONGS_TO]->(entity2),
+    (field7)-[:BELONGS_TO]->(entity2),
+    (entity3: Entity { id: "Entity:Pricing" }),
+    (field8: Field { id: "Field:price" }),
+    (field9: Field { id: "Field:discount" }),
+    (entity3)-[:BELONGS_TO]->(project),
+    (field8)-[:BELONGS_TO]->(entity3),
+    (field9)-[:BELONGS_TO]->(entity3),
+    (entity4: Entity { id: "Entity:User" }),
+    (field10: Field { id: "Field:guestPreferences" }),
+    (field11: Field { id: "Field:BookingHistory" }),
+    (entity4)-[:BELONGS_TO]->(project),
+    (field10)-[:BELONGS_TO]->(entity4),
+    (field11)-[:BELONGS_TO]->(entity4),
+    (entity5: Entity { id: "Entity:Hotel" }),
+    (field12: Field { id: "Field:hotelLocation" }),
+    (field13: Field { id: "Field:contactInformation" }),
+    (field14: Field { id: "Field:availableAmenities" }),
+    (entity5)-[:BELONGS_TO]->(project),
+    (field12)-[:BELONGS_TO]->(entity5),
+    (field13)-[:BELONGS_TO]->(entity5),
+    (field14)-[:BELONGS_TO]->(entity5),
+    (entity)-[:RELATED_TO]->(entity2),
+    (entity)-[:RELATED_TO]->(entity3),
+    (entity)-[:RELATED_TO]->(entity4),
+    (entity)-[:RELATED_TO]->(entity5),
+    (entity2)-[:RELATED_TO]->(entity3),
+    (entity2)-[:RELATED_TO]->(entity4),
+    (entity2)-[:RELATED_TO]->(entity5),
+    (entity3)-[:RELATED_TO]->(entity4),
+    (entity3)-[:RELATED_TO]->(entity5),
+    (entity4)-[:RELATED_TO]->(entity5);
 
 MATCH (n) DETACH DELETE n;
 

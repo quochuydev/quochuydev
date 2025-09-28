@@ -112,6 +112,8 @@ async def main():
         ),
     ]
 
+   
+
     insert(documents)
 
     kg_index = PropertyGraphIndex.from_existing(
