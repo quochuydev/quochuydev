@@ -1,5 +1,6 @@
 import nest_asyncio
 from datetime import datetime
+from neo4j import GraphDatabase
 
 nest_asyncio.apply()
 import asyncio
@@ -24,15 +25,33 @@ url = "bolt://localhost:7687"
 embed_dim = 768
 database = "neo4j"
 
+
+def check_neo4j_connection():
+    """Check Neo4j connectivity before starting the agent."""
+    try:
+        driver = GraphDatabase.driver(url, auth=(username, password))
+        with driver.session(database=database) as session:
+            result = session.run("RETURN 1 AS ok")
+            record = result.single()
+            if record and record["ok"] == 1:
+                print("✅ Connected to Neo4j.")
+                return True
+            else:
+                print("❌ Failed to verify Neo4j query.")
+                return False
+    except Exception as e:
+        print(f"❌ Neo4j connection error: {e}")
+        return False
+
+
+if not check_neo4j_connection():
+    raise RuntimeError("Neo4j is not available. Please check credentials or DB status.")
+
+
 property_graph_store = Neo4jPropertyGraphStore(
     username=username,
     password=password,
     url=url,
-)
-
-
-index = PropertyGraphIndex.from_existing(
-    llm=llm, property_graph_store=property_graph_store
 )
 
 
@@ -71,10 +90,12 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
         f'MERGE (e:Entity {{id:"Entity:{entity}"}}) ' f"MERGE (e)-[:BELONGS_TO]->(p)"
     )
 
-    # Ensure fields exist and link to entity
-    for field in fields:
+    # Ensure fields exist and link to entity (unique vars per field)
+    for i, field in enumerate(fields):
+        var = f"f{i}"
         statements.append(
-            f'MERGE (f:Field {{id:"Field:{field}"}}) ' f"MERGE (f)-[:BELONGS_TO]->(e)"
+            f'MERGE ({var}:Field {{id:"Field:{field}"}}) '
+            f"MERGE ({var})-[:BELONGS_TO]->(e)"
         )
 
     cypher = "\n".join(statements)
@@ -85,9 +106,6 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     return CreateEntityResponse(project=project, entity=entity, fields=fields).dict()
 
 
-# ----------------------------
-# Create relationship between entities
-# ----------------------------
 def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> dict:
     """
     Create a relationship between two entities.
@@ -154,7 +172,7 @@ create_relation_tool = FunctionTool.from_defaults(
 
 agent = FunctionAgent(
     verbose=True,
-    tools=[get_entity_tool, create_entity_tool, create_relation_tool],
+    tools=[create_entity_tool, create_relation_tool, get_entity_tool],
     # tools=[
     #     get_entity_tool,
     # ],
@@ -178,10 +196,10 @@ async def main():
     )
     print("Insert 1 ✅", response)
 
-    # response = await agent.run(
-    #     "Get the detail Booking entity and detail related entities. Return strict JSON."
-    # )
-    # print("Q1 ✅", response)
+    response = await agent.run(
+        "Get the detail Booking entity and detail related entities. Return strict JSON."
+    )
+    print("Q1 ✅", response)
 
     # response = await agent.run("""create Credit project HAS_ENTITY: Loan, User""")
     # print("Insert 2 ✅", response)
