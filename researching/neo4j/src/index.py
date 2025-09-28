@@ -31,19 +31,6 @@ property_graph_store = Neo4jPropertyGraphStore(
 )
 
 
-def insert(documents):
-    storage_context = StorageContext.from_defaults(graph_store=property_graph_store)
-
-    PropertyGraphIndex.from_documents(
-        llm=llm,
-        documents=documents,
-        storage_context=storage_context,
-        max_triplets_per_chunk=10,
-        include_embeddings=True,
-        property_graph_store=property_graph_store,
-    )
-
-
 index = PropertyGraphIndex.from_existing(
     llm=llm, property_graph_store=property_graph_store
 )
@@ -60,10 +47,43 @@ run_cypher_tool = FunctionTool.from_defaults(
     description="Execute arbitrary Cypher queries against the Neo4j property graph store.",
 )
 
-graph_tool = QueryEngineTool.from_defaults(
-    query_engine=index.as_query_engine(),
-    name="booking_graph",
-    description="Graph schema of the BookingApp domain with entities and fields like Booking, Room, Pricing, User, Hotel.",
+
+class EntityDetails(BaseModel):
+    entity: str
+    fields: List[str]
+    relatedEntities: List[str]
+
+
+def get_entity_details(entity: str) -> EntityDetails:
+    """
+    Get an entity, its fields, and related entities directly from Neo4j.
+    """
+    cypher = f"""
+    MATCH (e:Entity {{id:"Entity:{entity}"}})
+    OPTIONAL MATCH (e)<-[:BELONGS_TO]-(f:Field)
+    OPTIONAL MATCH (e)-[:RELATED_TO]->(re:Entity)
+    RETURN 
+        e.id as entity,
+        collect(DISTINCT f.id) as fields,
+        collect(DISTINCT re.id) as relatedEntities
+    """
+    result = property_graph_store.structured_query(cypher)
+
+    if result and isinstance(result, list) and len(result) > 0:
+        record = result[0]
+        return EntityDetails(
+            entity=record.get("entity"),
+            fields=record.get("fields", []),
+            relatedEntities=record.get("relatedEntities", []),
+        )
+
+    return EntityDetails(entity=entity, fields=[], relatedEntities=[])
+
+
+get_entity_tool = FunctionTool.from_defaults(
+    fn=get_entity_details,
+    name="get_entity_details",
+    description="Fetch an entity with its fields and related entities from Neo4j. Input = entity name (e.g. 'Booking'). Output = strict JSON.",
 )
 
 
@@ -107,50 +127,54 @@ create_entity_tool = FunctionTool.from_defaults(
 )
 
 agent = FunctionAgent(
-    tools=[graph_tool, create_entity_tool],
+    # tools=[get_entity_tool, create_entity_tool],
+    tools=[
+        get_entity_tool,
+    ],
     verbose=True,
+    output_cls=EntityDetails,
 )
 
 
 async def main():
 
-    response = await agent.run(
-        """create BookingApp project HAS_ENTITY: Booking, Room, Pricing, User"""
-        """create Booking entity HAS_FIELD: user, bookingDates, room, pricing"""
-        """create Room entity HAS_FIELD: size, maximumOccupancy, amenities, hotel"""
-        """create Pricing entity HAS_FIELD: price, discount"""
-        """create User entity HAS_FIELD: firstName, lastName, bookingHistory"""
-        """create Hotel entity HAS_FIELD: location, contactInformation, availableAmenities"""
-        """create Hotel RELATED_TO Room"""
-        """create Booking RELATED_TO Room"""
-        """create Booking RELATED_TO Pricing"""
-        """create Booking RELATED_TO User"""
-    )
-    print("Insert 1 ✅", response)
+    # response = await agent.run(
+    #     """create BookingApp project HAS_ENTITY: Booking, Room, Pricing, User"""
+    #     """create Booking entity HAS_FIELD: user, bookingDates, room, pricing"""
+    #     """create Room entity HAS_FIELD: size, maximumOccupancy, amenities, hotel"""
+    #     """create Pricing entity HAS_FIELD: price, discount"""
+    #     """create User entity HAS_FIELD: firstName, lastName, bookingHistory"""
+    #     """create Hotel entity HAS_FIELD: location, contactInformation, availableAmenities"""
+    #     """create Hotel RELATED_TO Room"""
+    #     """create Booking RELATED_TO Room"""
+    #     """create Booking RELATED_TO Pricing"""
+    #     """create Booking RELATED_TO User"""
+    # )
+    # print("Insert 1 ✅", response)
 
     response = await agent.run(
-        """Get the detail Booking entity and detail related entities"""
+        "Get the detail Booking entity and detail related entities. Return strict JSON."
     )
     print("Q1 ✅", response)
 
-    response = await agent.run("""create Credit project HAS_ENTITY: Loan, User""")
-    print("Insert 2 ✅", response)
+    # response = await agent.run("""create Credit project HAS_ENTITY: Loan, User""")
+    # print("Insert 2 ✅", response)
 
-    response = await agent.run(
-        """create Loan entity HAS_FIELD: amount, term, interestRate"""
-    )
-    print("Insert 3 ✅", response)
+    # response = await agent.run(
+    #     """create Loan entity HAS_FIELD: amount, term, interestRate"""
+    # )
+    # print("Insert 3 ✅", response)
 
-    response = await agent.run(
-        """Recommend me the entities that I can reuse for CreditApp project"""
-    )
-    print("Q2 ✅", response)
+    # response = await agent.run(
+    #     """Recommend me the entities that I can reuse for CreditApp project"""
+    # )
+    # print("Q2 ✅", response)
 
-    response = await agent.run("""Add User entity fields: email, phone, address""")
-    print("Insert 4 ✅", response)
+    # response = await agent.run("""Add User entity fields: email, phone, address""")
+    # print("Insert 4 ✅", response)
 
-    response = await agent.run("""Get the detail User entity""")
-    print("Q3 ✅", response)
+    # response = await agent.run("""Get the detail User entity""")
+    # print("Q3 ✅", response)
 
 
 if __name__ == "__main__":
