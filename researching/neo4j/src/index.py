@@ -87,9 +87,14 @@ class UpdateEntityResponse(BaseModel):
     status: str = "success"
 
 
+class RemoveFieldResponse(BaseModel):
+    entity: str
+    removed_fields: List[str]
+    status: str = "success"
+
+
 def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     """
-    Create a new project (if not exists, the Project name is unique).
     Create a new entity under it, and create all its fields in Neo4j.
 
     Use this tool when:
@@ -104,14 +109,42 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
 
 
     Important:
+    - The Project is unique, like the root of the graph
     - The ID is unique for each entity
 
     Returns JSON with success status and created entity details.
     """
+    # Extract project ID from the project name if it contains the pattern
+    import re
+
+    project_id_match = re.search(r"id:project is (\d+)", project)
+    if project_id_match:
+        # Use the extracted project ID
+        project_id = project_id_match.group(1)
+        project_name = re.sub(r"\s*\(id:project is \d+\)", "", project).strip()
+    else:
+        # Check if there's already a project in the database
+        check_project_cypher = "MATCH (p:Project) RETURN p.id as project_id LIMIT 1"
+        result = property_graph_store.structured_query(check_project_cypher)
+        if result and len(result) > 0 and "project_id" in result[0]:
+            # Use existing project ID
+            existing_project_id = result[0]["project_id"]
+            project_id = existing_project_id.replace("Project:", "")
+            project_name = result[0].get("name", project.strip())
+        else:
+            # Fallback to using the normalized project name
+            project_id = project.strip().replace(" ", "_").lower()
+            project_name = project.strip()
+
     statements = []
-    statements.append(f'MERGE (p:Project {{id:"Project:{project}", name:"{project}"}})')
+    # First ensure the project exists with a consistent ID
     statements.append(
-        f'MERGE (e:Entity {{id:"Entity:{entity}"}}) MERGE (e)-[:BELONGS_TO]->(p)'
+        f'MERGE (p:Project {{id:"Project:{project_id}", name:"{project_name}"}})'
+    )
+    # Then create the entity and connect it to the project
+    statements.append(
+        f'MERGE (e:Entity {{ id:"Entity:{entity}", project_id:"{project_id}", project_name:"{project_name}" }}) '
+        f"MERGE (e)-[:BELONGS_TO]->(p)"
     )
 
     for i, field in enumerate(fields):
@@ -271,6 +304,72 @@ def get_entity_details(entity: str) -> EntityDetails:
     return EntityDetails(entity=entity, fields=[], relatedEntities=[])
 
 
+def remove_field(entity: str, fields_to_remove: List[str]) -> dict:
+    """
+    Remove specific fields from an existing entity in Neo4j.
+
+    Use this tool when:
+    - Deleting fields that are no longer needed
+    - Cleaning up entity structure
+    - Removing obsolete properties
+
+    Input format:
+    - entity: str - Name of the existing entity to modify
+    - fields_to_remove: List[str] - List of field names to remove
+
+    Returns JSON with status and list of removed fields.
+    """
+    # Check which fields actually exist before attempting removal
+    existing_fields_cypher = f"""
+    MATCH (e:Entity {{id:"Entity:{entity}"}})<-[:BELONGS_TO]-(f:Field)
+    RETURN collect(f.name) as existing_fields, collect(f.id) as existing_field_ids
+    """
+
+    result = property_graph_store.structured_query(existing_fields_cypher)
+    existing_fields = []
+    existing_field_ids = []
+    if result and isinstance(result, list) and len(result) > 0:
+        existing_fields = result[0].get("existing_fields", [])
+        existing_field_ids = result[0].get("existing_field_ids", [])
+
+    # Create a mapping from base field name to full field name and ID
+    field_mapping = {}
+    for full_name, field_id in zip(existing_fields, existing_field_ids):
+        # Extract base name (e.g., "avatarUrl" from "avatarUrl:string?")
+        base_name = full_name.split(":")[0]
+        field_mapping[base_name] = {"full_name": full_name, "id": field_id}
+
+    # Find fields to delete based on base name matching
+    fields_to_delete = []
+    for field in fields_to_remove:
+        if field in field_mapping:
+            fields_to_delete.append(field_mapping[field])
+
+    if fields_to_delete:
+        # Build DELETE statements using field IDs for precise deletion
+        # Use DETACH DELETE to remove both the node and its relationships
+        delete_statements = []
+        for field_info in fields_to_delete:
+            delete_statements.append(
+                f'MATCH (f:Field {{id:"{field_info["id"]}"}}) DETACH DELETE f'
+            )
+
+        cypher = "\n".join(delete_statements)
+        print("Cypher remove_field:\n", cypher)
+
+        property_graph_store.structured_query(cypher)
+
+        return RemoveFieldResponse(
+            entity=entity,
+            removed_fields=[f["full_name"] for f in fields_to_delete],
+            status="success" if fields_to_delete else "no_fields_removed",
+        ).model_dump()
+    else:
+        return RemoveFieldResponse(
+            entity=entity, removed_fields=[], status="no_fields_found"
+        ).model_dump()
+
+
 get_entity_tool = FunctionTool.from_defaults(
     fn=get_entity_details,
     name="get_entity_details",
@@ -297,6 +396,12 @@ update_entity_tool = FunctionTool.from_defaults(
     description="Add new fields to existing entities. Use for extending/modifying entity structure. Input: entity name, list of new fields.",
 )
 
+remove_field_tool = FunctionTool.from_defaults(
+    fn=remove_field,
+    name="remove_field",
+    description="Remove specific fields from existing entities. Use for deleting/unlinking fields. Input: entity name, list of fields to remove.",
+)
+
 
 agent = FunctionAgent(
     llm=llm,
@@ -306,6 +411,7 @@ agent = FunctionAgent(
         create_relation_tool,
         get_entity_tool,
         update_entity_tool,
+        remove_field_tool,
     ],
     system_prompt="""You are a Neo4j expert assistant that manages entities and relationships in a graph database.
 
@@ -314,15 +420,19 @@ Your available tools:
 2. update_entity: Use when you need to ADD NEW FIELDS to an EXISTING entity. Input: entity name, list of new fields.
 3. get_entity_details: Use when you need to RETRIEVE/QUERY an existing entity with all its fields and relationships. Input: entity name.
 4. create_relation: Use when you need to CREATE RELATIONSHIPS between two existing entities. Input: source entity, target entity, relation type (default: "RELATED_TO").
+5. remove_field: Use when you need to REMOVE/DELETE specific fields from an EXISTING entity. Input: entity name, list of fields to remove.
 
 Guidelines for tool selection:
 - If the instruction describes defining entities for the first time → use create_entity
 - If the instruction asks to add/extend fields to existing entities → use update_entity
 - If the instruction asks to get/fetch/query entity details → use get_entity_details
 - If the instruction mentions connecting/linking entities → use create_relation
+- If the instruction asks to remove/delete fields → use remove_field
 - If multiple operations are needed, call tools sequentially
 
-Important: 
+IMPORTANT: When a project ID is specified in the format "(id:project is XXX)", you MUST include this exact format in the project name parameter when calling create_entity. This ensures all entities are created under the same project.
+
+Important:
 - Always return strict JSON
 - Structure follow: Project -> Entities -> Fields
 """,
@@ -348,6 +458,10 @@ async def main():
             await step_3()
         elif function_to_run == "step_4":
             await step_4()
+        elif function_to_run == "step_5":
+            await step_5()
+        elif function_to_run == "step_6":
+            await step_6()
         elif function_to_run == "all":
             await run_all_steps()
         else:
@@ -368,7 +482,7 @@ async def step_1():
         """
 # Data Model: Image Detail View
 
-**Feature**: Image Detail View (002-user-can-click)
+**Feature**: Image Detail View (002-user-can-click) (id:project is 1993)
 **Date**: 2025-09-26
     
 ## Core Entities
@@ -423,7 +537,7 @@ Represents the user who uploaded images.
 - Create a relationship from Image to User indicating "uploaded by"
 """
     )
-    print("Step 1 ✅", response)
+    print("Step 1 ✅")
 
 
 async def step_2():
@@ -435,7 +549,7 @@ async def step_2():
 async def step_3():
     print("============= Step 3 =============")
     response = await agent.run(
-        "Update User entity, add fields: firstName, lastName, phoneNumber, insuranceNumber"
+        "with (id:project is 1993), Update User entity, add fields: firstName, lastName, phoneNumber, insuranceNumber"
     )
     print("Step 3 ✅", response)
 
@@ -443,6 +557,18 @@ async def step_3():
 async def step_4():
     response = await agent.run("Get the detail User entity, Return strict JSON")
     print("Step 4 ✅", response)
+
+
+async def step_5():
+    print("============= Step 5 =============")
+    response = await agent.run("Remove avatarUrl field from User entity")
+    print("Step 5 ✅", response)
+
+
+async def step_6():
+    print("============= Step 6 =============")
+    response = await agent.run("Get the detail User entity, Return strict JSON")
+    print("Step 6 ✅", response)
 
 
 async def run_all_steps():
@@ -473,6 +599,16 @@ async def run_all_steps():
     print("Getting updated User entity details...")
     await step_4()
     print("Step 4 ✅ Complete\n")
+
+    print("============= Step 5 =============")
+    print("Removing avatarUrl field from User entity...")
+    await step_5()
+    print("Step 5 ✅ Complete\n")
+
+    print("============= Step 6 =============")
+    print("Verifying avatarUrl has been removed from User entity...")
+    await step_6()
+    print("Step 6 ✅ Complete\n")
 
     print("🎉 All steps completed successfully!")
 
