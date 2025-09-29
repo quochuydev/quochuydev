@@ -1,6 +1,7 @@
 import nest_asyncio
 from datetime import datetime
 from neo4j import GraphDatabase
+import sys
 
 nest_asyncio.apply()
 import asyncio
@@ -75,6 +76,12 @@ class CreateRelationResponse(BaseModel):
     status: str = "success"
 
 
+class UpdateEntityResponse(BaseModel):
+    entity: str
+    new_fields: List[str]
+    status: str = "success"
+
+
 def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     """
     Create a project if not exists, an entity under it,
@@ -88,8 +95,10 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
 
     for i, field in enumerate(fields):
         var = f"f{i}"
+        # Sanitize field name for Neo4j label (remove spaces, special chars)
+        field_label = "".join(c if c.isalnum() else "_" for c in field)
         statements.append(
-            f'MERGE ({var}:Field {{id:"Field:{field}"}}) '
+            f'MERGE ({var}:{field_label} {{id:"Field:{field}", name:"{field}"}}) '
             f"MERGE ({var})-[:BELONGS_TO]->(e)"
         )
 
@@ -98,7 +107,9 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
 
     property_graph_store.structured_query(cypher)
 
-    return CreateEntityResponse(project=project, entity=entity, fields=fields).dict()
+    return CreateEntityResponse(
+        project=project, entity=entity, fields=fields
+    ).model_dump()
 
 
 def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> dict:
@@ -116,12 +127,61 @@ def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> d
 
     return CreateRelationResponse(
         source=source, target=target, relation=relation
-    ).dict()
+    ).model_dump()
+
+
+def update_entity(entity: str, new_fields: List[str]) -> dict:
+    """
+    Update an entity by adding new fields to it.
+    """
+    statements = []
+
+    # First, check what fields already exist to avoid duplicates
+    existing_fields_cypher = f"""
+    MATCH (e:Entity {{id:"Entity:{entity}"}})<-[:BELONGS_TO]-(f:Field)
+    RETURN collect(f.id) as existing_fields
+    """
+
+    result = property_graph_store.structured_query(existing_fields_cypher)
+    existing_fields = []
+    if result and isinstance(result, list) and len(result) > 0:
+        existing_fields = [
+            f.replace("Field:", "") for f in result[0].get("existing_fields", [])
+        ]
+
+    # Only add fields that don't already exist
+    fields_to_add = [f for f in new_fields if f not in existing_fields]
+
+    if fields_to_add:
+        for i, field in enumerate(fields_to_add):
+            var = f"f{i}"
+            # Sanitize field name for Neo4j label (remove spaces, special chars)
+            field_label = "".join(c if c.isalnum() else "_" for c in field)
+            statements.append(
+                f'MATCH (e:Entity {{id:"Entity:{entity}"}}) '
+                f'MERGE ({var}:{field_label} {{id:"Field:{field}", name:"{field}"}}) '
+                f"MERGE ({var})-[:BELONGS_TO]->(e)"
+            )
+
+        cypher = "\n".join(statements)
+        print("Cypher update_entity:\n", cypher)
+
+        property_graph_store.structured_query(cypher)
+
+        return UpdateEntityResponse(
+            entity=entity,
+            new_fields=fields_to_add,
+            status="success" if fields_to_add else "no_new_fields",
+        ).model_dump()
+    else:
+        return UpdateEntityResponse(
+            entity=entity, new_fields=[], status="no_new_fields"
+        ).model_dump()
 
 
 def get_entity_details(entity: str) -> EntityDetails:
     """
-    Get an entity, its fields, and related entities directly from Neo4j.
+    Get an entity, its fields, and related entities directly from Neo4j. Return strict JSON.
     """
     cypher = f"""
     MATCH (e:Entity {{id:"Entity:{entity}"}})
@@ -132,7 +192,9 @@ def get_entity_details(entity: str) -> EntityDetails:
         collect(DISTINCT f.id) as fields,
         collect(DISTINCT re.id) as relatedEntities
     """
+
     result = property_graph_store.structured_query(cypher)
+    print("Result get_entity_details:\n", result)
 
     if result and isinstance(result, list) and len(result) > 0:
         record = result[0]
@@ -165,56 +227,136 @@ create_relation_tool = FunctionTool.from_defaults(
 )
 
 
+update_entity_tool = FunctionTool.from_defaults(
+    fn=update_entity,
+    name="update_entity",
+    description="Update an entity by adding new fields to it. Input = entity name and list of new fields. Output = strict JSON.",
+)
+
+
 agent = FunctionAgent(
     verbose=True,
-    tools=[create_entity_tool, create_relation_tool, get_entity_tool],
-    # tools=[
-    #     get_entity_tool,
-    # ],
-    # output_cls=EntityDetails,
+    tools=[
+        create_entity_tool,
+        create_relation_tool,
+        get_entity_tool,
+        update_entity_tool,
+    ],
+    system_prompt="You are a Neo4j expert. You can create, update, and query entities in Neo4j using natural language instructions. Return strict JSON.",
+    output_cls=EntityDetails,
 )
 
 
 async def main():
+    """Main function that determines which function to run based on command-line arguments."""
+    function_to_run = ""
 
+    if len(sys.argv) > 1:
+        function_to_run = sys.argv[1]
+
+    try:
+        if function_to_run == "step_0":
+            await step_0()
+        elif function_to_run == "step_1":
+            await step_1()
+        elif function_to_run == "step_2":
+            await step_2()
+        elif function_to_run == "step_3":
+            await step_3()
+        elif function_to_run == "step_4":
+            await step_4()
+        else:
+            print(f"❌ Unknown function: {function_to_run}")
+            return
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+        raise
+
+
+async def step_0():
+    property_graph_store.structured_query("MATCH (n) DETACH DELETE n")
+
+
+async def step_1():
+    print("============= Step 1 =============")
     response = await agent.run(
-        """first create BookingApp project (unique)"""
-        """BookingApp HAS_ENTITY: Booking, Room, Pricing, User"""
-        """create Booking entity HAS_FIELD: user, bookingDates, room, pricing"""
-        """create Room entity HAS_FIELD: size, maximumOccupancy, amenities, hotel"""
-        """create Pricing entity HAS_FIELD: price, discount"""
-        """create User entity HAS_FIELD: firstName, lastName, bookingHistory"""
-        """create Hotel entity HAS_FIELD: location, contactInformation, availableAmenities"""
-        """create Hotel RELATED_TO Room"""
-        """create Booking RELATED_TO Room"""
-        """create Booking RELATED_TO Pricing"""
-        """create Booking RELATED_TO User"""
-    )
-    print("Insert 1 ✅", response)
+        """
+# Data Model: Image Detail View
 
+**Feature**: Image Detail View (002-user-can-click)
+**Date**: 2025-09-26
+    
+## Core Entities
+
+### Image
+
+Represents a single photo with all associated metadata.
+
+**Fields**:
+- `id`: string (UUID) - Unique identifier
+- `filename`: string - Original filename
+- `path`: string - File path in local storage
+- `url`: string - Display URL (blob or data URL)
+- `caption`: string? - Optional user-added caption
+- `uploadedBy`: string - User ID who uploaded
+- `uploadedAt`: DateTime - Upload timestamp
+- `capturedAt`: DateTime? - Original capture date from EXIF
+- `fileSize`: number - Size in bytes
+- `width`: number? - Image width in pixels
+- `height`: number? - Image height in pixels
+- `mimeType`: string - e.g., "image/jpeg"
+- `cameraModel`: string? - From EXIF data
+- `location`: string? - GPS coordinates from EXIF
+- `tags`: string[] - User-defined tags
+
+**Validation Rules**:
+- `id`: Required, valid UUID
+- `filename`: Required, max 255 chars
+- `path`: Required, must exist
+- `uploadedBy`: Required, valid user ID
+- `uploadedAt`: Required, past date
+- `fileSize`: Required, positive integer
+- `mimeType`: Required, valid image type
+
+### User
+
+Represents the user who uploaded images.
+
+**Fields**:
+- `id`: string (UUID) - Unique identifier
+- `username`: string - Unique username
+- `displayName`: string? - Display name
+- `email`: string - Email address
+- `avatarUrl`: string? - Profile picture URL
+
+**Validation Rules**:
+- `id`: Required, valid UUID
+- `username`: Required, 3-30 chars, alphanumeric + underscore
+- `email`: Required, valid email format
+"""
+    )
+    print("Step 1 ✅", response)
+
+
+async def step_2():
+    print("============= Step 2 =============")
     response = await agent.run(
-        "Get the detail Booking entity and detail related entities. Return strict JSON."
+        "Get the detail User entity and detail related entities. Return strict JSON."
     )
-    print("Q1 ✅", response)
+    print("Step 2 ✅", response)
 
-    # response = await agent.run("""create Credit project HAS_ENTITY: Loan, User""")
-    # print("Insert 2 ✅", response)
 
-    # response = await agent.run(
-    #     """create Loan entity HAS_FIELD: amount, term, interestRate"""
-    # )
-    # print("Insert 3 ✅", response)
+async def step_3():
+    print("============= Step 3 =============")
+    response = await agent.run(
+        "Update User entity, add fields: firstName, lastName, phoneNumber, insuranceNumber"
+    )
+    print("Step 3 ✅", response)
 
-    # response = await agent.run(
-    #     """Recommend me the entities that I can reuse for CreditApp project"""
-    # )
-    # print("Q2 ✅", response)
 
-    # response = await agent.run("""Add User entity fields: email, phone, address""")
-    # print("Insert 4 ✅", response)
-
-    # response = await agent.run("""Get the detail User entity""")
-    # print("Q3 ✅", response)
+async def step_4():
+    response = await agent.run("Get the detail User entity")
+    print("Step 4 ✅", response)
 
 
 if __name__ == "__main__":
