@@ -1,4 +1,5 @@
 import nest_asyncio
+import os
 from datetime import datetime
 from neo4j import GraphDatabase
 import sys
@@ -18,7 +19,11 @@ from llama_index.core.tools import FunctionTool
 
 load_dotenv()
 
-llm = OpenAI(model="gpt-4")
+llm = OpenAI(
+    model="gpt-4.1",
+    api_key=os.getenv("OPENAI_API_KEY"),
+    temperature=0.1,
+)
 
 username = "neo4j"
 password = "Qwerty@123"
@@ -84,21 +89,33 @@ class UpdateEntityResponse(BaseModel):
 
 def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     """
-    Create a project if not exists, an entity under it,
-    and its fields in Neo4j.
+    Create a new project (if not exists), create a new entity under it,
+    and create all its fields in Neo4j.
+
+    Use this tool when:
+    - Defining new entities for the first time
+    - Setting up initial data structures
+    - Creating entities with their complete field definitions
+
+    Input format:
+    - project: str - The project name (e.g., "Image Management System")
+    - entity: str - The entity name (e.g., "User", "Image")
+    - fields: List[str] - Complete list of field names for this entity
+
+    Returns JSON with success status and created entity details.
     """
     statements = []
     statements.append(f'MERGE (p:Project {{id:"Project:{project}", name:"{project}"}})')
     statements.append(
-        f'MERGE (e:Entity {{id:"Entity:{entity}"}}) ' f"MERGE (e)-[:BELONGS_TO]->(p)"
+        f'MERGE (e:Entity {{id:"Entity:{entity}"}}) MERGE (e)-[:BELONGS_TO]->(p)'
     )
 
     for i, field in enumerate(fields):
         var = f"f{i}"
-        # Sanitize field name for Neo4j label (remove spaces, special chars)
-        field_label = "".join(c if c.isalnum() else "_" for c in field)
+        # Store the sanitized field name as a property, not as a dynamic label
+        safe_field = field.replace(" ", "_").replace("-", "_")
         statements.append(
-            f'MERGE ({var}:{field_label} {{id:"Field:{field}", name:"{field}"}}) '
+            f'MERGE ({var}:Field {{id:"Field:{field}", name:"{field}", safe_name:"{safe_field}"}}) '
             f"MERGE ({var})-[:BELONGS_TO]->(e)"
         )
 
@@ -114,7 +131,21 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
 
 def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> dict:
     """
-    Create a relationship between two entities.
+    Create a relationship between two existing entities in Neo4j.
+
+    Use this tool when:
+    - Connecting two entities that already exist
+    - Establishing relationships like "has", "belongs to", "references"
+    - Linking related entities in the graph
+
+    Input format:
+    - source: str - Name of the source entity (must exist)
+    - target: str - Name of the target entity (must exist)
+    - relation: str - Type of relationship (default: "RELATED_TO")
+
+    Common relation types: HAS, BELONGS_TO, REFERENCES, CONTAINS, DEPENDS_ON
+
+    Returns JSON with success status and relationship details.
     """
     cypher = f"""
     MATCH (s:Entity {{id:"Entity:{source}"}})
@@ -132,10 +163,21 @@ def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> d
 
 def update_entity(entity: str, new_fields: List[str]) -> dict:
     """
-    Update an entity by adding new fields to it.
-    """
-    statements = []
+    Update an EXISTING entity by adding NEW fields to it.
 
+    Use this tool when:
+    - Adding additional fields to an entity that already exists
+    - Extending an entity's properties after initial creation
+    - Modifying entity structure without recreating it
+
+    Input format:
+    - entity: str - Name of the existing entity to update
+    - new_fields: List[str] - List of new field names to add
+
+    Note: This only adds new fields, doesn't modify or remove existing ones.
+
+    Returns JSON with status and list of newly added fields.
+    """
     # First, check what fields already exist to avoid duplicates
     existing_fields_cypher = f"""
     MATCH (e:Entity {{id:"Entity:{entity}"}})<-[:BELONGS_TO]-(f:Field)
@@ -153,17 +195,20 @@ def update_entity(entity: str, new_fields: List[str]) -> dict:
     fields_to_add = [f for f in new_fields if f not in existing_fields]
 
     if fields_to_add:
+        # Build a single Cypher query with multiple field creations
+        merge_statements = []
         for i, field in enumerate(fields_to_add):
             var = f"f{i}"
-            # Sanitize field name for Neo4j label (remove spaces, special chars)
-            field_label = "".join(c if c.isalnum() else "_" for c in field)
-            statements.append(
-                f'MATCH (e:Entity {{id:"Entity:{entity}"}}) '
-                f'MERGE ({var}:{field_label} {{id:"Field:{field}", name:"{field}"}}) '
+            # Store the sanitized field name as a property
+            safe_field = field.replace(" ", "_").replace("-", "_")
+            merge_statements.append(
+                f'MERGE ({var}:Field {{id:"Field:{field}", name:"{field}", safe_name:"{safe_field}"}}) '
                 f"MERGE ({var})-[:BELONGS_TO]->(e)"
             )
 
-        cypher = "\n".join(statements)
+        cypher = f'MATCH (e:Entity {{id:"Entity:{entity}"}})\n' + "\n".join(
+            merge_statements
+        )
         print("Cypher update_entity:\n", cypher)
 
         property_graph_store.structured_query(cypher)
@@ -181,7 +226,22 @@ def update_entity(entity: str, new_fields: List[str]) -> dict:
 
 def get_entity_details(entity: str) -> EntityDetails:
     """
-    Get an entity, its fields, and related entities directly from Neo4j. Return strict JSON.
+    Retrieve complete details of an existing entity including all its fields
+    and related entities from Neo4j.
+
+    Use this tool when:
+    - Querying entity information
+    - Getting a complete view of an entity and its properties
+    - Checking what fields an entity currently has
+    - Finding related entities and relationships
+
+    Input format:
+    - entity: str - Name of the entity to retrieve (e.g., "User", "Booking")
+
+    Returns JSON containing:
+    - entity: The entity name
+    - fields: List of all field names belonging to this entity
+    - relatedEntities: List of entities this entity is connected to
     """
     cypher = f"""
     MATCH (e:Entity {{id:"Entity:{entity}"}})
@@ -210,31 +270,32 @@ def get_entity_details(entity: str) -> EntityDetails:
 get_entity_tool = FunctionTool.from_defaults(
     fn=get_entity_details,
     name="get_entity_details",
-    description="Fetch an entity with its fields and related entities from Neo4j. Input = entity name (e.g. 'Booking'). Output = strict JSON.",
+    description="Retrieve entity details with all fields and relationships. Use for querying/getting entity information. Input: entity name.",
 )
 
 
 create_entity_tool = FunctionTool.from_defaults(
     fn=create_entity,
     name="create_entity",
-    description="Create an entity with fields inside a project in the Neo4j graph store.",
+    description="Create new entities with fields. Use for defining entities for the first time. Input: project name, entity name, list of all fields.",
 )
 
 create_relation_tool = FunctionTool.from_defaults(
     fn=create_relation,
     name="create_relation",
-    description="Create a relationship between two entities.",
+    description="Create relationships between existing entities. Use for connecting/linking entities. Input: source entity, target entity, relation type.",
 )
 
 
 update_entity_tool = FunctionTool.from_defaults(
     fn=update_entity,
     name="update_entity",
-    description="Update an entity by adding new fields to it. Input = entity name and list of new fields. Output = strict JSON.",
+    description="Add new fields to existing entities. Use for extending/modifying entity structure. Input: entity name, list of new fields.",
 )
 
 
 agent = FunctionAgent(
+    llm=llm,
     verbose=True,
     tools=[
         create_entity_tool,
@@ -242,7 +303,22 @@ agent = FunctionAgent(
         get_entity_tool,
         update_entity_tool,
     ],
-    system_prompt="You are a Neo4j expert. You can create, update, and query entities in Neo4j using natural language instructions. Return strict JSON.",
+    system_prompt="""You are a Neo4j expert assistant that manages entities and relationships in a graph database.
+
+Your available tools:
+1. create_entity: Use when you need to create NEW entities with their fields. Input: project, entity name, list of fields.
+2. update_entity: Use when you need to ADD NEW FIELDS to an EXISTING entity. Input: entity name, list of new fields.
+3. get_entity_details: Use when you need to RETRIEVE/QUERY an existing entity with all its fields and relationships. Input: entity name.
+4. create_relation: Use when you need to CREATE RELATIONSHIPS between two existing entities. Input: source entity, target entity, relation type (default: "RELATED_TO").
+
+Guidelines for tool selection:
+- If the instruction describes defining entities for the first time → use create_entity
+- If the instruction asks to add/extend fields to existing entities → use update_entity
+- If the instruction asks to get/fetch/query entity details → use get_entity_details
+- If the instruction mentions connecting/linking entities → use create_relation
+- If multiple operations are needed, call tools sequentially
+
+Always return valid JSON matching the EntityDetails structure.""",
     output_cls=EntityDetails,
 )
 
@@ -265,6 +341,8 @@ async def main():
             await step_3()
         elif function_to_run == "step_4":
             await step_4()
+        elif function_to_run == "all":
+            await run_all_steps()
         else:
             print(f"❌ Unknown function: {function_to_run}")
             return
@@ -333,6 +411,9 @@ Represents the user who uploaded images.
 - `id`: Required, valid UUID
 - `username`: Required, 3-30 chars, alphanumeric + underscore
 - `email`: Required, valid email format
+
+## Relationships
+- Create a relationship from Image to User indicating "uploaded by"
 """
     )
     print("Step 1 ✅", response)
@@ -355,8 +436,40 @@ async def step_3():
 
 
 async def step_4():
-    response = await agent.run("Get the detail User entity")
+    response = await agent.run("Get the detail User entity, Return strict JSON")
     print("Step 4 ✅", response)
+
+
+async def run_all_steps():
+    """Run all steps sequentially in one command."""
+    print("🚀 Running all Neo4j steps sequentially...\n")
+
+    print("============= Step 0 =============")
+    print("Clearing all data from Neo4j...")
+    await step_0()
+    print("Step 0 ✅ Complete\n")
+
+    print("============= Step 1 =============")
+    print("Creating Image and User entities...")
+    await step_1()
+    print("Step 1 ✅ Complete\n")
+
+    print("============= Step 2 =============")
+    print("Getting User entity details...")
+    await step_2()
+    print("Step 2 ✅ Complete\n")
+
+    print("============= Step 3 =============")
+    print("Updating User entity with new fields...")
+    await step_3()
+    print("Step 3 ✅ Complete\n")
+
+    print("============= Step 4 =============")
+    print("Getting updated User entity details...")
+    await step_4()
+    print("Step 4 ✅ Complete\n")
+
+    print("🎉 All steps completed successfully!")
 
 
 if __name__ == "__main__":
