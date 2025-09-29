@@ -89,8 +89,8 @@ class UpdateEntityResponse(BaseModel):
 
 def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     """
-    Create a new project (if not exists), create a new entity under it,
-    and create all its fields in Neo4j.
+    Create a new project (if not exists, the Project name is unique).
+    Create a new entity under it, and create all its fields in Neo4j.
 
     Use this tool when:
     - Defining new entities for the first time
@@ -101,6 +101,10 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
     - project: str - The project name (e.g., "Image Management System")
     - entity: str - The entity name (e.g., "User", "Image")
     - fields: List[str] - Complete list of field names for this entity
+
+
+    Important:
+    - The ID is unique for each entity
 
     Returns JSON with success status and created entity details.
     """
@@ -115,12 +119,12 @@ def create_entity(project: str, entity: str, fields: List[str]) -> dict:
         # Store the sanitized field name as a property, not as a dynamic label
         safe_field = field.replace(" ", "_").replace("-", "_")
         statements.append(
-            f'MERGE ({var}:Field {{id:"Field:{field}", name:"{field}", safe_name:"{safe_field}"}}) '
+            f'MERGE ({var}:Field {{id:"Field:{field}", name:"{field}", safe_name:"{safe_field}", entity:"{entity}"}}) '
             f"MERGE ({var})-[:BELONGS_TO]->(e)"
         )
 
     cypher = "\n".join(statements)
-    print("Cypher create_entity:\n", cypher)
+    # print("Cypher create_entity:\n", cypher)
 
     property_graph_store.structured_query(cypher)
 
@@ -152,7 +156,7 @@ def create_relation(source: str, target: str, relation: str = "RELATED_TO") -> d
     MATCH (t:Entity {{id:"Entity:{target}"}})
     MERGE (s)-[:{relation}]->(t)
     """
-    print("Cypher create_relation:\n", cypher)
+    # print("Cypher create_relation:\n", cypher)
 
     property_graph_store.structured_query(cypher)
 
@@ -254,7 +258,7 @@ def get_entity_details(entity: str) -> EntityDetails:
     """
 
     result = property_graph_store.structured_query(cypher)
-    print("Result get_entity_details:\n", result)
+    # print("Result get_entity_details:\n", result)
 
     if result and isinstance(result, list) and len(result) > 0:
         record = result[0]
@@ -296,7 +300,7 @@ update_entity_tool = FunctionTool.from_defaults(
 
 agent = FunctionAgent(
     llm=llm,
-    verbose=True,
+    # verbose=True,
     tools=[
         create_entity_tool,
         create_relation_tool,
@@ -318,7 +322,10 @@ Guidelines for tool selection:
 - If the instruction mentions connecting/linking entities → use create_relation
 - If multiple operations are needed, call tools sequentially
 
-Always return valid JSON matching the EntityDetails structure.""",
+Important: 
+- Always return strict JSON
+- Structure follow: Project -> Entities -> Fields
+""",
     output_cls=EntityDetails,
 )
 
@@ -421,9 +428,7 @@ Represents the user who uploaded images.
 
 async def step_2():
     print("============= Step 2 =============")
-    response = await agent.run(
-        "Get the detail User entity and detail related entities. Return strict JSON."
-    )
+    response = await agent.run("Get the detail User entity. Return strict JSON.")
     print("Step 2 ✅", response)
 
 
