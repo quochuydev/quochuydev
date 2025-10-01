@@ -7,8 +7,9 @@
     "start": "tsx main.ts",
     "analyze": "tsx analyze.ts",
     "learn": "tsx learn.ts",
-    "clean-memory": "tsx cleanMemory.ts",
-    "generate": "tsx generate.ts"
+    "clean": "tsx clean.ts",
+    "generate": "tsx generate.ts",
+    "store": "tsx store.ts"
   },
   "author": "",
   "license": "ISC",

@@ -54,7 +54,7 @@ pyenv exec python3 ./src/index.py
 ### Loyalty App
 
 ```
-/specify Design a loyalty app where users earn points whenever they use core features of the platform (e.g., loan calculation, report export, subscription actions). Each interaction should log points automatically and update the user’s balance in real time. The app must include a clear dashboard showing current points, history of earned points, and available rewards. Users can redeem points for digital or physical gifts, with an intuitive redemption flow. Add gamification elements like streak bonuses, tier levels, and leaderboards to drive engagement. Provide APIs for extensibility so future features can also trigger point rewards seamlessly.
+/specify Design a loyalty app where users earn points whenever they use core features of the platform (e.g., booking online, paying for services). Each interaction should log points automatically and update the user’s balance in real time. The app must include a clear dashboard showing current points, history of earned points, and available rewards. Users can redeem points for digital or physical gifts, with an intuitive redemption flow. Add gamification elements like streak bonuses, tier levels, and leaderboards to drive engagement. Provide APIs for extensibility so future features can also trigger point rewards seamlessly.
 ```
 
 ### Credit company

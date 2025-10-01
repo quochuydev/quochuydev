@@ -1,0 +1,59 @@
+---
+title: Proposal to Use LiveKit for Real-Time Communication
+description: Requesting approval to integrate LiveKit for video, audio, and data streaming in our application.
+---
+
+# **Implement LiveKit for Real-Time Communication**
+
+## **Overview: Purpose and Problem Solving**
+
+* Our project requires stable realTimeVideo and realTimeAudio features to support collaboration between users.
+* Building a custom webrtcServer is complex and time-consuming, while LiveKit provides tested sdkTools and serverInfra ready to use.
+
+## **Proposal**
+
+* Use LiveKit as the communication platform for videoCall, audioCall, and screenShare.
+* Connect frontend with `livekitClient` and backend with token generation endpoint `getAccessToken`.
+
+## **Weighting / Pros and Cons**
+
+### **Pros**
+
+* LiveKit is scalable and supports adaptiveStream and dynacast, which reduce bandwidth usage.
+* Provides React components like `GridLayout`, `ParticipantTile`, and `ControlBar` to build UI faster.
+* Security is built-in using signed accessToken with roomName and participantIdentity.
+* Reduces development time compared to building and maintaining our own signaling system.
+
+### **Cons**
+
+* Adds dependency on a third-party service which increases monthly cost.
+* The team needs time to learn LiveKit sdk and understand realTime media flows.
+* Internet connection quality of users can affect performance, which we must handle in UI/UX.
+
+## **Implementation Steps**
+
+### **1. Setup backend token service**
+
+* Create `/getToken` endpoint using `AccessToken(apiKey, apiSecret)` to generate secure token.
+
+### **2. Connect frontend to LiveKit**
+
+* Use `room.connect(livekitUrl, token)` and wrap components with `RoomContext.Provider`.
+
+### **3. Enable media tracks**
+
+* On join, call `room.localParticipant.setMicrophoneEnabled(true)` and `room.localParticipant.setCameraEnabled(true)`.
+
+### **4. Render participants**
+
+* Use `useTracks` hook and `<GridLayout>` with `<ParticipantTile trackRef={trackRef} />` to display users.
+
+### **5. Handle room lifecycle**
+
+* Call `room.disconnect()` on leave action or component unmount, and listen for `participantDisconnected` events.
+
+## **Conclusion**
+
+* LiveKit gives us a proven platform to handle video, audio, and data communication without building complex webrtc logic ourselves.
+* It saves time, improves scalability, and allows the team to focus on core product features.
+* I recommend moving forward with LiveKit integration to achieve reliable real-time collaboration.

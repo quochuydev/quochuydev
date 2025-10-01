@@ -1,0 +1,78 @@
+meta:
+  name: "User Login Bounded Context"
+  version: "1.0"
+
+read_models:
+  - id: RM.UserProfile
+    name: "User Profile"
+  - id: RM.LoginHistory
+    name: "Login History"
+
+actors:
+  - id: A.User
+    name: "User"
+
+commands:
+  - id: C.LoginUser
+    name: "Login User"
+  - id: C.RequestOtp
+    name: "Request OTP"
+
+policies:
+  - id: P.ValidateCredentials
+    name: "Validate Credentials"
+  - id: P.CheckOtp
+    name: "Check OTP"
+
+events:
+  - id: E.UserLoggedIn
+    name: "User Logged In"
+  - id: E.OtpRequested
+    name: "OTP Requested"
+  - id: E.OtpValidated
+    name: "OTP Validated"
+
+external_systems:
+  - id: XS.AuthService
+    name: "Authentication Service"
+    targets: [E.UserLoggedIn]
+  - id: XS.OtpService
+    name: "OTP Service"
+    targets: [E.OtpRequested, E.OtpValidated]
+
+flows:
+  # ReadModels to Actors (feedback paths):
+  - source_id: RM.UserProfile
+    target_id: A.User
+  - source_id: RM.LoginHistory
+    target_id: A.User
+
+  # User -> LoginUser -> ValidateCredentials -> Authentication Service -> UserLoggedIn -> UserProfile/LoginHistory
+  - source_id: A.User
+    target_id: C.LoginUser
+  - source_id: C.LoginUser
+    target_id: P.ValidateCredentials
+  - source_id: P.ValidateCredentials
+    target_id: XS.AuthService
+  - source_id: XS.AuthService
+    target_id: E.UserLoggedIn
+  - source_id: E.UserLoggedIn
+    target_id: RM.UserProfile
+  - source_id: E.UserLoggedIn
+    target_id: RM.LoginHistory
+
+  # User -> RequestOtp -> CheckOtp -> OTP Service -> OtpRequested/OtpValidated -> LoginHistory
+  - source_id: A.User
+    target_id: C.RequestOtp
+  - source_id: C.RequestOtp
+    target_id: P.CheckOtp
+  - source_id: P.CheckOtp
+    target_id: XS.OtpService
+  - source_id: XS.OtpService
+    target_id: E.OtpRequested
+  - source_id: XS.OtpService
+    target_id: E.OtpValidated
+  - source_id: E.OtpRequested
+    target_id: RM.LoginHistory
+  - source_id: E.OtpValidated
+    target_id: RM.LoginHistory

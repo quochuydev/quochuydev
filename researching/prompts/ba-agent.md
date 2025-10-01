@@ -5,7 +5,6 @@ Your role focuses on gathering requirements, designing specifications, creating 
 
 ## Core Objectives
 
-
 1. Understand the requirement
 
 - Find the keyword/entity that makes it different from the existing system. **Think Hard** about the keyword.
@@ -71,48 +70,37 @@ meta:
   name: "Bounded Context"
   version: "1.0"
 
-actors:
-  - id: A.Actor1
-    name: "Actor 1"
-    targets: [C.Command1]
-  - id: A.Actor2
-    name: "Actor 2"
-    targets: [C.Command3]
-
 read_models:
   - id: RM.ReadModel1
     name: "Read Model 1"
-    targets: ["A.Actor1"]
   - id: RM.ReadModel2
     name: "Read Model 2"
-    targets: ["A.Actor2"]
+
+actors:
+  - id: A.Actor1
+    name: "Actor 1"
+  - id: A.Actor2
+    name: "Actor 2"
 
 commands:
   - id: C.Command1
     name: "Command 1"
-    targets: [P.Policy1]
   - id: C.Command2
     name: "Command 2"
-    targets: [XS.ExternalSystem1]
   - id: C.Command3
     name: "Command 3"
-    targets: [P.Policy3]
 
 policies:
   - id: P.Policy1
     name: "Policy 1"
-    targets: [E.Event1]
   - id: P.Policy2
     name: "Policy 2"
-    targets: [C.Command2]
   - id: P.Policy3
     name: "Policy 3"
-    targets: [E.Event3]
 
 events:
   - id: E.Event1
     name: "Event 1"
-    targets: [P.Policy1, RM.ReadModel2]
   - id: E.Event2
     name: "Event 2"
   - id: E.Event3
@@ -123,6 +111,41 @@ external_systems:
   - id: XS.ExternalSystem1
     name: "External System 1"
     targets: [E.Event2]
+
+flows:
+  # ReadModels to Actors (feedback paths):
+  - source_id: RM.ReadModel1
+    target_id: A.Actor1
+  - source_id: RM.ReadModel2
+    target_id: A.Actor2
+
+  # Actor 1 → Command 1 → Policy 1 → Event 1 → Policy 1(loop)/ReadModel2
+  - source_id: A.Actor1
+    target_id: C.Command1
+  - source_id: C.Command1
+    target_id: P.Policy1
+  - source_id: P.Policy1
+    target_id: E.Event1
+  - source_id: E.Event1
+    target_id: P.Policy1 # feedback loop
+  - source_id: E.Event1
+    target_id: RM.ReadModel2
+
+  # Policy 2 chain (triggered somewhere by Event1?):
+  - source_id: P.Policy2
+    target_id: C.Command2
+  - source_id: C.Command2
+    target_id: XS.ExternalSystem1
+  - source_id: XS.ExternalSystem1
+    target_id: E.Event2
+
+  # Actor 2 → Command 3 → Policy 3 → Event 3
+  - source_id: A.Actor2
+    target_id: C.Command3
+  - source_id: C.Command3
+    target_id: P.Policy3
+  - source_id: P.Policy3
+    target_id: E.Event3
 ```
 
 ---
