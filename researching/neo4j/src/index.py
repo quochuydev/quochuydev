@@ -17,6 +17,7 @@ from llama_index.graph_stores.neo4j import Neo4jPropertyGraphStore
 from llama_index.core import PropertyGraphIndex
 from llama_index.core.tools import QueryEngineTool
 from llama_index.core.tools import FunctionTool
+from llama_index.core import VectorStoreIndex
 
 # from llama_index.graph_stores.memgraph import MemgraphPropertyGraphStore
 
@@ -63,11 +64,10 @@ property_graph_store = Neo4jPropertyGraphStore(
     url=url,
 )
 
+storage_context = StorageContext.from_defaults(graph_store=property_graph_store)
+
 
 def insert(documents):
-    storage_context = StorageContext.from_defaults(graph_store=property_graph_store)
-
-    # Convert the input string to a Document object
     doc_object = Document(text=documents)
 
     PropertyGraphIndex.from_documents(
@@ -80,12 +80,28 @@ def insert(documents):
     )
 
 
+def run_cypher_query(query: str) -> str:
+    """
+    Run a Cypher query against the Neo4j property graph and return the result as text.
+    """
+    result = property_graph_store.structured_query(query)
+    print("run_cypher_query ✅", result)
+    return str(result)
+
+
+neo4j_query_tool = FunctionTool.from_defaults(
+    fn=run_cypher_query,
+    name="neo4j_cypher_query",
+    description="Execute Cypher queries on the Neo4j property graph to check projects, features, and relationships.",
+)
+
 agent = FunctionAgent(
     llm=llm,
-    # verbose=True,
-    tools=[],
-    system_prompt="""You are a Neo4j expert assistant that manages entities and relationships in a graph database.""",
-    # output_cls=EntityDetails,
+    tools=[neo4j_query_tool],
+    system_prompt="""
+    You are a AI engineer/Solution engineer. Supporting for Product Manager/Business Analyst/Sales to make decision. 
+    When asked about new features, collect all the related information from Neo4j then recommend all related feature for them to connect to main idea. 
+    """,
 )
 
 
@@ -96,29 +112,36 @@ async def main():
     if len(sys.argv) > 1:
         function_to_run = sys.argv[1]
 
-    try:
-        if function_to_run == "step_0":
-            await step_0()
-        elif function_to_run == "step_1":
-            await step_1()
-        elif function_to_run == "step_2":
-            await step_2()
-        elif function_to_run == "step_3":
-            await step_3()
-        elif function_to_run == "step_4":
-            await step_4()
-        elif function_to_run == "step_5":
-            await step_5()
-        elif function_to_run == "step_6":
-            await step_6()
-        elif function_to_run == "all":
-            await run_all_steps()
-        else:
-            print(f"❌ Unknown function: {function_to_run}")
-            return
-    except Exception as e:
-        print(f"\n❌ Error: {e}")
-        raise
+    if function_to_run == "step_0":
+        await step_0()
+    elif function_to_run == "step_1":
+        await step_1()
+    elif function_to_run == "step_2":
+        await step_2()
+    elif function_to_run == "step_3":
+        await step_3()
+    elif function_to_run == "human":
+        handler = agent.run(
+            user_msg="Add feature: Give product discount voucher for user"
+        )
+
+        async for event in handler.stream_events():
+            if isinstance(event, InputRequiredEvent):
+                response = input(event.prefix)
+                handler.ctx.send_event(
+                    HumanResponseEvent(
+                        response=response,
+                        user_name=event.user_name,
+                    )
+                )
+
+        response = await handler
+        print(str(response))
+    elif function_to_run == "all":
+        await run_all_steps()
+    else:
+        print(f"❌ Unknown function: {function_to_run}")
+        return
 
 
 async def step_0():
@@ -178,7 +201,7 @@ MainFeatures:
   - Feature: featureDetail
     Description: "View and update details of a selected feature."
     Components: [detailCard, editButton, historyTimeline]
-    DataBinding: "/api/features/{id}"
+    DataBinding: "/api/features/id"
 
 Navigation:
   - Type: Sidebar
@@ -270,27 +293,8 @@ Accessibility:
 
 async def step_3():
     print("============= Step 3 =============")
-    response = await agent.run(
-        "with (id:project is 1993), Update User entity, add fields: firstName, lastName, phoneNumber, insuranceNumber"
-    )
+    response = await agent.run("Add feature: Give product discount voucher for user")
     print("Step 3 ✅", response)
-
-
-async def step_4():
-    response = await agent.run("Get the detail User entity, Return strict JSON")
-    print("Step 4 ✅", response)
-
-
-async def step_5():
-    print("============= Step 5 =============")
-    response = await agent.run("Remove avatarUrl field from User entity")
-    print("Step 5 ✅", response)
-
-
-async def step_6():
-    print("============= Step 6 =============")
-    response = await agent.run("Get the detail User entity, Return strict JSON")
-    print("Step 6 ✅", response)
 
 
 async def run_all_steps():
@@ -316,21 +320,6 @@ async def run_all_steps():
     print("Updating User entity with new fields...")
     await step_3()
     print("Step 3 ✅ Complete\n")
-
-    print("============= Step 4 =============")
-    print("Getting updated User entity details...")
-    await step_4()
-    print("Step 4 ✅ Complete\n")
-
-    print("============= Step 5 =============")
-    print("Removing avatarUrl field from User entity...")
-    await step_5()
-    print("Step 5 ✅ Complete\n")
-
-    print("============= Step 6 =============")
-    print("Verifying avatarUrl has been removed from User entity...")
-    await step_6()
-    print("Step 6 ✅ Complete\n")
 
     print("🎉 All steps completed successfully!")
 

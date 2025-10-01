@@ -2,8 +2,8 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { config } from "dotenv";
 import fs from "fs";
 import path from "path";
-import { createChromaService } from "./memory/chroma";
-import { createOpenAIService } from "./models/openai";
+import { createChromaService } from "../memory/chroma";
+import { createOpenAIService } from "../models/openai";
 // import { chunkText } from "./utils";
 
 config();

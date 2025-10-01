@@ -1,4 +1,4 @@
-import { createChromaService } from "./memory/chroma";
+import { createChromaService } from "../memory/chroma";
 
 async function cleanChroma() {
   try {
