@@ -6,7 +6,7 @@ import { config } from "dotenv";
 import express from "express";
 import fs from "fs";
 import { z } from "zod";
-import { createChromaService } from "../memory/chroma";
+import { createChromaService } from "../tools/chroma";
 import { createOpenAIService } from "../models/openai";
 // import { chunkText } from "./utils";
 

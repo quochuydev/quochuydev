@@ -1,0 +1,70 @@
+# MCP + LlamaIndex + Neo4j
+
+## Setup
+
+1. `docker-compose.yml`
+
+```yml
+version: "3.9"
+
+services:
+  knowledge-base:
+    image: quochuydev/knowledge-base:0.0.1
+    container_name: knowledge-base
+    environment:
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=password
+      - OPENAI_API_KEY=OPENAI_API_KEYOPENAI_API_KEYOPENAI_API_KEYOPENAI_API_KEYOPENAI_API_KEYOPENAI_API_KEY
+    # volumes:
+    #   - ./training_data:/app/training_data
+    ports:
+      - "8088:8088"
+    depends_on:
+      - neo4j
+
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4JLABS_PLUGINS=["apoc"]
+      - NEO4J_PLUGINS=["apoc"]
+    ports:
+      - "7474:7474" # browser
+      - "7687:7687" # bolt
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+```
+
+2. Add your training data into: `./training_data/`
+
+3. Build and start:
+
+```bash
+docker-compose up
+```
+
+Neo4j UI: `http://localhost:7474`
+(user: neo4j, password: password)
+
+API: `http://localhost:8088`
+
+4. Usage
+
+```
+http://localhost:8088
+
+http://localhost:8088/init
+
+http://localhost:8088/query?q=get concepts and entities information about Accounting expense approval flow
+
+http://localhost:8088/query?q=get concepts and entities information about user management flow
+
+http://localhost:8088/clear
+```

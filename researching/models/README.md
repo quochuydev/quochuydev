@@ -1,3 +1,0 @@
-```sh
-ollama run model
-```

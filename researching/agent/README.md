@@ -99,3 +99,81 @@ https://github.com/microsoft/graphrag/blob/main/docs/get_started.md
 
 https://github.com/microsoft/graphrag/issues/741?utm_source=chatgpt.com
 ```
+
+### Claude code vs MCP
+
+https://www.llamaindex.ai/blog/adding-document-understanding-to-claude-code
+
+During code generation, Claude Code can choose to query the MCP server to give it rich context about your business processes, policies, and data structures.
+
+prompt:
+
+- Create an expense approval workflow.
+
+### Domain Knowledge
+
+- User Management
+
+Domain - Feature - Components: Accounting Expense Approval Workflow
+
+- Accounting - User Management - List Users (User: firstName, lastName, email, role)
+  - Intent layout - TODO
+- Accounting - User Management - Create User (User: firstName, lastName, email, role)
+- Accounting - User Management - Update User (User: firstName, lastName, email, role)
+- Accounting - User Management - Update User Role (User: userId, role)
+- Accounting - Expense Management - List Expenses (Expense: description, amount, date, status)
+- Accounting - Expense Management - Create Expense (Expense: description, amount, date, status)
+- Accounting - Expense Management - Integrate OCR Expense (Expense: description, amount, date, status)
+- Accounting - Approval Workflow - List Approvals (Approval: description, amount, date, status)
+- Accounting - Approval Workflow - Manager Approval/Reject (Approval: description, amount, date, status)
+- Accounting - Approval Workflow - Accountant Approval/Reject (Approval: description, amount, date, status)
+
+----- prompt
+
+# ** Domain Knowledge for Accounting - User Management **
+
+## **Overview: Purpose and Problem Solving**
+
+- ...
+
+## **Proposal**
+
+- ...
+
+## **Weighting / Pros and Cons**
+
+### **Pros**
+
+- ...
+
+### **Cons**
+
+- ...
+
+## **Implementation Steps**
+
+### \*\*1. ...
+
+- ...
+
+### \*\*2. ....
+
+- ...
+  ...
+
+## **Conclusion**
+
+- ...
+  ...
+
+## **References**
+
+- ...
+  ...
+
+```
+
+
+
+
+```

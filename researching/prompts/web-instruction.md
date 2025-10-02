@@ -45,5 +45,3 @@ Accessibility:
   - Compliance: <WCAG 2.1 AA | Custom>
   - Features: [High contrast mode, Screen reader support, etc.]
 ```
-
----

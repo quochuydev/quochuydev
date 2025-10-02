@@ -14,7 +14,7 @@ pyenv exec pip3 --version
 
 pyenv exec pip install --upgrade pip
 
-pyenv exec pip install fastmcp "mcp[cli]"
+pyenv exec pip install fastapi
 
 pyenv exec pip install llama-index-llms-openai llama-index-embeddings-openai
 
@@ -34,6 +34,8 @@ docker run \
 docker cp ./apoc-5.26.12-core.jar neo4j:/plugins/
 
 pyenv exec pip install llama-index llama-index-graph-stores-neo4j graspologic
+
+pyenv exec pip freeze > requirements.txt
 
 # Run: cd researching/neo4j
 pyenv exec python3 ./src/index.py
@@ -213,4 +215,44 @@ Return output as JSON schema.
 I'm working on BookingApp project.
 Get current User entity.
 Return output as JSON schema.
+```
+
+# MCP + LlamaIndex + Neo4j
+
+## Setup
+
+1. Add your training data into: `training_data/`
+
+2. Build:
+
+```bash
+docker build -t quochuydev/knowledge-base:0.0.1 .
+
+docker push -t quochuydev/knowledge-base:0.0.1 .
+
+docker run -d --name knowledge-base -p 8088:8088 quochuydev/knowledge-base:0.0.1
+```
+
+```sql
+MATCH (n) DETACH DELETE n;
+```
+
+3. Start:
+
+```bash
+docker-compose run --rm knowledge-base ls -l /app/training_data
+
+docker-compose up --build -f docker-compose-build.yml
+```
+
+4. Usage
+
+```
+http://localhost:8088/init
+
+http://localhost:8088/query?q=get concepts and entities information about Accounting expense approval flow
+
+http://localhost:8088/query?q=get concepts and entities information about user management flow
+
+http://localhost:8088/clear
 ```
