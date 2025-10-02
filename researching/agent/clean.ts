@@ -1,4 +1,4 @@
-import { createChromaService } from "../tools/chroma";
+import { createChromaService } from "./tools/chroma";
 
 async function cleanChroma() {
   try {

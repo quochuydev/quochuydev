@@ -35,6 +35,10 @@ docker cp ./apoc-5.26.12-core.jar neo4j:/plugins/
 
 pyenv exec pip install llama-index llama-index-graph-stores-neo4j graspologic
 
+pyenv exec pip install llama-index-llms-deepseek
+
+pyenv exec pip install package_name
+
 pyenv exec pip freeze > requirements.txt
 
 # Run: cd researching/neo4j
@@ -250,9 +254,13 @@ docker-compose up --build -f docker-compose-build.yml
 ```
 http://localhost:8088/init
 
-http://localhost:8088/query?q=get concepts and entities information about Accounting expense approval flow
+http://localhost:8088/clear
+
+http://localhost:8088/query?q=get concepts and entities information about accounting expense approval flow
 
 http://localhost:8088/query?q=get concepts and entities information about user management flow
 
-http://localhost:8088/clear
+http://localhost:8088/query?q=give me every information you know about accounting expense approval flow
+
+SME Cash Flow Management System Functional Requirements
 ```

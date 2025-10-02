@@ -1,9 +1,13 @@
-As a Solution Engineer/AI Engineer. Deep search and understand about the domain: Accounting expense approval process.
+As a Solution Engineer/AI Engineer. User management flow
 Write me the domain knowledge following the template below.
 Simple English words, easy to understand and AI friendly to put graph DB; Technical words should be camelCase and common used in software development.
-No need AI start/end content.
+No need AI start/end section content.
+Deep search and understand about the domain:
+
+
 
 ---
+
 # Domain Knowledge Template
 
 ## 1. Core Identity
@@ -155,77 +159,7 @@ relationships:
     foreign_key: [field_name]
 ```
 
-## 7. Systems & Integrations
-
-### System: [System Name]
-
-```yaml
-system_id: [SYS-001]
-system_type: [application|database|api|service]
-vendor: [vendor name]
-status: [production|staging|deprecated]
-
-endpoints:
-  - endpoint_id: [API-001]
-    url: [endpoint url]
-    method: [GET|POST|PUT|DELETE]
-    auth: [oauth|api-key|basic]
-    rate_limit: [requests per period]
-
-integrations:
-  - system: [SYS-002]
-    direction: [inbound|outbound|bidirectional]
-    protocol: [REST|SOAP|FILE|EVENT]
-    frequency: [real-time|batch|scheduled]
-    data_format: [JSON|XML|CSV]
-```
-
-## 8. Compliance & Security
-
-### Control: [Control ID]
-
-```yaml
-control_id: [CTRL-001]
-control_type: [preventive|detective|corrective]
-regulation: [SOX|GDPR|HIPAA|PCI-DSS]
-criticality: [critical|high|medium|low]
-
-requirement: [what must be done]
-frequency: [continuous|daily|quarterly|annual]
-evidence: [what proves compliance]
-owner: [responsible party]
-
-tests:
-  - test_id: [TEST-001]
-    test_type: [automated|manual]
-    pass_criteria: [criteria]
-```
-
-## 9. Metrics & KPIs
-
-### Metric: [Metric Name]
-
-```yaml
-metric_id: [KPI-001]
-metric_type: [efficiency|quality|volume|compliance]
-category: [operational|financial|customer]
-
-calculation:
-  formula: [mathematical expression]
-  data_sources: [list of sources]
-
-targets:
-  threshold: [value]
-  operator: [>|<|=|>=|<=]
-  unit: [unit of measure]
-
-reporting:
-  frequency: [daily|weekly|monthly]
-  dashboard: [dashboard_name]
-  alert_threshold: [value]
-```
-
-## 10. Scenarios & Use Cases
+## 7. Scenarios & Use Cases
 
 ### Scenario: [Scenario ID]
 
@@ -248,7 +182,7 @@ variations:
     outcome: [different result]
 ```
 
-## 11. Decision Logic
+## 8. Decision Logic
 
 ### Decision: [Decision Point]
 
@@ -276,77 +210,7 @@ escalation:
   escalate_to: [ROLE-ID]
 ```
 
-## 12. Issues & Patterns
-
-### Issue: [Issue Type]
-
-```yaml
-issue_id: [ISS-001]
-issue_type: [error|warning|anti-pattern|bottleneck]
-severity: [critical|high|medium|low]
-
-symptoms:
-  - [observable symptom 1]
-  - [observable symptom 2]
-
-root_causes:
-  - [potential cause 1]
-  - [potential cause 2]
-
-resolution:
-  - step: [action to take]
-    owner: [who resolves]
-    sla: [time to resolve]
-
-prevention: [how to avoid]
-```
-
-## 13. Knowledge Fragments (For Fine-tuning)
-
-### Q&A Pairs
-
-**Q**: [Common question]  
-**A**: [Accurate answer]  
-**Context**: [when this applies]  
-**Related**: [DOC-001, ENT-002]
-
-**Q**: [Common question]  
-**A**: [Accurate answer]  
-**Context**: [when this applies]  
-**Related**: [PROC-003, RULE-005]
-
-### Example Interactions
-
-**User Intent**: [what user wants]  
-**Expected Response**: [how system should respond]  
-**Required Context**: [DOC-001, ENT-005]
-
-## 14. Semantic Links
-
-```yaml
-# For graph database relationships
-relationships:
-  - source: [this-domain]
-    relation: IS_PART_OF
-    target: [parent-domain]
-
-  - source: [this-domain]
-    relation: REQUIRES
-    target: [dependency-domain]
-    weight: [0.8]
-
-  - source: [this-domain]
-    relation: SIMILAR_TO
-    target: [related-domain]
-    similarity_score: [0.75]
-
-  - source: [Entity-A]
-    relation: TRANSFORMS_INTO
-    target: [Entity-B]
-    via: [Process-X]
-```
-
-## 15. Training Examples
+## 9. Training Examples
 
 ### Classification Examples
 
@@ -373,7 +237,7 @@ relationships:
       end: [character position]
 ```
 
-## 16. Metadata (For Indexing)
+## 10. Metadata (For Indexing)
 
 ```yaml
 metadata:
@@ -404,7 +268,7 @@ metadata:
     popularity_score: [0.0-1.0]
 ```
 
-## 17. Graph DB Schema
+## 11. Graph DB Schema
 
 ```cypher
 // Node types
