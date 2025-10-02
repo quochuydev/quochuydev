@@ -37,4 +37,4 @@ async function testNeo4j() {
 }
 
 testNeo4j().catch(console.error);
-// npx tsx test-neo4j.ts
+// npx tsx test-query-neo4j.ts

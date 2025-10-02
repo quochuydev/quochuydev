@@ -41,3 +41,4 @@ async function insertData() {
 }
 
 insertData().catch(console.error);
+// npx tsx test-insert-neo4j.ts
