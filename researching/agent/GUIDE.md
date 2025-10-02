@@ -1,6 +1,7 @@
 ## For me to build
 
 ```sh
+# Run Neo4j on default bridge network
 docker run \
   --name neo4j -d \
   -p7474:7474 -p7687:7687 \
@@ -11,7 +12,7 @@ docker run \
   neo4j:latest
 
 # Run with docker-compose (build mode)
-docker compose  -f docker-compose-build.yml up -d
+docker compose -f docker-compose-build.yml up -d
 
 # Build docker image
 docker build -t quochuydev/core-x-agent:0.0.1 .
