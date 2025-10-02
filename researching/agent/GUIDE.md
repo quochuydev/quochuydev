@@ -32,10 +32,8 @@ MATCH (n) DETACH DELETE n
 ### Run agent in local
 
 ```sh
-# Pull docker image
-docker pull quochuydev/core-x-agent:0.0.1
-
-# Create .env file with key OPENAI_API_KEY
+# Create .env file
+cp .env.example .env
 
 # Run
 docker compose up -d
