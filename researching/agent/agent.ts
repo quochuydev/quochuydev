@@ -15,13 +15,6 @@ config();
 
 const env = process.env as Record<string, string>;
 
-console.log(`debug:{
-  NEO4J_URI: ${env.NEO4J_URI},
-  NEO4J_USER: ${env.NEO4J_USER},
-  NEO4J_PASSWORD: ${env.NEO4J_PASSWORD},
-  OPENAI_API_KEY: ${env.OPENAI_API_KEY},
-}`);
-
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 
 const memoryService = createNeo4jService(
@@ -33,18 +26,14 @@ const memoryService = createNeo4jService(
 const server = new McpServer({ name: "agent", version: "1.0.0" });
 
 const systemPromptPath = path.resolve("./agent.md");
-console.log(`debug:systemPromptPath`, systemPromptPath);
-
 const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
-console.log(systemPrompt);
+
+console.log(`debug:systemPromptPath`, systemPromptPath);
+console.log(`debug:systemPrompt`, systemPrompt);
 
 server.tool(
   "search_knowledge_base",
-  `Search knowledge base. Ask questions about stored requirements.
-Example: "What are the approval workflow rules for expenses over 20M VND?"
-Example: "What entities are involved in budget management?"
-Example: "Can employees edit expense requests after submission?"
-`,
+  "Search knowledge base. Ask questions about stored requirements.",
   {
     query: z.string(),
   },
@@ -72,22 +61,16 @@ Example: "Can employees edit expense requests after submission?"
 
 server.tool(
   "train_data",
-  `Store custom training data into memory (embedded & chunked).
-Example: Feed feature specifications, requirements docs, or clarifications
-`,
+  "Store custom training data into memory (embedded & chunked).",
   {
     text: z.string(),
-    source: z.string().optional(), // optional metadata (e.g. "requirements_doc.md")
   },
-  async ({ text, source }) => {
+  async ({ text }) => {
     const chunks = chunkText(text);
 
     for (const chunk of chunks) {
       const chunkVector = await llmService.embed(chunk);
-
-      await memoryService.upsertDocs(chunkVector, chunk, {
-        source: source || "",
-      });
+      await memoryService.upsertDocs(chunkVector, chunk, {});
     }
 
     const content: { type: "text"; text: string }[] = [
