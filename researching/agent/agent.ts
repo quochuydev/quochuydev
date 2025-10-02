@@ -9,26 +9,42 @@ import { z } from "zod";
 import { createNeo4jService } from "./tools/neo4j";
 import { createOpenAIService } from "./tools/openai";
 import { chunkText } from "./utils";
+import path from "path";
 
 config();
 
 const env = process.env as Record<string, string>;
+
+console.log(`debug:{
+  NEO4J_URI: ${env.NEO4J_URI},
+  NEO4J_USER: ${env.NEO4J_USER},
+  NEO4J_PASSWORD: ${env.NEO4J_PASSWORD},
+  OPENAI_API_KEY: ${env.OPENAI_API_KEY},
+}`);
+
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
 
 const memoryService = createNeo4jService(
-  process.env.NEO4J_URI || "bolt://localhost:7687",
-  process.env.NEO4J_USER || "neo4j",
-  process.env.NEO4J_PASSWORD || "Qwerty@123"
+  env.NEO4J_URI || "bolt://localhost:7687",
+  env.NEO4J_USER || "neo4j",
+  env.NEO4J_PASSWORD || "Qwerty@123"
 );
 
 const server = new McpServer({ name: "agent", version: "1.0.0" });
 
-const systemPrompt = fs.readFileSync("./main.md", "utf-8");
-console.log(`debug:systemPrompt`, systemPrompt);
+const systemPromptPath = path.resolve("./agent.md");
+console.log(`debug:systemPromptPath`, systemPromptPath);
+
+const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
+console.log(systemPrompt);
 
 server.tool(
-  "analyze_requirement",
-  "Analyze the requirement.",
+  "search_knowledge_base",
+  `Search knowledge base. Ask questions about stored requirements.
+Example: "What are the approval workflow rules for expenses over 20M VND?"
+Example: "What entities are involved in budget management?"
+Example: "Can employees edit expense requests after submission?"
+`,
   {
     query: z.string(),
   },
@@ -56,7 +72,9 @@ server.tool(
 
 server.tool(
   "train_data",
-  "Store custom training data into memory (embedded & chunked).",
+  `Store custom training data into memory (embedded & chunked).
+Example: Feed feature specifications, requirements docs, or clarifications
+`,
   {
     text: z.string(),
     source: z.string().optional(), // optional metadata (e.g. "requirements_doc.md")
