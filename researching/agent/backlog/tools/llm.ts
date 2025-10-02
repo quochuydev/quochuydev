@@ -1,7 +1,7 @@
 import { createAnthropicService } from "./anthropic";
 import { createDeepSeekService } from "./deepseek";
 import { createOllamaService } from "./ollama";
-import { createOpenAIService } from "./openai";
+import { createOpenAIService } from "../../tools/openai";
 
 export const createLLMService = (
   llm:

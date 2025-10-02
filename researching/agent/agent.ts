@@ -6,18 +6,24 @@ import { config } from "dotenv";
 import express from "express";
 import fs from "fs";
 import { z } from "zod";
-import { createChromaService } from "./tools/chroma";
+import { createNeo4jService } from "./tools/neo4j";
 import { createOpenAIService } from "./tools/openai";
+import { chunkText } from "./utils";
 
 config();
 
 const env = process.env as Record<string, string>;
 const llmService = createOpenAIService(env.OPENAI_API_KEY);
-const memoryService = createChromaService(env.CHROMA_API_KEY);
+
+const memoryService = createNeo4jService(
+  process.env.NEO4J_URI || "bolt://localhost:7687",
+  process.env.NEO4J_USER || "neo4j",
+  process.env.NEO4J_PASSWORD || "Qwerty@123"
+);
 
 const server = new McpServer({ name: "agent", version: "1.0.0" });
 
-const systemPrompt = fs.readFileSync("../prompts/analyze-prompt.md", "utf-8");
+const systemPrompt = fs.readFileSync("./main.md", "utf-8");
 console.log(`debug:systemPrompt`, systemPrompt);
 
 server.tool(
@@ -34,16 +40,44 @@ server.tool(
       systemPrompt,
       `Context:${context}\n\nQuestion: ${query}`
     );
+
     console.log(answer);
 
-    const content: CallToolResult["content"] = [{ type: "text", text: answer }];
+    const content: CallToolResult["content"] = [
+      {
+        type: "text",
+        text: answer,
+      },
+    ];
 
-    // const chunks = chunkText(answer);
+    return { content };
+  }
+);
 
-    // for (const chunk of chunks) {
-    //   const chunkVector = await llmService.embed(chunk);
-    //   await memoryService.upsertDocs(chunkVector, chunk, { query });
-    // }
+server.tool(
+  "train_data",
+  "Store custom training data into memory (embedded & chunked).",
+  {
+    text: z.string(),
+    source: z.string().optional(), // optional metadata (e.g. "requirements_doc.md")
+  },
+  async ({ text, source }) => {
+    const chunks = chunkText(text);
+
+    for (const chunk of chunks) {
+      const chunkVector = await llmService.embed(chunk);
+
+      await memoryService.upsertDocs(chunkVector, chunk, {
+        source: source || "",
+      });
+    }
+
+    const content: { type: "text"; text: string }[] = [
+      {
+        type: "text",
+        text: `Stored ${chunks.length} chunks into training memory.`,
+      },
+    ];
 
     return { content };
   }

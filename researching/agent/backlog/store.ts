@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import fs from "fs";
 import path from "path";
-import { createLLMService } from "./tools";
+import { createLLMService } from "./tools/llm";
 
 config();
 
