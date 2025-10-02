@@ -25,7 +25,7 @@ pyenv exec pip install dotenv llama-index pydantic tavily-python
 docker run \
   --name neo4j -d \
   -p7474:7474 -p7687:7687 \
-  -e NEO4J_AUTH=neo4j/Qwerty@123 \
+  -e NEO4J_AUTH=neo4j/password \
   -e NEO4JLABS_PLUGINS='["apoc"]' \
   -e APOC_IMPORT_FILE_ENABLED=true \
   -e APOC_EXPORT_FILE_ENABLED=true \

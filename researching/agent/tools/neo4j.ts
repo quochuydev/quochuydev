@@ -52,13 +52,21 @@ export function createNeo4jService(
       const result = await session.run(
         `
         MATCH (d:Doc)
-        WHERE d.vector IS NOT NULL
-        WITH d, gds.similarity.cosine(d.vector, $queryVector) AS score
+        WHERE d.vector IS NOT NULL AND size(d.vector) = size($queryVector)
+        WITH d, [i IN range(0, size(d.vector)-1) | d.vector[i] * $queryVector[i]] AS products,
+             [x IN d.vector | x * x] AS docSquares,
+             [x IN $queryVector | x * x] AS querySquares
+        WITH d,
+             reduce(s = 0.0, x IN products | s + x) AS dotProduct,
+             sqrt(reduce(s = 0.0, x IN docSquares | s + x)) AS docMagnitude,
+             sqrt(reduce(s = 0.0, x IN querySquares | s + x)) AS queryMagnitude
+        WITH d, dotProduct / (docMagnitude * queryMagnitude) AS score
+        WHERE score IS NOT NULL
         ORDER BY score DESC
         LIMIT $limit
         RETURN d.document AS document
         `,
-        { queryVector: vector, limit }
+        { queryVector: vector, limit: neo4j.int(limit) }
       );
 
       return result.records.map((r) => r.get("document"));

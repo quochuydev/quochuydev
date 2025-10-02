@@ -30,7 +30,7 @@ llm = OpenAI(
 )
 
 username = "neo4j"
-password = "Qwerty@123"
+password = "password"
 url = "bolt://localhost:7687"
 embed_dim = 768
 database = "neo4j"

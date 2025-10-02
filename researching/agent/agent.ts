@@ -27,7 +27,7 @@ const llmService = createOpenAIService(env.OPENAI_API_KEY);
 const memoryService = createNeo4jService(
   env.NEO4J_URI || "bolt://localhost:7687",
   env.NEO4J_USER || "neo4j",
-  env.NEO4J_PASSWORD || "Qwerty@123"
+  env.NEO4J_PASSWORD || "password"
 );
 
 const server = new McpServer({ name: "agent", version: "1.0.0" });
