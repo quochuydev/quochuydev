@@ -21,24 +21,43 @@ docker build -t quochuydev/core-x-agent:0.0.1 .
 docker push quochuydev/core-x-agent:0.0.1
 ```
 
+**Verify connection**:
+
+```sh
+# Neo4j - Login with neo4j/password
+open http://localhost:7474
+
+# Agent - Check if agent is running
+curl http://localhost:8079/sse
+```
+
+**Clear the graph database**
+
+```sql
+MATCH (n) DETACH DELETE n
+```
+
 ## For other team members use the MCP
 
 ### Run agent in local
 
 ```yml
+# docker-compose.yml
 version: "3.9"
 
 services:
   core-x-agent:
     image: quochuydev/core-x-agent:0.0.1
     container_name: core-x-agent
+    ports:
+      - "8079:8079"
     environment:
       - NEO4J_URI=bolt://neo4j:7687
       - NEO4J_USER=neo4j
       - NEO4J_PASSWORD=password
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-    ports:
-      - "8079:8079"
+    env_file:
+      - .env
     depends_on:
       - neo4j
 
@@ -62,29 +81,22 @@ volumes:
 ```
 
 ```sh
+# Pull docker image
 docker pull quochuydev/core-x-agent:0.0.1
 
 # Create .env file with key OPENAI_API_KEY
 
-docker-compose up -d
+# Run
+docker compose up -d
 
-docker-compose logs -f core-x-agent
+# Check logs
+docker compose logs core-x-agent -f
 
+# Tools: `train_data` `search_knowledge_base`
+
+# Test with inspector
+npx @modelcontextprotocol/inspector --server-url http://localhost:8079/sse
+
+# Test with claude code
 claude mcp add --transport sse x-agent http://localhost:8079/sse
-```
-
-**3. Verify connection**:
-
-```sh
-# Check Neo4j is accessible, login with neo4j/password
-open http://localhost:7474
-
-# Check if agent is running
-curl http://localhost:8079/sse
-```
-
-To clear the graph database
-
-```sql
-MATCH (n) DETACH DELETE n
 ```
