@@ -1,14 +1,23 @@
 ## For me to build
 
 ```sh
+docker run \
+  --name neo4j -d \
+  -p7474:7474 -p7687:7687 \
+  -e NEO4J_AUTH=neo4j/password \
+  -e NEO4JLABS_PLUGINS='["apoc"]' \
+  -e APOC_IMPORT_FILE_ENABLED=true \
+  -e APOC_EXPORT_FILE_ENABLED=true \
+  neo4j:latest
+
+# Run with docker-compose (build mode)
+docker compose  -f docker-compose-build.yml up -d
+
 # Build docker image
 docker build -t quochuydev/core-x-agent:0.0.1 .
 
 # Push docker image
 docker push quochuydev/core-x-agent:0.0.1
-
-# Run with docker-compose (build mode)
-docker-compose  -f docker-compose-build.yml up -d
 ```
 
 ## For other team members use the MCP
@@ -59,44 +68,18 @@ docker pull quochuydev/core-x-agent:0.0.1
 docker-compose up -d
 
 docker-compose logs -f core-x-agent
+
+claude mcp add --transport sse x-agent http://localhost:8079/sse
 ```
-
-### Use the agent example
-
-```json
-{
-  "mcpServers": {
-    "core-x-agent": {
-      "serverUrl": "http://localhost:8079/sse",
-      "headers": {}
-    }
-  }
-}
-```
-
-**2. Query the agent** via MCP tools:
-
-- **train_data**: Store new domain knowledge into the agent
-  ```
-  Example: Feed feature specifications, requirements docs, or clarifications
-  ```
-- **search_knowledge_base**: Ask questions about stored requirements
-
-  ```
-  Example: "What are the approval workflow rules for expenses over 20M VND?"
-  Example: "What entities are involved in budget management?"
-  Example: "Can employees edit expense requests after submission?"
-  ```
 
 **3. Verify connection**:
 
 ```sh
+# Check Neo4j is accessible, login with neo4j/password
+open http://localhost:7474
+
 # Check if agent is running
 curl http://localhost:8079/sse
-
-# Check Neo4j is accessible
-open http://localhost:7474
-# Login with neo4j/password
 ```
 
 To clear the graph database
