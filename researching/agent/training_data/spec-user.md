@@ -1,6 +1,6 @@
 # Feature Specification: User Management System
 
-**Feature Branch**: `002-user-management`
+**Feature Branch**: `user-management`
 
 **Created**: 2025-10-03
 
@@ -45,13 +45,13 @@
 
 - Q: Authentication Method: Email/password, SSO integration, or OAuth providers? → A: Authentication not required in MVP stage; predefined accounts used
 - Q: Password Policy: Complexity requirements, expiration, reset workflow? → A: Deferred to post-MVP; MVP uses predefined accounts without passwords
-- Q: User Self-Service: Can users update their own profiles or request department changes? → A: Users can update basic profile fields (name, contact); + department changes require Manager or CEO approval
-- Q: Bulk User Operations: Import/export users, batch role assignments? → A: Single user operations only in MVP; bulk operations deferred
-- Q: Multi-Department Assignment: How to handle users in multiple departments? → A: Users can be assigned to multiple departments with one designated as + primary
-- Q: Delegation Limitations: Can delegation be limited to specific approval types or all responsibilities? → A: Delegation transfers all approval + responsibilities for specified time period
-- Q: Deactivation vs Deletion: Are user accounts deleted or deactivated? → A: Users are deactivated only; no deletion to preserve audit trail integrity
-- Q: Session Management: Concurrent login limits, session timeout? → A: Deferred to post-MVP with authentication implementation
-- Q: User Search & Filtering: Required search capabilities for admin operations? → A: Search by name, email, department, role; filter by status + (active/inactive)
+- Q: User Self-Service: Can users update their own profiles or request group changes? → A: Users can update basic profile fields (name, contact); group changes need Manager or Admin approval
+- Q: Bulk User Operations: Import/export users, batch role assignments? → A: Single user operations only in MVP; bulk operations later
+- Q: Multi-Group Assignment: How to handle users in multiple groups? → A: Users can be in multiple groups with one set as primary
+- Q: Delegation Limitations: Can delegation be limited to specific types or all responsibilities? → A: Delegation transfers all responsibilities for set time period
+- Q: Deactivation vs Deletion: Are user accounts deleted or deactivated? → A: Users are deactivated only; no deletion to keep history
+- Q: Session Management: Concurrent login limits, session timeout? → A: Will be added post-MVP with authentication
+- Q: User Search & Filtering: Required search capabilities for admin operations? → A: Search by name, email, group, role; filter by status (active/inactive)
 
 ---
 
@@ -59,35 +59,26 @@
 
 ### Primary User Story
 
-An organization needs to manage user access to the system with role-based permissions. Admin users create and manage
-user accounts, assign roles and organizational units, and configure delegation for absence periods. Users update their own profiles while managers oversee organizational unit
-assignments. The system ensures proper access control, maintains audit trails of user changes, and supports organizational hierarchy for approval workflows.
+An organization needs to control who can access the system and what they can do. Admin users create accounts, assign roles and groups, and set up delegation when users are away. Users can update their own profiles. Managers can see their team members. The system tracks all changes and supports team structure for approvals.
 
 ### Acceptance Scenarios
 
-1. **Given** an Admin user needs to onboard a new member, **When** they create a user account with role and organizational unit assignment, **Then** the system
-   generates an active account accessible by the new member
-2. **Given** a user is going on leave, **When** they configure delegation to a colleague for a specified date range, **Then** all responsibilities
-   automatically transfer to the delegate during that period
-3. **Given** a manager needs to view team members, **When** they access the user directory, **Then** they see all users in their organizational unit with roles,
-   contact information, and current status
-4. **Given** a user leaves the organization, **When** an Admin user deactivates the account, **Then** the system requires delegation configuration if
-   pending responsibilities exist and preserves all historical data
-5. **Given** an Admin reorganizes organizational units, **When** they reassign users to different units, **Then** the system updates workflows and access
-   accordingly while logging all changes
-6. **Given** a user updates their profile information, **When** they change contact details or display name, **Then** changes take effect immediately
-   without requiring approval
-7. **Given** an Admin user searches for users, **When** they filter by organizational unit and active status, **Then** the system displays matching users with
-   relevant details
+1. **Given** an Admin needs to add a new member, **When** they create a user account with role and group, **Then** the system creates an active account the new member can use
+2. **Given** a user is going on leave, **When** they set up delegation to a colleague for a date range, **Then** all tasks move to the delegate during that time
+3. **Given** a manager needs to view team members, **When** they open the user directory, **Then** they see all users in their group with roles, contact info, and status
+4. **Given** a user leaves, **When** an Admin deactivates the account, **Then** the system asks for delegation setup if tasks are pending and keeps all history
+5. **Given** an Admin reorganizes groups, **When** they move users to different groups, **Then** the system updates access and logs all changes
+6. **Given** a user updates their profile, **When** they change contact details or name, **Then** changes happen right away without approval
+7. **Given** an Admin searches for users, **When** they filter by group and status, **Then** the system shows matching users with details
 
 ### Edge Cases
 
-- When user assigned to multiple organizational units, system uses primary unit designation for access validation
-- When delegation configured with overlapping date ranges, most recent delegation configuration takes precedence
-- When deactivating user with active delegations, system cancels all outgoing delegations and preserves incoming delegation records
-- When delegate is also deactivated during delegation period, system reverts responsibilities to original user
-- When user role changed from higher to lower privilege level, system removes elevated permissions but preserves historical records
-- When last Admin user would be deactivated, system prevents deactivation to maintain administrative access
+- When user is in multiple groups, system uses primary group for access checks
+- When delegation dates overlap, most recent setup wins
+- When deactivating user with active delegations, system cancels outgoing delegations and keeps incoming ones
+- When delegate is also deactivated during delegation time, system gives tasks back to original user
+- When user role changes from higher to lower level, system removes extra permissions but keeps history
+- When last Admin would be deactivated, system stops it to keep admin access
 
 ## Requirements
 
@@ -95,16 +86,16 @@ assignments. The system ensures proper access control, maintains audit trails of
 
 #### User Account Management
 
-- **FR-001**: Admin users MUST be able to create new user accounts with email, name, role, and organizational unit assignment
+- **FR-001**: Admin users MUST be able to create new user accounts with email, name, role, and group assignment
 - **FR-002**: System MUST support hierarchical role types with distinct permission levels (e.g., User, Manager, Admin, Super Admin)
-- **FR-003**: System MUST initialize with predefined accounts for MVP with various role levels distributed across organizational units
-- **FR-004**: System MUST allow Admin users to modify user roles and organizational unit assignments
+- **FR-003**: System MUST initialize with predefined accounts for MVP with various role levels distributed across groups
+- **FR-004**: System MUST allow Admin users to modify user roles and group assignments
 - **FR-005**: System MUST allow users to update their own profile information including display name and contact details
-- **FR-006**: System MUST prevent users from changing their own role or primary organizational unit assignment
+- **FR-006**: System MUST prevent users from changing their own role or primary group assignment
 - **FR-007**: System MUST validate email addresses are unique across all user accounts
 - **FR-008**: System MUST prevent creation of duplicate user accounts with same email address
 
-#### User Status & Lifecycle
+#### User Status
 
 - **FR-009**: Admin users MUST be able to deactivate user accounts
 - **FR-010**: System MUST prevent deletion of user accounts; only deactivation allowed to preserve audit trail
@@ -117,53 +108,11 @@ assignments. The system ensures proper access control, maintains audit trails of
 #### Role & Permission Management
 
 - **FR-016**: User role MUST have permissions to: create/edit own resources, view own resources, update own profile, configure own delegation
-- **FR-017**: Manager role MUST have User permissions plus: view organizational unit resources, approve requests within authority, view organizational unit members
-- **FR-018**: Admin role MUST have permissions to: manage all users, manage system configurations, approve all requests, view all organizational units, access all reports
+- **FR-017**: Manager role MUST have User permissions plus: view group resources, approve requests within authority, view group members
+- **FR-018**: Admin role MUST have permissions to: manage all users, manage system configurations, approve all requests, view all groups, access all reports
 - **FR-019**: Super Admin role MUST have all Admin permissions plus: final authority on all requests, override any decision
 - **FR-020**: System MUST enforce role-based permissions on all user actions
 - **FR-021**: System MUST prevent privilege escalation through user interface or API access
-
-#### Department & Team Organization
-
-- **FR-022**: Finance and CEO users MUST be able to create and manage department structures
-- **FR-023**: System MUST allow assignment of users to multiple departments
-- **FR-024**: Each user MUST have exactly one primary department designation
-- **FR-025**: System MUST use primary department for budget validation and default approval routing
-- **FR-026**: Managers MUST be able to view all users assigned to their department(s)
-- **FR-027**: System MUST support department hierarchy with department heads
-- **FR-028**: Department changes MUST require Manager or CEO approval when initiated by Employee users
-
-#### Delegation Management
-
-- **FR-029**: All users MUST be able to configure delegation to another active user for specified date range
-- **FR-030**: System MUST validate delegate user is active and has sufficient role permissions
-- **FR-031**: System MUST automatically transfer approval responsibilities to delegate during delegation period
-- **FR-032**: System MUST record all delegated actions with both delegate and original user identification
-- **FR-033**: System MUST allow users to modify or cancel future delegations before start date
-- **FR-034**: System MUST prevent modification of active or completed delegations
-- **FR-035**: When delegate is deactivated during delegation period, system MUST revert responsibilities to original user
-- **FR-036**: When user with active delegation is deactivated, system MUST cancel all outgoing delegations
-- **FR-037**: When overlapping delegations exist for same user, most recent configuration MUST take precedence
-
-#### User Directory & Search
-
-- **FR-038**: System MUST provide user directory accessible to all active users
-- **FR-039**: System MUST support search by name, email, department, and role
-- **FR-040**: System MUST support filtering by status (active/inactive)
-- **FR-041**: User directory MUST display: name, email, role, primary department, and status
-- **FR-042**: Manager users MUST see detailed view for their department members
-- **FR-043**: Finance and CEO users MUST see detailed view for all users
-- **FR-044**: Employee users MUST see basic directory information for all active users
-
-#### Audit Trail & Compliance
-
-- **FR-045**: System MUST log all user account changes with timestamp and administrator identification
-- **FR-046**: System MUST maintain immutable history of role changes
-- **FR-047**: System MUST maintain immutable history of department assignments
-- **FR-048**: System MUST maintain immutable history of delegation configurations
-- **FR-049**: System MUST display complete audit trail for each user account showing who did what and when
-- **FR-050**: System MUST prevent deletion or modification of historical audit records
-- **FR-051**: Finance and CEO users MUST be able to access audit trail for any user account
 
 ### Non-Functional Requirements
 
@@ -179,13 +128,9 @@ assignments. The system ensures proper access control, maintains audit trails of
 
 ### Key Entities
 
-- **User**: Represents an employee with unique email, display name, role (Employee, Manager, Finance, CEO), primary department, additional department + assignments, contact information, profile data, active/inactive status, creation timestamp, and last modified timestamp
-- **Role**: Permission set defining system access levels (Employee, Manager, Finance, CEO) with specific capabilities for expense approval, user management, + budget control, and reporting access
-- **Department**: Organizational unit with name, department head user reference, team member user references, budget allocation, and active status
-- **Delegation**: Temporary assignment of user responsibilities containing delegator user, delegate user, start date, end date, active status, creation + timestamp, and cancellation timestamp
-- **User Audit Log**: Immutable record containing user subject, administrator who made change, action type (created, role_changed, department_assigned, + deactivated, reactivated, profile_updated), timestamp, previous values, new values, and affected entity references; retained for 2 years
-- **Profile**: User-editable information containing display name, contact phone, contact email, preferred notification settings, and last update timestamp
-- **Permission**: Granular access control rule linked to role defining allowed actions (create_expense, approve_expense, manage_users, manage_budgets, + view_reports, etc.)
+- **User**: Person in the system with unique email, display name, role (User, Manager, Admin, Super Admin), primary group, other group memberships, contact info, active/inactive status, create time, and last update time
+- **Role**: Permission set that defines access levels (User, Manager, Admin, Super Admin) with abilities to approve, manage users, configure system, and access reports
+- **Permission**: Access rule for role that defines allowed actions (manage_users, approve_requests, configure_system, view_reports, etc.)
 
 ## Review & Acceptance Checklist
 
