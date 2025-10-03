@@ -2,7 +2,7 @@
 
 ```sh
 # Run with docker-compose (build mode)
-docker compose -f docker-compose-build.yml up -d
+docker compose -f docker-compose-build.yml up -d --build
 
 # Build docker image
 docker build -t quochuydev/core-x-agent:0.0.4 .

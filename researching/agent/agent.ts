@@ -31,8 +31,11 @@ const server = new McpServer({
 const systemPromptPath = path.resolve("./agent.md");
 const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
 
-console.log(`debug:systemPrompt`, systemPrompt);
+const entityPromptPath = path.resolve("./entity_erd_schema_prompt.md");
+const entityPrompt = fs.readFileSync(entityPromptPath, "utf-8");
+
 console.log(`debug:systemPromptPath`, systemPromptPath);
+console.log(`debug:entityPromptPath`, entityPromptPath);
 console.log(`debug:version`, env.VERSION);
 
 server.tool(
@@ -51,6 +54,36 @@ server.tool(
     );
 
     console.log(answer);
+    console.log("🔎✅");
+
+    const content: CallToolResult["content"] = [
+      {
+        type: "text",
+        text: answer,
+      },
+    ];
+
+    return { content };
+  }
+);
+
+server.tool(
+  "search_entity",
+  "Search entity. Ask questions about stored entity.",
+  {
+    query: z.string(),
+  },
+  async ({ query }) => {
+    const vector = await llmService.embed(query);
+    const context = await memoryService.searchDocs(vector);
+
+    const answer = await llmService.generateAnswer(
+      entityPrompt,
+      `Context:${context}\n\nQuestion: ${query}`
+    );
+
+    console.log(answer);
+    console.log("🔎✅");
 
     const content: CallToolResult["content"] = [
       {
@@ -87,6 +120,7 @@ server.tool(
       },
     ];
 
+    console.log("📖✅");
     return { content };
   }
 );

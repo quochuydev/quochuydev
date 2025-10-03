@@ -3,8 +3,9 @@ npm-debug.log
 .env
 .git
 .gitignore
+backlog
+.DS_Store
 *.md
 !CLAUDE.md
 !agent.md
-backlog
-.DS_Store
+!entity_erd_schema_prompt.md
