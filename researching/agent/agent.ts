@@ -23,13 +23,17 @@ const memoryService = createNeo4jService(
   env.NEO4J_PASSWORD || "password"
 );
 
-const server = new McpServer({ name: "agent", version: "1.0.0" });
+const server = new McpServer({
+  name: "agent",
+  version: env.VERSION,
+});
 
 const systemPromptPath = path.resolve("./agent.md");
 const systemPrompt = fs.readFileSync(systemPromptPath, "utf-8");
 
-console.log(`debug:systemPromptPath`, systemPromptPath);
 console.log(`debug:systemPrompt`, systemPrompt);
+console.log(`debug:systemPromptPath`, systemPromptPath);
+console.log(`debug:version`, env.VERSION);
 
 server.tool(
   "search_knowledge_base",
@@ -64,13 +68,16 @@ server.tool(
   "Store custom training data into memory (embedded & chunked).",
   {
     text: z.string(),
+    type: z
+      .enum(["spec", "erd", "eventStorming", "intentLayout"])
+      .default("spec"),
   },
-  async ({ text }) => {
+  async ({ text, type }) => {
     const chunks = chunkText(text);
 
     for (const chunk of chunks) {
       const chunkVector = await llmService.embed(chunk);
-      await memoryService.upsertDocs(chunkVector, chunk, {});
+      await memoryService.upsertDocs(chunkVector, chunk, { type });
     }
 
     const content: { type: "text"; text: string }[] = [

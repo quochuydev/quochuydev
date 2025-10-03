@@ -5,10 +5,10 @@
 docker compose -f docker-compose-build.yml up -d
 
 # Build docker image
-docker build -t quochuydev/core-x-agent:0.0.2 .
+docker build -t quochuydev/core-x-agent:0.0.4 .
 
 # Push docker image
-docker push quochuydev/core-x-agent:0.0.2
+docker push quochuydev/core-x-agent:0.0.4
 ```
 
 **Verify connection**:
