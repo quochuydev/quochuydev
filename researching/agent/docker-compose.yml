@@ -2,12 +2,12 @@ version: "3.9"
 
 services:
   core-x-agent:
-    image: quochuydev/core-x-agent:0.0.4
+    image: quochuydev/core-x-agent:0.0.5
     container_name: core-x-agent
     ports:
       - "8079:8079"
     environment:
-      - VERSION=0.0.4
+      - VERSION=0.0.5
       - NEO4J_URI=bolt://neo4j:7687
       - NEO4J_USER=neo4j
       - NEO4J_PASSWORD=password
