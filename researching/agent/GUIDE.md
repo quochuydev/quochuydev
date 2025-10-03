@@ -21,12 +21,6 @@ open http://localhost:7474
 curl http://localhost:8079/sse
 ```
 
-**Clear the graph database**
-
-```sql
-MATCH (n) DETACH DELETE n
-```
-
 ## For other team members use the MCP
 
 ### Run agent in local
@@ -48,4 +42,15 @@ npx @modelcontextprotocol/inspector --server-url http://localhost:8079/sse
 
 # Test with claude code
 claude mcp add --transport sse x-agent http://localhost:8079/sse
+```
+
+**To change system prompt**
+
+1. Edit `agent.md`
+2. Restart agent `docker compose restart core-x-agent`
+
+**To clear the neo4j graph database**
+
+```sql
+MATCH (n) DETACH DELETE n
 ```
