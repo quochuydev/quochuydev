@@ -47,8 +47,6 @@
 - Q: Password Policy: Complexity requirements, expiration, reset workflow? → A: Deferred to post-MVP; MVP uses predefined accounts without passwords
 - Q: User Self-Service: Can users update their own profiles or request group changes? → A: Users can update basic profile fields (name, contact); group changes need Manager or Admin approval
 - Q: Bulk User Operations: Import/export users, batch role assignments? → A: Single user operations only in MVP; bulk operations later
-- Q: Multi-Group Assignment: How to handle users in multiple groups? → A: Users can be in multiple groups with one set as primary
-- Q: Delegation Limitations: Can delegation be limited to specific types or all responsibilities? → A: Delegation transfers all responsibilities for set time period
 - Q: Deactivation vs Deletion: Are user accounts deleted or deactivated? → A: Users are deactivated only; no deletion to keep history
 - Q: Session Management: Concurrent login limits, session timeout? → A: Will be added post-MVP with authentication
 - Q: User Search & Filtering: Required search capabilities for admin operations? → A: Search by name, email, group, role; filter by status (active/inactive)
@@ -59,24 +57,18 @@
 
 ### Primary User Story
 
-An organization needs to control who can access the system and what they can do. Admin users create accounts, assign roles and groups, and set up delegation when users are away. Users can update their own profiles. Managers can see their team members. The system tracks all changes and supports team structure for approvals.
+An organization needs to control who can access the system and what they can do. Admin users create accounts, assign roles, and set up delegation when users are away. Users can update their own profiles. Managers can see their team members. The system tracks all changes and supports team structure for approvals.
 
 ### Acceptance Scenarios
 
-1. **Given** an Admin needs to add a new member, **When** they create a user account with role and group, **Then** the system creates an active account the new member can use
+1. **Given** an Admin needs to add a new member, **When** they create a user account with role, **Then** the system creates an active account the new member can use
 2. **Given** a user is going on leave, **When** they set up delegation to a colleague for a date range, **Then** all tasks move to the delegate during that time
-3. **Given** a manager needs to view team members, **When** they open the user directory, **Then** they see all users in their group with roles, contact info, and status
-4. **Given** a user leaves, **When** an Admin deactivates the account, **Then** the system asks for delegation setup if tasks are pending and keeps all history
-5. **Given** an Admin reorganizes groups, **When** they move users to different groups, **Then** the system updates access and logs all changes
-6. **Given** a user updates their profile, **When** they change contact details or name, **Then** changes happen right away without approval
-7. **Given** an Admin searches for users, **When** they filter by group and status, **Then** the system shows matching users with details
+3. **Given** a user updates their profile, **When** they change contact details or name, **Then** changes happen right away without approval
+4. **Given** an Admin searches for users, **When** they filter by status, **Then** the system shows matching users with details
 
 ### Edge Cases
 
-- When user is in multiple groups, system uses primary group for access checks
-- When delegation dates overlap, most recent setup wins
-- When deactivating user with active delegations, system cancels outgoing delegations and keeps incoming ones
-- When delegate is also deactivated during delegation time, system gives tasks back to original user
+- When user is in multiple groups for access checks
 - When user role changes from higher to lower level, system removes extra permissions but keeps history
 - When last Admin would be deactivated, system stops it to keep admin access
 
@@ -89,9 +81,9 @@ An organization needs to control who can access the system and what they can do.
 - **FR-001**: Admin users MUST be able to create new user accounts with email, name, role, and group assignment
 - **FR-002**: System MUST support hierarchical role types with distinct permission levels (e.g., User, Manager, Admin, Super Admin)
 - **FR-003**: System MUST initialize with predefined accounts for MVP with various role levels distributed across groups
-- **FR-004**: System MUST allow Admin users to modify user roles and group assignments
+- **FR-004**: System MUST allow Admin users to modify user roles
 - **FR-005**: System MUST allow users to update their own profile information including display name and contact details
-- **FR-006**: System MUST prevent users from changing their own role or primary group assignment
+- **FR-006**: System MUST prevent users from changing their own role
 - **FR-007**: System MUST validate email addresses are unique across all user accounts
 - **FR-008**: System MUST prevent creation of duplicate user accounts with same email address
 
@@ -116,15 +108,11 @@ An organization needs to control who can access the system and what they can do.
 
 ### Non-Functional Requirements
 
-- **NFR-001**: System MUST provide response times under 200ms for user directory list views (per Performance Requirements principle)
-- **NFR-002**: System MUST provide response times under 100ms for user interactions like role changes (per Performance Requirements principle)
-- **NFR-003**: System MUST be accessible to screen readers and meet WCAG 2.1 AA standards (per User Experience Consistency principle)
 - **NFR-004**: System MUST work on mobile devices and tablets with responsive design (per User Experience Consistency principle)
 - **NFR-005**: System MUST maintain user audit logs for minimum 2 years
-- **NFR-006**: System MUST support concurrent access by 50 users without performance degradation
-- **NFR-007**: System MUST encrypt sensitive user data (email, contact information) following OWASP Top 10 security standards at rest and in transit
-- **NFR-008**: MVP stage does not require authentication; users initialized with predefined accounts
-- **NFR-009**: System MUST ensure data consistency for user operations across concurrent sessions
+- **NFR-006**: System MUST encrypt sensitive user data (email, contact information) following OWASP Top 10 security standards at rest and in transit
+- **NFR-007**: MVP stage does not require authentication; users initialized with predefined accounts
+- **NFR-008**: System MUST ensure data consistency for user operations across concurrent sessions
 
 ### Key Entities
 
