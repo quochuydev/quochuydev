@@ -37,8 +37,6 @@ pyenv exec pip install llama-index llama-index-graph-stores-neo4j graspologic
 
 pyenv exec pip install llama-index-llms-deepseek
 
-pyenv exec pip install package_name
-
 pyenv exec pip freeze > requirements.txt
 
 # Run: cd researching/neo4j

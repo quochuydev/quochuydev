@@ -5,11 +5,11 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { config } from "dotenv";
 import express from "express";
 import fs from "fs";
+import path from "path";
 import { z } from "zod";
 import { createNeo4jService } from "./tools/neo4j";
 import { createOpenAIService } from "./tools/openai";
 import { chunkText } from "./utils";
-import path from "path";
 
 config();
 
@@ -45,46 +45,39 @@ server.tool(
     query: z.string(),
   },
   async ({ query }) => {
+    // --- Step 1: classify the query ---
+    const lowerQuery = query.toLowerCase();
+    let selectedPrompt;
+
+    if (
+      lowerQuery.includes("entity") ||
+      lowerQuery.includes("table") ||
+      lowerQuery.includes("schema") ||
+      lowerQuery.includes("erd") ||
+      lowerQuery.includes("relation") ||
+      lowerQuery.includes("field") ||
+      lowerQuery.includes("column")
+    ) {
+      selectedPrompt = entityPrompt;
+      console.log("🧩 Using Entity Prompt");
+    } else {
+      selectedPrompt = systemPrompt;
+      console.log("📘 Using Knowledge Base Prompt");
+    }
+
+    // --- Step 2: embed and retrieve context ---
     const vector = await llmService.embed(query);
     const context = await memoryService.searchDocs(vector);
 
+    // --- Step 3: generate answer ---
     const answer = await llmService.generateAnswer(
-      systemPrompt,
-      `Context:${context}\n\nQuestion: ${query}`
+      selectedPrompt,
+      `Context:\n${context}\n\nQuestion:\n${query}`
     );
 
-    console.log(answer);
-    console.log("🔎✅");
+    console.log("🔎✅", answer);
 
-    const content: CallToolResult["content"] = [
-      {
-        type: "text",
-        text: answer,
-      },
-    ];
-
-    return { content };
-  }
-);
-
-server.tool(
-  "search_entity",
-  "Search entity. Ask questions about stored entity.",
-  {
-    query: z.string(),
-  },
-  async ({ query }) => {
-    const vector = await llmService.embed(query);
-    const context = await memoryService.searchDocs(vector);
-
-    const answer = await llmService.generateAnswer(
-      entityPrompt,
-      `Context:${context}\n\nQuestion: ${query}`
-    );
-
-    console.log(answer);
-    console.log("🔎✅");
-
+    // --- Step 4: standard return format ---
     const content: CallToolResult["content"] = [
       {
         type: "text",
@@ -101,16 +94,13 @@ server.tool(
   "Store custom training data into memory (embedded & chunked).",
   {
     text: z.string(),
-    type: z
-      .enum(["spec", "erd", "eventStorming", "intentLayout"])
-      .default("spec"),
   },
-  async ({ text, type }) => {
+  async ({ text }) => {
     const chunks = chunkText(text);
 
     for (const chunk of chunks) {
       const chunkVector = await llmService.embed(chunk);
-      await memoryService.upsertDocs(chunkVector, chunk, { type });
+      await memoryService.upsertDocs(chunkVector, chunk, {});
     }
 
     const content: { type: "text"; text: string }[] = [
@@ -120,7 +110,7 @@ server.tool(
       },
     ];
 
-    console.log("📖✅");
+    console.log("✅");
     return { content };
   }
 );
