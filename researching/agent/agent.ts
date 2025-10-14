@@ -44,40 +44,21 @@ server.tool(
   {
     query: z.string(),
   },
-  async ({ query }) => {
-    // --- Step 1: classify the query ---
-    const lowerQuery = query.toLowerCase();
-    let selectedPrompt;
+  async ({ query }: { query: string }) => {
+    const data = await fetchBinanceData("BTCUSDT", "1m", 70);
 
-    if (
-      lowerQuery.includes("entity") ||
-      lowerQuery.includes("table") ||
-      lowerQuery.includes("schema") ||
-      lowerQuery.includes("erd") ||
-      lowerQuery.includes("relation") ||
-      lowerQuery.includes("field") ||
-      lowerQuery.includes("column")
-    ) {
-      selectedPrompt = entityPrompt;
-      console.log("🧩 Using Entity Prompt");
-    } else {
-      selectedPrompt = systemPrompt;
-      console.log("📘 Using Knowledge Base Prompt");
-    }
-
-    // --- Step 2: embed and retrieve context ---
     const vector = await llmService.embed(query);
     const context = await memoryService.searchDocs(vector);
 
-    // --- Step 3: generate answer ---
     const answer = await llmService.generateAnswer(
-      selectedPrompt,
-      `Context:\n${context}\n\nQuestion:\n${query}`
+      systemPrompt,
+      `Context:\n${context}\n\n
+Question:\n${query}\n\n
+Data:\n${JSON.stringify(data)}\n\n`
     );
 
-    console.log("🔎✅", answer);
+    console.log("✅", answer);
 
-    // --- Step 4: standard return format ---
     const content: CallToolResult["content"] = [
       {
         type: "text",
@@ -95,7 +76,7 @@ server.tool(
   {
     text: z.string(),
   },
-  async ({ text }) => {
+  async ({ text }: { text: string }) => {
     const chunks = chunkText(text);
 
     for (const chunk of chunks) {
@@ -123,7 +104,7 @@ const transports = {
   sse: {} as Record<string, SSEServerTransport>,
 };
 
-app.get("/sse", async (_, res) => {
+app.get("/sse", async (_: any, res: any) => {
   const transport = new SSEServerTransport("/messages", res);
   transports.sse[transport.sessionId] = transport;
 
@@ -134,7 +115,7 @@ app.get("/sse", async (_, res) => {
   await server.connect(transport);
 });
 
-app.post("/messages", async (req, res) => {
+app.post("/messages", async (req: any, res: any) => {
   const sessionId = req.query.sessionId as string;
   const transport = transports.sse[sessionId];
 
@@ -147,3 +128,34 @@ app.post("/messages", async (req, res) => {
 
 const port = 8079;
 app.listen(port, () => console.log(`http://localhost:${port}/sse`));
+
+async function fetchBinanceData(
+  symbol: string,
+  interval: string,
+  limit: number
+): Promise<
+  {
+    timestamp: number;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume: number;
+  }[]
+> {
+  const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+
+  return (data as any)
+    .map((d: any) => ({
+      timestamp: +d[0],
+      open: +d[1],
+      high: +d[2],
+      low: +d[3],
+      close: +d[4],
+      volume: +d[5],
+    }))
+    .sort((a: any, b: any) => a.timestamp - b.timestamp);
+}
