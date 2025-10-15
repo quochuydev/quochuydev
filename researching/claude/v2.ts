@@ -1,10 +1,8 @@
 import { query } from "@anthropic-ai/claude-agent-sdk";
 
-let sessionId: string | undefined;
-
 const response = query({
   prompt:
-    "get all files, if you see main.ts file, write the log 'hello world v2'",
+    "get all files, if you see main.ts file, write the current iso string date",
   options: {
     mcpServers: {
       filesystem: {
@@ -28,12 +26,14 @@ const response = query({
 });
 
 for await (const message of response) {
-  if (message.type === "system" && message.subtype === "init") {
-    sessionId = message.session_id;
-    console.log(`Session started with ID: ${sessionId}`);
-  }
+  switch (message.type) {
+    case "result":
+      if (message.subtype === "success") {
+        console.log("\n✅ Result:", message.result);
+      }
+      break;
 
-  if (message.type === "result" && message.subtype === "success") {
-    console.log(message.result);
+    default:
+      console.log("other:", message);
   }
 }
