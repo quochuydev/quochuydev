@@ -1,0 +1,58 @@
+## Event Storming Diagram Created
+
+I've successfully created a comprehensive Event Storming diagram for the **Expense–Finance–Approval Core** Purchase Order system. The diagram has been generated and saved as `expense-finance-approval.drawio` in the diagrams folder.
+
+### Domain Analysis
+
+**Bounded Contexts Identified:**
+1. **Purchase Order Management Context** - Core PO lifecycle and creation
+2. **Approval Workflow Context** - Approval/rejection processes and decision making  
+3. **Finance Context** - Payment processing and financial management
+
+**Key Business Flows:**
+1. **PO Creation Flow**: Requester creates PO → Draft status
+2. **Approval Flow**: PO review → Approver decision → Grant/Reject
+3. **Rejection Handling Flow**: Rejection notification → Resubmission cycle
+4. **Payment Processing Flow**: Approved PO → Finance team → Payment → Vendor
+5. **Audit Trail Flow**: Comprehensive logging of all state changes
+
+### Element Mapping
+
+**Actors:**
+- Requester (Trần Văn Mạnh) - Initiates PO creation and resubmission
+- Approver (Nguyễn Văn An) - Reviews and approves/rejects POs
+- Finance Team - Processes payments for approved POs
+
+**Actions:**
+- Create PO, Review PO, Approve PO, Reject PO, Resubmit PO, Record Payment
+
+**Events:**
+- PO Created, Approval Granted, Approval Rejected, PO Resubmitted, Payment Made, Audit Log Created
+
+**Policies:**
+- PO Creation Policy, Approval Decision Policy, Rejection Notification Policy, Payment Processing Policy, Audit Logging Policy
+
+**Read Models:**
+- Purchase Orders List, Pending Approvals List, Approved POs List, Audit Trail
+
+**External Systems:**
+- Vendor Payment System
+
+### Connection Architecture
+
+The diagram features:
+- **Temporal left-to-right progression** within each flow
+- **Complete element connectivity** - no orphaned elements
+- **Cross-context integrations** showing how events trigger workflows across bounded contexts
+- **Comprehensive audit logging** connected to all major events
+- **Proper Event Storming grammar** maintained throughout
+
+### Validation Summary
+
+✓ **Methodology Compliance**: All Event Storming principles followed
+✓ **Element Validation**: Unique IDs, proper classifications, business language used
+✓ **Connection Validation**: Complete visual continuity, proper grammar rules
+✓ **Flow Validation**: Clear temporal progression, complete business process representation
+✓ **Domain Boundary Enforcement**: Business focus maintained throughout
+
+The diagram provides a complete, human-readable visualization of the Purchase Order approval workflow that business stakeholders can understand and validate.
