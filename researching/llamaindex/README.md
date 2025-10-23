@@ -22,4 +22,8 @@ pyenv local 3.11.9
 ./venv/bin/mcp run ./src/mcp.py
 
 ./venv/bin/python3 ./src/workflow.py
+
+./venv/bin/python3 ./src/chart.py
 ```
+
+echo "Top 10 GDP countries in the world" | ./venv/bin/python3 ./src/chart.py
