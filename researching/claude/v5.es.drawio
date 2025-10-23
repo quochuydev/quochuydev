@@ -1,58 +1,206 @@
-## Event Storming Diagram Created
+python
+import xml.etree.ElementTree as ET
 
-I've successfully created a comprehensive Event Storming diagram for the **Expense–Finance–Approval Core** Purchase Order system. The diagram has been generated and saved as `expense-finance-approval.drawio` in the diagrams folder.
+def generate_drawio_xml():
+    mxfile = ET.Element("mxfile", 
+                       host="app.diagrams.net", 
+                       modified="2025-01-01T00:00:00.000Z", 
+                       agent="5.0", 
+                       version="20.0.0", 
+                       etag="test", 
+                       type="device")
+    
+    diagram = ET.SubElement(mxfile, "diagram", 
+                           name="Expense Finance Approval", 
+                           id="test")
+    
+    mxGraphModel = ET.SubElement(diagram, "mxGraphModel", 
+                                dx="1600", dy="900", 
+                                grid="1", gridSize="10", 
+                                guides="1", tooltips="1", 
+                                connect="1", arrows="1", 
+                                fold="1", page="1", 
+                                pageScale="1", pageWidth="1169", 
+                                pageHeight="827", math="0", 
+                                shadow="0")
+    
+    root = ET.SubElement(mxGraphModel, "root")
+    
+    # Edge defaults
+    edge1 = ET.SubElement(root, "mxCell", id="0")
+    edge2 = ET.SubElement(root, "mxCell", id="1", parent="0")
+    
+    cell_id = 2
+    
+    # Bounded Context - Expense Finance Approval
+    bc = ET.SubElement(root, "mxCell", id=str(cell_id), value="Expense Finance Approval Core", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;fontStyle=1;" , vertex="1", parent="1")
+    geo_bc = ET.SubElement(bc, "mxGeometry", x="50", y="50", width="1200", height="750", as="geometry")
+    cell_id += 1
+    
+    # Flow 1: PO Creation and Initial Approval
+    flow1_parent = ET.SubElement(root, "mxCell", id=str(cell_id), value="", style="group" , vertex="1", connectable="0", parent="1")
+    ET.SubElement(flow1_parent, "mxGeometry", x="80", y="100", width="540", height="320", as="geometry")
+    cell_id += 1
+    
+    flow1 = ET.SubElement(root, "mxCell", id=str(cell_id), value="PO Creation Flow", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" , vertex="1", parent=str(cell_id-1))
+    ET.SubElement(flow1, "mxGeometry", width="540", height="40", as="geometry")
+    cell_id += 1
+    
+    # PO Management Read Model
+    po_read = ET.SubElement(root, "mxCell", id=str(cell_id), value="PO Management Read Model\n- PO details\n- Client info\n- Vendor info\n- Status tracking", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0deb3;strokeColor=#5d7c55;fontSize=10;" , vertex="1", parent=str(cell_id-2))
+    ET.SubElement(po_read, "mxGeometry", x="20", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # PO Management UI
+    po_ui = ET.SubElement(root, "mxCell", id=str(cell_id), value="PO Management UI\n- Create PO form\n- View PO details\n- Edit capabilities", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" , vertex="1", parent=str(cell_id-3))
+    ET.SubElement(po_ui, "mxGeometry", x="180", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Requester Actor
+    requester = ET.SubElement(root, "mxCell", id=str(cell_id), value="Requester\n(Trần Văn Mạnh)\n- Creates PO\n- Submits for approval", style="ellipse;whiteSpace=wrap;html=1;fillColor=#fee750;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-4))
+    ET.SubElement(requester, "mxGeometry", x="340", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Create PO Action
+    create_po = ET.SubElement(root, "mxCell", id=str(cell_id), value="Create PO\n- Enter order details\n- Add service items\n- Calculate totals", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a7c5fc;strokeColor=#6c8ebf;fontSize=10;" , vertex="1", parent=str(cell_id-5))
+    ET.SubElement(create_po, "mxGeometry", x="180", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # PO Policy
+    po_policy = ET.SubElement(root, "mxCell", id=str(cell_id), value="PO Management Policy\n- Validate PO data\n- Check business rules\n- Generate PO ID", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#da99e6;strokeColor=#9673a6;fontSize=10;" , vertex="1", parent=str(cell_id-6))
+    ET.SubElement(po_policy, "mxGeometry", x="340", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # PO Created Event
+    po_created = ET.SubElement(root, "mxCell", id=str(cell_id), value="PO Created\n- PO status = 'Draft'\n- PO generated\n- Audit log created", style="ellipse;whiteSpace=wrap;html=1;fillColor=#feae57;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-7))
+    ET.SubElement(po_created, "mxGeometry", x="260", y="280", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Flow 2: Approval Process
+    flow2_parent = ET.SubElement(root, "mxCell", id=str(cell_id), value="", style="group" , vertex="1", connectable="0", parent="1")
+    ET.SubElement(flow2_parent, "mxGeometry", x="680", y="100", width="540", height="320", as="geometry")
+    cell_id += 1
+    
+    flow2 = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approval Flow", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" , vertex="1", parent=str(cell_id-1))
+    ET.SubElement(flow2, "mxGeometry", width="540", height="40", as="geometry")
+    cell_id += 1
+    
+    # Approval Read Model
+    approval_read = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approval Read Model\n- Pending POs\n- Approver assignments\n- Approval history", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0deb3;strokeColor=#5d7c55;fontSize=10;" , vertex="1", parent=str(cell_id-2))
+    ET.SubElement(approval_read, "mxGeometry", x="20", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Approval UI
+    approval_ui = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approval UI\n- View pending POs\n- Approve/reject actions\n- Add comments", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" , vertex="1", parent=str(cell_id-3))
+    ET.SubElement(approval_ui, "mxGeometry", x="180", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Approver Actor
+    approver = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approver\n(Nguyễn Văn An)\n- Reviews POs\n- Makes decisions", style="ellipse;whiteSpace=wrap;html=1;fillColor=#fee750;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-4))
+    ET.SubElement(approver, "mxGeometry", x="340", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Send for Approval Action
+    send_approval = ET.SubElement(root, "mxCell", id=str(cell_id), value="Send for Approval\n- Notify approver\n- Change status\n- Route to authority", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a7c5fc;strokeColor=#6c8ebf;fontSize=10;" , vertex="1", parent=str(cell_id-5))
+    ET.SubElement(send_approval, "mxGeometry", x="20", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Approve/Reject Actions
+    approve_action = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approve\n- Grant approval\n- Allocate budget\n- Update status", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a7c5fc;strokeColor=#6c8ebf;fontSize=10;" , vertex="1", parent=str(cell_id-6))
+    ET.SubElement(approve_action, "mxGeometry", x="180", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    reject_action = ET.SubElement(root, "mxCell", id=str(cell_id), value="Reject\n- Deny approval\n- Add reason\n- Notify requester", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a7c5fc;strokeColor=#6c8ebf;fontSize=10;" , vertex="1", parent=str(cell_id-7))
+    ET.SubElement(approve_action, "mxGeometry", x="340", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Approval Policy
+    approval_policy = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approval Policy\n- Check authority level\n- Validate budget\n- Enforce rules", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#da99e6;strokeColor=#9673a6;fontSize=10;" , vertex="1", parent=str(cell_id-8))
+    ET.SubElement(approval_policy, "mxGeometry", x="180", y="280", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Approval Events
+    approval_granted = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approval Granted\n- PO status = 'Approved'\n- Budget allocated\n- Finance notified", style="ellipse;whiteSpace=wrap;html=1;fillColor=#feae57;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-9))
+    ET.SubElement(approval_granted, "mxGeometry", x="20", y="280", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    approval_rejected = ET.SubElement(root, "mxCell", id=str(cell_id), value="Approval Rejected\n- PO status = 'Rejected'\n- Requester notified\n- Reason recorded", style="ellipse;whiteSpace=wrap;html=1;fillColor=#feae57;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-10))
+    ET.SubElement(approval_rejected, "mxGeometry", x="340", y="280", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Flow 3: Finance and Payment
+    flow3_parent = ET.SubElement(root, "mxCell", id=str(cell_id), value="", style="group" , vertex="1", connectable="0", parent="1")
+    ET.SubElement(flow3_parent, "mxGeometry", x="380", y="460", width="540", height="280", as="geometry")
+    cell_id += 1
+    
+    flow3 = ET.SubElement(root, "mxCell", id=str(cell_id), value="Finance & Payment Flow", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" , vertex="1", parent=str(cell_id-1))
+    ET.SubElement(flow3, "mxGeometry", width="540", height="40", as="geometry")
+    cell_id += 1
+    
+    # Finance External System
+    finance_system = ET.SubElement(root, "mxCell", id=str(cell_id), value="Finance System\n- Budget management\n- Payment processing\n- Financial reporting", style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffb3c5;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-2))
+    ET.SubElement(finance_system, "mxGeometry", x="20", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Record Payment Action
+    record_payment = ET.SubElement(root, "mxCell", id=str(cell_id), value="Record Payment\n- Log payment details\n- Update PO status\n- Generate records", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a7c5fc;strokeColor=#6c8ebf;fontSize=10;" , vertex="1", parent=str(cell_id-3))
+    ET.SubElement(record_payment, "mxGeometry", x="180", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Payment Made Event
+    payment_made = ET.SubElement(root, "mxCell", id=str(cell_id), value="Payment Made\n- PO status = 'Paid'\n- Vendor invoice settled\n- Transaction complete", style="ellipse;whiteSpace=wrap;html=1;fillColor=#feae57;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-4))
+    ET.SubElement(payment_made, "mxGeometry", x="340", y="60", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Audit Trail Read Model
+    audit_read = ET.SubElement(root, "mxCell", id=str(cell_id), value="Audit Trail Read Model\n- Complete PO history\n- Approval records\n- State changes", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0deb3;strokeColor=#5d7c55;fontSize=10;" , vertex="1", parent=str(cell_id-5))
+    ET.SubElement(audit_read, "mxGeometry", x="20", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Audit Log Created Event
+    audit_created = ET.SubElement(root, "mxCell", id=str(cell_id), value="Audit Log Created\n- State change recorded\n- Timestamp added\n- User action tracked", style="ellipse;whiteSpace=wrap;html=1;fillColor=#feae57;strokeColor=#d6b656;fontSize=10;" , vertex="1", parent=str(cell_id-6))
+    ET.SubElement(audit_created, "mxGeometry", x="180", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Additional Actions
+    resubmit_action = ET.SubElement(root, "mxCell", id=str(cell_id), value="Resubmit PO\n- Modify rejected PO\n- Send again for approval", style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a7c5fc;strokeColor=#6c8ebf;fontSize=10;" , vertex="1", parent=str(cell_id-7))
+    ET.SubElement(resubmit_action, "mxGeometry", x="340", y="180", width="120", height="80", as="geometry")
+    cell_id += 1
+    
+    # Connections (following event storming grammar)
+    
+    # PO Management Flow connections
+    connections = [
+        ("100", "101"),  # PO Read -> PO UI
+        ("101", "102"),  # PO UI -> Requester
+        ("102", "104"),  # Requester -> Create PO
+        ("104", "105"),  # Create PO -> PO Policy
+        ("105", "106"),  # PO Policy -> PO Created
+        
+        # Approval Flow connections
+        ("107", "108"),  # Approval Read -> Approval UI
+        ("108", "109"),  # Approval UI -> Approver
+        ("109", "111"),  # Approver -> Approve Action
+        ("109", "112"),  # Approver -> Reject Action
+        ("110", "115"),  # Send Approval -> Approval Granted
+        ("111", "114"),  # Approve Action -> Approval Policy
+        ("112", "114"),  # Reject Action -> Approval Policy
+        ("114", "115"),  # Approval Policy -> Approval Granted
+        ("114", "116"),  # Approval Policy -> Approval Rejected
+        
+        # Finance Flow connections
+        ("117", "118"),  # Finance System -> Record Payment
+        ("118", "119"),  # Record Payment -> Payment Made
+        ("120", "121"),  # Audit Read -> Audit Created
+    ]
+    
+    for source, target in connections:
+        edge = ET.SubElement(root, "mxCell", id=str(cell_id), edge="1", parent="1", source=source, target=target)
+        ET.SubElement(edge, "mxGeometry", relative="1", as="geometry")
+        cell_id += 1
+    
+    return ET.tostring(mxfile, encoding='unicode')
 
-### Domain Analysis
-
-**Bounded Contexts Identified:**
-1. **Purchase Order Management Context** - Core PO lifecycle and creation
-2. **Approval Workflow Context** - Approval/rejection processes and decision making  
-3. **Finance Context** - Payment processing and financial management
-
-**Key Business Flows:**
-1. **PO Creation Flow**: Requester creates PO → Draft status
-2. **Approval Flow**: PO review → Approver decision → Grant/Reject
-3. **Rejection Handling Flow**: Rejection notification → Resubmission cycle
-4. **Payment Processing Flow**: Approved PO → Finance team → Payment → Vendor
-5. **Audit Trail Flow**: Comprehensive logging of all state changes
-
-### Element Mapping
-
-**Actors:**
-- Requester (Trần Văn Mạnh) - Initiates PO creation and resubmission
-- Approver (Nguyễn Văn An) - Reviews and approves/rejects POs
-- Finance Team - Processes payments for approved POs
-
-**Actions:**
-- Create PO, Review PO, Approve PO, Reject PO, Resubmit PO, Record Payment
-
-**Events:**
-- PO Created, Approval Granted, Approval Rejected, PO Resubmitted, Payment Made, Audit Log Created
-
-**Policies:**
-- PO Creation Policy, Approval Decision Policy, Rejection Notification Policy, Payment Processing Policy, Audit Logging Policy
-
-**Read Models:**
-- Purchase Orders List, Pending Approvals List, Approved POs List, Audit Trail
-
-**External Systems:**
-- Vendor Payment System
-
-### Connection Architecture
-
-The diagram features:
-- **Temporal left-to-right progression** within each flow
-- **Complete element connectivity** - no orphaned elements
-- **Cross-context integrations** showing how events trigger workflows across bounded contexts
-- **Comprehensive audit logging** connected to all major events
-- **Proper Event Storming grammar** maintained throughout
-
-### Validation Summary
-
-✓ **Methodology Compliance**: All Event Storming principles followed
-✓ **Element Validation**: Unique IDs, proper classifications, business language used
-✓ **Connection Validation**: Complete visual continuity, proper grammar rules
-✓ **Flow Validation**: Clear temporal progression, complete business process representation
-✓ **Domain Boundary Enforcement**: Business focus maintained throughout
-
-The diagram provides a complete, human-readable visualization of the Purchase Order approval workflow that business stakeholders can understand and validate.
+xml_output = generate_drawio_xml()
+print(xml_output)
+```
