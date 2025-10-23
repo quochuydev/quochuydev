@@ -1,0 +1,211 @@
+meta:
+  name: "Expense Finance Approval"
+  version: "1.0"
+  description: "Purchase Order Approval Workflow System with Finance Integration"
+
+read_models:
+  - id: RM.PurchaseOrderView
+    name: "Purchase Order View"
+  - id: RM.ApprovalHistoryView
+    name: "Approval History View"
+  - id: RM.AuditTrailView
+    name: "Audit Trail View"
+  - id: RM.BudgetStatusView
+    name: "Budget Status View"
+  - id: RM.VendorPaymentStatusView
+    name: "Vendor Payment Status View"
+
+actors:
+  - id: A.Requester
+    name: "Requester"
+    description: "Employee who creates purchase orders (Trần Văn Mạnh)"
+  - id: A.Approver
+    name: "Approver"
+    description: "Manager who approves/rejects purchase orders (Nguyễn Văn An)"
+  - id: A.FinanceStaff
+    name: "Finance Staff"
+    description: "Finance department handling payments and budget"
+
+commands:
+  - id: C.CreatePurchaseOrder
+    name: "Create Purchase Order"
+    description: "Requester creates a new purchase order with service items"
+  - id: C.SubmitForApproval
+    name: "Submit for Approval"
+    description: "Requester submits PO for approval workflow"
+  - id: C.ApprovePurchaseOrder
+    name: "Approve Purchase Order"
+    description: "Approver approves the purchase order"
+  - id: C.RejectPurchaseOrder
+    name: "Reject Purchase Order"
+    description: "Approver rejects the purchase order with reason"
+  - id: C.ResubmitPurchaseOrder
+    name: "Resubmit Purchase Order"
+    description: "Requester modifies and resubmits rejected PO"
+  - id: C.CancelPurchaseOrder
+    name: "Cancel Purchase Order"
+    description: "Requester or approver cancels the purchase order"
+  - id: C.RecordPayment
+    name: "Record Payment"
+    description: "Finance records payment to vendor"
+  - id: C.AllocateBudget
+    name: "Allocate Budget"
+    description: "Finance allocates budget for approved PO"
+
+policies:
+  - id: P.ApprovalNotificationPolicy
+    name: "Approval Notification Policy"
+    description: "Send notifications when PO submitted for approval"
+  - id: P.AuditLoggingPolicy
+    name: "Audit Logging Policy"
+    description: "Log all state changes to audit trail"
+  - id: P.BudgetValidationPolicy
+    name: "Budget Validation Policy"
+    description: "Validate budget availability before approval"
+  - id: P.PaymentProcessingPolicy
+    name: "Payment Processing Policy"
+    description: "Process payments when PO is approved"
+  - id: P.RejectionNotificationPolicy
+    name: "Rejection Notification Policy"
+    description: "Notify requester when PO is rejected"
+
+events:
+  - id: E.PurchaseOrderCreated
+    name: "Purchase Order Created"
+    vertical_boundary: [Creation]
+  - id: E.PurchaseOrderSubmittedForApproval
+    name: "Purchase Order Submitted for Approval"
+    vertical_boundary: [Approval]
+  - id: E.ApprovalGranted
+    name: "Approval Granted"
+    vertical_boundary: [Approval]
+  - id: E.ApprovalRejected
+    name: "Approval Rejected"
+    vertical_boundary: [Approval]
+  - id: E.PurchaseOrderCancelled
+    name: "Purchase Order Cancelled"
+    vertical_boundary: [Cancellation]
+  - id: E.PaymentRecorded
+    name: "Payment Recorded"
+    vertical_boundary: [Payment]
+  - id: E.AuditLogCreated
+    name: "Audit Log Created"
+    vertical_boundary: [Audit]
+  - id: E.BudgetAllocated
+    name: "Budget Allocated"
+    vertical_boundary: [Finance]
+  - id: E.NotificationSent
+    name: "Notification Sent"
+    vertical_boundary: [Communication]
+
+external_systems:
+  - id: XS.EmailNotificationService
+    name: "Email Notification Service"
+    targets: [E.NotificationSent]
+  - id: XS.FinanceERPSystem
+    name: "Finance ERP System"
+    targets: [E.BudgetAllocated, E.PaymentRecorded]
+  - id: XS.VendorPaymentSystem
+    name: "Vendor Payment System"
+    targets: [E.PaymentRecorded]
+
+flows:
+  - name: "Purchase Order Creation Workflow"
+    edges:
+      # ReadModels to Actors (feedback paths)
+      - source_id: RM.PurchaseOrderView
+        target_id: A.Requester
+      - source_id: RM.ApprovalHistoryView
+        target_id: A.Approver
+      - source_id: RM.BudgetStatusView
+        target_id: A.FinanceStaff
+
+      # Requester creates PO
+      - source_id: A.Requester
+        target_id: C.CreatePurchaseOrder
+      - source_id: C.CreatePurchaseOrder
+        target_id: E.PurchaseOrderCreated
+      - source_id: E.PurchaseOrderCreated
+        target_id: RM.PurchaseOrderView
+      - source_id: E.PurchaseOrderCreated
+        target_id: P.AuditLoggingPolicy
+
+      # Audit policy creates log
+      - source_id: P.AuditLoggingPolicy
+        target_id: E.AuditLogCreated
+      - source_id: E.AuditLogCreated
+        target_id: RM.AuditTrailView
+
+      # Requester submits for approval
+      - source_id: A.Requester
+        target_id: C.SubmitForApproval
+      - source_id: C.SubmitForApproval
+        target_id: E.PurchaseOrderSubmittedForApproval
+      - source_id: E.PurchaseOrderSubmittedForApproval
+        target_id: P.ApprovalNotificationPolicy
+
+      # Notification policy sends email
+      - source_id: P.ApprovalNotificationPolicy
+        target_id: XS.EmailNotificationService
+      - source_id: XS.EmailNotificationService
+        target_id: E.NotificationSent
+
+      # Budget validation
+      - source_id: E.PurchaseOrderSubmittedForApproval
+        target_id: P.BudgetValidationPolicy
+
+      # Approver actions
+      - source_id: A.Approver
+        target_id: C.ApprovePurchaseOrder
+      - source_id: C.ApprovePurchaseOrder
+        target_id: E.ApprovalGranted
+      - source_id: E.ApprovalGranted
+        target_id: P.PaymentProcessingPolicy
+      - source_id: E.ApprovalGranted
+        target_id: RM.ApprovalHistoryView
+
+      # Rejection flow
+      - source_id: A.Approver
+        target_id: C.RejectPurchaseOrder
+      - source_id: C.RejectPurchaseOrder
+        target_id: E.ApprovalRejected
+      - source_id: E.ApprovalRejected
+        target_id: P.RejectionNotificationPolicy
+      - source_id: E.ApprovalRejected
+        target_id: RM.ApprovalHistoryView
+
+      # Resubmission flow
+      - source_id: A.Requester
+        target_id: C.ResubmitPurchaseOrder
+      - source_id: C.ResubmitPurchaseOrder
+        target_id: C.SubmitForApproval
+
+      # Cancellation flow
+      - source_id: A.Requester
+        target_id: C.CancelPurchaseOrder
+      - source_id: C.CancelPurchaseOrder
+        target_id: E.PurchaseOrderCancelled
+      - source_id: A.Approver
+        target_id: C.CancelPurchaseOrder
+
+      # Finance processing
+      - source_id: P.PaymentProcessingPolicy
+        target_id: C.AllocateBudget
+      - source_id: C.AllocateBudget
+        target_id: XS.FinanceERPSystem
+      - source_id: XS.FinanceERPSystem
+        target_id: E.BudgetAllocated
+      - source_id: E.BudgetAllocated
+        target_id: RM.BudgetStatusView
+
+      # Payment recording
+      - source_id: A.FinanceStaff
+        target_id: C.RecordPayment
+      - source_id: C.RecordPayment
+        target_id: XS.FinanceERPSystem
+      - source_id: XS.FinanceERPSystem
+        target_id: E.PaymentRecorded
+      - source_id: E.PaymentRecorded
+        target_id: RM.VendorPaymentStatusView
+      - source_id: E.PaymentRecorded
+        target_id: XS.VendorPaymentSystem
