@@ -59,7 +59,7 @@ const createFlowTool = tool(
       content: [
         {
           type: "text",
-          text: `<mxCell id="{flow_id}" value="{flow_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="{context_id}">
+          text: `<mxCell id="{flow_id}" value="{flow_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1">
   <mxGeometry x="{x}" y="{y}" width="1400" height="700" as="geometry"/>
 </mxCell>`,
         },
@@ -77,7 +77,7 @@ const createElementTool = tool(
       content: [
         {
           type: "text",
-          text: `<mxCell id="{element_id}" value="{name}" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="{flow_id}">
+          text: `<mxCell id="{element_id}" value="{name}" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="{1}">
   <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
 </mxCell>`,
         },
@@ -96,7 +96,7 @@ const createConnectionTool = tool(
         {
           type: "text",
           text: `<mxCell id="{id}" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
-  edge="1" parent="{flow_id}" source="{source_id}" target="{target_id}">
+  edge="1" parent="1" source="{source_id}" target="{target_id}">
   <mxGeometry relative="1" as="geometry" width="150" />
 </mxCell>`,
         },
@@ -120,14 +120,34 @@ const customServer = createSdkMcpServer({
 for await (const message of query({
   prompt: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
   options: {
-    systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
+    // systemPrompt: "You are an expert generator drawio, manage other agents, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.",
+    // systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
+    systemPrompt: {
+      type: "preset",
+      preset: "claude_code",
+      append:
+        "You are an expert generator drawio, manage other agents. The input is yaml file, the out come is final xml, have to be look perfect, beautiful, professional, if not, delegate back to fix.",
+    },
     mcpServers: {
       drawio: customServer,
     },
     agents: {
+      generate: {
+        description: "Generate drawio xml for event storming",
+        tools: [
+          // "Read",
+          "Edit",
+          "Write",
+        ],
+        prompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
+      },
       review: {
-        description: "Review drawio xml is generate",
-        tools: ["Read", "Edit", "Write"],
+        description: "Review drawio xml, if not perfect, delegate back to fix",
+        tools: [
+          // "Read",
+          "Edit",
+          "Write",
+        ],
         prompt: `You are an expert generator drawio, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.
 Check list:
 - The Bounded Context size have to be enough to  cover all element in side.
@@ -137,7 +157,7 @@ Check list:
       },
     },
     allowedTools: [
-      "Read",
+      // "Read",
       "Edit",
       "Write",
       "mcp__drawio__create_layout",
