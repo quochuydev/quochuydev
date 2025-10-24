@@ -153,7 +153,7 @@ Check list:
       "Edit",
       "Write",
       "mcp__drawio__create_layout",
-      "mcp__drawio__create_context",
+      "mcp__drawio__create_bounded_context",
       "mcp__drawio__create_flow",
       "mcp__drawio__create_element",
       "mcp__drawio__create_connection",
@@ -170,6 +170,6 @@ Check list:
 
   if (message.type === "result" && message.subtype === "success") {
     console.log("result", message.result);
-    fs.writeFileSync("v8.md", message.result);
+    fs.writeFileSync(`v8_${Date.now()}.md`, message.result);
   }
 }
