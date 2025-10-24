@@ -1,0 +1,84 @@
+export const data = {
+  bounded_context: {
+    name: "Expense Finance Approval",
+  },
+  flows: [
+    {
+      name: "PO Creation and Approval Flow",
+      edges: [
+        { source_id: "PO Dashboard View", target_id: "Requester" },
+        { source_id: "Requester", target_id: "Create Purchase Order" },
+        {
+          source_id: "Create Purchase Order",
+          target_id: "PO Validation Policy",
+        },
+        { source_id: "PO Validation Policy", target_id: "PO Created" },
+        { source_id: "PO Created", target_id: "PO Dashboard View" },
+        { source_id: "Requester", target_id: "Send PO for Approval" },
+        {
+          source_id: "Send PO for Approval",
+          target_id: "Approval Authority Policy",
+        },
+        {
+          source_id: "Approval Authority Policy",
+          target_id: "PO Sent for Approval",
+        },
+        { source_id: "PO Sent for Approval", target_id: "Notification Policy" },
+        {
+          source_id: "Notification Policy",
+          target_id: "Email Notification Service",
+        },
+        {
+          source_id: "PO Sent for Approval",
+          target_id: "Pending Approval List",
+        },
+      ],
+    },
+    {
+      name: "PO Approval Decision Flow",
+      edges: [
+        { source_id: "Pending Approval List", target_id: "Approver" },
+        { source_id: "Approver", target_id: "Approve PO" },
+        { source_id: "Approve PO", target_id: "Budget Validation Policy" },
+        {
+          source_id: "Budget Validation Policy",
+          target_id: "Approval Granted",
+        },
+        { source_id: "Approval Granted", target_id: "PO Dashboard View" },
+        { source_id: "Approver", target_id: "Reject PO" },
+        { source_id: "Reject PO", target_id: "Approval Rejected" },
+        { source_id: "Approval Rejected", target_id: "Notification Policy" },
+      ],
+    },
+    {
+      name: "PO Resubmission Flow",
+      edges: [
+        { source_id: "Approval Rejected", target_id: "Requester" },
+        { source_id: "Requester", target_id: "Resubmit PO" },
+        { source_id: "Resubmit PO", target_id: "PO Validation Policy" },
+        {
+          source_id: "PO Validation Policy",
+          target_id: "PO Sent for Approval",
+        },
+      ],
+    },
+    {
+      name: "Payment and Finance Flow",
+      edges: [
+        { source_id: "Approval Granted", target_id: "Finance Staff" },
+        { source_id: "Finance Staff", target_id: "Record Payment" },
+        { source_id: "Record Payment", target_id: "Vendor System" },
+        { source_id: "Vendor System", target_id: "Payment Made" },
+        { source_id: "Payment Made", target_id: "Finance Budget Report" },
+      ],
+    },
+    {
+      name: "Audit and Cancellation Flow",
+      edges: [
+        { source_id: "Requester", target_id: "Cancel PO" },
+        { source_id: "Approver", target_id: "Cancel PO" },
+        { source_id: "Cancel PO", target_id: "PO Cancelled" },
+      ],
+    },
+  ],
+};

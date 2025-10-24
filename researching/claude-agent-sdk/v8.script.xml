@@ -1,0 +1,375 @@
+<mxGraphModel><root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" /><mxCell id="jn2dz2g" value="PO Creation and Approval Flow" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1"></mxCell>
+<mxCell id="gi5c7nv" value="Requester" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="ex4w29r" value="PO Dashboard View" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="4afeqe9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="ex4w29r" target="gi5c7nv">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="342eada" value="Create Purchase Order" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="n0xo7ms" value="Requester" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="x85tqf5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="n0xo7ms" target="342eada">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="f3wo2na" value="PO Validation Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="oyx37uz" value="Create Purchase Order" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="lzkeie2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="oyx37uz" target="f3wo2na">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="ze4cdw2" value="PO Created" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="4gwxi9u" value="PO Validation Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="c0zd1hr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="4gwxi9u" target="ze4cdw2">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="8caw8z3" value="PO Dashboard View" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="h83zull" value="PO Created" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="7x13qcz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="h83zull" target="8caw8z3">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="aerx85o" value="Send PO for Approval" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="ecxef9d" value="Requester" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="j2gjr23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="ecxef9d" target="aerx85o">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="n7mybu3" value="Approval Authority Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="4v4f6k0" value="Send PO for Approval" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="82etuos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="4v4f6k0" target="n7mybu3">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="lwbe067" value="PO Sent for Approval" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="4jrxwca" value="Approval Authority Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="ulb3w2k" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="4jrxwca" target="lwbe067">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="zud2ysi" value="Notification Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="6wi6gpt" value="PO Sent for Approval" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="jugzm6h" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="6wi6gpt" target="zud2ysi">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="ca7jdgn" value="Email Notification Service" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="6opugfi" value="Notification Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="5yr66ee" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="6opugfi" target="ca7jdgn">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="p67b5yo" value="Pending Approval List" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="jo0pqwk" value="PO Sent for Approval" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="uipv05k" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="jo0pqwk" target="p67b5yo">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> <mxCell id="39bn5dw" value="PO Approval Decision Flow" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1"></mxCell>
+<mxCell id="bx9b6hy" value="Approver" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="laxltbo" value="Pending Approval List" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="6dj4wdn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="laxltbo" target="bx9b6hy">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="1cjb357" value="Approve PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="31cdvbb" value="Approver" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="wbfi7qj" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="31cdvbb" target="1cjb357">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="g0aihev" value="Budget Validation Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="1cjuox1" value="Approve PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="x5687kq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="1cjuox1" target="g0aihev">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="nzxtaud" value="Approval Granted" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="z4x1b6c" value="Budget Validation Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="b9pp8v2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="z4x1b6c" target="nzxtaud">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="55o640k" value="PO Dashboard View" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="nmm1xq8" value="Approval Granted" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="gmsg9j9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="nmm1xq8" target="55o640k">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="l9q34zh" value="Reject PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="51dxage" value="Approver" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="xluw5kf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="51dxage" target="l9q34zh">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="quknrbk" value="Approval Rejected" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="2c1uwsr" value="Reject PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="vsjt2x9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="2c1uwsr" target="quknrbk">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="0bknpev" value="Notification Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="5fj8687" value="Approval Rejected" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="6jiph23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="5fj8687" target="0bknpev">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> <mxCell id="l82ylry" value="PO Resubmission Flow" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1"></mxCell>
+<mxCell id="sjwe00e" value="Requester" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="pd2q1ud" value="Approval Rejected" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="sdeudbk" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="pd2q1ud" target="sjwe00e">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="er6onz3" value="Resubmit PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="95rgfh9" value="Requester" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="p9d7uwm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="95rgfh9" target="er6onz3">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="z3sfq59" value="PO Validation Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="rdrvual" value="Resubmit PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="cd04cxi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="rdrvual" target="z3sfq59">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="fcxmflm" value="PO Sent for Approval" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="kazt1ri" value="PO Validation Policy" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="2894p58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="kazt1ri" target="fcxmflm">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> <mxCell id="sewgvdq" value="Payment and Finance Flow" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1"></mxCell>
+<mxCell id="v4t5qlu" value="Finance Staff" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="ksi10b0" value="Approval Granted" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="1ds5f8u" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="ksi10b0" target="v4t5qlu">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="3077o69" value="Record Payment" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="65vy6ki" value="Finance Staff" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="zcuobgz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="65vy6ki" target="3077o69">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="o6u8ffo" value="Vendor System" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="93sh5rf" value="Record Payment" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="c4clkjv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="93sh5rf" target="o6u8ffo">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="co2v4h3" value="Payment Made" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="mrcg73b" value="Vendor System" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="t89rrxc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="mrcg73b" target="co2v4h3">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="qys16fi" value="Finance Budget Report" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="n3xrmso" value="Payment Made" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="kryp85h" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="n3xrmso" target="qys16fi">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> <mxCell id="kf41v5d" value="Audit and Cancellation Flow" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1"></mxCell>
+<mxCell id="x7vd0wt" value="Cancel PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="prjfda8" value="Requester" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="u57ylx8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="prjfda8" target="x7vd0wt">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="p36tze0" value="Cancel PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="9n5y34e" value="Approver" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="v1uaevt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="9n5y34e" target="p36tze0">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> 
+<mxCell id="b8mlf9s" value="PO Cancelled" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="jtyyut1" value="Cancel PO" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
+</mxCell>    
+
+<mxCell id="jc8y6o2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="1" source="jtyyut1" target="b8mlf9s">
+  <mxGeometry relative="1" as="geometry" width="150" />
+</mxCell> </root></mxGraphModel>
