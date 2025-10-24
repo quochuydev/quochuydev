@@ -3,7 +3,6 @@ import fs from "fs";
 
 const response = query({
   prompt: fs.readFileSync("v5.prompt.md", "utf-8"),
-
   options: {
     agents: {
       analyze: {
