@@ -127,9 +127,14 @@ const allowedTools = [
 ];
 
 for await (const message of query({
-  prompt: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
+  // prompt: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
+  prompt: `Review the quality of @event-storming.xml Then make it more beauty`,
   options: {
-    systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
+    // systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
+    systemPrompt: `You are a specialized AI that help to review Event storming XML and make it more beauty layout, professional and clearly:
+- Horizontal flow layout
+- Bounded context -> Flows -> Elements and Connections
+`,
     mcpServers: {
       drawio: customServer,
     },
