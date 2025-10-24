@@ -136,6 +136,18 @@ for await (const message of query({
     mcpServers: {
       drawio: customServer,
     },
+    agents: {
+      review: {
+        description: "Review drawio xml is generate",
+        tools: ["Read", "Edit", "Write"],
+        prompt: `You are an expert generator drawio, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.
+Check list:
+- The Bounded Context size have to be enough to  cover all element in side.
+- The Flows size have to be enough to  cover all element in side.
+- The Element don't overlap with others, be square and valid code
+- The Connection have to be enough.`,
+      },
+    },
     allowedTools: [
       "Read",
       "Edit",
