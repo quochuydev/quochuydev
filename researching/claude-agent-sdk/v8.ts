@@ -124,18 +124,8 @@ const customServer = createSdkMcpServer({
   ],
 });
 
-async function* generateMessages() {
-  yield {
-    type: "user" as const,
-    message: {
-      role: "user" as const,
-      content: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
-    },
-  };
-}
-
 for await (const message of query({
-  prompt: generateMessages() as any,
+  prompt: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
   options: {
     // systemPrompt: {
     //   type: "preset",
@@ -144,16 +134,17 @@ for await (const message of query({
     // },
     systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
     mcpServers: {
-      // drawio: customServer,
+      drawio: customServer,
     },
     allowedTools: [
       "Read",
+      "Edit",
       "Write",
-      // "mcp__drawio__create_layout",
-      // "mcp__drawio__create_context",
-      // "mcp__drawio__create_flow",
-      // "mcp__drawio__create_element",
-      // "mcp__drawio__create_connection",
+      "mcp__drawio__create_layout",
+      "mcp__drawio__create_context",
+      "mcp__drawio__create_flow",
+      "mcp__drawio__create_element",
+      "mcp__drawio__create_connection",
     ],
   },
 })) {
@@ -167,6 +158,6 @@ for await (const message of query({
 
   if (message.type === "result" && message.subtype === "success") {
     console.log("result", message.result);
-    // fs.writeFileSync("result.md", message.result);
+    fs.writeFileSync("v8.md", message.result);
   }
 }
