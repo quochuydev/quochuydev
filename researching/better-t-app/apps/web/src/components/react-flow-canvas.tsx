@@ -33,15 +33,31 @@ interface EventStormingNode extends Node {
   };
 }
 
+// Event Storming types
+interface EventStormingElement {
+  id: string;
+  name: string;
+}
+
+interface EventStormingFlow {
+  name: string;
+  edges: Array<{
+    source_id: string;
+    target_id: string;
+  }>;
+}
+
 interface EventStormingData {
-  metadata: {
-    title: string;
-    description: string;
-    createdAt: string;
+  meta: {
+    name: string;
     version: string;
   };
-  nodes: any[];
-  edges: any[];
+  read_models?: EventStormingElement[];
+  actors?: EventStormingElement[];
+  commands?: EventStormingElement[];
+  policies?: EventStormingElement[];
+  events?: EventStormingElement[];
+  flows?: EventStormingFlow[];
 }
 
 // Event Storming element types with colors from docs.md
@@ -58,28 +74,10 @@ const eventStormingElements = [
 // Sub-flow types with different colors
 const subFlowElements = [
   {
-    type: "subflow-processing",
-    label: "Processing Sub-Flow",
+    type: "subflow",
+    label: "Sub-Flow",
     color: "rgba(100, 200, 255, 0.1)",
     borderColor: "#64b5f6",
-  },
-  {
-    type: "subflow-analysis",
-    label: "Analysis Sub-Flow",
-    color: "rgba(255, 150, 100, 0.1)",
-    borderColor: "#ff9664",
-  },
-  {
-    type: "subflow-validation",
-    label: "Validation Sub-Flow",
-    color: "rgba(150, 255, 150, 0.1)",
-    borderColor: "#4ade80",
-  },
-  {
-    type: "subflow-integration",
-    label: "Integration Sub-Flow",
-    color: "rgba(255, 200, 150, 0.1)",
-    borderColor: "#fb923c",
   },
 ];
 
@@ -158,6 +156,82 @@ const nodeTypes = {
   group: ResizableNode,
 };
 
+// Element type configuration
+const elementTypeConfig: Record<
+  string,
+  { color: string; x: number; y: number; spacing: number }
+> = {
+  read_models: { color: "#b0deb3", x: 50, y: 50, spacing: 120 },
+  actors: { color: "#fee750", x: 50, y: 250, spacing: 150 },
+  commands: { color: "#a7c5fc", x: 350, y: 150, spacing: 120 },
+  policies: { color: "#da99e6", x: 600, y: 150, spacing: 120 },
+  events: { color: "#feae57", x: 850, y: 150, spacing: 120 },
+};
+
+// Transform Event Storming data to React Flow format
+function transformEventStormingToReactFlow(eventData: EventStormingData) {
+  const nodes: EventStormingNode[] = [];
+  const edges: Edge[] = [];
+  let edgeIdCounter = 0;
+
+  // Helper function to get position for element
+  function getPosition(type: string, index: number) {
+    const config = elementTypeConfig[type];
+    if (!config) return { x: 400, y: 200 + index * 80 };
+    return {
+      x: config.x + Math.floor(index / 3) * 300,
+      y: config.y + (index % 3) * config.spacing,
+    };
+  }
+
+  // Transform each element type
+  Object.entries(elementTypeConfig).forEach(([type, config]) => {
+    const elements = eventData[
+      type as keyof EventStormingData
+    ] as EventStormingElement[];
+    if (elements) {
+      elements.forEach((element, index) => {
+        const pos = getPosition(type, index);
+        const node: EventStormingNode = {
+          id: element.id,
+          type: "eventStorming",
+          position: pos,
+          data: {
+            label: element.name,
+            color: config.color,
+            metadata: {
+              type: type.replace("_models", "").replace("_model", ""),
+              description: `${type}: ${element.name}`,
+              properties: {},
+            },
+          },
+        };
+        nodes.push(node);
+      });
+    }
+  });
+
+  // Transform flows into edges
+  if (eventData.flows) {
+    eventData.flows.forEach((flow) => {
+      if (flow.edges) {
+        flow.edges.forEach((edge) => {
+          if (edge.source_id && edge.target_id) {
+            edges.push({
+              id: `edge_${edgeIdCounter++}`,
+              source: edge.source_id,
+              target: edge.target_id,
+              type: "smoothstep",
+            });
+          }
+        });
+      }
+    });
+  }
+
+  return { nodes, edges };
+}
+
 function ReactFlowCanvasContent() {
   const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges);
@@ -166,36 +240,20 @@ function ReactFlowCanvasContent() {
     null
   );
   const [showProperties, setShowProperties] = useState(false);
-  const [currentTemplate, setCurrentTemplate] =
-    useState<string>("sub-flows-example");
   const [isLoading, setIsLoading] = useState(true);
-  const [availableTemplates, setAvailableTemplates] = useState<any[]>([]);
 
-  // Fetch available templates
-  useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        const response = await fetch("/api/event-storming");
-        const data = await response.json();
-        setAvailableTemplates(data.templates || []);
-      } catch (error) {
-        console.error("Error fetching templates:", error);
-      }
-    };
-
-    fetchTemplates();
-  }, []);
-
-  // Fetch event storming data
+  // Fetch and transform event storming data from YAML
   useEffect(() => {
     const fetchEventData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/event-storming/${currentTemplate}`);
+        const response = await fetch("/api/event-storming/default");
         if (response.ok) {
-          const data: EventStormingData = await response.json();
-          setNodes(data.nodes || []);
-          setEdges(data.edges || []);
+          const eventData: EventStormingData = await response.json();
+          const { nodes: transformedNodes, edges: transformedEdges } =
+            transformEventStormingToReactFlow(eventData);
+          setNodes(transformedNodes);
+          setEdges(transformedEdges);
         } else {
           console.error("Failed to fetch event storming data");
           setNodes(defaultNodes);
@@ -210,10 +268,8 @@ function ReactFlowCanvasContent() {
       }
     };
 
-    if (currentTemplate) {
-      fetchEventData();
-    }
-  }, [currentTemplate, setNodes, setEdges]);
+    fetchEventData();
+  }, [setNodes, setEdges]);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -638,27 +694,16 @@ function ReactFlowCanvasContent() {
 
   return (
     <div className="w-full h-[500px] relative">
-      {/* Template Selector */}
-      <div className="absolute top-4 left-4 z-10 space-y-2">
-        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
-          <h4 className="text-xs font-semibold mb-2">Template:</h4>
-          <select
-            value={currentTemplate}
-            onChange={(e) => setCurrentTemplate(e.target.value)}
-            disabled={isLoading}
-            className="w-full text-xs px-2 py-1 border rounded bg-white dark:bg-gray-700 dark:border-gray-600"
-          >
-            {availableTemplates.map((template) => (
-              <option key={template.id} value={template.id}>
-                {template.title}
-              </option>
-            ))}
-          </select>
-          {isLoading && (
-            <div className="text-xs text-gray-500 mt-1">Loading...</div>
-          )}
+      {/* Loading indicator */}
+      {isLoading && (
+        <div className="absolute top-4 left-4 z-10">
+          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
+            <div className="text-xs text-gray-500">
+              Loading event storming data...
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Draggable Elements */}
       <div className="absolute top-4 right-4 z-10 space-y-2">
