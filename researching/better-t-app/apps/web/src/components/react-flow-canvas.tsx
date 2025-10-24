@@ -37,14 +37,19 @@ interface EventStormingNode extends Node {
 interface EventStormingElement {
   id: string;
   name: string;
+  type: string;
+  position?: { x: number; y: number };
+}
+
+interface EventStormingEdge {
+  from: string;
+  to: string;
 }
 
 interface EventStormingFlow {
   name: string;
-  edges: Array<{
-    source_id: string;
-    target_id: string;
-  }>;
+  elements: EventStormingElement[];
+  edges: EventStormingEdge[];
 }
 
 interface EventStormingData {
@@ -52,11 +57,6 @@ interface EventStormingData {
     name: string;
     version: string;
   };
-  read_models?: EventStormingElement[];
-  actors?: EventStormingElement[];
-  commands?: EventStormingElement[];
-  policies?: EventStormingElement[];
-  events?: EventStormingElement[];
   flows?: EventStormingFlow[];
 }
 
@@ -157,80 +157,109 @@ const nodeTypes = {
 };
 
 // Element type configuration
-const elementTypeConfig: Record<
-  string,
-  { color: string; x: number; y: number; spacing: number }
-> = {
-  read_models: { color: "#b0deb3", x: 50, y: 50, spacing: 120 },
-  actors: { color: "#fee750", x: 50, y: 250, spacing: 150 },
-  commands: { color: "#a7c5fc", x: 350, y: 150, spacing: 120 },
-  policies: { color: "#da99e6", x: 600, y: 150, spacing: 120 },
-  events: { color: "#feae57", x: 850, y: 150, spacing: 120 },
+const elementTypeConfig: Record<string, { color: string }> = {
+  read_model: { color: "#b0deb3" },
+  actor: { color: "#fee750" },
+  command: { color: "#a7c5fc" },
+  policy: { color: "#da99e6" },
+  event: { color: "#feae57" },
 };
 
-// Transform Event Storming data to React Flow format
-function transformEventStormingToReactFlow(eventData: EventStormingData) {
+// Layout configuration
+const LAYOUT_CONFIG = {
+  SPACING_X: 200,    // Horizontal spacing between elements
+  SPACING_Y: 100,    // Vertical spacing between flows
+  START_X: 50,        // Starting X position
+  START_Y: 50,        // Starting Y position
+  FLOW_SPACING: 150, // Vertical spacing between flows
+};
+
+// Flow-based layout algorithm
+function createFlowBasedLayout(eventData: EventStormingData) {
   const nodes: EventStormingNode[] = [];
   const edges: Edge[] = [];
+  const elementPositions = new Map<string, { x: number; y: number }>();
+  const processedElements = new Set<string>();
   let edgeIdCounter = 0;
 
-  // Helper function to get position for element
-  function getPosition(type: string, index: number) {
-    const config = elementTypeConfig[type];
-    if (!config) return { x: 400, y: 200 + index * 80 };
-    return {
-      x: config.x + Math.floor(index / 3) * 300,
-      y: config.y + (index % 3) * config.spacing,
-    };
+  if (!eventData.flows) {
+    return { nodes, edges };
   }
 
-  // Transform each element type
-  Object.entries(elementTypeConfig).forEach(([type, config]) => {
-    const elements = eventData[
-      type as keyof EventStormingData
-    ] as EventStormingElement[];
-    if (elements) {
-      elements.forEach((element, index) => {
-        const pos = getPosition(type, index);
+  // Process each flow in order
+  eventData.flows.forEach((flow, flowIndex) => {
+    let currentX = LAYOUT_CONFIG.START_X;
+    const currentY = LAYOUT_CONFIG.START_Y + (flowIndex * LAYOUT_CONFIG.FLOW_SPACING);
+
+    // First pass: Position all elements in the flow (respecting explicit positions if provided)
+    flow.elements.forEach((element) => {
+      if (!elementPositions.has(element.id)) {
+        const position = element.position || { x: currentX, y: currentY };
+        elementPositions.set(element.id, position);
+        currentX += LAYOUT_CONFIG.SPACING_X;
+      }
+    });
+
+    // Second pass: Create edges and follow flow path
+    flow.edges.forEach((edge) => {
+      // Create the edge
+      edges.push({
+        id: `edge_${edgeIdCounter++}`,
+        source: edge.from,
+        target: edge.to,
+        type: "smoothstep",
+      });
+
+      // Ensure connected elements are positioned correctly
+      if (!elementPositions.has(edge.from)) {
+        const fromElement = flow.elements.find(el => el.id === edge.from);
+        if (fromElement && !elementPositions.has(edge.from)) {
+          elementPositions.set(edge.from, { x: currentX, y: currentY });
+          currentX += LAYOUT_CONFIG.SPACING_X;
+        }
+      }
+
+      // Position target relative to source if not already positioned
+      if (!elementPositions.has(edge.to)) {
+        const sourcePos = elementPositions.get(edge.from);
+        if (sourcePos) {
+          elementPositions.set(edge.to, { x: sourcePos.x + LAYOUT_CONFIG.SPACING_X, y: sourcePos.y });
+        }
+      }
+    });
+  });
+
+  // Create React Flow nodes from positioned elements
+  eventData.flows.forEach((flow) => {
+    flow.elements.forEach((element) => {
+      if (!processedElements.has(element.id)) {
+        const position = elementPositions.get(element.id);
+        const colorConfig = elementTypeConfig[element.type];
+
         const node: EventStormingNode = {
           id: element.id,
           type: "eventStorming",
-          position: pos,
+          position: position || { x: 100, y: 100 },
           data: {
             label: element.name,
-            color: config.color,
+            color: colorConfig?.color || "#cccccc",
             metadata: {
-              type: type.replace("_models", "").replace("_model", ""),
-              description: `${type}: ${element.name}`,
+              type: element.type,
+              description: `${element.type}: ${element.name}`,
               properties: {},
             },
           },
         };
         nodes.push(node);
-      });
-    }
-  });
-
-  // Transform flows into edges
-  if (eventData.flows) {
-    eventData.flows.forEach((flow) => {
-      if (flow.edges) {
-        flow.edges.forEach((edge) => {
-          if (edge.source_id && edge.target_id) {
-            edges.push({
-              id: `edge_${edgeIdCounter++}`,
-              source: edge.source_id,
-              target: edge.target_id,
-              type: "smoothstep",
-            });
-          }
-        });
+        processedElements.add(element.id);
       }
     });
-  }
+  });
 
   return { nodes, edges };
 }
+
+// Transform Event Storming data to React Flow format
 
 function ReactFlowCanvasContent() {
   const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
@@ -242,7 +271,7 @@ function ReactFlowCanvasContent() {
   const [showProperties, setShowProperties] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch and transform event storming data from YAML
+  // Fetch and transform event storming data from YAML using flow-based layout
   useEffect(() => {
     const fetchEventData = async () => {
       setIsLoading(true);
@@ -250,10 +279,9 @@ function ReactFlowCanvasContent() {
         const response = await fetch("/api/event-storming/default");
         if (response.ok) {
           const eventData: EventStormingData = await response.json();
-          const { nodes: transformedNodes, edges: transformedEdges } =
-            transformEventStormingToReactFlow(eventData);
-          setNodes(transformedNodes);
-          setEdges(transformedEdges);
+          const { nodes: flowNodes, edges: flowEdges } = createFlowBasedLayout(eventData);
+          setNodes(flowNodes);
+          setEdges(flowEdges);
         } else {
           console.error("Failed to fetch event storming data");
           setNodes(defaultNodes);

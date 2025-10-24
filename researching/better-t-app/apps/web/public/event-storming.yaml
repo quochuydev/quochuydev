@@ -2,122 +2,174 @@ meta:
   name: "Expense–Finance–Approval Core"
   version: "1.0"
 
-read_models:
-  - id: RM.Dashboard
-    name: "Requester PO Dashboard"
-  - id: RM.ApprovalQueue
-    name: "Approver PO Queue"
-  - id: PO.View
-    name: "PO Details"
-  - id: RM.AuditTrail
-    name: "PO Audit Log"
-
-actors:
-  - id: A.Requester
-    name: "Requester"
-  - id: A.Approver
-    name: "Approver"
-  - id: A.Finance
-    name: "Finance"
-
-commands:
-  - id: C.CreatePO
-    name: "Create PO"
-  - id: C.SubmitForApproval
-    name: "Submit for Approval"
-  - id: C.ApprovePO
-    name: "Approve PO"
-  - id: C.RejectPO
-    name: "Reject PO"
-  - id: C.ResubmitPO
-    name: "Resubmit PO"
-  - id: C.CancelPO
-    name: "Cancel PO"
-  - id: C.RecordPayment
-    name: "Record Payment"
-
-policies:
-  - id: P.POCreation
-    name: "PO Creation Policy"
-  - id: P.ApprovalWorkflow
-    name: "Approval Workflow Policy"
-  - id: P.PaymentProcessing
-    name: "Payment Processing Policy"
-  - id: P.CancellationPolicy
-    name: "PO Cancellation Policy"
-
-events:
-  - id: E.POCreated
-    name: "PO Created"
-  - id: E.POSubmittedForApproval
-    name: "PO Submitted for Approval"
-  - id: E.POApproved
-    name: "PO Approved"
-  - id: E.PORejected
-    name: "PO Rejected"
-  - id: E.POCancelled
-    name: "PO Cancelled"
-  - id: E.POPaymentRecorded
-    name: "PO Payment Recorded"
-
 flows:
   - name: "Requester Creates and Submits PO"
+    elements:
+      - id: RM.Dashboard
+        name: "Requester PO Dashboard"
+        type: read_model
+        position: { x: 50, y: 50 }
+      - id: A.Requester
+        name: "Requester"
+        type: actor
+        position: { x: 250, y: 50 }
+      - id: C.CreatePO
+        name: "Create PO"
+        type: command
+        position: { x: 450, y: 50 }
+      - id: P.POCreation
+        name: "PO Creation Policy"
+        type: policy
+        position: { x: 650, y: 50 }
+      - id: E.POCreated
+        name: "PO Created"
+        type: event
+        position: { x: 850, y: 50 }
+      - id: PO.View
+        name: "PO Details"
+        type: read_model
+        position: { x: 1050, y: 50 }
+      - id: C.SubmitForApproval
+        name: "Submit for Approval"
+        type: command
+        position: { x: 450, y: 150 }
+      - id: P.ApprovalWorkflow
+        name: "Approval Workflow Policy"
+        type: policy
+        position: { x: 650, y: 150 }
+      - id: E.POSubmittedForApproval
+        name: "PO Submitted for Approval"
+        type: event
+        position: { x: 850, y: 150 }
+      - id: RM.ApprovalQueue
+        name: "Approver PO Queue"
+        type: read_model
+        position: { x: 1050, y: 150 }
+      - id: RM.AuditTrail
+        name: "PO Audit Log"
+        type: read_model
+        position: { x: 1250, y: 150 }
+
     edges:
-      - source_id: RM.Dashboard
-        target_id: A.Requester
-      - source_id: A.Requester
-        target_id: C.CreatePO
-      - source_id: C.CreatePO
-        target_id: P.POCreation
-      - source_id: P.POCreation
-        target_id: E.POCreated
-      - source_id: E.POCreated
-        target_id: PO.View
-      - source_id: A.Requester
-        target_id: C.SubmitForApproval
-      - source_id: C.SubmitForApproval
-        target_id: P.ApprovalWorkflow
-      - source_id: P.ApprovalWorkflow
-        target_id: E.POSubmittedForApproval
-      - source_id: E.POSubmittedForApproval
-        target_id: RM.ApprovalQueue
-      - source_id: E.POSubmittedForApproval
-        target_id: RM.AuditTrail
+      - from: RM.Dashboard
+        to: A.Requester
+      - from: A.Requester
+        to: C.CreatePO
+      - from: C.CreatePO
+        to: P.POCreation
+      - from: P.POCreation
+        to: E.POCreated
+      - from: E.POCreated
+        to: PO.View
+      - from: A.Requester
+        to: C.SubmitForApproval
+      - from: C.SubmitForApproval
+        to: P.ApprovalWorkflow
+      - from: P.ApprovalWorkflow
+        to: E.POSubmittedForApproval
+      - from: E.POSubmittedForApproval
+        to: RM.ApprovalQueue
+      - from: E.POSubmittedForApproval
+        to: RM.AuditTrail
 
   - name: "Approver Reviews PO"
+    elements:
+      - id: RM.ApprovalQueue
+        name: "Approver PO Queue"
+        type: read_model
+        position: { x: 50, y: 250 }
+      - id: A.Approver
+        name: "Approver"
+        type: actor
+        position: { x: 250, y: 250 }
+      - id: C.ApprovePO
+        name: "Approve PO"
+        type: command
+        position: { x: 450, y: 250 }
+      - id: C.RejectPO
+        name: "Reject PO"
+        type: command
+        position: { x: 450, y: 350 }
+      - id: P.ApprovalWorkflow
+        name: "Approval Workflow Policy"
+        type: policy
+        position: { x: 650, y: 250 }
+      - id: E.POApproved
+        name: "PO Approved"
+        type: event
+        position: { x: 850, y: 250 }
+      - id: E.PORejected
+        name: "PO Rejected"
+        type: event
+        position: { x: 850, y: 350 }
+      - id: PO.View
+        name: "PO Details"
+        type: read_model
+        position: { x: 1050, y: 250 }
+      - id: RM.AuditTrail
+        name: "PO Audit Log"
+        type: read_model
+        position: { x: 1250, y: 250 }
+
     edges:
-      - source_id: RM.ApprovalQueue
-        target_id: A.Approver
-      - source_id: A.Approver
-        target_id: C.ApprovePO
-      - source_id: C.ApprovePO
-        target_id: P.ApprovalWorkflow
-      - source_id: P.ApprovalWorkflow
-        target_id: E.POApproved
-      - source_id: E.POApproved
-        target_id: PO.View
-      - source_id: E.POApproved
-        target_id: RM.AuditTrail
-      - source_id: A.Approver
-        target_id: C.RejectPO
-      - source_id: C.RejectPO
-        target_id: P.ApprovalWorkflow
-      - source_id: P.ApprovalWorkflow
-        target_id: E.PORejected
-      - source_id: E.PORejected
-        target_id: PO.View
-      - source_id: E.PORejected
-        target_id: RM.AuditTrail
+      - from: RM.ApprovalQueue
+        to: A.Approver
+      - from: A.Approver
+        to: C.ApprovePO
+      - from: C.ApprovePO
+        to: P.ApprovalWorkflow
+      - from: P.ApprovalWorkflow
+        to: E.POApproved
+      - from: E.POApproved
+        to: PO.View
+      - from: E.POApproved
+        to: RM.AuditTrail
+      - from: A.Approver
+        to: C.RejectPO
+      - from: C.RejectPO
+        to: P.ApprovalWorkflow
+      - from: P.ApprovalWorkflow
+        to: E.PORejected
+      - from: E.PORejected
+        to: PO.View
+      - from: E.PORejected
+        to: RM.AuditTrail
 
   - name: "Requester Resubmits Rejected PO"
+    elements:
+      - id: PO.View
+        name: "PO Details"
+        type: read_model
+        position: { x: 50, y: 450 }
+      - id: A.Requester
+        name: "Requester"
+        type: actor
+        position: { x: 250, y: 450 }
+      - id: C.ResubmitPO
+        name: "Resubmit PO"
+        type: command
+        position: { x: 450, y: 450 }
+      - id: P.ApprovalWorkflow
+        name: "Approval Workflow Policy"
+        type: policy
+        position: { x: 650, y: 450 }
+      - id: E.POSubmittedForApproval
+        name: "PO Submitted for Approval"
+        type: event
+        position: { x: 850, y: 450 }
+      - id: RM.ApprovalQueue
+        name: "Approver PO Queue"
+        type: read_model
+        position: { x: 1050, y: 450 }
+
     edges:
-      - source_id: PO.View
-        target_id: A.Requester
-      - source_id: A.Requester
-        target_id: C.ResubmitPO
-      - source_id: C.ResubmitPO
-        target_id: P.ApprovalWorkflow
-      - source_id: P.ApprovalWorkflow
-        target_id: E.POSubmittedForApproval
-      - source_id: E.POSubmittedForApproval
-        target_id: RM.ApprovalQueue
+      - from: PO.View
+        to: A.Requester
+      - from: A.Requester
+        to: C.ResubmitPO
+      - from: C.ResubmitPO
+        to: P.ApprovalWorkflow
+      - from: P.ApprovalWorkflow
+        to: E.POSubmittedForApproval
+      - from: E.POSubmittedForApproval
+        to: RM.ApprovalQueue
