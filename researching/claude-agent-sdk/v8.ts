@@ -41,8 +41,8 @@ const createContextTool = tool(
       content: [
         {
           type: "text",
-          text: `<mxCell id="2" value="{context_name}" style="swimlane;startSize=30;horizontal=1;" vertex="1" parent="1">
-    <mxGeometry x="0" y="0" width="2000" height="800" as="geometry" />
+          text: `<mxCell id="{context_id}" value="{context_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=30;fillColor=#e3f2fd;strokeColor=#64b5f6;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="1500" height="800" as="geometry"/>
 </mxCell>`,
         },
       ],
@@ -59,14 +59,9 @@ const createFlowTool = tool(
       content: [
         {
           type: "text",
-          text: `<object label="{flow_name}" type="flow" id="2">
-    <mxCell
-    style="swimlane;whiteSpace=wrap;html=1;strokeColor=#666666;swimlaneLine=0;fillColor={color};gradientColor=none;swimlaneFillColor=#ffffff;fontStyle=1;fontColor=#2E7D32;glass=0;shadow=1;fontSize=16;"
-    vertex="1"
-    parent="{bounded_context_id}">
-    <mxGeometry x="{x}" y="{y}" width="1900" height="700" as="geometry"/>
-    </mxCell>
-</object>`,
+          text: `<mxCell id="{flow_id}" value="{flow_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="{context_id}">
+  <mxGeometry x="{x}" y="{y}" width="1400" height="700" as="geometry"/>
+</mxCell>`,
         },
       ],
     };
@@ -82,10 +77,8 @@ const createElementTool = tool(
       content: [
         {
           type: "text",
-          text: `<mxCell id="{reference_id or id}" value="{name}"
-  style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor={color};strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;"
-  vertex="1" parent="{flow_id}">
-  <mxGeometry x="{x}" y="{y}" width="120" height="120" as="geometry" />
+          text: `<mxCell id="{element_id}" value="{name}" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="{flow_id}">
+  <mxGeometry x="{x}" y="{y}" width="120" height="80" as="geometry"/>
 </mxCell>`,
         },
       ],
