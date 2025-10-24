@@ -10,7 +10,7 @@ const response = query({
         description:
           "Analyze business requirement then generate event storming yaml",
         tools: ["Read", "Edit", "Write"],
-        prompt: fs.readFileSync("v5.analyze.md", "utf-8").trim(),
+        prompt: fs.readFileSync("v5.analyze.simple.md", "utf-8").trim(),
       },
       generate_draw_io: {
         description: "Generate drawio xml from event storming yaml",
