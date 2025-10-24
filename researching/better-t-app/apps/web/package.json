@@ -8,8 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@ai-sdk/google": "catalog:",
-    "@ai-sdk/react": "^2.0.39",
     "@better-t-app/api": "workspace:*",
     "@better-t-app/auth": "workspace:*",
     "@prisma/client": "catalog:",
@@ -20,7 +18,6 @@
     "@trpc/tanstack-react-query": "^11.5.0",
     "@types/js-yaml": "^4.0.9",
     "@xyflow/react": "^12.9.0",
-    "ai": "catalog:",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",
     "class-variance-authority": "^0.7.1",
@@ -36,7 +33,6 @@
     "recharts": "^3.3.0",
     "shiki": "^3.12.2",
     "sonner": "^2.0.5",
-    "streamdown": "^1.3.0",
     "tailwind-merge": "^3.3.1",
     "tw-animate-css": "^1.3.4",
     "zod": "catalog:"

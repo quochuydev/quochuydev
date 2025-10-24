@@ -18,10 +18,7 @@ import "@xyflow/react/dist/style.css";
 
 // Types for node metadata
 interface NodeMetadata {
-  validationNote?: string;
-  dataObjectNote?: string;
   description?: string;
-  tags?: string[];
   properties?: Record<string, any>;
 }
 
@@ -65,30 +62,8 @@ const EventStormingNode = ({
         </div>
       )}
 
-      <button
-        onClick={() => setShowMetadata(!showMetadata)}
-        className="text-xs mt-2 text-blue-600 hover:text-blue-800 underline"
-      >
-        {showMetadata ? "Hide" : "Show"} Details
-      </button>
-
       {showMetadata && data.metadata && (
         <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
-          {data.metadata.validationNote && (
-            <div className="mb-1">
-              <strong>Validation:</strong> {data.metadata.validationNote}
-            </div>
-          )}
-          {data.metadata.dataObjectNote && (
-            <div className="mb-1">
-              <strong>Data:</strong> {data.metadata.dataObjectNote}
-            </div>
-          )}
-          {data.metadata.tags && data.metadata.tags.length > 0 && (
-            <div className="mb-1">
-              <strong>Tags:</strong> {data.metadata.tags.join(", ")}
-            </div>
-          )}
           {data.metadata.properties &&
             Object.keys(data.metadata.properties).length > 0 && (
               <div>
@@ -133,9 +108,6 @@ const initialNodes: EventStormingNode[] = [
       color: "#feae57",
       metadata: {
         description: "New user creates an account",
-        validationNote: "Email must be valid and unique",
-        dataObjectNote: "User entity with email, name, password",
-        tags: ["authentication", "user-management"],
         properties: {
           priority: "high",
           frequency: "daily",
@@ -153,9 +125,6 @@ const initialNodes: EventStormingNode[] = [
       color: "#fee750",
       metadata: {
         description: "System actor who performs actions",
-        validationNote: "Must be authenticated",
-        dataObjectNote: "User aggregate with profile data",
-        tags: ["actor", "entity"],
         properties: {
           role: "customer",
           permissions: ["read", "write"],
@@ -172,9 +141,6 @@ const initialNodes: EventStormingNode[] = [
       color: "#a7c5fc",
       metadata: {
         description: "Command to create a new user account",
-        validationNote: "Required: email, password, name",
-        dataObjectNote: "Creates User aggregate",
-        tags: ["command", "user-management"],
         properties: {
           async: true,
           retries: 3,
@@ -282,9 +248,6 @@ export default function ReactFlowCanvas() {
           color: elementData?.color || "#ffffff",
           metadata: {
             description: `New ${elementData?.label || type} element`,
-            validationNote: "",
-            dataObjectNote: "",
-            tags: [],
             properties: {},
           },
         },
@@ -330,9 +293,6 @@ export default function ReactFlowCanvas() {
           color: "#feae57",
           metadata: {
             description: "Event inserted on edge",
-            validationNote: "",
-            dataObjectNote: "",
-            tags: ["event"],
             properties: {},
           },
         },
@@ -375,9 +335,6 @@ export default function ReactFlowCanvas() {
     const [metadata, setMetadata] = useState<NodeMetadata>(
       selectedNode.data.metadata || {
         description: "",
-        validationNote: "",
-        dataObjectNote: "",
-        tags: [],
         properties: {},
       }
     );
@@ -450,54 +407,6 @@ export default function ReactFlowCanvas() {
               }
               className="w-full px-2 py-1 text-xs border rounded"
               rows={2}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium mb-1">
-              Validation Note
-            </label>
-            <textarea
-              value={metadata.validationNote || ""}
-              onChange={(e) =>
-                setMetadata({ ...metadata, validationNote: e.target.value })
-              }
-              className="w-full px-2 py-1 text-xs border rounded"
-              rows={2}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium mb-1">
-              Data Object Note
-            </label>
-            <textarea
-              value={metadata.dataObjectNote || ""}
-              onChange={(e) =>
-                setMetadata({ ...metadata, dataObjectNote: e.target.value })
-              }
-              className="w-full px-2 py-1 text-xs border rounded"
-              rows={2}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium mb-1">
-              Tags (comma-separated)
-            </label>
-            <input
-              type="text"
-              value={metadata.tags?.join(", ") || ""}
-              onChange={(e) =>
-                setMetadata({
-                  ...metadata,
-                  tags: e.target.value
-                    .split(",")
-                    .map((tag) => tag.trim())
-                    .filter(Boolean),
-                })
-              }
-              className="w-full px-2 py-1 text-xs border rounded"
             />
           </div>
 
