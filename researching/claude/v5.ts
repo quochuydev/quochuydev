@@ -15,19 +15,19 @@ const response = query({
       generate_draw_io: {
         description: "Generate drawio xml from event storming yaml",
         tools: ["Read", "Edit", "Write"],
-        prompt: fs.readFileSync("v5.es.md", "utf-8").trim(),
+        prompt: fs.readFileSync("v5.event-storming-os.md", "utf-8").trim(),
       },
-      review_draw_io: {
-        description: "Review drawio xml is generate",
-        tools: ["Read", "Edit", "Write"],
-        prompt: `
-You are an expert generator drawio, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.
-- The Bounded Context size have to be enough to  cover all element in side.
-- The Flows size have to be enough to  cover all element in side.
-- The Element don't overlap with others, be square and valid code
-- The Connection have to be enough.
-        `,
-      },
+      //       review_draw_io: {
+      //         description: "Review drawio xml is generate",
+      //         tools: ["Read", "Edit", "Write"],
+      //         prompt: `
+      // You are an expert generator drawio, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.
+      // - The Bounded Context size have to be enough to  cover all element in side.
+      // - The Flows size have to be enough to  cover all element in side.
+      // - The Element don't overlap with others, be square and valid code
+      // - The Connection have to be enough.
+      //         `,
+      //       },
     },
     systemPrompt: {
       type: "preset",
