@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
-// Sample event storming data
 const eventStormingData = {
   "example-1": {
     metadata: {
@@ -68,7 +67,8 @@ const eventStormingData = {
   "sub-flows-example": {
     metadata: {
       title: "Sub-Flows Example",
-      description: "Example showing parallel sub-flows for data processing and analysis",
+      description:
+        "Example showing parallel sub-flows for data processing and analysis",
       createdAt: "2025-01-24T00:00:00.000Z",
       version: "1.0.0",
     },
@@ -135,7 +135,8 @@ const eventStormingData = {
           label: "Sub-Flow 1: Data Processing",
           color: "rgba(100, 200, 255, 0.1)",
           metadata: {
-            description: "Data processing sub-flow with validation and transformation",
+            description:
+              "Data processing sub-flow with validation and transformation",
             properties: {
               flowType: "processing",
               parallel: false,
@@ -250,9 +251,9 @@ const eventStormingData = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const data = eventStormingData[id as keyof typeof eventStormingData];
@@ -266,9 +267,9 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error fetching event storming data:', error);
+    console.error("Error fetching event storming data:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -290,9 +291,9 @@ export async function POST(
       data: body,
     });
   } catch (error) {
-    console.error('Error saving event storming data:', error);
+    console.error("Error saving event storming data:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

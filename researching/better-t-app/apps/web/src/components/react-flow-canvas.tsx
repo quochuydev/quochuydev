@@ -13,17 +13,19 @@ import {
   type Connection,
   Handle,
   Position,
+  ReactFlowProvider,
+  useReactFlow,
 } from "@xyflow/react";
+import { NodeResizer } from "@reactflow/node-resizer";
+import "@reactflow/node-resizer/dist/style.css";
 import "@xyflow/react/dist/style.css";
 import * as yaml from "js-yaml";
 
-// Types for node metadata
 interface NodeMetadata {
   description?: string;
   properties?: Record<string, any>;
 }
 
-// Extended node type with metadata
 interface EventStormingNode extends Node {
   data: Node["data"] & {
     label: string;
@@ -32,7 +34,6 @@ interface EventStormingNode extends Node {
   };
 }
 
-// API response types
 interface EventStormingData {
   metadata: {
     title: string;
@@ -43,62 +44,6 @@ interface EventStormingData {
   nodes: any[];
   edges: any[];
 }
-
-// Custom node component with metadata support
-const EventStormingNode = ({
-  data,
-  selected,
-}: {
-  data: any;
-  selected: boolean;
-}) => {
-  const [showMetadata, setShowMetadata] = useState(false);
-
-  return (
-    <div
-      className={`px-4 py-2 shadow-md rounded-md border-2 ${
-        selected ? "border-blue-500" : "border-gray-200"
-      } min-w-[150px] max-w-[250px]`}
-      style={{
-        backgroundColor: data.color,
-        minWidth: "150px",
-        maxWidth: "250px",
-      }}
-    >
-      <Handle type="target" position={Position.Top} />
-
-      <div className="font-semibold text-sm">{data.label}</div>
-
-      {data.metadata?.description && (
-        <div className="text-xs mt-1 opacity-80">
-          {data.metadata.description}
-        </div>
-      )}
-
-      {showMetadata && data.metadata && (
-        <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
-          {data.metadata.properties &&
-            Object.keys(data.metadata.properties).length > 0 && (
-              <div>
-                <strong>Properties:</strong>
-                <ul className="ml-2 mt-1">
-                  {Object.entries(data.metadata.properties).map(
-                    ([key, value]) => (
-                      <li key={key}>
-                        • {key}: {String(value)}
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
-            )}
-        </div>
-      )}
-
-      <Handle type="source" position={Position.Bottom} />
-    </div>
-  );
-};
 
 // Event Storming element types with colors from docs.md
 const eventStormingElements = [
@@ -111,15 +56,39 @@ const eventStormingElements = [
   { type: "read_models", label: "Read Models", color: "#b0deb3" },
 ];
 
+// Sub-flow types with different colors
+const subFlowElements = [
+  {
+    type: "subflow-processing",
+    label: "Processing Sub-Flow",
+    color: "rgba(100, 200, 255, 0.1)",
+    borderColor: "#64b5f6",
+  },
+  {
+    type: "subflow-analysis",
+    label: "Analysis Sub-Flow",
+    color: "rgba(255, 150, 100, 0.1)",
+    borderColor: "#ff9664",
+  },
+  {
+    type: "subflow-validation",
+    label: "Validation Sub-Flow",
+    color: "rgba(150, 255, 150, 0.1)",
+    borderColor: "#4ade80",
+  },
+  {
+    type: "subflow-integration",
+    label: "Integration Sub-Flow",
+    color: "rgba(255, 200, 150, 0.1)",
+    borderColor: "#fb923c",
+  },
+];
+
 // Default empty state
 const defaultNodes: EventStormingNode[] = [];
 const defaultEdges: Edge[] = [];
 
-const nodeTypes = {
-  eventStorming: EventStormingNode,
-};
-
-export default function ReactFlowCanvas() {
+function ReactFlowCanvasContent() {
   const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
@@ -127,7 +96,8 @@ export default function ReactFlowCanvas() {
     null
   );
   const [showProperties, setShowProperties] = useState(false);
-  const [currentTemplate, setCurrentTemplate] = useState<string>("sub-flows-example");
+  const [currentTemplate, setCurrentTemplate] =
+    useState<string>("sub-flows-example");
   const [isLoading, setIsLoading] = useState(true);
   const [availableTemplates, setAvailableTemplates] = useState<any[]>([]);
 
@@ -135,11 +105,11 @@ export default function ReactFlowCanvas() {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await fetch('/api/event-storming');
+        const response = await fetch("/api/event-storming");
         const data = await response.json();
         setAvailableTemplates(data.templates || []);
       } catch (error) {
-        console.error('Error fetching templates:', error);
+        console.error("Error fetching templates:", error);
       }
     };
 
@@ -157,12 +127,12 @@ export default function ReactFlowCanvas() {
           setNodes(data.nodes || []);
           setEdges(data.edges || []);
         } else {
-          console.error('Failed to fetch event storming data');
+          console.error("Failed to fetch event storming data");
           setNodes(defaultNodes);
           setEdges(defaultEdges);
         }
       } catch (error) {
-        console.error('Error fetching event storming data:', error);
+        console.error("Error fetching event storming data:", error);
         setNodes(defaultNodes);
         setEdges(defaultEdges);
       } finally {
@@ -245,6 +215,38 @@ export default function ReactFlowCanvas() {
         }
       }
 
+      // Check if it's a sub-flow type
+      const subFlowData = subFlowElements.find((el) => el.type === type);
+      if (subFlowData) {
+        // Create a resizable group node
+        const newSubFlow = {
+          id: `subflow_${Date.now()}`,
+          type: "group",
+          position: finalPosition,
+          style: {
+            width: 250,
+            height: 180,
+            backgroundColor: subFlowData.color,
+            border: `2px solid ${subFlowData.borderColor}`,
+            borderRadius: "8px",
+          },
+          data: {
+            label: subFlowData.label,
+            color: subFlowData.color,
+            metadata: {
+              description: `New ${subFlowData.label} container`,
+              properties: {
+                flowType: subFlowData.type.replace("subflow-", ""),
+                resizable: true,
+              },
+            },
+          },
+        };
+
+        setNodes((nds) => nds.concat(newSubFlow));
+        return;
+      }
+
       const elementData = eventStormingElements.find((el) => el.type === type);
       const newNode: EventStormingNode = {
         id: `node_${Date.now()}`,
@@ -262,7 +264,7 @@ export default function ReactFlowCanvas() {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, setNodes, eventStormingElements]
+    [reactFlowInstance, setNodes, eventStormingElements, subFlowElements]
   );
 
   const onEdgeContextMenu = useCallback(
@@ -338,7 +340,7 @@ export default function ReactFlowCanvas() {
   // Export functions
   const exportToJSON = useCallback(() => {
     const exportData = {
-      nodes: nodes.map(node => ({
+      nodes: nodes.map((node) => ({
         id: node.id,
         type: node.type,
         position: node.position,
@@ -346,7 +348,7 @@ export default function ReactFlowCanvas() {
         parentId: node.parentId,
         style: node.style,
       })),
-      edges: edges.map(edge => ({
+      edges: edges.map((edge) => ({
         id: edge.id,
         source: edge.source,
         target: edge.target,
@@ -356,7 +358,7 @@ export default function ReactFlowCanvas() {
         title: "Event Storming Canvas",
         exportedAt: new Date().toISOString(),
         version: "1.0.0",
-      }
+      },
     };
 
     const jsonString = JSON.stringify(exportData, null, 2);
@@ -364,7 +366,9 @@ export default function ReactFlowCanvas() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `event-storming-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `event-storming-${
+      new Date().toISOString().split("T")[0]
+    }.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -378,7 +382,7 @@ export default function ReactFlowCanvas() {
         exportedAt: new Date().toISOString(),
         version: "1.0.0",
       },
-      nodes: nodes.map(node => ({
+      nodes: nodes.map((node) => ({
         id: node.id,
         type: node.type,
         position: node.position,
@@ -391,7 +395,7 @@ export default function ReactFlowCanvas() {
         parentId: node.parentId,
         style: node.style,
       })),
-      edges: edges.map(edge => ({
+      edges: edges.map((edge) => ({
         id: edge.id,
         source: edge.source,
         target: edge.target,
@@ -411,7 +415,9 @@ export default function ReactFlowCanvas() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `event-storming-${new Date().toISOString().split('T')[0]}.yaml`;
+      link.download = `event-storming-${
+        new Date().toISOString().split("T")[0]
+      }.yaml`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -560,6 +566,130 @@ export default function ReactFlowCanvas() {
     );
   };
 
+  const EventStormingNode = ({
+    data,
+    selected,
+  }: {
+    data: any;
+    selected: boolean;
+  }) => {
+    const [showMetadata, setShowMetadata] = useState(false);
+
+    return (
+      <div
+        className={`px-4 py-2 shadow-md rounded-md border-2 ${
+          selected ? "border-blue-500" : "border-gray-200"
+        } min-w-[150px] max-w-[250px]`}
+        style={{
+          backgroundColor: data.color,
+          minWidth: "150px",
+          maxWidth: "250px",
+        }}
+      >
+        <Handle type="target" position={Position.Top} />
+
+        <div className="font-semibold text-sm">{data.label}</div>
+
+        {data.metadata?.description && (
+          <div className="text-xs mt-1 opacity-80">
+            {data.metadata.description}
+          </div>
+        )}
+
+        {showMetadata && data.metadata && (
+          <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
+            {data.metadata.properties &&
+              Object.keys(data.metadata.properties).length > 0 && (
+                <div>
+                  <strong>Properties:</strong>
+                  <ul className="ml-2 mt-1">
+                    {Object.entries(data.metadata.properties).map(
+                      ([key, value]) => (
+                        <li key={key}>
+                          • {key}: {String(value)}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
+              )}
+          </div>
+        )}
+
+        <Handle type="source" position={Position.Bottom} />
+      </div>
+    );
+  };
+
+  const ResizableGroupNode = ({
+    data,
+    selected,
+    id,
+  }: {
+    data: any;
+    selected: boolean;
+    id: string;
+  }) => {
+    const [showMetadata, setShowMetadata] = useState(false);
+
+    return (
+      <div
+        className={`shadow-lg rounded-lg border-2 ${
+          selected ? "border-blue-500" : "border-gray-300"
+        }`}
+        style={{
+          backgroundColor: data.color,
+          width: "100%",
+          height: "100%",
+          minWidth: "200px",
+          minHeight: "150px",
+        }}
+      >
+        <NodeResizer
+          nodeId={id}
+          isVisible={selected}
+          handleClassName="resizer"
+          handleStyle={{
+            width: "12px",
+            height: "12px",
+            backgroundColor: "#3b82f6",
+            border: "2px solid white",
+          }}
+        />
+
+        <div className="p-3">
+          <div className="font-semibold text-sm mb-2">{data.label}</div>
+
+          {data.metadata?.description && (
+            <div className="text-xs opacity-80">
+              {data.metadata.description}
+            </div>
+          )}
+
+          {showMetadata && data.metadata && (
+            <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
+              {data.metadata.properties &&
+                Object.keys(data.metadata.properties).length > 0 && (
+                  <div>
+                    <strong>Properties:</strong>
+                    <ul className="ml-2 mt-1">
+                      {Object.entries(data.metadata.properties).map(
+                        ([key, value]) => (
+                          <li key={key}>
+                            • {key}: {String(value)}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+                )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full h-[500px] relative">
       {/* Template Selector */}
@@ -606,6 +736,30 @@ export default function ReactFlowCanvas() {
           </div>
         </div>
 
+        {/* Sub-Flows */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
+          <h4 className="text-xs font-semibold mb-2">Sub-Flows:</h4>
+          <div className="space-y-1">
+            {subFlowElements.map((element) => (
+              <div
+                key={element.type}
+                className="flex items-center gap-2 cursor-move text-xs p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                draggable
+                onDragStart={(event) => onDragStart(event, element.type)}
+              >
+                <div
+                  className="w-3 h-3 rounded border-2 flex-shrink-0"
+                  style={{
+                    backgroundColor: element.color,
+                    borderColor: element.borderColor,
+                  }}
+                />
+                <span>{element.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Export Controls */}
         <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
           <h4 className="text-xs font-semibold mb-2">Export:</h4>
@@ -636,7 +790,10 @@ export default function ReactFlowCanvas() {
         onDragOver={onDragOver}
         onEdgeContextMenu={onEdgeContextMenu}
         onNodeClick={onNodeClick}
-        nodeTypes={nodeTypes}
+        nodeTypes={{
+          eventStorming: EventStormingNode,
+          group: ResizableGroupNode,
+        }}
         fitView
       >
         <Background />
@@ -646,5 +803,13 @@ export default function ReactFlowCanvas() {
 
       <PropertiesPanel />
     </div>
+  );
+}
+
+export default function ReactFlowCanvas() {
+  return (
+    <ReactFlowProvider>
+      <ReactFlowCanvasContent />
+    </ReactFlowProvider>
   );
 }
