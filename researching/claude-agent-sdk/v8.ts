@@ -78,7 +78,7 @@ const createElementTool = tool(
         {
           type: "text",
           text: `<mxCell id="{element_id}" value="{name}" style="shape=note;whiteSpace=wrap;html=1;fillColor={color};strokeColor=none;container=0;" vertex="1" parent="{flow_id}">
-  <mxGeometry x="{x}" y="{y}" width="120" height="80" as="geometry"/>
+  <mxGeometry x="{x}" y="{y}" width="150" height="80" as="geometry"/>
 </mxCell>`,
         },
       ],
@@ -97,7 +97,7 @@ const createConnectionTool = tool(
           type: "text",
           text: `<mxCell id="{id}" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
   edge="1" parent="{flow_id}" source="{source_id}" target="{target_id}">
-  <mxGeometry relative="1" as="geometry" />
+  <mxGeometry relative="1" as="geometry" width="150" />
 </mxCell>`,
         },
       ],
