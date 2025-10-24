@@ -59,9 +59,7 @@ const createFlowTool = tool(
       content: [
         {
           type: "text",
-          text: `<mxCell id="{flow_id}" value="{flow_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1">
-  <mxGeometry x="{x}" y="{y}" width="1400" height="700" as="geometry"/>
-</mxCell>`,
+          text: `<mxCell id="{flow_id}" value="{flow_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=20;fillColor=#f1f8e9;strokeColor=#9ccc65;" vertex="1" parent="1"></mxCell>`,
         },
       ],
     };
@@ -110,66 +108,44 @@ const customServer = createSdkMcpServer({
   version: "1.0.0",
   tools: [
     createLayoutTool,
-    createContextTool,
+    // createContextTool,
     createFlowTool,
     createElementTool,
     createConnectionTool,
   ],
 });
 
+const allowedTools = [
+  "Read",
+  "Edit",
+  "Write",
+  "mcp__drawio__create_layout",
+  // "mcp__drawio__create_bounded_context",
+  "mcp__drawio__create_flow",
+  "mcp__drawio__create_element",
+  "mcp__drawio__create_connection",
+];
+
 for await (const message of query({
   prompt: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
   options: {
-    // systemPrompt: "You are an expert generator drawio, manage other agents, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.",
-    // systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
-    systemPrompt: {
-      type: "preset",
-      preset: "claude_code",
-      append:
-        "You are an expert generator drawio, manage other agents. The input is yaml file, the out come is final xml, have to be look perfect, beautiful, professional, if not, delegate back to fix.",
-    },
+    systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
     mcpServers: {
       drawio: customServer,
     },
-    agents: {
-      generate: {
-        description: "Generate drawio xml for event storming",
-        tools: [
-          // "Read",
-          "Edit",
-          "Write",
-        ],
-        prompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
-      },
-      review: {
-        description: "Review drawio xml, if not perfect, delegate back to fix",
-        tools: [
-          // "Read",
-          "Edit",
-          "Write",
-        ],
-        prompt: `You are an expert generator drawio, the out come have to be look perfect, beautiful, professional. If not, delegate back to fix.
-Check list:
-- The Bounded Context size have to be enough to  cover all element in side.
-- The Flows size have to be enough to  cover all element in side.
-- The Element don't overlap with others, be square and valid code
-- The Connection have to be enough.`,
-      },
-    },
-    allowedTools: [
-      // "Read",
-      "Edit",
-      "Write",
-      "mcp__drawio__create_layout",
-      "mcp__drawio__create_bounded_context",
-      "mcp__drawio__create_flow",
-      "mcp__drawio__create_element",
-      "mcp__drawio__create_connection",
-    ],
+    allowedTools,
   },
 })) {
   if (message.type === "user") {
-    console.log("user", message.message.content);
+    // console.log("user", message.message.content);
+
+    for (const content of message.message.content) {
+      if (typeof content === "string") {
+        //
+      } else {
+        if (content.type === "tool_result") console.log("", content.content);
+      }
+    }
   }
 
   if (message.type === "assistant") {
