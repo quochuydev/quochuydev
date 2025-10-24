@@ -10,7 +10,8 @@
     "v3": "tsx v3.ts",
     "v4": "tsx v4.ts",
     "v5": "tsx v5.ts",
-    "v6": "tsx v6.ts"
+    "v6": "tsx v6.ts",
+    "v7": "tsx v7.ts"
   },
   "keywords": [],
   "author": "",
