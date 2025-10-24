@@ -14,12 +14,11 @@ import {
   Handle,
   Position,
   ReactFlowProvider,
-  useReactFlow,
 } from "@xyflow/react";
-import { NodeResizer } from "@reactflow/node-resizer";
-import "@reactflow/node-resizer/dist/style.css";
 import "@xyflow/react/dist/style.css";
 import * as yaml from "js-yaml";
+import { memo } from "react";
+import { NodeResizer } from "@xyflow/react";
 
 interface NodeMetadata {
   description?: string;
@@ -84,9 +83,80 @@ const subFlowElements = [
   },
 ];
 
-// Default empty state
 const defaultNodes: EventStormingNode[] = [];
 const defaultEdges: Edge[] = [];
+
+const ResizableNode = memo(({ data }: { data: any }) => {
+  return (
+    <>
+      <NodeResizer minWidth={100} minHeight={30} />
+      <Handle type="target" position={Position.Left} />
+      <div className="font-semibold text-sm mb-2">{data.label}</div>
+      <Handle type="source" position={Position.Right} />
+    </>
+  );
+});
+
+// Custom node component with metadata support
+const EventStormingNode = ({
+  data,
+  selected,
+}: {
+  data: any;
+  selected: boolean;
+}) => {
+  const [showMetadata, setShowMetadata] = useState(false);
+
+  return (
+    <div
+      className={`px-4 py-2 shadow-md rounded-md border-2 ${
+        selected ? "border-blue-500" : "border-gray-200"
+      } min-w-[150px] max-w-[250px]`}
+      style={{
+        backgroundColor: data.color,
+        minWidth: "150px",
+        maxWidth: "250px",
+      }}
+    >
+      <Handle type="target" position={Position.Top} />
+
+      <div className="font-semibold text-sm">{data.label}</div>
+
+      {data.metadata?.description && (
+        <div className="text-xs mt-1 opacity-80">
+          {data.metadata.description}
+        </div>
+      )}
+
+      {showMetadata && data.metadata && (
+        <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
+          {data.metadata.properties &&
+            Object.keys(data.metadata.properties).length > 0 && (
+              <div>
+                <strong>Properties:</strong>
+                <ul className="ml-2 mt-1">
+                  {Object.entries(data.metadata.properties).map(
+                    ([key, value]) => (
+                      <li key={key}>
+                        • {key}: {String(value)}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            )}
+        </div>
+      )}
+
+      <Handle type="source" position={Position.Bottom} />
+    </div>
+  );
+};
+
+const nodeTypes = {
+  eventStorming: EventStormingNode,
+  group: ResizableNode,
+};
 
 function ReactFlowCanvasContent() {
   const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
@@ -566,130 +636,6 @@ function ReactFlowCanvasContent() {
     );
   };
 
-  const EventStormingNode = ({
-    data,
-    selected,
-  }: {
-    data: any;
-    selected: boolean;
-  }) => {
-    const [showMetadata, setShowMetadata] = useState(false);
-
-    return (
-      <div
-        className={`px-4 py-2 shadow-md rounded-md border-2 ${
-          selected ? "border-blue-500" : "border-gray-200"
-        } min-w-[150px] max-w-[250px]`}
-        style={{
-          backgroundColor: data.color,
-          minWidth: "150px",
-          maxWidth: "250px",
-        }}
-      >
-        <Handle type="target" position={Position.Top} />
-
-        <div className="font-semibold text-sm">{data.label}</div>
-
-        {data.metadata?.description && (
-          <div className="text-xs mt-1 opacity-80">
-            {data.metadata.description}
-          </div>
-        )}
-
-        {showMetadata && data.metadata && (
-          <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
-            {data.metadata.properties &&
-              Object.keys(data.metadata.properties).length > 0 && (
-                <div>
-                  <strong>Properties:</strong>
-                  <ul className="ml-2 mt-1">
-                    {Object.entries(data.metadata.properties).map(
-                      ([key, value]) => (
-                        <li key={key}>
-                          • {key}: {String(value)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-          </div>
-        )}
-
-        <Handle type="source" position={Position.Bottom} />
-      </div>
-    );
-  };
-
-  const ResizableGroupNode = ({
-    data,
-    selected,
-    id,
-  }: {
-    data: any;
-    selected: boolean;
-    id: string;
-  }) => {
-    const [showMetadata, setShowMetadata] = useState(false);
-
-    return (
-      <div
-        className={`shadow-lg rounded-lg border-2 ${
-          selected ? "border-blue-500" : "border-gray-300"
-        }`}
-        style={{
-          backgroundColor: data.color,
-          width: "100%",
-          height: "100%",
-          minWidth: "200px",
-          minHeight: "150px",
-        }}
-      >
-        <NodeResizer
-          nodeId={id}
-          isVisible={selected}
-          handleClassName="resizer"
-          handleStyle={{
-            width: "12px",
-            height: "12px",
-            backgroundColor: "#3b82f6",
-            border: "2px solid white",
-          }}
-        />
-
-        <div className="p-3">
-          <div className="font-semibold text-sm mb-2">{data.label}</div>
-
-          {data.metadata?.description && (
-            <div className="text-xs opacity-80">
-              {data.metadata.description}
-            </div>
-          )}
-
-          {showMetadata && data.metadata && (
-            <div className="mt-2 p-2 bg-white bg-opacity-90 rounded text-xs">
-              {data.metadata.properties &&
-                Object.keys(data.metadata.properties).length > 0 && (
-                  <div>
-                    <strong>Properties:</strong>
-                    <ul className="ml-2 mt-1">
-                      {Object.entries(data.metadata.properties).map(
-                        ([key, value]) => (
-                          <li key={key}>
-                            • {key}: {String(value)}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                )}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="w-full h-[500px] relative">
       {/* Template Selector */}
@@ -790,10 +736,7 @@ function ReactFlowCanvasContent() {
         onDragOver={onDragOver}
         onEdgeContextMenu={onEdgeContextMenu}
         onNodeClick={onNodeClick}
-        nodeTypes={{
-          eventStorming: EventStormingNode,
-          group: ResizableGroupNode,
-        }}
+        nodeTypes={nodeTypes}
         fitView
       >
         <Background />
