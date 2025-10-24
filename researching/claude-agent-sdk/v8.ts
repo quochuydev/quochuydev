@@ -137,31 +137,36 @@ async function* generateMessages() {
 for await (const message of query({
   prompt: generateMessages() as any,
   options: {
-    systemPrompt: {
-      type: "preset",
-      preset: "claude_code",
-      append: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
-    },
+    // systemPrompt: {
+    //   type: "preset",
+    //   preset: "claude_code",
+    //   append: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
+    // },
+    systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
     mcpServers: {
-      drawio: customServer,
+      // drawio: customServer,
     },
     allowedTools: [
       "Read",
       "Write",
-      "mcp__drawio__create_layout",
-      "mcp__drawio__create_context",
-      "mcp__drawio__create_flow",
-      "mcp__drawio__create_element",
-      "mcp__drawio__create_connection",
+      // "mcp__drawio__create_layout",
+      // "mcp__drawio__create_context",
+      // "mcp__drawio__create_flow",
+      // "mcp__drawio__create_element",
+      // "mcp__drawio__create_connection",
     ],
   },
 })) {
+  if (message.type === "user") {
+    console.log("user", message.message.content);
+  }
+
   if (message.type === "assistant") {
     console.log("assistant", message.message.content);
   }
 
   if (message.type === "result" && message.subtype === "success") {
-    console.log(message.result);
-    fs.writeFileSync("result.md", message.result);
+    console.log("result", message.result);
+    // fs.writeFileSync("result.md", message.result);
   }
 }
