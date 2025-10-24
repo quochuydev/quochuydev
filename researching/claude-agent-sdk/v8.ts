@@ -41,7 +41,7 @@ const createContextTool = tool(
       content: [
         {
           type: "text",
-          text: `<mxCell id="{context_id}" value="{context_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=30;fillColor=#e3f2fd;strokeColor=#64b5f6;" vertex="1" parent="1">
+          text: `<mxCell id="{context_id}" value="{context_name}" style="container=1;recursiveResize=1;collapsible=0;horizontal=1;startSize=30;fillColor=#fff;strokeColor=#64b5f6;" vertex="1" parent="1">
   <mxGeometry x="{x}" y="{y}" width="1500" height="800" as="geometry"/>
 </mxCell>`,
         },
@@ -120,11 +120,6 @@ const customServer = createSdkMcpServer({
 for await (const message of query({
   prompt: fs.readFileSync("v8.prompt-yaml.md", "utf-8").trim(),
   options: {
-    // systemPrompt: {
-    //   type: "preset",
-    //   preset: "claude_code",
-    //   append: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
-    // },
     systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
     mcpServers: {
       drawio: customServer,
