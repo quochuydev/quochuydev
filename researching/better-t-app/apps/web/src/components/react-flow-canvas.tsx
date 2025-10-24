@@ -27,7 +27,7 @@ interface NodeMetadata {
 
 // Extended node type with metadata
 interface EventStormingNode extends Node {
-  data: Node['data'] & {
+  data: Node["data"] & {
     label: string;
     color: string;
     metadata?: NodeMetadata;
@@ -35,25 +35,29 @@ interface EventStormingNode extends Node {
 }
 
 // Custom node component with metadata support
-const EventStormingNode = ({ data, selected }: { data: any; selected: boolean }) => {
+const EventStormingNode = ({
+  data,
+  selected,
+}: {
+  data: any;
+  selected: boolean;
+}) => {
   const [showMetadata, setShowMetadata] = useState(false);
 
   return (
     <div
       className={`px-4 py-2 shadow-md rounded-md border-2 ${
-        selected ? 'border-blue-500' : 'border-gray-200'
+        selected ? "border-blue-500" : "border-gray-200"
       } min-w-[150px] max-w-[250px]`}
       style={{
         backgroundColor: data.color,
-        minWidth: '150px',
-        maxWidth: '250px'
+        minWidth: "150px",
+        maxWidth: "250px",
       }}
     >
       <Handle type="target" position={Position.Top} />
 
-      <div className="font-semibold text-sm">
-        {data.label}
-      </div>
+      <div className="font-semibold text-sm">{data.label}</div>
 
       {data.metadata?.description && (
         <div className="text-xs mt-1 opacity-80">
@@ -65,7 +69,7 @@ const EventStormingNode = ({ data, selected }: { data: any; selected: boolean })
         onClick={() => setShowMetadata(!showMetadata)}
         className="text-xs mt-2 text-blue-600 hover:text-blue-800 underline"
       >
-        {showMetadata ? 'Hide' : 'Show'} Details
+        {showMetadata ? "Hide" : "Show"} Details
       </button>
 
       {showMetadata && data.metadata && (
@@ -82,19 +86,24 @@ const EventStormingNode = ({ data, selected }: { data: any; selected: boolean })
           )}
           {data.metadata.tags && data.metadata.tags.length > 0 && (
             <div className="mb-1">
-              <strong>Tags:</strong> {data.metadata.tags.join(', ')}
+              <strong>Tags:</strong> {data.metadata.tags.join(", ")}
             </div>
           )}
-          {data.metadata.properties && Object.keys(data.metadata.properties).length > 0 && (
-            <div>
-              <strong>Properties:</strong>
-              <ul className="ml-2 mt-1">
-                {Object.entries(data.metadata.properties).map(([key, value]) => (
-                  <li key={key}>• {key}: {String(value)}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {data.metadata.properties &&
+            Object.keys(data.metadata.properties).length > 0 && (
+              <div>
+                <strong>Properties:</strong>
+                <ul className="ml-2 mt-1">
+                  {Object.entries(data.metadata.properties).map(
+                    ([key, value]) => (
+                      <li key={key}>
+                        • {key}: {String(value)}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            )}
         </div>
       )}
 
@@ -105,13 +114,13 @@ const EventStormingNode = ({ data, selected }: { data: any; selected: boolean })
 
 // Event Storming element types with colors from docs.md
 const eventStormingElements = [
-  { type: 'actor', label: 'Actor', color: '#fee750' },
-  { type: 'event', label: 'Event', color: '#feae57' },
-  { type: 'command', label: 'Command', color: '#a7c5fc' },
-  { type: 'policy', label: 'Policy', color: '#da99e6' },
-  { type: 'reaction_policy', label: 'Reaction Policy', color: '#fef5b2' },
-  { type: 'external_system', label: 'External System', color: '#ffb3c5' },
-  { type: 'read_models', label: 'Read Models', color: '#b0deb3' },
+  { type: "actor", label: "Actor", color: "#fee750" },
+  { type: "event", label: "Event", color: "#feae57" },
+  { type: "command", label: "Command", color: "#a7c5fc" },
+  { type: "policy", label: "Policy", color: "#da99e6" },
+  { type: "reaction_policy", label: "Reaction Policy", color: "#fef5b2" },
+  { type: "external_system", label: "External System", color: "#ffb3c5" },
+  { type: "read_models", label: "Read Models", color: "#b0deb3" },
 ];
 
 const initialNodes: EventStormingNode[] = [
@@ -130,9 +139,9 @@ const initialNodes: EventStormingNode[] = [
         properties: {
           priority: "high",
           frequency: "daily",
-          source: "web-form"
-        }
-      }
+          source: "web-form",
+        },
+      },
     },
   },
   {
@@ -149,9 +158,9 @@ const initialNodes: EventStormingNode[] = [
         tags: ["actor", "entity"],
         properties: {
           role: "customer",
-          permissions: ["read", "write"]
-        }
-      }
+          permissions: ["read", "write"],
+        },
+      },
     },
   },
   {
@@ -168,9 +177,9 @@ const initialNodes: EventStormingNode[] = [
         tags: ["command", "user-management"],
         properties: {
           async: true,
-          retries: 3
-        }
-      }
+          retries: 3,
+        },
+      },
     },
   },
 ];
@@ -188,7 +197,9 @@ export default function ReactFlowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [selectedNode, setSelectedNode] = useState<EventStormingNode | null>(null);
+  const [selectedNode, setSelectedNode] = useState<EventStormingNode | null>(
+    null
+  );
   const [showProperties, setShowProperties] = useState(false);
 
   const onConnect = useCallback(
@@ -196,26 +207,32 @@ export default function ReactFlowCanvas() {
     [setEdges]
   );
 
-  const onNodeClick = useCallback((event: React.MouseEvent, node: EventStormingNode) => {
-    setSelectedNode(node);
-    setShowProperties(true);
-  }, []);
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: EventStormingNode) => {
+      setSelectedNode(node);
+      setShowProperties(true);
+    },
+    []
+  );
 
-  const updateNodeMetadata = useCallback((nodeId: string, metadata: NodeMetadata) => {
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === nodeId
-          ? {
-              ...node,
-              data: {
-                ...node.data,
-                metadata: { ...node.data.metadata, ...metadata },
-              },
-            }
-          : node
-      )
-    );
-  }, [setNodes]);
+  const updateNodeMetadata = useCallback(
+    (nodeId: string, metadata: NodeMetadata) => {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === nodeId
+            ? {
+                ...node,
+                data: {
+                  ...node.data,
+                  metadata: { ...node.data.metadata, ...metadata },
+                },
+              }
+            : node
+        )
+      );
+    },
+    [setNodes]
+  );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -255,7 +272,7 @@ export default function ReactFlowCanvas() {
         }
       }
 
-      const elementData = eventStormingElements.find(el => el.type === type);
+      const elementData = eventStormingElements.find((el) => el.type === type);
       const newNode: EventStormingNode = {
         id: `node_${Date.now()}`,
         type: "eventStorming",
@@ -268,8 +285,8 @@ export default function ReactFlowCanvas() {
             validationNote: "",
             dataObjectNote: "",
             tags: [],
-            properties: {}
-          }
+            properties: {},
+          },
         },
       };
 
@@ -316,8 +333,8 @@ export default function ReactFlowCanvas() {
             validationNote: "",
             dataObjectNote: "",
             tags: ["event"],
-            properties: {}
-          }
+            properties: {},
+          },
         },
       };
 
@@ -384,7 +401,7 @@ export default function ReactFlowCanvas() {
       const newProperties = { ...metadata.properties };
       if (key === "") {
         // Adding new property
-        const keys = Object.keys(newProperties).filter(k => k === "");
+        const keys = Object.keys(newProperties).filter((k) => k === "");
         newProperties[value] = "";
         delete newProperties[""];
       } else {
@@ -423,44 +440,61 @@ export default function ReactFlowCanvas() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1">Description</label>
+            <label className="block text-xs font-medium mb-1">
+              Description
+            </label>
             <textarea
               value={metadata.description || ""}
-              onChange={(e) => setMetadata({ ...metadata, description: e.target.value })}
+              onChange={(e) =>
+                setMetadata({ ...metadata, description: e.target.value })
+              }
               className="w-full px-2 py-1 text-xs border rounded"
               rows={2}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1">Validation Note</label>
+            <label className="block text-xs font-medium mb-1">
+              Validation Note
+            </label>
             <textarea
               value={metadata.validationNote || ""}
-              onChange={(e) => setMetadata({ ...metadata, validationNote: e.target.value })}
+              onChange={(e) =>
+                setMetadata({ ...metadata, validationNote: e.target.value })
+              }
               className="w-full px-2 py-1 text-xs border rounded"
               rows={2}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1">Data Object Note</label>
+            <label className="block text-xs font-medium mb-1">
+              Data Object Note
+            </label>
             <textarea
               value={metadata.dataObjectNote || ""}
-              onChange={(e) => setMetadata({ ...metadata, dataObjectNote: e.target.value })}
+              onChange={(e) =>
+                setMetadata({ ...metadata, dataObjectNote: e.target.value })
+              }
               className="w-full px-2 py-1 text-xs border rounded"
               rows={2}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1">Tags (comma-separated)</label>
+            <label className="block text-xs font-medium mb-1">
+              Tags (comma-separated)
+            </label>
             <input
               type="text"
               value={metadata.tags?.join(", ") || ""}
               onChange={(e) =>
                 setMetadata({
                   ...metadata,
-                  tags: e.target.value.split(",").map((tag) => tag.trim()).filter(Boolean),
+                  tags: e.target.value
+                    .split(",")
+                    .map((tag) => tag.trim())
+                    .filter(Boolean),
                 })
               }
               className="w-full px-2 py-1 text-xs border rounded"
@@ -526,25 +560,6 @@ export default function ReactFlowCanvas() {
 
   return (
     <div className="w-full h-[500px] relative">
-      {/* Legend Panel */}
-      <div className="absolute top-4 left-4 z-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-3 shadow-lg">
-        <h3 className="text-sm font-semibold mb-2">Event Storming Elements</h3>
-        <div className="space-y-1">
-          {eventStormingElements.map((element) => (
-            <div
-              key={element.type}
-              className="flex items-center gap-2 text-xs"
-            >
-              <div
-                className="w-3 h-3 rounded border border-gray-400"
-                style={{ backgroundColor: element.color }}
-              />
-              <span>{element.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Draggable Elements */}
       <div className="absolute top-4 right-4 z-10 space-y-2">
         <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">

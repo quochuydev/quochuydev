@@ -27,20 +27,6 @@ export default function Home() {
           </div>
         </section>
         <section className="rounded-lg border p-4">
-          <h2 className="mb-4 font-medium">
-            Event Storming Canvas with Metadata
-          </h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            <strong>Drag & Drop:</strong> Drag elements from the right panel to create nodes with metadata.
-            <br />
-            <strong>Click Nodes:</strong> Click any node to edit its properties (validation notes, data objects, tags, custom properties).
-            <br />
-            <strong>Right-click edges:</strong> Insert Event nodes between connected elements.
-            <br />
-            <strong>Expand Details:</strong> Click "Show Details" on any node to view its metadata inline.
-            <br />
-            <strong>Connect nodes:</strong> Drag from node handles to create relationships.
-          </p>
           <ReactFlowCanvas />
         </section>
       </div>
