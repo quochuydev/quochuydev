@@ -14,24 +14,38 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
+// Event Storming element types with colors from docs.md
+const eventStormingElements = [
+  { type: 'actor', label: 'Actor', color: '#fee750' },
+  { type: 'event', label: 'Event', color: '#feae57' },
+  { type: 'command', label: 'Command', color: '#a7c5fc' },
+  { type: 'policy', label: 'Policy', color: '#da99e6' },
+  { type: 'reaction_policy', label: 'Reaction Policy', color: '#fef5b2' },
+  { type: 'external_system', label: 'External System', color: '#ffb3c5' },
+  { type: 'read_models', label: 'Read Models', color: '#b0deb3' },
+];
+
 const initialNodes: Node[] = [
   {
     id: "1",
     type: "default",
     position: { x: 250, y: 25 },
-    data: { label: "Node 1" },
+    data: { label: "Event", color: "#feae57" },
+    style: { backgroundColor: "#feae57" },
   },
   {
     id: "2",
     type: "default",
     position: { x: 100, y: 125 },
-    data: { label: "Node 2" },
+    data: { label: "Actor", color: "#fee750" },
+    style: { backgroundColor: "#fee750" },
   },
   {
     id: "3",
     type: "default",
     position: { x: 400, y: 125 },
-    data: { label: "Node 3" },
+    data: { label: "Command", color: "#a7c5fc" },
+    style: { backgroundColor: "#a7c5fc" },
   },
 ];
 
@@ -67,7 +81,7 @@ export default function ReactFlowCanvas() {
       const type = event.dataTransfer.getData("application/reactflow");
 
       // check if the dropped element is valid
-      if (typeof type === "undefined" || !type) {
+      if (typeof type === "undefined" || !type || !reactFlowInstance) {
         return;
       }
 
@@ -76,16 +90,23 @@ export default function ReactFlowCanvas() {
         y: event.clientY - reactFlowBounds.top,
       });
 
+      const elementData = eventStormingElements.find(el => el.type === type);
       const newNode: Node = {
         id: `node_${Date.now()}`,
-        type,
+        type: "default",
         position,
-        data: { label: `${type} node` },
+        data: {
+          label: elementData?.label || type,
+          color: elementData?.color || "#ffffff"
+        },
+        style: {
+          backgroundColor: elementData?.color || "#ffffff"
+        },
       };
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, setNodes]
+    [reactFlowInstance, setNodes, eventStormingElements]
   );
 
   const onEdgeContextMenu = useCallback(
@@ -102,7 +123,13 @@ export default function ReactFlowCanvas() {
         id: `node_${Date.now()}`,
         type: "default",
         position,
-        data: { label: "New Node" },
+        data: {
+          label: "Event",
+          color: "#feae57"
+        },
+        style: {
+          backgroundColor: "#feae57"
+        },
       };
 
       // Create new edges
@@ -136,14 +163,46 @@ export default function ReactFlowCanvas() {
   };
 
   return (
-    <div className="w-full h-96 relative">
-      <div className="absolute top-4 left-4 z-10 space-y-2">
-        <div
-          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 cursor-move text-sm"
-          draggable
-          onDragStart={(event) => onDragStart(event, "default")}
-        >
-          Drag to add node
+    <div className="w-full h-[500px] relative">
+      {/* Legend Panel */}
+      <div className="absolute top-4 left-4 z-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-3 shadow-lg">
+        <h3 className="text-sm font-semibold mb-2">Event Storming Elements</h3>
+        <div className="space-y-1">
+          {eventStormingElements.map((element) => (
+            <div
+              key={element.type}
+              className="flex items-center gap-2 text-xs"
+            >
+              <div
+                className="w-3 h-3 rounded border border-gray-400"
+                style={{ backgroundColor: element.color }}
+              />
+              <span>{element.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Draggable Elements */}
+      <div className="absolute top-4 right-4 z-10 space-y-2">
+        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
+          <h4 className="text-xs font-semibold mb-2">Drag to add:</h4>
+          <div className="space-y-1">
+            {eventStormingElements.map((element) => (
+              <div
+                key={element.type}
+                className="flex items-center gap-2 cursor-move text-xs p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                draggable
+                onDragStart={(event) => onDragStart(event, element.type)}
+              >
+                <div
+                  className="w-3 h-3 rounded border border-gray-400 flex-shrink-0"
+                  style={{ backgroundColor: element.color }}
+                />
+                <span>{element.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <ReactFlow
