@@ -7,5 +7,5 @@ Update metadata remove code relate to: validationNote dataObjectNote tags
 
 I would like a button support to export the event storming to yaml and json file
 
-Move hardcoded data to /api/event-storming/[id]
+Move hardcoded example data to /api/event-storming/[id]
 ```

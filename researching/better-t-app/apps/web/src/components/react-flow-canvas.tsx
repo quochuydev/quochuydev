@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   ReactFlow,
   Background,
@@ -15,6 +15,7 @@ import {
   Position,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import * as yaml from "js-yaml";
 
 // Types for node metadata
 interface NodeMetadata {
@@ -29,6 +30,18 @@ interface EventStormingNode extends Node {
     color: string;
     metadata?: NodeMetadata;
   };
+}
+
+// API response types
+interface EventStormingData {
+  metadata: {
+    title: string;
+    description: string;
+    createdAt: string;
+    version: string;
+  };
+  nodes: any[];
+  edges: any[];
 }
 
 // Custom node component with metadata support
@@ -98,75 +111,69 @@ const eventStormingElements = [
   { type: "read_models", label: "Read Models", color: "#b0deb3" },
 ];
 
-const initialNodes: EventStormingNode[] = [
-  {
-    id: "1",
-    type: "eventStorming",
-    position: { x: 250, y: 25 },
-    data: {
-      label: "User Registered",
-      color: "#feae57",
-      metadata: {
-        description: "New user creates an account",
-        properties: {
-          priority: "high",
-          frequency: "daily",
-          source: "web-form",
-        },
-      },
-    },
-  },
-  {
-    id: "2",
-    type: "eventStorming",
-    position: { x: 100, y: 125 },
-    data: {
-      label: "User",
-      color: "#fee750",
-      metadata: {
-        description: "System actor who performs actions",
-        properties: {
-          role: "customer",
-          permissions: ["read", "write"],
-        },
-      },
-    },
-  },
-  {
-    id: "3",
-    type: "eventStorming",
-    position: { x: 400, y: 125 },
-    data: {
-      label: "Register User",
-      color: "#a7c5fc",
-      metadata: {
-        description: "Command to create a new user account",
-        properties: {
-          async: true,
-          retries: 3,
-        },
-      },
-    },
-  },
-];
-
-const initialEdges: Edge[] = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e1-3", source: "1", target: "3" },
-];
+// Default empty state
+const defaultNodes: EventStormingNode[] = [];
+const defaultEdges: Edge[] = [];
 
 const nodeTypes = {
   eventStorming: EventStormingNode,
 };
 
 export default function ReactFlowCanvas() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [selectedNode, setSelectedNode] = useState<EventStormingNode | null>(
     null
   );
   const [showProperties, setShowProperties] = useState(false);
+  const [currentTemplate, setCurrentTemplate] = useState<string>("sub-flows-example");
+  const [isLoading, setIsLoading] = useState(true);
+  const [availableTemplates, setAvailableTemplates] = useState<any[]>([]);
+
+  // Fetch available templates
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await fetch('/api/event-storming');
+        const data = await response.json();
+        setAvailableTemplates(data.templates || []);
+      } catch (error) {
+        console.error('Error fetching templates:', error);
+      }
+    };
+
+    fetchTemplates();
+  }, []);
+
+  // Fetch event storming data
+  useEffect(() => {
+    const fetchEventData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`/api/event-storming/${currentTemplate}`);
+        if (response.ok) {
+          const data: EventStormingData = await response.json();
+          setNodes(data.nodes || []);
+          setEdges(data.edges || []);
+        } else {
+          console.error('Failed to fetch event storming data');
+          setNodes(defaultNodes);
+          setEdges(defaultEdges);
+        }
+      } catch (error) {
+        console.error('Error fetching event storming data:', error);
+        setNodes(defaultNodes);
+        setEdges(defaultEdges);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (currentTemplate) {
+      fetchEventData();
+    }
+  }, [currentTemplate, setNodes, setEdges]);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -328,6 +335,92 @@ export default function ReactFlowCanvas() {
     event.dataTransfer.effectAllowed = "move";
   };
 
+  // Export functions
+  const exportToJSON = useCallback(() => {
+    const exportData = {
+      nodes: nodes.map(node => ({
+        id: node.id,
+        type: node.type,
+        position: node.position,
+        data: node.data,
+        parentId: node.parentId,
+        style: node.style,
+      })),
+      edges: edges.map(edge => ({
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        type: edge.type,
+      })),
+      metadata: {
+        title: "Event Storming Canvas",
+        exportedAt: new Date().toISOString(),
+        version: "1.0.0",
+      }
+    };
+
+    const jsonString = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `event-storming-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, [nodes, edges]);
+
+  const exportToYAML = useCallback(() => {
+    const exportData = {
+      metadata: {
+        title: "Event Storming Canvas",
+        exportedAt: new Date().toISOString(),
+        version: "1.0.0",
+      },
+      nodes: nodes.map(node => ({
+        id: node.id,
+        type: node.type,
+        position: node.position,
+        data: {
+          label: node.data.label,
+          color: node.data.color,
+          description: node.data.metadata?.description,
+          properties: node.data.metadata?.properties,
+        },
+        parentId: node.parentId,
+        style: node.style,
+      })),
+      edges: edges.map(edge => ({
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        type: edge.type,
+      })),
+    };
+
+    try {
+      const yamlString = yaml.dump(exportData, {
+        indent: 2,
+        lineWidth: 120,
+        noRefs: true,
+        sortKeys: false,
+      });
+
+      const blob = new Blob([yamlString], { type: "application/x-yaml" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `event-storming-${new Date().toISOString().split('T')[0]}.yaml`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting to YAML:", error);
+    }
+  }, [nodes, edges]);
+
   // Properties Panel component
   const PropertiesPanel = () => {
     if (!showProperties || !selectedNode) return null;
@@ -469,6 +562,28 @@ export default function ReactFlowCanvas() {
 
   return (
     <div className="w-full h-[500px] relative">
+      {/* Template Selector */}
+      <div className="absolute top-4 left-4 z-10 space-y-2">
+        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
+          <h4 className="text-xs font-semibold mb-2">Template:</h4>
+          <select
+            value={currentTemplate}
+            onChange={(e) => setCurrentTemplate(e.target.value)}
+            disabled={isLoading}
+            className="w-full text-xs px-2 py-1 border rounded bg-white dark:bg-gray-700 dark:border-gray-600"
+          >
+            {availableTemplates.map((template) => (
+              <option key={template.id} value={template.id}>
+                {template.title}
+              </option>
+            ))}
+          </select>
+          {isLoading && (
+            <div className="text-xs text-gray-500 mt-1">Loading...</div>
+          )}
+        </div>
+      </div>
+
       {/* Draggable Elements */}
       <div className="absolute top-4 right-4 z-10 space-y-2">
         <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
@@ -488,6 +603,25 @@ export default function ReactFlowCanvas() {
                 <span>{element.label}</span>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Export Controls */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded p-2 shadow-lg">
+          <h4 className="text-xs font-semibold mb-2">Export:</h4>
+          <div className="space-y-1">
+            <button
+              onClick={exportToJSON}
+              className="w-full text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            >
+              Export to JSON
+            </button>
+            <button
+              onClick={exportToYAML}
+              className="w-full text-xs px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+            >
+              Export to YAML
+            </button>
           </div>
         </div>
       </div>
