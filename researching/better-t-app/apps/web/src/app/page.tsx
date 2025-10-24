@@ -28,17 +28,18 @@ export default function Home() {
         </section>
         <section className="rounded-lg border p-4">
           <h2 className="mb-4 font-medium">
-            React Flow - Interactive Node Editor
+            Event Storming Canvas with Metadata
           </h2>
           <p className="text-sm text-muted-foreground mb-4">
-            <strong>Drag & Drop:</strong> Drag the node element and drop it on
-            the canvas to create new nodes.
+            <strong>Drag & Drop:</strong> Drag elements from the right panel to create nodes with metadata.
             <br />
-            <strong>Right-click on edges:</strong> Right-click on any edge to
-            insert a node between connected nodes.
+            <strong>Click Nodes:</strong> Click any node to edit its properties (validation notes, data objects, tags, custom properties).
             <br />
-            <strong>Connect nodes:</strong> Drag from node handles to create
-            connections.
+            <strong>Right-click edges:</strong> Insert Event nodes between connected elements.
+            <br />
+            <strong>Expand Details:</strong> Click "Show Details" on any node to view its metadata inline.
+            <br />
+            <strong>Connect nodes:</strong> Drag from node handles to create relationships.
           </p>
           <ReactFlowCanvas />
         </section>
