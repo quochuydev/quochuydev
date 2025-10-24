@@ -12,7 +12,8 @@
     "v5": "tsx v5.ts",
     "v6": "tsx v6.ts",
     "v7": "tsx v7.ts",
-    "v8": "tsx v8.ts"
+    "v8": "tsx v8.ts",
+    "v8-analyze": "tsx v8.analyze.ts"
   },
   "keywords": [],
   "author": "",
