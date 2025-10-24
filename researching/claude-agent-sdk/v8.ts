@@ -63,8 +63,8 @@ const createFlowTool = tool(
     <mxCell
     style="swimlane;whiteSpace=wrap;html=1;strokeColor=#666666;swimlaneLine=0;fillColor={color};gradientColor=none;swimlaneFillColor=#ffffff;fontStyle=1;fontColor=#2E7D32;glass=0;shadow=1;fontSize=16;"
     vertex="1"
-    parent="1">
-    <mxGeometry x="{x}" y="{y}" width="{width}" height="{height}" as="geometry"/>
+    parent="{bounded_context_id}">
+    <mxGeometry x="{x}" y="{y}" width="1900" height="700" as="geometry"/>
     </mxCell>
 </object>`,
         },
@@ -84,7 +84,7 @@ const createElementTool = tool(
           type: "text",
           text: `<mxCell id="{reference_id or id}" value="{name}"
   style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor={color};strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;"
-  vertex="1" parent="2">
+  vertex="1" parent="{flow_id}">
   <mxGeometry x="{x}" y="{y}" width="120" height="120" as="geometry" />
 </mxCell>`,
         },
@@ -103,7 +103,7 @@ const createConnectionTool = tool(
         {
           type: "text",
           text: `<mxCell id="{id}" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
-  edge="1" parent="2" source="{source_id}" target="{target_id}">
+  edge="1" parent="{flow_id}" source="{source_id}" target="{target_id}">
   <mxGeometry relative="1" as="geometry" />
 </mxCell>`,
         },
