@@ -1,0 +1,180 @@
+bounded_contexts:
+  - name: "PO Creation and Approval Flow"
+    flows:
+      - name: "PO Creation and Approval Flow"
+        nodes:
+          - id: "gi5c7nv"
+            name: "Requester"
+            type: "actor"
+            position: [80, 120]
+          - id: "ex4w29r"
+            name: "PO Dashboard View"
+            type: "read_models"
+            position: [300, 120]
+          - id: "342eada"
+            name: "Create Purchase Order"
+            type: "command"
+            position: [520, 120]
+          - id: "f3wo2na"
+            name: "PO Validation Policy"
+            type: "policy"
+            position: [740, 120]
+          - id: "ze4cdw2"
+            name: "PO Created"
+            type: "event"
+            position: [960, 120]
+          - id: "aerx85o"
+            name: "Send PO for Approval"
+            type: "command"
+            position: [300, 230]
+          - id: "n7mybu3"
+            name: "Approval Authority Policy"
+            type: "policy"
+            position: [520, 230]
+          - id: "lwbe067"
+            name: "PO Sent for Approval"
+            type: "event"
+            position: [740, 230]
+          - id: "ca7jdgn"
+            name: "Email Notification Service"
+            type: "external_system"
+            position: [960, 230]
+        edges:
+          - source_id: "ex4w29r"
+            target_id: "gi5c7nv"
+          - source_id: "gi5c7nv"
+            target_id: "342eada"
+          - source_id: "342eada"
+            target_id: "f3wo2na"
+          - source_id: "f3wo2na"
+            target_id: "ze4cdw2"
+          - source_id: "ze4cdw2"
+            target_id: "aerx85o"
+          - source_id: "gi5c7nv"
+            target_id: "aerx85o"
+          - source_id: "aerx85o"
+            target_id: "n7mybu3"
+          - source_id: "n7mybu3"
+            target_id: "lwbe067"
+          - source_id: "lwbe067"
+            target_id: "ca7jdgn"
+
+  - name: "PO Approval Decision Flow"
+    flows:
+      - name: "PO Approval Decision Flow"
+        nodes:
+          - id: "bx9b6hy"
+            name: "Approver"
+            type: "actor"
+            position: [80, 470]
+          - id: "p67b5yo"
+            name: "Pending Approval List"
+            type: "read_models"
+            position: [300, 470]
+          - id: "1cjb357"
+            name: "Approve PO"
+            type: "command"
+            position: [520, 470]
+          - id: "g0aihev"
+            name: "Budget Validation Policy"
+            type: "policy"
+            position: [740, 470]
+          - id: "nzxtaud"
+            name: "Approval Granted"
+            type: "event"
+            position: [960, 470]
+          - id: "l9q34zh"
+            name: "Reject PO"
+            type: "command"
+            position: [520, 580]
+          - id: "quknrbk"
+            name: "Approval Rejected"
+            type: "event"
+            position: [740, 580]
+        edges:
+          - source_id: "p67b5yo"
+            target_id: "bx9b6hy"
+          - source_id: "bx9b6hy"
+            target_id: "1cjb357"
+          - source_id: "1cjb357"
+            target_id: "g0aihev"
+          - source_id: "g0aihev"
+            target_id: "nzxtaud"
+          - source_id: "bx9b6hy"
+            target_id: "l9q34zh"
+          - source_id: "l9q34zh"
+            target_id: "quknrbk"
+
+  - name: "PO Resubmission Flow"
+    flows:
+      - name: "PO Resubmission Flow"
+        nodes:
+          - id: "sjwe00e"
+            name: "Requester"
+            type: "actor"
+            position: [80, 820]
+          - id: "er6onz3"
+            name: "Resubmit PO"
+            type: "command"
+            position: [300, 820]
+        edges:
+          - source_id: "quknrbk"
+            target_id: "sjwe00e"
+          - source_id: "sjwe00e"
+            target_id: "er6onz3"
+
+  - name: "Payment and Finance Flow"
+    flows:
+      - name: "Payment and Finance Flow"
+        nodes:
+          - id: "v4t5qlu"
+            name: "Finance Staff"
+            type: "actor"
+            position: [80, 1070]
+          - id: "3077o69"
+            name: "Record Payment"
+            type: "command"
+            position: [300, 1070]
+          - id: "o6u8ffo"
+            name: "Vendor System"
+            type: "external_system"
+            position: [520, 1070]
+          - id: "co2v4h3"
+            name: "Payment Made"
+            type: "event"
+            position: [740, 1070]
+          - id: "qys16fi"
+            name: "Finance Budget Report"
+            type: "read_models"
+            position: [960, 1070]
+        edges:
+          - source_id: "nzxtaud"
+            target_id: "v4t5qlu"
+          - source_id: "v4t5qlu"
+            target_id: "3077o69"
+          - source_id: "3077o69"
+            target_id: "o6u8ffo"
+          - source_id: "o6u8ffo"
+            target_id: "co2v4h3"
+          - source_id: "co2v4h3"
+            target_id: "qys16fi"
+
+  - name: "Audit and Cancellation Flow"
+    flows:
+      - name: "Audit and Cancellation Flow"
+        nodes:
+          - id: "x7vd0wt"
+            name: "Cancel PO"
+            type: "command"
+            position: [300, 1320]
+          - id: "b8mlf9s"
+            name: "PO Cancelled"
+            type: "event"
+            position: [520, 1320]
+        edges:
+          - source_id: "sjwe00e"
+            target_id: "x7vd0wt"
+          - source_id: "bx9b6hy"
+            target_id: "x7vd0wt"
+          - source_id: "x7vd0wt"
+            target_id: "b8mlf9s"

@@ -127,17 +127,9 @@ const allowedTools = [
 ];
 
 for await (const message of query({
-  // prompt: fs.readFileSync("v8.script.xml", "utf-8").trim(),
-  prompt: `Review the quality, then make it more beauty: ${fs
-    .readFileSync("v8.script.xml", "utf-8")
-    .trim()} `,
+  prompt: fs.readFileSync("v8.script.xml", "utf-8").trim(),
   options: {
     systemPrompt: fs.readFileSync("v8.event-storming.md", "utf-8").trim(),
-    //     systemPrompt: `You are a specialized AI that help to review Event storming XML and make it more beauty layout, professional and clearly:
-    // - Keep the original content and styles.
-    // - Update the layout Horizontal flows
-    // - Bounded context have to cover all Flows inside; Flow have to cover all Elements and Connections inside.
-    // `,
     mcpServers: {
       drawio: customServer,
     },
