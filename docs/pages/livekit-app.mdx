@@ -34,23 +34,186 @@ description: Requesting approval to integrate LiveKit for video, audio, and data
 
 ### **1. Setup backend token service**
 
-* Create `/getToken` endpoint using `AccessToken(apiKey, apiSecret)` to generate secure token.
+```ts
+import "dotenv/config";
+import { createContext } from "./lib/context";
+import { appRouter } from "./routers/index";
+import cors from "cors";
+import express from "express";
+import { RoomServiceClient, AccessToken } from "livekit-server-sdk";
+
+import "dotenv/config";
+
+const app = express();
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "",
+    methods: ["GET", "POST", "OPTIONS"],
+  })
+);
+
+app.use(express.json());
+
+app.get("/", (_req, res) => {
+  res.status(200).send("OK");
+});
+
+app.get("/get-token", async (req, res) => {
+  const roomName = "quickstart-room";
+  const participantName = String(Date.now());
+
+  const at = new AccessToken(
+    process.env.LIVEKIT_API_KEY,
+    process.env.LIVEKIT_API_SECRET,
+    {
+      identity: participantName,
+      ttl: "10m",
+    }
+  );
+  at.addGrant({
+    roomJoin: true,
+    room: roomName,
+  });
+
+  const token = await at.toJwt();
+  res.send(token);
+});
+
+const svc = new RoomServiceClient(
+  process.env.LIVEKIT_HOST as string,
+  process.env.LIVEKIT_API_KEY,
+  process.env.LIVEKIT_API_SECRET
+);
+
+app.get("/rooms", async (req, res) => {
+  const rooms = await svc.listRooms();
+  res.json({ rooms });
+});
+
+app.get("/rooms/create", async (req, res) => {
+  const opts = {
+    name: "first room",
+    emptyTimeout: 10 * 60,
+    maxParticipants: 20,
+  };
+
+  const room = await svc.createRoom(opts);
+  console.log("room created", room);
+
+  res.json({ room });
+});
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+```
 
 ### **2. Connect frontend to LiveKit**
 
-* Use `room.connect(livekitUrl, token)` and wrap components with `RoomContext.Provider`.
+```tsx
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import {
+  ControlBar,
+  GridLayout,
+  ParticipantTile,
+  RoomAudioRenderer,
+  useTracks,
+  RoomContext,
+} from "@livekit/components-react";
+import { Room, RoomEvent, Track } from "livekit-client";
+import "@livekit/components-styles";
 
-### **3. Enable media tracks**
+export const Route = createFileRoute("/")({
+  component: HomeComponent,
+});
 
-* On join, call `room.localParticipant.setMicrophoneEnabled(true)` and `room.localParticipant.setCameraEnabled(true)`.
+function HomeComponent() {
+  const [room] = useState(
+    () =>
+      new Room({
+        adaptiveStream: true,
+        dynacast: true,
+      }),
+  );
 
-### **4. Render participants**
+  useEffect(() => {
+    let mounted = true;
 
-* Use `useTracks` hook and `<GridLayout>` with `<ParticipantTile trackRef={trackRef} />` to display users.
+    const connect = async () => {
+      const token = await fetch("http://localhost:3000/get-token").then((r) =>
+        r.text(),
+      );
 
-### **5. Handle room lifecycle**
+      if (mounted) {
+        await room.connect('wss://quochuydev-i4asls1o.livekit.cloud', token);
+      }
+    };
 
-* Call `room.disconnect()` on leave action or component unmount, and listen for `participantDisconnected` events.
+    connect();
+
+    room.on("participantConnected", (p) => {
+      console.log("Participant joined:", p.identity);
+    });
+
+    room.on("trackSubscribed", (track, pub, participant) => {
+      console.log("Subscribed to:", track.kind, "from", participant.identity);
+    });
+
+    room.on(RoomEvent.Disconnected, () => {
+      console.log("Left room");
+    });
+
+    return () => {
+      mounted = false;
+      room.disconnect();
+    };
+  }, [room]);
+
+  return (
+    <RoomContext.Provider value={room}>
+      <div data-lk-theme="default" style={{ height: "100vh" }}>
+        <MyVideoConference />
+        <RoomAudioRenderer />
+        <ControlBar />
+      </div>
+    </RoomContext.Provider>
+  );
+}
+
+function MyVideoConference() {
+  const tracks = useTracks(
+    [
+      {
+        source: Track.Source.Camera,
+        withPlaceholder: true,
+      },
+      {
+        source: Track.Source.ScreenShare,
+        withPlaceholder: false,
+      },
+    ],
+    {
+      onlySubscribed: false,
+    },
+  );
+
+  return (
+    <GridLayout
+      tracks={tracks}
+      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+    >
+      <ParticipantTile />
+    </GridLayout>
+  );
+}
+
+```
 
 ## **Conclusion**
 

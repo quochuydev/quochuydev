@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "",
     methods: ["GET", "POST", "OPTIONS"],
-  }),
+  })
 );
 
 app.use(
@@ -22,7 +22,7 @@ app.use(
   createExpressMiddleware({
     router: appRouter,
     createContext,
-  }),
+  })
 );
 
 app.use(express.json());
@@ -31,7 +31,7 @@ app.get("/", (_req, res) => {
   res.status(200).send("OK");
 });
 
-const createToken = async () => {
+app.get("/get-token", async (req, res) => {
   const roomName = "quickstart-room";
   const participantName = String(Date.now());
 
@@ -41,25 +41,21 @@ const createToken = async () => {
     {
       identity: participantName,
       ttl: "10m",
-    },
+    }
   );
   at.addGrant({
     roomJoin: true,
     room: roomName,
   });
 
-  return await at.toJwt();
-};
-
-app.get("/get-token", async (req, res) => {
-  const token = await createToken();
+  const token = await at.toJwt();
   res.send(token);
 });
 
 const svc = new RoomServiceClient(
   process.env.LIVEKIT_HOST as string,
   process.env.LIVEKIT_API_KEY,
-  process.env.LIVEKIT_API_SECRET,
+  process.env.LIVEKIT_API_SECRET
 );
 
 app.get("/rooms", async (req, res) => {

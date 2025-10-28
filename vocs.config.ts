@@ -85,8 +85,8 @@ export default defineConfig({
       link: "/event-storming-mermaid",
     },
     {
-      text: "WebRTC",
-      link: "/webrtc",
+      text: "Video call with Livekit",
+      link: "/livekit-app",
     },
   ],
 });
