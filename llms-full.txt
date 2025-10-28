@@ -812,23 +812,186 @@ This checklist helps you avoid common beginner mistakes and shows professionalis
 
 #### **1. Setup backend token service**
 
-* Create `/getToken` endpoint using `AccessToken(apiKey, apiSecret)` to generate secure token.
+```ts
+import "dotenv/config";
+import { createContext } from "./lib/context";
+import { appRouter } from "./routers/index";
+import cors from "cors";
+import express from "express";
+import { RoomServiceClient, AccessToken } from "livekit-server-sdk";
+
+import "dotenv/config";
+
+const app = express();
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "",
+    methods: ["GET", "POST", "OPTIONS"],
+  })
+);
+
+app.use(express.json());
+
+app.get("/", (_req, res) => {
+  res.status(200).send("OK");
+});
+
+app.get("/get-token", async (req, res) => {
+  const roomName = "quickstart-room";
+  const participantName = String(Date.now());
+
+  const at = new AccessToken(
+    process.env.LIVEKIT_API_KEY,
+    process.env.LIVEKIT_API_SECRET,
+    {
+      identity: participantName,
+      ttl: "10m",
+    }
+  );
+  at.addGrant({
+    roomJoin: true,
+    room: roomName,
+  });
+
+  const token = await at.toJwt();
+  res.send(token);
+});
+
+const svc = new RoomServiceClient(
+  process.env.LIVEKIT_HOST as string,
+  process.env.LIVEKIT_API_KEY,
+  process.env.LIVEKIT_API_SECRET
+);
+
+app.get("/rooms", async (req, res) => {
+  const rooms = await svc.listRooms();
+  res.json({ rooms });
+});
+
+app.get("/rooms/create", async (req, res) => {
+  const opts = {
+    name: "first room",
+    emptyTimeout: 10 * 60,
+    maxParticipants: 20,
+  };
+
+  const room = await svc.createRoom(opts);
+  console.log("room created", room);
+
+  res.json({ room });
+});
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+```
 
 #### **2. Connect frontend to LiveKit**
 
-* Use `room.connect(livekitUrl, token)` and wrap components with `RoomContext.Provider`.
+```tsx
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import {
+  ControlBar,
+  GridLayout,
+  ParticipantTile,
+  RoomAudioRenderer,
+  useTracks,
+  RoomContext,
+} from "@livekit/components-react";
+import { Room, RoomEvent, Track } from "livekit-client";
+import "@livekit/components-styles";
 
-#### **3. Enable media tracks**
+export const Route = createFileRoute("/")({
+  component: HomeComponent,
+});
 
-* On join, call `room.localParticipant.setMicrophoneEnabled(true)` and `room.localParticipant.setCameraEnabled(true)`.
+function HomeComponent() {
+  const [room] = useState(
+    () =>
+      new Room({
+        adaptiveStream: true,
+        dynacast: true,
+      }),
+  );
 
-#### **4. Render participants**
+  useEffect(() => {
+    let mounted = true;
 
-* Use `useTracks` hook and `<GridLayout>` with `<ParticipantTile trackRef={trackRef} />` to display users.
+    const connect = async () => {
+      const token = await fetch("http://localhost:3000/get-token").then((r) =>
+        r.text(),
+      );
 
-#### **5. Handle room lifecycle**
+      if (mounted) {
+        await room.connect('wss://quochuydev-i4asls1o.livekit.cloud', token);
+      }
+    };
 
-* Call `room.disconnect()` on leave action or component unmount, and listen for `participantDisconnected` events.
+    connect();
+
+    room.on("participantConnected", (p) => {
+      console.log("Participant joined:", p.identity);
+    });
+
+    room.on("trackSubscribed", (track, pub, participant) => {
+      console.log("Subscribed to:", track.kind, "from", participant.identity);
+    });
+
+    room.on(RoomEvent.Disconnected, () => {
+      console.log("Left room");
+    });
+
+    return () => {
+      mounted = false;
+      room.disconnect();
+    };
+  }, [room]);
+
+  return (
+    <RoomContext.Provider value={room}>
+      <div data-lk-theme="default" style={{ height: "100vh" }}>
+        <MyVideoConference />
+        <RoomAudioRenderer />
+        <ControlBar />
+      </div>
+    </RoomContext.Provider>
+  );
+}
+
+function MyVideoConference() {
+  const tracks = useTracks(
+    [
+      {
+        source: Track.Source.Camera,
+        withPlaceholder: true,
+      },
+      {
+        source: Track.Source.ScreenShare,
+        withPlaceholder: false,
+      },
+    ],
+    {
+      onlySubscribed: false,
+    },
+  );
+
+  return (
+    <GridLayout
+      tracks={tracks}
+      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+    >
+      <ParticipantTile />
+    </GridLayout>
+  );
+}
+
+```
 
 ### **Conclusion**
 
@@ -1365,151 +1528,6 @@ Key takeaways:
 * **Focus on deliverables**: What will be produced, not how it will be done
 * **Maintain and update**: WBS is a living document that evolves with the project
 * **Integrate with other tools**: Combine with estimation, scheduling, and risk management
-
-
-## Telemedicine Platform Requirements
-
-### 1. Overview
-
-* We aim to build a secure, scalable telemedicine platform similar in quality to certified European solutions.
-* The system will allow patients and healthcare professionals to connect via video consultations, with supporting features such as chat, file sharing, and appointment management.
-* Technology stack: **Node.js (backend), Vite (frontend), WebRTC (real-time communication), AWS (cloud infrastructure)**.
-
-### 2. Core Features
-
-#### 2.1 Management
-
-* Patient and practitioner registration/login.
-* Authentication: AWS Cognito with MFA, SSO support.
-* User roles: Patient, Doctor, Admin.
-* Clinic information management:
-  * Clinic name
-  * Clinic address
-  * Clinic phone
-  * Clinic email
-  * Clinic website
-  * Clinic logo
-  * Clinic description
-* Patient Profile management:
-  * Personal information
-  * Medical history
-  * Insurance information
-* Doctor Profile management:
-  * Personal information
-  * Medical specialty
-  * Availability
-
-#### 2.2 Appointment Management
-
-* Booking and scheduling system with calendar integration.
-* Virtual waiting room with notifications.
-* Rescheduling and cancellation workflows.
-
-#### 2.3 Video Consultation
-
-* **WebRTC-based video/audio calls**.
-* One-on-one sessions and group calls (up to 20 participants).
-* Features: screen sharing, text chat, file/document exchange.
-* End-to-end encryption for all media streams.
-
-#### 2.4 Documentation & Prescriptions
-
-* Secure file sharing between patients and doctors.
-* Generation of e-prescriptions (optional, depending on regulatory compliance).
-* Session notes stored securely.
-
-#### 2.5 Notifications
-
-* Email/SMS/Push notifications for appointment reminders.
-* In-app notifications for waiting room status.
-
-#### 2.6 Analytics & Reporting
-
-* Appointment history and usage statistics.
-* System health metrics (uptime, latency, call quality).
-
-### 3. Technical Architecture
-
-#### 3.1 Frontend (Vite + React/TS)
-
-* Responsive UI (desktop & mobile).
-* Multi-language support (EN/DE/FR).
-* Accessible design (WCAG 2.1 compliance).
-
-#### 3.2 Backend (Node.js)
-
-* REST API / GraphQL for core services.
-* Signaling server for WebRTC (WebSocket-based).
-* Appointment, user, and session management.
-* Role-based access control.
-
-#### 3.3 Real-Time Communication
-
-* **WebRTC** for video/audio.
-* **STUN/TURN servers** (Coturn).
-* **SFU (Selective Forwarding Unit)** via Mediasoup/Janus for group calls.
-
-#### 3.4 AWS Infrastructure
-
-* **Compute**: ECS/EKS for containerized services.
-* **Storage**: S3 + CloudFront for static assets & file exchange.
-* **Database**: RDS (PostgreSQL) or DynamoDB for structured/unstructured data.
-* **Auth**: Cognito (optional).
-* **Security**: WAF + Shield for DDoS protection.
-* **Monitoring**: CloudWatch + custom logging.
-
-### 4. Security & Compliance
-
-* GDPR-compliant data processing.
-* Data residency: EU regions (e.g., AWS Frankfurt or Zurich).
-* TLS 1.2+ for all connections.
-* End-to-end encryption for video sessions.
-* Audit logs for access and activity tracking.
-* Periodic third-party penetration testing & certification.
-
-### 5. Non-Functional Requirements
-
-* **Scalability**: support up to 10,000 concurrent users initially, scalable via AWS autoscaling.
-* **Availability**: 99.9% uptime SLA.
-* **Maintainability**: CI/CD pipelines, automated testing, modular codebase.
-* **Extensibility**: API-first design for third-party integrations (e.g., payment, insurance systems).
-
-### 6. Roadmap (High-Level)
-
-1. **MVP (3-4 months)**
-
-   * User management & appointments
-   * 1:1 video consultation
-   * Basic chat + file sharing
-   * Secure authentication
-
-2. **Phase 2 (6-8 months)**
-
-   * Group consultations (SFU)
-   * Virtual waiting room
-   * Notifications (email/SMS/push)
-   * Audit logging & analytics dashboard
-
-3. **Phase 3 (12 months)**
-
-   * E-prescriptions, e-certificates
-   * Insurance/payment integration
-   * AI-powered triage (optional)
-   * Third-party compliance audits
-
-### 7. Risks & Considerations
-
-* **Regulatory compliance**: must ensure GDPR + healthcare-specific laws (e.g., KBV rules in Germany).
-* **Security**: video data must never be stored unless legally required.
-* **Performance**: high network demand in WebRTC → must test across devices & bandwidths.
-* **User adoption**: need intuitive UX for non-technical patients.
-
-### 8. Success Criteria
-
-* Secure, stable video consultations between doctors and patients.
-* Compliance with GDPR and local medical standards.
-* Positive feedback from practitioners and patients (>85% satisfaction rate).
-* Scalability proven via load testing (10k concurrent users).
 
 
 ## **Implement WooCommerce Vendors Marketplace Plugin**
