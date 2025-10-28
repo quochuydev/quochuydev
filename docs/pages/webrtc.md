@@ -102,7 +102,6 @@
 
 - **Scalability**: support up to 10,000 concurrent users initially, scalable via AWS autoscaling.
 - **Availability**: 99.9% uptime SLA.
-- **Performance**: <300ms latency for signaling; <150ms jitter for video calls.
 - **Maintainability**: CI/CD pipelines, automated testing, modular codebase.
 - **Extensibility**: API-first design for third-party integrations (e.g., payment, insurance systems).
 
