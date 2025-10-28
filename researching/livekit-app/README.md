@@ -23,7 +23,6 @@ First, install the dependencies:
 npm install
 ```
 
-
 Then, run the development server:
 
 ```bash
@@ -33,12 +32,6 @@ npm run dev
 Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
 Use the Expo Go app to run the mobile application.
 The API is running at [http://localhost:3000](http://localhost:3000).
-
-
-
-
-
-
 
 ## Project Structure
 
