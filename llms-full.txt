@@ -4,60 +4,137 @@
 
 ```
 As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
-
-As a Web developer making themes in Evanto
 ```
 
-### Website Builder
-
-#### Clothing Store
+### Research
 
 ```
-As a Web Developer, AWS making themes in Evanto/ThemeForest
+Give me simple code around 20 lines, using llamaindex resolve it.
 
+Parse event storming flows → nodes/edges → store in graph DB (Neo4j).
+```
 
+### Documents
 
+```markdown
+As a Solution Engineer. Based on the code Minimum viable product / Proof of concept / Demo.
+Write me the technical document for presentation, follow the template below.
+Each section should have from 2-3 sentences. Simple English and easy to understand. Technical should be camelCase and in code block.
+No need AI start/end content.
 
-Tech Stack: Vercel, Typescript, NextJS, PostgreSQL, Tailwind CSS
+As a Solution Engineer. Based on your understand about WebRTC and LiveKit.
+Write me the comparison technical document, follow the template below.
+Each section should have from 2-3 sentences. Simple English and easy to understand. Technical should be camelCase and in code block.
+No need AI start/end content.
+
+As a Solution Engineer/Fullstack Javascript Developer. Based on your understand about LiveKit.
+Write me the technical document, about a request asking the Project manager to agree to use LiveKit.
+Document follow the template below:
+- Each section should have from 2-3 sentences. Pros and Cons should be from 2-5 sentences.
+- Simple English and easy to understand. Technical should be camelCase and in code block.
+- No need AI start/end content.
+
+As a Solution Engineer. Based on your understand about WebRTC and LiveKit.
+Write me the comparison technical document, follow the template below.
+Each section should have from 2-3 sentences. Simple English and easy to understand. Technical should be camelCase and in code block.
+No need AI start/end content.
+
+As a Solution Engineer/Fullstack Javascript Developer.
+Write me the comparison technical document between `better-auth` vs `next-auth`
+Document follow the template below:
+- Simple English and easy to understand. Technical should be camelCase and in code block.
+- No need AI start/end content.
+- Each section should have from 2-5 sentences.
+- Conclusion should be short, clear. Should use or not or should use other.
+- References is optional, depends on your searching. Display links.
+
+---
+title: ...
+description: ...
+---
+
+# **Implement ....**
+## **Overview: Purpose and Problem Solving**
+- ...
+## **Proposal**
+- ...
+## **Weighting / Pros and Cons**
+### **Pros**
+- ...
+### **Cons**
+- ...
+## **Implementation Steps**
+### **1. ...
+- ...
+### **2. ....
+- ...
+...
+## **Conclusion**
+- ...
+...
+## **References**
+- ...
+...
+```
+
+### Web instruction
+
+````markdown
+  As a AI Engineer/Solution Engineer. Based on the code Minimum viable product / Proof of concept / Demo.
+  Write me the web instruction document for AI generate web UI consistent.
+  Each section should have from 2-3 sentences. Simple English and easy to understand. Technical should be camelCase and in code block.
+  No need AI start/end content. follow the template below:
+
+  ## Role
+
+  You are a **AI Engineer, Solution Engineer** who translates business needs into structured outputs.
+
+  ## Core Objectives
+
+  **Best Practices:**
+
+  **Output template**
+
+  ```yaml
+  Style:
+    - Theme: <Minimalist | Playful | Corporate | Modern | Custom>
+    - Typography: <Sans-serif, Serif, Monospace, etc.>
+    - UI Elements: <Rounded, Flat, Glassmorphism, etc.>
+
+  Color Scheme:
+    - Primary: ...
+    - Secondary: ...
+    - Neutral: ...
+    - Accent: ...
+    - Background: ...
+    - Text: ...
+
+  Main Features:
+    - Feature: ...
+      Description: ...
+      Components: [...]
+      DataBinding: <API endpoint | Event>
+
+  Navigation:
+    - Type: <Sidebar | Topbar | Tabs | Other>
+    - Structure: [...]
+
+  Interactions:
+    - Animations: <Subtle, Dynamic, None>
+    - Human-in-the-Loop Inputs: <Forms, Approvals, Feedback>
+
+  Accessibility:
+    - Compliance: <WCAG 2.1 AA | Custom>
+    - Features: [High contrast mode, Screen reader support, etc.]
+````
+
+***
 
 ```
 
-#### Marking for web3 product
+### Mermaid
 
 ```
-```
-
-#### Hotel app booking
-
-```
-```
-
-#### Online courses for certificates
-
-```
-```
-
-### Upwork job analysis
-
-```
-As a Fullstack/Typescript/NodeJs Developer/Solution engineer, Strong in NodeJS, ReactJS, MongoDB, PostgreSQL, AWS.
-
-- Analyze for me this requirement, provide me solution (simple)
-- Provide me code for this solution, just core code
-- Estimate the task as a freelancer (hourly rate)
-- Use English
-
-## Requirement
-
-Suggest me some solution sync file from web to filesystem
-
-The problem that in the web like feature chat app or upload files, user use it many time, idonnt wanna zip files and checksum, I can create simple electron app for writing files, but don't wanna too comlicated
-
-```
-
-## Commands
-
-### Claude
 
 ```
 ```
@@ -65,82 +142,322 @@ The problem that in the web like feature chat app or upload files, user use it m
 
 ## AI Website Builder
 
-### 🔧 MASTER WEBSITE GENERATION PROMPT TEMPLATE
+You are a senior fullstack developer and UI/UX expert. Generate a complete **MULTI-PAGE** modern responsive website for the following business:
+
+### Business Details:
+
+* Business Name: ANA MANDARA VILLAS DALAT RESORT & SPA
+* Type: Resort & services booking
+* Target Audience: Tourist, local members
+* Purpose of Site: Attract local members, show services and allow booking
+* Main Features Needed:
+  * Hero section with CTA
+  * Services section
+  * Testimonials
+  * Membership pricing
+  * Contact form + embedded map
+
+### APIs
 
 ```
-You are a senior fullstack developer and UI/UX expert. Generate a complete [SINGLE-PAGE | MULTI-PAGE] modern responsive website for the following business:
-
-## Business Details:
-- Business Name: [INSERT NAME]
-- Type: [INSERT TYPE – e.g., restaurant, law firm, gym, online coach, SaaS, portfolio, etc.]
-- Target Audience: [INSERT TARGET AUDIENCE – e.g., small businesses, tech users, families, etc.]
-- Purpose of Site: [E.g., attract leads, showcase portfolio, sell products, book appointments, etc.]
-- Main Features Needed:
-  - [e.g., Contact form, testimonials, blog, map integration, product catalog, etc.]
-
-## Design Preferences:
-- Style: [e.g., minimalist, modern, bold, playful, luxurious]
-- Colors: [Specific brand colors or general preferences]
-- Font Preferences: [Optional – modern sans-serif, serif, Google Fonts, etc.]
-- Example Sites for Inspiration: [INSERT URLS OR DESCRIPTIONS]
-
-## Tech Stack:
-Use [INSERT STACK – e.g., Next.js + Tailwind CSS, React + Material UI, HTML/CSS/JS, Vue, etc.]
-Optional: Add animations using [Framer Motion | GSAP | CSS transitions]
-
-## Deliverables:
-- Full working code (including all components/pages)
-- Clean modular code structure
-- SEO & accessibility best practices
-- Responsive design for all screen sizes
-- Dummy data for images/content
+├── app
+│ ├── api
+│ │ ├── 
+│ │ ├── 
 ```
 
-### ✅ Example Filled Prompt (for a Gym Website):
+### Pages
 
 ```
-You are a senior fullstack developer and UI/UX expert. Generate a complete SINGLE-PAGE modern responsive website for the following business:
-
-## Business Details:
-- Business Name: Iron Haven Fitness
-- Type: Premium local gym
-- Target Audience: Fitness enthusiasts aged 20–45
-- Purpose of Site: Attract local members, show class schedules, and allow sign-ups
-- Main Features Needed:
-  - Hero section with CTA
-  - Class schedule section
-  - Trainer profiles
-  - Testimonials
-  - Membership pricing
-  - Contact form + embedded map
-
-## Design Preferences:
-- Style: Bold, modern, energetic
-- Colors: Black, red, and white
-- Font Preferences: Modern sans-serif, high-impact headline fonts
-- Example Sites for Inspiration: https://www.fitnesssf.com/, https://www.f45training.com/
-
-## Tech Stack:
-Use Next.js + Tailwind CSS. Add subtle animations using Framer Motion.
-
-## Deliverables:
-- Full working code (including all components/pages)
-- Clean modular code structure
-- SEO & accessibility best practices
-- Responsive design for all screen sizes
-- Dummy data for images/content
 ```
 
-### 🧠 Tips for Use:
+### components
 
-Keep the template ready as a snippet or form in Notion/Obsidian.
+#### SEO
 
-For repeat clients, make a version history and tweak based on their feedback.
+* Support (Optional) Google Analytics ID
+* Support (Optional) plausible.io ENV
 
-You can also include sections like “Preferred CMS integration” or “E-commerce support needed” for more complex clients.
+#### Header
+
+* Left Menu
+* Logo
+* Language switcher (EN/VI)
+
+#### Campaign
+
+```
+```
+
+#### Booking
+
+```
+Form
+  Input: Phone number
+  Input: Name
+  Input: Number of people
+  Date Select: Check-in date
+  Date Select: Check-out date
+  Button: Book now
+```
+
+#### Gallery
+
+#### Contact
+
+#### Footer
+
+### Design Preferences:
+
+* Style: Bold, modern, energetic
+* Colors: Black, red, and white
+* Font Preferences: Modern sans-serif, high-impact headline fonts
+* Example Sites for Inspiration: [https://www.fitnesssf.com/](https://www.fitnesssf.com/), [https://www.f45training.com/](https://www.f45training.com/)
+
+### Tech Stack:
+
+* Typescript
+* Next.js app router
+* Tailwind CSS
+* Shadcn UI for components
+* Add subtle animations using Framer Motion
+* React Hook Form for form handling
+* React Query for data fetching
+* React Router for routing
+
+### Deliverables:
+
+* Full working code (including all components/pages)
+* Clean modular code structure
+* SEO & accessibility best practices
+* /llm-full.txt
+* Responsive design for all screen sizes
+* Dummy data for images/content
 
 
-Loading...
+
+
+## Event Storming to Draw\.io XML Generator
+
+### Role
+
+You are a specialized AI that converts event storming YAML input into valid Draw\.io XML format.
+
+### Core Requirements
+
+#### Element Colors (Hex Values)
+
+| Element          | Color                  |
+| ---------------- | ---------------------- |
+| actor            | `#fee750`              |
+| event            | `#feae57`              |
+| command          | `#a7c5fc`              |
+| policy           | `#da99e6` or `#fef5b2` |
+| external\_system | `#ffb3c5`              |
+| read\_models     | `#b0deb3`              |
+
+#### Generation Process & Rules
+
+1. Scan the YAML and remember all the elements and flows.
+2. Generate swimlane container with `meta.name`
+3. Read the `flows` list, extract, and create all elements with appropriate colors and styles.
+
+* Always use square note shape (even `actor`).
+
+* Display the element `name`.
+
+* If you see a reference with a suffix (`A.User.1`, `A.User.2`), that means it’s a reference instance. Create elements with the same `name` and `color`.
+
+  * Example:
+
+  ```yaml
+  actors:
+    - id: A.User
+      name: "User"
+
+  flows:
+    - from: A.User.1
+      to: C.RegisterUser
+    - from: A.User.2
+      to: C.LoginUser
+  ```
+
+  * In this case will have **2 elements** with name `User` and color `#fee750`.
+
+* **Important:** If the `policy` element is before the `event` element, OR the `policy` element is after the `command` element.
+
+  * Example:
+
+  ```yaml
+  flows:
+    - from: P.Policy1
+      to: E.Event1
+    - from: C.Command1
+      to: P.Policy2
+  ```
+
+  * In this case, the element `fill color` must be `#fef5b2`, width `240px`, height `180px`.
+
+* `vertical_boundary` in an `event` is the line the goes through the element (under the element). Example:
+
+  ```yaml
+  events:
+    - id: E.Event1
+      name: "Event 1"
+      vertical_boundary: true
+  ```
+
+4. Read the `flows` list, generate connection lines, and link the `source_id` to the `target_id` in a connection line.
+5. Ensure all XML tags are properly closed
+
+#### Example Input
+
+```yaml
+commands:
+  - id: C.LoginUser
+    name: "Login User"
+
+policies:
+  - id: P.SessionPolicy
+    name: "Session Management Policy"
+  - id: P.OnSuccessNavigate
+    name: "On Success"
+  - id: P.OnFailureShowError
+    name: "On Failure"
+
+events:
+  - id: E.LoginAttempted
+    name: "Login Attempted"
+
+flows:
+  - from: C.LoginUser
+    to: P.SessionPolicy
+  - from: P.SessionPolicy
+    to: E.LoginAttempted
+  - from: P.ProfileEditPolicy
+    to: E.EditModeActivated
+```
+
+#### XML Structure Template
+
+```xml
+<mxGraphModel>
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <!-- Swimlane container -->
+    <mxCell id="2" value="{context_name}" style="swimlane;startSize=30;horizontal=1;" vertex="1" parent="1">
+      <mxGeometry x="0" y="0" width="2000" height="800" as="geometry" />
+    </mxCell>
+    <!-- Elements and connections -->
+  </root>
+</mxGraphModel>
+```
+
+**Element pattern**
+
+```xml
+<mxCell id="{reference_id or id}" value="{name}"
+  style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor={color};strokeColor=none;fontSize=16;fontStyle=0;rotation=0;shadow=1;"
+  vertex="1" parent="2">
+  <mxGeometry x="{x}" y="{y}" width="120" height="120" as="geometry" />
+</mxCell>
+```
+
+**Connection style pattern**
+
+```xml
+<mxCell id="{id}" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;"
+  edge="1" parent="2" source="{source_id}" target="{target_id}">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+```
+
+**Vertical boundary pattern**
+
+```xml
+<mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=#eae847;rotation=90;" vertex="1" parent="1">
+  <mxGeometry x="{x}" y="{y}" width="{>=300}" height="10" as="geometry" />
+</mxCell>
+```
+
+#### Output Format
+
+* Generate **only** valid Draw\.io XML - no explanations, markdown, or code blocks
+* Ensure all XML tags are properly closed and nested
+* Use Draw\.io's mxGraphModel schema structure
+
+### Critical Constraints
+
+* **No explanatory text** - return only XML content
+* **No code fences** - raw XML output only
+* **Complete structure** - all elements must be properly nested
+* **Proper geometry** - realistic x,y coordinates and dimensions
+* **Valid IDs** - sequential numeric IDs without conflicts
+* **Color accuracy** - exact hex values as specified
+* **Color style** - The color of the element has to be correct
+
+### Error Prevention
+
+* Validate all XML tags are closed
+* Check parent-child relationships are correct
+* Ensure geometry coordinates don't overlap
+* Verify all referenced IDs exist
+* Confirm color codes match the specification exactly
+
+
+```
+tf 01 command UpdateCartCommand
+tf 02 event CartUpdatedEvent ->> 01
+tf 03 readModel CartItemsReadModel ->> 02
+tf 04 policy CartAccessPolicy ->> 03
+tf 05 external CartExternalSystem ->> 04
+tf 06 subprocess CartSubProcess
+```
+
+
+```sh
+export MIRO_ACCESS_TOKEN=""
+export MIRO_BOARD_ID=""
+
+curl 'https://api.miro.com/v2/boards' -H 'Content-Type: application/json' -H "Authorization: Bearer ${MIRO_ACCESS_TOKEN}" | jq
+
+curl --location "https://api.miro.com/v2/boards/${MIRO_BOARD_ID}/items/bulk" \
+-H 'Content-Type: application/json' \
+-H "Authorization: Bearer ${MIRO_ACCESS_TOKEN}" \
+--data '[
+    {
+      "type": "sticky_note",
+      "data": { "content": "SearchEvents", "shape": "square" },
+      "style": { "fillColor": "light_blue", "textAlign": "center" },
+      "position": { "x": 0, "y": 0 }
+    },
+    {
+      "type": "sticky_note",
+      "data": { "content": "EventListed", "shape": "square" },
+      "style": { "fillColor": "orange", "textAlign": "center" },
+      "position": { "x": 300, "y": 0 }
+    },
+    {
+      "type": "sticky_note",
+      "data": { "content": "Payment must be authorized", "shape": "square" },
+      "style": { "fillColor": "violet", "textAlign": "center" },
+      "position": { "x": 600, "y": 0 }
+    },
+    {
+      "type": "sticky_note",
+      "data": { "content": "Paypal", "shape": "square" },
+      "style": { "fillColor": "red", "textAlign": "center" },
+      "position": { "x": 900, "y": 0 }
+    },
+    {
+      "type": "sticky_note",
+      "data": { "content": "PaymentSucceeded", "shape": "square" },
+      "style": { "fillColor": "light_green", "textAlign": "center" },
+      "position": { "x": 1200, "y": 0 }
+    }
+  ]'
+```
 
 
 ## 💬 Freelancer Client Communication Guide
@@ -168,7 +485,7 @@ Just to confirm, here’s what I understand:
 Please let me know if I missed anything. Once confirmed, I’ll start right away.
 ```
 
-#### ⚒️ 3. While Working On The Task
+#### 3. While Working On The Task
 
 > 🔹 Your goal: Keep the client in the loop
 
@@ -256,52 +573,35 @@ Don’t be too formal — be human.
 
 ## Freelance Guide
 
-### 1. Mindset & Skill Preparation
+#### 1. Mindset & Skill Preparation
 
-#### 1.1 Minimum Technical Skills
-
-* Solid foundation in **one backend language** (e.g., Node.js, Python, Go).
-* Able to build RESTful APIs and connect to a database.
-* Understand how to structure projects (MVC or similar).
-* Comfortable with version control (Git), Docker basics.
+* Expert Javascript/NodeJs/Typescript
+* Write clean code and apply SOLID principles
+* Manage source code with Git
+* Manage container with Docker
+* Manage server with Linux
 * Familiar with authentication (OAuth2), error handling, and logging.
-* Able to read and understand technical documentation in English.
+* Wring documentations for feature
 
-> 🚀 Tip: Build 2–3 mini-projects or proof-of-concepts (POCs) and upload them to GitHub to showcase your capability.
+#### 2. Management platform
 
-#### 1.2 Soft Skills You’ll Need
+* Upwork: Proposal, task & cost tracking
+* Google sheet: Applying WBS for managing tasks.
 
-* Clear, concise written communication (most jobs are async).
-* Patience and professionalism with clients.
-* Ability to **ask clarifying questions** and understand vague requirements.
-* Self-discipline and time management (especially with multiple clients).
+#### 3. Profile Essentials
 
-### 2. Setting Up Your Freelancer Profile
-
-#### 2.1 Choose Your Platform
-
-* 🔹 Upwork – Strong vetting but high volume of clients.
-* 🔹 Fiverr – Better for niche services or fixed-price jobs.
-* 🔹 Toptal, Lemon.io – Require screening tests, but higher-quality clients.
-* 🔹 Direct outreach – Cold emailing startups, LinkedIn DMs.
-
-#### 2.2 Profile Essentials
-
-* Professional photo, real name.
-* Clear title (e.g., **Backend Developer | Node.js | REST API | AWS**).
+* Professional avatar
+* Professional photo
+* Clear title: Fullstack Javascript Developer / Solution Engineer
 * Intro paragraph: Highlight years of experience, skills, and type of work you love.
-* Skill tags and rates: Start slightly below market rate if you're new (e.g., $15–$25/hr).
+* Skill tags and rates: $20–$30/hr
 
-> 💡 Highlight your strengths, such as **"I’m strong in debugging, fast delivery, and clear communication."**
-
-### 3. How to Get First Jobs
-
-#### 3.1 Apply to Simple Tasks
+#### 4. Apply to Simple Tasks
 
 * Focus on **bug fixes, script writing, automation, API integration**.
 * Look for clients with “easy to work with” in their reviews.
 
-#### 3.2 Customize Every Proposal
+#### 5. Customize Every Proposal
 
 * Start with their name (if visible).
 * Summarize what they want, and how you’ll solve it.
@@ -321,9 +621,7 @@ I can start within 1 day and complete the integration with proper testing. You c
 Looking forward to working with you!
 ```
 
-### 4. Working With Clients
-
-#### 4.1 Communication Tips
+#### 6. Communication Tips
 
 Always confirm understanding: “Just to clarify, you want X, Y, and Z — correct?”
 
@@ -331,7 +629,7 @@ Break work into milestones and update regularly.
 
 Over-communicate early, under-communicate later.
 
-#### 4.2 Handling Payments
+#### 7. Handling Payments
 
 Use escrow where possible (e.g., Upwork).
 
@@ -339,9 +637,7 @@ Never start unpaid test work unless it’s very small and agreed upon.
 
 Ask for feedback after job completion to build profile reputation.
 
-### 5. Growing As a Freelancer
-
-#### 5.1 Build Your Brand
+#### 8. Build The Brand
 
 Publish blogs, open-source contributions.
 
@@ -349,7 +645,7 @@ Create GitHub repos that solve real problems.
 
 Record screen captures of you explaining your code.
 
-#### 5.2 Specialize Over Time
+#### 9. Specialize Over Time
 
 Start general, then narrow down. Examples:
 
@@ -361,41 +657,26 @@ Developer for AI/ChatGPT integrations
 
 🔥 Niche wins: Clients trust specialists more than generalists.
 
-#### 5.3 Create Repeat Business
+#### 10. Create Repeat Business
 
 Be on time, reliable, and communicate professionally.
 
 Always leave room to ask: “Is there anything else I can help with?”
 
-### 6. Tools & Resources
+#### 11. Quotes & Tips
 
-Category Tools
-Project Mgmt Trello, Notion, Linear
-Code Hosting GitHub, GitLab
-Deployment Railway, Vercel, AWS, Docker
-Communication Slack, Google Meet, Zoom
-Payment Payoneer, Wise, PayPal
-Learning Udemy, YouTube, buildspace.so
+> 💬 "You don’t need 100 clients — you just need 3–5 that love working with you."
 
-Final Notes
-Starting out is hard — low visibility, few replies, and possibly unpaid time learning how to "sell" yourself. But if you stay consistent, focus on value, and treat every project seriously, you’ll build momentum.
+> 🚀 Tip: Build 2–3 mini-projects or proof-of-concepts (POCs) and upload them to GitHub to showcase your capability.
 
-💬 "You don’t need 100 clients — you just need 3–5 that love working with you."
-
-#### ✅ You can now:
-
-* Use this file as RAG content (LangChain + vector store).
-* Convert parts of it into FAQ: let the AI bot answer questions like:
-  * “How do I write a good proposal?”
-  * “What if the client stops responding?”
-  * “Should I work for free to get my first job?”
+> 💡 Highlight your strengths, such as **"I’m strong in debugging, fast delivery, and clear communication."**
 
 
-## ✅ Freelancer Task Checklist (Upwork / Remote Client)
+## Freelancer Task Checklist (Upwork / Remote Client)
 
 *A step-by-step guide for receiving, preparing, working on, and delivering freelance tasks professionally.*
 
-### 🟢 1. Before Accepting the Task
+### 1. Before Accepting the Task
 
 #### 🔲 Read the full job description carefully
 
@@ -424,7 +705,7 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 * Communication channel (Upwork, Slack, email)
 * Payment (fixed/hourly, upfront, milestones)
 
-### 🧰 2. Task Setup & Preparation
+### 2. Task Setup & Preparation
 
 #### 🔲 Create a local folder or Git repo for the task
 
@@ -440,7 +721,7 @@ Starting out is hard — low visibility, few replies, and possibly unpaid time l
 
 #### 🔲 Confirm timezone, daily/weekly update schedule
 
-### 🛠️ 3. While Working on the Task
+### 3. While Working on the Task
 
 #### 🔲 Use version control (Git)
 
@@ -498,6 +779,62 @@ Use for testimonials in portfolio
 
 💬 "Freelancing = delivery + communication + consistency."
 This checklist helps you avoid common beginner mistakes and shows professionalism even if you’re new.
+
+
+## **Implement LiveKit for Real-Time Communication**
+
+### **Overview: Purpose and Problem Solving**
+
+* Our project requires stable realTimeVideo and realTimeAudio features to support collaboration between users.
+* Building a custom webrtcServer is complex and time-consuming, while LiveKit provides tested sdkTools and serverInfra ready to use.
+
+### **Proposal**
+
+* Use LiveKit as the communication platform for videoCall, audioCall, and screenShare.
+* Connect frontend with `livekitClient` and backend with token generation endpoint `getAccessToken`.
+
+### **Weighting / Pros and Cons**
+
+#### **Pros**
+
+* LiveKit is scalable and supports adaptiveStream and dynacast, which reduce bandwidth usage.
+* Provides React components like `GridLayout`, `ParticipantTile`, and `ControlBar` to build UI faster.
+* Security is built-in using signed accessToken with roomName and participantIdentity.
+* Reduces development time compared to building and maintaining our own signaling system.
+
+#### **Cons**
+
+* Adds dependency on a third-party service which increases monthly cost.
+* The team needs time to learn LiveKit sdk and understand realTime media flows.
+* Internet connection quality of users can affect performance, which we must handle in UI/UX.
+
+### **Implementation Steps**
+
+#### **1. Setup backend token service**
+
+* Create `/getToken` endpoint using `AccessToken(apiKey, apiSecret)` to generate secure token.
+
+#### **2. Connect frontend to LiveKit**
+
+* Use `room.connect(livekitUrl, token)` and wrap components with `RoomContext.Provider`.
+
+#### **3. Enable media tracks**
+
+* On join, call `room.localParticipant.setMicrophoneEnabled(true)` and `room.localParticipant.setCameraEnabled(true)`.
+
+#### **4. Render participants**
+
+* Use `useTracks` hook and `<GridLayout>` with `<ParticipantTile trackRef={trackRef} />` to display users.
+
+#### **5. Handle room lifecycle**
+
+* Call `room.disconnect()` on leave action or component unmount, and listen for `participantDisconnected` events.
+
+### **Conclusion**
+
+* LiveKit gives us a proven platform to handle video, audio, and data communication without building complex webrtc logic ourselves.
+* It saves time, improves scalability, and allows the team to focus on core product features.
+* I recommend moving forward with LiveKit integration to achieve reliable real-time collaboration.
 
 
 ## Multi-OIDC Session Management  Application
@@ -569,6 +906,71 @@ The `auth.example.local` application acts as the central authentication hub. Her
    [https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows](https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows)
 
 
+## **Implement LLM-Powered Neo4j Entity Management**
+
+### **Overview: Purpose and Problem Solving**
+
+* This MVP demonstrates managing entities, fields, and relationships in a Neo4j graph database using a GPT-4 agent.
+* It eliminates manual Cypher queries and allows users to describe database operations in natural language.
+
+### **Proposal**
+
+* Use GPT-4 via `FunctionAgent` from `llama_index` to interpret instructions and execute Neo4j operations.
+* Integrate `Neo4jPropertyGraphStore` to store and retrieve entities, fields, and relationships programmatically.
+
+### **Weighting / Pros and Cons**
+
+#### **Pros**
+
+* Rapid prototyping of database structure without writing Cypher manually.
+* Easy extension to new projects, entities, or relationships through simple instructions.
+* Structured JSON output enables integration with other systems.
+
+#### **Cons**
+
+* Hardcoded credentials and minimal error handling reduce production readiness.
+* Performance may decrease with many entities or fields due to individual `MERGE` operations.
+* Agent instructions require careful formatting to avoid misinterpretation.
+
+### **Implementation Steps**
+
+#### **1. Setup Environment**
+
+* Install required packages: `neo4j`, `llama_index`, `openai`, `pydantic`, `dotenv`.
+* Configure `.env` for API keys and Neo4j credentials.
+
+#### **2. Connect to Neo4j**
+
+* Use `checkNeo4jConnection()` to verify connectivity and raise error if unavailable.
+* Initialize `Neo4jPropertyGraphStore` for structured queries.
+
+#### **3. Define Data Models**
+
+* Create `EntityDetails`, `CreateEntityResponse`, and `CreateRelationResponse` with Pydantic for validation.
+* These models ensure consistent and strict JSON responses.
+
+#### **4. Implement CRUD Functions**
+
+* `createEntity(project, entity, fields)` creates project, entity, and fields in Neo4j.
+* `createRelation(source, target, relation)` adds relationships between entities.
+* `getEntityDetails(entity)` retrieves entity, fields, and related entities in JSON format.
+
+#### **5. Wrap Functions as Tools**
+
+* Use `FunctionTool.from_defaults()` to expose each CRUD function to the agent.
+* Prepare `FunctionAgent` with `tools=[createEntityTool, createRelationTool, getEntityTool]` for LLM-driven execution.
+
+#### **6. Run Agent for Demo**
+
+* Execute `agent.run()` with natural language instructions to create entities and relationships.
+* Query entity details to verify successful insertion and relations.
+
+### **Conclusion**
+
+* This MVP shows GPT-4 as an intelligent interface for Neo4j, simplifying entity management.
+* The system can be expanded for multiple projects, dynamic instructions, and automated knowledge graph construction.
+
+
 ## Node.js x AWS x Github Action
 
 ### Node.js backend application
@@ -630,37 +1032,6 @@ docker push quochuydev/myapp-backend:latest
 
 
 ### Implementation Steps
-
-Got it 👍 Since you can’t render Mermaid, here’s your flowchart rewritten as **plain Markdown text** with indentation to show the structure:
-
-#### Payment Flow
-
-1. **API Route**: `/api/payment`
-
-2. **Process Payment Request**
-
-3. **Choose Payment Provider**
-
-   * Stripe → Call **Stripe API**
-   * PayPal → Call **PayPal API**
-
-4. **Save Transaction to DB**
-
-5. **Return Payment Result** → back to **Client**
-
-#### Payout Flow
-
-1. **API Route**: `/api/payout`
-2. **Validate Payout Request**
-3. **Call PayPal Payout API**
-4. **Save Payout to DB**
-5. **Return Payout Result** → back to **Client**
-
-#### Database (DB)
-
-* **User**
-* **Payment method**
-* **Transaction**
 
 
 ## 💼 Proposal Examples for Freelance Developers (Upwork & Remote)
@@ -821,6 +1192,103 @@ If you're posting on GitHub, use this format:
 ```
 
 
+## ThemeForest Products
+
+You are a Senior Fullstack Developer and UI/UX expert.
+Generate a complete **MULTI-PAGE** modern responsive website for the following business:
+
+#### Business Details:
+
+* Business Name: ANA MANDARA VILLAS DALAT RESORT & SPA
+* Type: Resort & services booking
+* Target Audience: Tourist, local members
+* Purpose of Site: Attract local members, show services and allow booking
+
+#### APIs
+
+```
+
+├── /app
+│ ├── /api
+│ │ ├── /
+│ │ ├── /
+
+```
+
+#### Pages
+
+```
+```
+
+#### Components
+
+##### SEO
+
+* Support (Optional) Google Analytics ID
+* Support (Optional) plausible.io ENV
+
+##### Header
+
+* Left Menu
+* Logo
+* Language switcher (EN/VI)
+
+##### Campaign
+
+```
+```
+
+##### Booking
+
+```
+
+Form
+Input: Phone number
+Input: Name
+Input: Number of people
+Date Select: Check-in date
+Date Select: Check-out date
+Button: Book now
+
+```
+
+##### Gallery
+
+##### Contact
+
+##### Footer
+
+#### Design Preferences:
+
+* Style: Bold, modern, energetic
+* Colors: Black, red, and white
+* Font Preferences: Modern sans-serif, high-impact headline fonts
+* Example Sites for Inspiration: [https://www.fitnesssf.com/](https://www.fitnesssf.com/), [https://www.f45training.com/](https://www.f45training.com/)
+
+#### Tech Stack:
+
+* Typescript
+* Next.js app router
+* Tailwind CSS
+* Shadcn UI for components
+* Add subtle animations using Framer Motion
+* React Hook Form for form handling
+* React Query for data fetching
+* React Router for routing
+
+#### Deliverables:
+
+* Full working code (including all components/pages)
+* Clean modular code structure
+* SEO & accessibility best practices
+* /llm-full.txt
+* Responsive design for all screen sizes
+* Dummy data for images/content
+
+```
+```
+
+
 ## Work Breakdown Structure (WBS) Management
 
 Work Breakdown Structure (WBS) is one of the most critical project management tools that helps break down complex projects into manageable, smaller components. This guide will walk you through the fundamentals of WBS management, including practical examples and best practices for effective project planning.
@@ -897,6 +1365,151 @@ Key takeaways:
 * **Focus on deliverables**: What will be produced, not how it will be done
 * **Maintain and update**: WBS is a living document that evolves with the project
 * **Integrate with other tools**: Combine with estimation, scheduling, and risk management
+
+
+## Telemedicine Platform Requirements
+
+### 1. Overview
+
+* We aim to build a secure, scalable telemedicine platform similar in quality to certified European solutions.
+* The system will allow patients and healthcare professionals to connect via video consultations, with supporting features such as chat, file sharing, and appointment management.
+* Technology stack: **Node.js (backend), Vite (frontend), WebRTC (real-time communication), AWS (cloud infrastructure)**.
+
+### 2. Core Features
+
+#### 2.1 Management
+
+* Patient and practitioner registration/login.
+* Authentication: AWS Cognito with MFA, SSO support.
+* User roles: Patient, Doctor, Admin.
+* Clinic information management:
+  * Clinic name
+  * Clinic address
+  * Clinic phone
+  * Clinic email
+  * Clinic website
+  * Clinic logo
+  * Clinic description
+* Patient Profile management:
+  * Personal information
+  * Medical history
+  * Insurance information
+* Doctor Profile management:
+  * Personal information
+  * Medical specialty
+  * Availability
+
+#### 2.2 Appointment Management
+
+* Booking and scheduling system with calendar integration.
+* Virtual waiting room with notifications.
+* Rescheduling and cancellation workflows.
+
+#### 2.3 Video Consultation
+
+* **WebRTC-based video/audio calls**.
+* One-on-one sessions and group calls (up to 20 participants).
+* Features: screen sharing, text chat, file/document exchange.
+* End-to-end encryption for all media streams.
+
+#### 2.4 Documentation & Prescriptions
+
+* Secure file sharing between patients and doctors.
+* Generation of e-prescriptions (optional, depending on regulatory compliance).
+* Session notes stored securely.
+
+#### 2.5 Notifications
+
+* Email/SMS/Push notifications for appointment reminders.
+* In-app notifications for waiting room status.
+
+#### 2.6 Analytics & Reporting
+
+* Appointment history and usage statistics.
+* System health metrics (uptime, latency, call quality).
+
+### 3. Technical Architecture
+
+#### 3.1 Frontend (Vite + React/TS)
+
+* Responsive UI (desktop & mobile).
+* Multi-language support (EN/DE/FR).
+* Accessible design (WCAG 2.1 compliance).
+
+#### 3.2 Backend (Node.js)
+
+* REST API / GraphQL for core services.
+* Signaling server for WebRTC (WebSocket-based).
+* Appointment, user, and session management.
+* Role-based access control.
+
+#### 3.3 Real-Time Communication
+
+* **WebRTC** for video/audio.
+* **STUN/TURN servers** (Coturn).
+* **SFU (Selective Forwarding Unit)** via Mediasoup/Janus for group calls.
+
+#### 3.4 AWS Infrastructure
+
+* **Compute**: ECS/EKS for containerized services.
+* **Storage**: S3 + CloudFront for static assets & file exchange.
+* **Database**: RDS (PostgreSQL) or DynamoDB for structured/unstructured data.
+* **Auth**: Cognito (optional).
+* **Security**: WAF + Shield for DDoS protection.
+* **Monitoring**: CloudWatch + custom logging.
+
+### 4. Security & Compliance
+
+* GDPR-compliant data processing.
+* Data residency: EU regions (e.g., AWS Frankfurt or Zurich).
+* TLS 1.2+ for all connections.
+* End-to-end encryption for video sessions.
+* Audit logs for access and activity tracking.
+* Periodic third-party penetration testing & certification.
+
+### 5. Non-Functional Requirements
+
+* **Scalability**: support up to 10,000 concurrent users initially, scalable via AWS autoscaling.
+* **Availability**: 99.9% uptime SLA.
+* **Maintainability**: CI/CD pipelines, automated testing, modular codebase.
+* **Extensibility**: API-first design for third-party integrations (e.g., payment, insurance systems).
+
+### 6. Roadmap (High-Level)
+
+1. **MVP (3-4 months)**
+
+   * User management & appointments
+   * 1:1 video consultation
+   * Basic chat + file sharing
+   * Secure authentication
+
+2. **Phase 2 (6-8 months)**
+
+   * Group consultations (SFU)
+   * Virtual waiting room
+   * Notifications (email/SMS/push)
+   * Audit logging & analytics dashboard
+
+3. **Phase 3 (12 months)**
+
+   * E-prescriptions, e-certificates
+   * Insurance/payment integration
+   * AI-powered triage (optional)
+   * Third-party compliance audits
+
+### 7. Risks & Considerations
+
+* **Regulatory compliance**: must ensure GDPR + healthcare-specific laws (e.g., KBV rules in Germany).
+* **Security**: video data must never be stored unless legally required.
+* **Performance**: high network demand in WebRTC → must test across devices & bandwidths.
+* **User adoption**: need intuitive UX for non-technical patients.
+
+### 8. Success Criteria
+
+* Secure, stable video consultations between doctors and patients.
+* Compliance with GDPR and local medical standards.
+* Positive feedback from practitioners and patients (>85% satisfaction rate).
+* Scalability proven via load testing (10k concurrent users).
 
 
 ## **Implement WooCommerce Vendors Marketplace Plugin**
