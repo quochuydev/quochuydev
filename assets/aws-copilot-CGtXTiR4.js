@@ -1,0 +1,1 @@
+import{u as r,j as n}from"./index-B6kVFJBG.js";const a={title:"AWS Copilot"};function o(t){return n.jsx(n.Fragment,{})}function u(t={}){const{wrapper:e}={...r(),...t.components};return e?n.jsx(e,{...t,children:n.jsx(o,{...t})}):o()}export{u as default,a as frontmatter};

@@ -1,4 +1,4 @@
-import{u as r,j as e}from"./index-Bl6cN52_.js";const a={title:"💡 Proposed Solution Overview",description:"undefined"};function i(s){const n={a:"a",code:"code",div:"div",h1:"h1",h3:"h3",header:"header",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...r(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-proposed-solution-overview",children:["💡 Proposed Solution Overview",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-proposed-solution-overview",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+import{u as r,j as e}from"./index-B6kVFJBG.js";const l={title:"💡 Proposed Solution Overview",description:"undefined"};function i(s){const n={a:"a",code:"code",div:"div",h1:"h1",h3:"h3",header:"header",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...r(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"-proposed-solution-overview",children:["💡 Proposed Solution Overview",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-proposed-solution-overview",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
 `,e.jsx(n.p,{children:"Hi [Client Name], here's a simple architecture and plan based on your requirement."}),`
 `,e.jsxs(n.h3,{id:"-tech-stack",children:["🔧 Tech Stack",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-tech-stack",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
 `,e.jsxs(n.ul,{children:[`
@@ -24,24 +24,7 @@ import{u as r,j as e}from"./index-Bl6cN52_.js";const a={title:"💡 Proposed Sol
 `,e.jsx(n.li,{children:"AI returns result → response formatted and sent back to client"}),`
 `,e.jsxs(n.li,{children:["Hosted on ",e.jsx(n.strong,{children:"Render"})," or ",e.jsx(n.strong,{children:"Vercel"})," with Docker"]}),`
 `]}),`
-`,e.jsxs(n.h3,{id:"-simple-architecture-diagram-text-based",children:["🔄 Simple Architecture Diagram (Text-Based)",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-simple-architecture-diagram-text-based",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"User"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"│"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"Frontend (optional or Postman)"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"│"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"├─→ Backend (Node.js)"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"├─→ 3rd API (e.g., Stripe / OpenAI / OAuth)"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"├─→ Database (PostgreSQL / MongoDB)"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"└─→ Email Service (SendGrid or SMTP)"})})]})})}),`
 `,e.jsxs(n.h3,{id:"-what-youll-get",children:["✅ What You’ll Get",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#-what-youll-get",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"Clean, documented code (GitHub)"}),`
-`,e.jsx(n.li,{children:"REST API or simple UI if needed"}),`
-`,e.jsx(n.li,{children:"Dockerfile for deployment"}),`
-`,e.jsx(n.li,{children:`Optional README with usage + Postman collection
-💡 How to Use This in Proposals
-When bidding, send the solution template like:`}),`
-`]}),`
 `,e.jsx(e.Fragment,{children:e.jsx(n.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(n.code,{children:[e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Hi [Client],"})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"I’ve worked on similar tasks using Node.js and 3rd-party integrations. Here’s a simple solution I’d use for your case:"})}),`
@@ -51,4 +34,4 @@ When bidding, send the solution template like:`}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"Let me know if this looks good — I can start with a demo version in 1–2 days."})}),`
 `,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"🧠 Extra Tip: Use [Mermaid.js] Diagrams for GitHub"})}),`
-`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"If you're posting on GitHub, use this format:"})})]})})})]})}function d(s={}){const{wrapper:n}={...r(),...s.components};return n?e.jsx(n,{...s,children:e.jsx(i,{...s})}):i(s)}export{d as default,a as frontmatter};
+`,e.jsx(n.span,{className:"line",children:e.jsx(n.span,{children:"If you're posting on GitHub, use this format:"})})]})})})]})}function a(s={}){const{wrapper:n}={...r(),...s.components};return n?e.jsx(n,{...s,children:e.jsx(i,{...s})}):i(s)}export{a as default,l as frontmatter};
