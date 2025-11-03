@@ -27,27 +27,7 @@ Hi [Client Name], here's a simple architecture and plan based on your requiremen
 - AI returns result → response formatted and sent back to client
 - Hosted on **Render** or **Vercel** with Docker
 
-### 🔄 Simple Architecture Diagram (Text-Based)
-
-```
-User
-│
-Frontend (optional or Postman)
-│
-├─→ Backend (Node.js)
-├─→ 3rd API (e.g., Stripe / OpenAI / OAuth)
-├─→ Database (PostgreSQL / MongoDB)
-└─→ Email Service (SendGrid or SMTP)
-```
-
 ### ✅ What You’ll Get
-
-- Clean, documented code (GitHub)
-- REST API or simple UI if needed
-- Dockerfile for deployment
-- Optional README with usage + Postman collection
-  💡 How to Use This in Proposals
-  When bidding, send the solution template like:
 
 ```txt
 Hi [Client],

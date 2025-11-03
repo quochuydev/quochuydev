@@ -56,30 +56,30 @@ export default defineConfig({
       text: "WBS Management",
       link: "/wbs-management",
     },
-    {
-      text: "Freelance guide",
-      link: "/freelance-guide",
-    },
+    // {
+    //   text: "Freelance guide",
+    //   link: "/freelance-guide",
+    // },
     {
       text: "Freelance communication",
       link: "/freelance-communication",
     },
-    {
-      text: "Freelance task checklist",
-      link: "/freelance-task-checklist",
-    },
-    {
-      text: "Freelance solution template",
-      link: "/solution-template",
-    },
-    {
-      text: "Freelance proposal examples",
-      link: "/proposal-examples",
-    },
-    {
-      text: "Event Storming with Miro",
-      link: "/event-storming-miro",
-    },
+    // {
+    //   text: "Freelance task checklist",
+    //   link: "/freelance-task-checklist",
+    // },
+    // {
+    //   text: "Freelance solution template",
+    //   link: "/solution-template",
+    // },
+    // {
+    //   text: "Freelance proposal examples",
+    //   link: "/proposal-examples",
+    // },
+    // {
+    //   text: "Event Storming with Miro",
+    //   link: "/event-storming-miro",
+    // },
     {
       text: "Event Storming with Mermaid",
       link: "/event-storming-mermaid",

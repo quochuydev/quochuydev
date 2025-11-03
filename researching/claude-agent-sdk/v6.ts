@@ -76,13 +76,13 @@ for await (const message of response) {
   if (message.type === "assistant") {
     for (const element of message.message.content) {
       if (element.type === "tool_use") {
-        console.log("assistant", element.type, element.name);
+        console.log("🤖 Tool Use:", element.type, element.name);
       }
     }
   }
 
   if (message.type === "user") {
-    console.log("user", message.message.content);
+    console.log("👤 User:", message.message.content);
   }
 
   if (message.type === "result") {
