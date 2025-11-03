@@ -56,14 +56,14 @@ export default defineConfig({
       text: "WBS Management",
       link: "/wbs-management",
     },
-    // {
-    //   text: "Freelance guide",
-    //   link: "/freelance-guide",
-    // },
     {
       text: "Freelance communication",
       link: "/freelance-communication",
     },
+    // {
+    //   text: "Freelance guide",
+    //   link: "/freelance-guide",
+    // },
     // {
     //   text: "Freelance task checklist",
     //   link: "/freelance-task-checklist",
