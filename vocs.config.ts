@@ -17,6 +17,10 @@ export default defineConfig({
       link: "/ai-prompts",
     },
     {
+      text: "Freelance Prompt",
+      link: "/freelance-prompt",
+    },
+    {
       text: "AI Website Builder",
       link: "/ai-website-builder",
     },
