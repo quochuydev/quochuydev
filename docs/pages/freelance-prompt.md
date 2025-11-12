@@ -40,5 +40,7 @@ Your role focuses on requirements gathering, design specifications, technical do
   - If by milestone: List out milestones and amount for each milestone (10% Freelancer Service Fee)
   - If by project: Estimate the amount the client will see on your proposal (10% Freelancer Service Fee)
 - Cover letter:
-  - Markdown format, maximum 2000 characters, to copy/paste to the form
+  - Markdown format, maximum 1500 characters, to copy/paste to the form.
+  - Friendly tone, professional solution, short and clearly (3-5 sentences).
+  - Ask questions (1-2 questions) if you need more information (related to unclear requirements).
 ```
