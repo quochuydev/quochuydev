@@ -8,7 +8,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/quochuydev/' : '/',
+  base: '/',
   plugins: [
     {
       enforce: 'pre',

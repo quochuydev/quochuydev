@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "release": "npm run build && gh-pages -d dist -t true"
+    "release": "npm run build && gh-pages -d dist -t"
   },
   "dependencies": {
     "@types/flexsearch": "^0.7.6",
