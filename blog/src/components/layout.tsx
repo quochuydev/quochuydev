@@ -1,33 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { Search } from "./search";
 import { cn } from "@/lib/utils";
+import { pagesMetadata } from "@/lib/content";
 
+// Build navigation with "Browse by Tags" after "My portfolio"
 const navigation = [
-  { text: "My portfolio", link: "/" },
-  { text: "Browse by Tags", link: "/tags" },
-  { text: "Work experience", link: "/work-experience" },
-  { text: "AI Prompts", link: "/ai-prompts" },
-  { text: "Freelance Prompt", link: "/freelance-prompt" },
-  { text: "AI Website Builder", link: "/ai-website-builder" },
-  { text: "Woocommerce with resend.com", link: "/woocommerce-with-resend" },
-  { text: "Nganluong Gateway Plugin", link: "/woocommerce-nganluong-gateway" },
-  { text: "Woocommerce Marketplace", link: "/woocommerce-marketplace" },
-  {
-    text: "Multi OIDC Session Management",
-    link: "/multiple-oidc-session-management",
-  },
-  {
-    text: "Zitadel and LemonLDAP integration",
-    link: "/zitadel-lemonldap-integration",
-  },
-  { text: "Node.js x AWS x Github Action", link: "/nodejs-aws-github-cicd" },
-  { text: "AWS Copilot", link: "/aws-copilot" },
-  { text: "PayPal/Stripe Payment", link: "/paypal-stripe-payment" },
-  { text: "WBS Management", link: "/wbs-management" },
-  { text: "Freelance communication", link: "/freelance-communication" },
-  { text: "Event Storming with Mermaid", link: "/event-storming-mermaid" },
-  { text: "Video call with Livekit", link: "/livekit-app" },
-  { text: "Color Brain Game", link: "/color-brain" },
+  pagesMetadata[0], // My portfolio
+  { title: "Browse by Tags", path: "/tags", excerpt: "Browse all tags" },
+  ...pagesMetadata.slice(1), // All other pages
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -47,16 +27,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <nav className="space-y-1">
             {navigation.map((item) => (
               <Link
-                key={item.link}
-                to={item.link}
+                key={item.path}
+                to={item.path}
                 className={cn(
                   "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  location.pathname === item.link
+                  location.pathname === item.path
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 )}
               >
-                {item.text}
+                {item.title}
               </Link>
             ))}
           </nav>
