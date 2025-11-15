@@ -3,12 +3,8 @@ import { Search } from "./search";
 import { cn } from "@/lib/utils";
 import { pagesMetadata } from "@/lib/content";
 
-// Build navigation with "Browse by Tags" after "My portfolio"
-const navigation = [
-  pagesMetadata[0], // My portfolio
-  { title: "Browse by Tags", path: "/tags", excerpt: "Browse all tags" },
-  ...pagesMetadata.slice(1), // All other pages
-];
+// Use pages metadata for navigation
+const navigation = pagesMetadata;
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -30,13 +26,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  "block px-3 py-2 rounded-md text-sm transition-colors",
                   location.pathname === item.path
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 )}
               >
-                {item.title}
+                <div className="font-medium">{item.title}</div>
+                {item.tags && item.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {item.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={cn(
+                          "text-xs px-1.5 py-0.5 rounded",
+                          location.pathname === item.path
+                            ? "bg-primary-foreground/20"
+                            : "bg-accent/50"
+                        )}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </Link>
             ))}
           </nav>

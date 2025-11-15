@@ -36,13 +36,13 @@ export const pagesMetadata: PageMetadata[] = [
   //   tags: ["freelance", "ai", "prompts"],
   //   category: "Freelance",
   // },
-  {
-    title: "AI Website Builder",
-    path: "/ai-website-builder",
-    excerpt: "AI-powered website building tools",
-    tags: ["ai", "web-development", "tools"],
-    category: "AI & Tools",
-  },
+  // {
+  //   title: "AI Website Builder",
+  //   path: "/ai-website-builder",
+  //   excerpt: "AI-powered website building tools",
+  //   tags: ["ai", "web-development", "tools"],
+  //   category: "AI & Tools",
+  // },
   {
     title: "WooCommerce with resend.com",
     path: "/woocommerce-with-resend",
