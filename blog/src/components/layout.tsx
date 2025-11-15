@@ -27,6 +27,7 @@ const navigation = [
   { text: "Freelance communication", link: "/freelance-communication" },
   { text: "Event Storming with Mermaid", link: "/event-storming-mermaid" },
   { text: "Video call with Livekit", link: "/livekit-app" },
+  { text: "Color Brain Game", link: "/color-brain" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
