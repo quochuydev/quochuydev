@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Token Renewal</title>
+    <script src="https://cdn.jsdelivr.net/npm/oidc-client-ts@3.0.1/dist/browser/oidc-client-ts.min.js"></script>
+</head>
+<body>
+    <script>
+        console.log('[Silent Renew] Page loaded');
+
+        // This page is used for silent token renewal
+        // It's loaded in a hidden iframe to renew tokens without user interaction
+
+        new oidc.UserManager({
+            response_mode: 'query'
+        })
+        .signinSilentCallback()
+        .then(function(user) {
+            console.log('[Silent Renew] Token renewed successfully', {
+                expires_at: user?.expires_at ? new Date(user.expires_at * 1000).toISOString() : 'N/A'
+            });
+        })
+        .catch(function(error) {
+            console.error('[Silent Renew] Token renewal failed', error);
+        });
+    </script>
+</body>
+</html>
