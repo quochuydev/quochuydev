@@ -1,7 +1,7 @@
-import { Link, useLocation } from 'react-router-dom'
-import { ThemeToggle } from './theme-toggle'
-import { Search } from './search'
-import { cn } from '@/lib/utils'
+import { Link, useLocation } from "react-router-dom";
+import { ThemeToggle } from "./theme-toggle";
+import { Search } from "./search";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   { text: "My portfolio", link: "/" },
@@ -13,8 +13,14 @@ const navigation = [
   { text: "Woocommerce with resend.com", link: "/woocommerce-with-resend" },
   { text: "Nganluong Gateway Plugin", link: "/woocommerce-nganluong-gateway" },
   { text: "Woocommerce Marketplace", link: "/woocommerce-marketplace" },
-  { text: "Multi OIDC Session Management", link: "/multiple-oidc-session-management" },
-  { text: "Zitadel and LemonLDAP integration", link: "/zitadel-lemonldap-integration" },
+  {
+    text: "Multi OIDC Session Management",
+    link: "/multiple-oidc-session-management",
+  },
+  {
+    text: "Zitadel and LemonLDAP integration",
+    link: "/zitadel-lemonldap-integration",
+  },
   { text: "Node.js x AWS x Github Action", link: "/nodejs-aws-github-cicd" },
   { text: "AWS Copilot", link: "/aws-copilot" },
   { text: "PayPal/Stripe Payment", link: "/paypal-stripe-payment" },
@@ -22,15 +28,15 @@ const navigation = [
   { text: "Freelance communication", link: "/freelance-communication" },
   { text: "Event Storming with Mermaid", link: "/event-storming-mermaid" },
   { text: "Video call with Livekit", link: "/livekit-app" },
-]
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Sidebar */}
-      <aside className="w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-border bg-card">
+      <aside className="w-full lg:w-88 border-b lg:border-b-0 lg:border-r border-border bg-card">
         <div className="sticky top-0 h-screen overflow-y-auto p-6">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold">
@@ -67,5 +73,5 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </main>
     </div>
-  )
+  );
 }
