@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import { ThemeToggle } from "./theme-toggle";
 import { Search } from "./search";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +41,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <h1 className="text-2xl font-bold">
               <Link to="/">quochuydev</Link>
             </h1>
-            <ThemeToggle />
           </div>
           <Search />
           <nav className="space-y-1">
@@ -67,7 +65,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <main className="flex-1 p-6 lg:p-12">
         <div className="max-w-4xl mx-auto">
-          <article className="prose prose-slate dark:prose-invert max-w-none">
+          <article className="prose prose-slate max-w-none">
             {children}
           </article>
         </div>
