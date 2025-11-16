@@ -1,9 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
-import { Search } from "./search";
-import { cn } from "@/lib/utils";
-import { pagesMetadata } from "@/lib/content";
+import { Link, useLocation } from 'react-router-dom';
+import { Search } from './search';
+import { cn } from '@/lib/utils';
+import { pagesMetadata } from '@/lib/content';
 
-// Use pages metadata for navigation
 const navigation = pagesMetadata;
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -26,10 +25,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "block px-3 py-2 rounded-md text-sm transition-colors",
+                  'block px-3 py-2 rounded-md text-sm transition-colors',
                   location.pathname === item.path
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
                 )}
               >
                 <div className="font-medium">{item.title}</div>
@@ -39,10 +38,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                       <span
                         key={tag}
                         className={cn(
-                          "text-xs px-1.5 py-0.5 rounded",
+                          'text-xs px-1.5 py-0.5 rounded',
                           location.pathname === item.path
-                            ? "bg-primary-foreground/20"
-                            : "bg-accent/50"
+                            ? 'bg-primary-foreground/20'
+                            : 'bg-accent/50',
                         )}
                       >
                         {tag}
@@ -57,11 +56,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-6 lg:p-12">
+      <main className="flex-1 p-6 lg:px-12 py-[80px]">
         <div className="max-w-4xl mx-auto">
-          <article className="prose prose-slate max-w-none">
-            {children}
-          </article>
+          <article className="prose prose-slate max-w-none">{children}</article>
         </div>
       </main>
     </div>
