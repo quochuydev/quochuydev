@@ -172,27 +172,7 @@ async def generate_and_apply_code(request: CodeRequest):
             ]
         )
 
-        # Build prompt based on request type
-        if request.request_type == "simple":
-            prompt = f"""You are a React/TypeScript developer modifying a v0-style AI assistant app. Analyze this codebase and implement the requested feature.
-
-CURRENT CODEBASE:
-{context}
-
-REQUEST: {request.description}
-
-Provide the implementation as a JSON response with this format:
-{{
-    "operations": [
-        {{"path": "frontend/src/App.tsx", "content": "modified content", "operation": "modify"}},
-        {{"path": "frontend/src/NewComponent.tsx", "content": "new file content", "operation": "create"}}
-    ],
-    "explanation": "Brief explanation of what was implemented"
-}}
-
-Keep changes minimal and focused on React/TypeScript components. Return only valid JSON."""
-        else:
-            prompt = f"""You are a senior React/TypeScript developer working on a v0-style AI assistant app with live preview. Analyze this codebase and implement the requested feature.
+        prompt = f"""You are a senior React/TypeScript developer working on a v0-style AI assistant app with live preview. Analyze this codebase and implement the requested feature.
 
 CURRENT CODEBASE:
 {context}

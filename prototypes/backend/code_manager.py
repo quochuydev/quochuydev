@@ -4,6 +4,7 @@ import json
 from typing import Dict, List, Optional
 from fastapi import HTTPException
 
+
 class CodeManager:
     def __init__(self, project_root: pathlib.Path):
         self.project_root = project_root
@@ -13,7 +14,7 @@ class CodeManager:
         """Read content from a file"""
         try:
             full_path = self.project_root / file_path
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, "r", encoding="utf-8") as f:
                 return f.read()
         except Exception as e:
             raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
@@ -24,7 +25,7 @@ class CodeManager:
             full_path = self.project_root / file_path
             # Create directories if they don't exist
             full_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(full_path, 'w', encoding='utf-8') as f:
+            with open(full_path, "w", encoding="utf-8") as f:
                 f.write(content)
             return True
         except Exception as e:
@@ -52,10 +53,13 @@ class CodeManager:
             return structure
 
         for file_path in target_path.rglob("*"):
-            if file_path.is_file() and not any(skip in str(file_path) for skip in ['.git', 'node_modules', '.next', 'dist']):
+            if file_path.is_file() and not any(
+                skip in str(file_path)
+                for skip in [".git", "node_modules", ".next", "dist"]
+            ):
                 relative_path = str(file_path.relative_to(self.project_root))
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read()
                         # Limit content size for API calls
                         if len(content) > 10000:
@@ -93,7 +97,10 @@ class CodeManager:
             return files
 
         for file_path in target_path.rglob("*"):
-            if file_path.is_file() and not any(skip in str(file_path) for skip in ['.git', 'node_modules', '.next', 'dist']):
+            if file_path.is_file() and not any(
+                skip in str(file_path)
+                for skip in [".git", "node_modules", ".next", "dist"]
+            ):
                 relative_path = str(file_path.relative_to(self.project_root))
                 files.append(relative_path)
 
