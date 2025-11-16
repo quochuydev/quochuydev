@@ -79,7 +79,8 @@ const styles = `
   }
 
   .chat-section {
-    width: 320px;
+    width: 25%;
+    min-width: 280px;
     border-right: 1px solid #e5e7eb;
     display: flex;
     flex-direction: column;
@@ -187,7 +188,8 @@ const styles = `
   }
 
   .editor-section {
-    flex: 1;
+    width: 25%;
+    min-width: 280px;
     border-right: 1px solid #e5e7eb;
     display: flex;
     flex-direction: column;
@@ -207,7 +209,7 @@ const styles = `
   }
 
   .preview-section {
-    flex: 1;
+    width: 50%;
     display: flex;
     flex-direction: column;
     background: #ffffff;
@@ -307,12 +309,45 @@ const styles = `
   .typing-indicator {
     animation: pulse 1.5s ease-in-out infinite;
   }
+
+  .retry-button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .retry-button:hover:not(:disabled) {
+    background: #2563eb;
+  }
+
+  .retry-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .message-with-retry {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 `;
 
 interface Message {
   id: string;
   type: 'user' | 'ai' | 'thinking';
   content: string;
+  canRetry?: boolean;
+  failedDescription?: string;
 }
 
 function App() {
@@ -365,7 +400,7 @@ function App() {
     }
   };
 
-  const generateCode = async (description: string) => {
+  const generateCode = async (description: string, addToChat: boolean = true) => {
     try {
       setIsGenerating(true);
 
@@ -388,38 +423,48 @@ function App() {
         await fetchProjectFiles();
 
         // Add success message
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now().toString(),
-            type: 'ai',
-            content: `✅ ${data.explanation}\n\nThe code has been updated! Check the editor and preview to see the changes.`,
-          },
-        ]);
+        if (addToChat) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now().toString(),
+              type: 'ai',
+              content: `✅ ${data.explanation}\n\nThe code has been updated! Check the editor and preview to see the changes.`,
+            },
+          ]);
+        }
       } else {
-        // Add error message
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now().toString(),
-            type: 'ai',
-            content: `❌ Failed to generate code: ${
-              data.explanation || 'Unknown error'
-            }`,
-          },
-        ]);
+        // Add error message with retry option
+        if (addToChat) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now().toString(),
+              type: 'ai',
+              content: `❌ Failed to generate code: ${
+                data.explanation || 'Unknown error'
+              }`,
+              canRetry: true,
+              failedDescription: description,
+            },
+          ]);
+        }
       }
     } catch (err) {
       console.error('Error generating code:', err);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now().toString(),
-          type: 'ai',
-          content:
-            '❌ Error connecting to backend. Please make sure the backend server is running on localhost:8000',
-        },
-      ]);
+      if (addToChat) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now().toString(),
+            type: 'ai',
+            content:
+              '❌ Error connecting to backend. Please make sure the backend server is running on localhost:8000',
+            canRetry: true,
+            failedDescription: description,
+          },
+        ]);
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -464,6 +509,27 @@ function App() {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const handleRetry = async (failedDescription: string) => {
+    if (!failedDescription.trim() || isGenerating) return;
+
+    // Add thinking message
+    const thinkingId = (Date.now() + 1).toString();
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: thinkingId,
+        type: 'thinking',
+        content: '🤔 Retrying...',
+      },
+    ]);
+
+    // Generate code again
+    await generateCode(failedDescription);
+
+    // Remove thinking message
+    setMessages((prev) => prev.filter((msg) => msg.id !== thinkingId));
   };
 
   if (loading) {
@@ -554,7 +620,18 @@ function App() {
                     message.type === 'thinking' ? 'typing-indicator' : ''
                   }`}
                 >
-                  {message.content}
+                  <div className="message-with-retry">
+                    <span>{message.content}</span>
+                    {message.canRetry && message.failedDescription && (
+                      <button
+                        className="retry-button"
+                        onClick={() => handleRetry(message.failedDescription!)}
+                        disabled={isGenerating}
+                      >
+                        🔄 Retry
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

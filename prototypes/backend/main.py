@@ -9,13 +9,7 @@ import pathlib
 from dotenv import load_dotenv
 from code_manager import CodeManager
 
-# Try to import Claude Agent SDK, fall back to requests if not available
-try:
-    from claude_agent_sdk import query
-
-    CLAUDE_SDK_AVAILABLE = True
-except ImportError:
-    CLAUDE_SDK_AVAILABLE = False
+# from claude_agent_sdk import query
 
 # Load environment variables from .env file
 load_dotenv()
@@ -28,8 +22,6 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:5174",
-        "http://localhost:5175",
-        "http://localhost:5176",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -41,7 +33,6 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL")
 
 # Print SDK availability and configuration
-print(f"Claude Agent SDK Available: {CLAUDE_SDK_AVAILABLE}")
 print("ANTHROPIC_API_KEY", "*****" if ANTHROPIC_API_KEY else "Not set")
 print("ANTHROPIC_BASE_URL", ANTHROPIC_BASE_URL)
 
@@ -75,7 +66,6 @@ class CodeResponse(BaseModel):
 async def root():
     return {
         "message": "Claude Agent SDK - Source Code Manager is running",
-        "sdk_available": CLAUDE_SDK_AVAILABLE,
         "python_version": f"{os.sys.version_info.major}.{os.sys.version_info.minor}.{os.sys.version_info.micro}",
     }
 
@@ -84,7 +74,6 @@ async def root():
 async def get_status():
     """Get the status of Claude Agent SDK and system information"""
     return {
-        "claude_sdk_available": CLAUDE_SDK_AVAILABLE,
         "python_version": f"{os.sys.version_info.major}.{os.sys.version_info.minor}.{os.sys.version_info.micro}",
         "anthropic_configured": bool(ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL),
         "working_directory": str(PROJECT_ROOT),
@@ -146,37 +135,13 @@ async def get_sandpack_files():
 
 async def generate_code_with_sdk(prompt: str) -> str:
     """Generate code using Claude Agent SDK or fallback to requests"""
-    if CLAUDE_SDK_AVAILABLE:
-        try:
-            # Use Claude Agent SDK
-            response_text = ""
-            async for message in query(prompt=prompt):
-                response_text += str(message)
-            return response_text
-        except Exception as e:
-            print(f"Claude SDK error, falling back to requests: {e}")
-
-    # Fallback to direct requests
-    headers = {
-        "Authorization": f"Bearer {ANTHROPIC_API_KEY}",
-        "content-type": "application/json",
-    }
-
-    data = {
-        "model": "glm-4.6",
-        "max_tokens": 4000,
-        "messages": [{"role": "user", "content": prompt}],
-    }
-
-    response = requests.post(
-        f"{ANTHROPIC_BASE_URL}/v1/messages", headers=headers, json=data
-    )
-
-    if response.status_code != 200:
-        raise Exception(f"API error: {response.status_code} - {response.text}")
-
-    response_data = response.json()
-    return response_data["content"][0]["text"]
+    try:
+        response_text = ""
+        async for message in query(prompt=prompt):
+            response_text += str(message)
+        return response_text
+    except Exception as e:
+        print(f"Claude SDK error, falling back to requests: {e}")
 
 
 @app.post("/api/generate", response_model=CodeResponse)
@@ -187,32 +152,55 @@ async def generate_and_apply_code(request: CodeRequest):
         # Get current project context
         project_context = code_manager.get_project_structure("project")
 
-        # Build context from existing files
+        # Build context from existing files (CSS and TSX only)
         context = "\n\n".join(
             [
                 f"File: {filename}\n```\n{content}\n```"
                 for filename, content in project_context.items()
+                if filename.endswith(".css") or filename.endswith(".tsx")
             ]
         )
 
-        prompt = f"""Generate React TypeScript code for: {request.description}
-
-Return this exact JSON format:
-{{
+        prompt = (
+            f"Generate React TypeScript code for: {request.description}\n\n"
+            f"Current code:\n\n{context}\n\n"
+            """Return this exact JSON format:
+{
     "operations": [
-        {{
+        {
             "path": "project/src/App.tsx",
-            "content": "import React, {{ useState }} from 'react';\\n\\nfunction App() {{\\n  const [count, setCount] = useState(0);\\n  return (\\n    <div style={{{ padding: '20px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: '100vh', color: 'white', fontFamily: 'Arial' }}}}>\\n      <h1>Counter: {{count}}</h1>\\n      <button onClick={{() => setCount(count + 1)}} style={{{ margin: '10px', padding: '10px 20px' }}}}>+</button>\\n      <button onClick={{() => setCount(count - 1)}} style={{{ margin: '10px', padding: '10px 20px' }}}}>-</button>\\n    </div>\\n  );\\n}}\\n\\nexport default App;",
+            "content": "import React, { useState } from 'react';\n\nfunction App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div style={{ padding: '20px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: '100vh', color: 'white', fontFamily: 'Arial' }}}>\n      <h1>Counter: {count}</h1>\n      <button onClick={() => setCount(count + 1)} style={{ margin: '10px', padding: '10px 20px' }}>+</button>\n      <button onClick={() => setCount(count - 1)} style={{ margin: '10px', padding: '10px 20px' }}>-</button>\n    </div>\n  );\n}\n\nexport default App;",
             "operation": "modify"
-        }}
+        }
     ],
     "explanation": "Generated counter app"
-}}
+}
 
 No explanations, just JSON."""
+        )
 
-        # Generate code using Claude Agent SDK or fallback
-        response_text = await generate_code_with_sdk(prompt)
+        print("Prompt:", prompt)
+
+        headers = {
+            "Authorization": f"Bearer {ANTHROPIC_API_KEY}",
+            "content-type": "application/json",
+        }
+
+        data = {
+            "model": "glm-4.6",
+            "max_tokens": 4000,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+
+        response = requests.post(
+            f"{ANTHROPIC_BASE_URL}/v1/messages", headers=headers, json=data
+        )
+
+        if response.status_code != 200:
+            raise Exception(f"API error: {response.status_code} - {response.text}")
+
+        response_data = response.json()
+        response_text = response_data["content"][0]["text"]
 
         # Extract JSON from response
         try:
