@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # Backend API service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: prototypes-backend
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend:/app
+      - ./project:/app/project:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend application (with Sandpack)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: prototypes-frontend
+    environment:
+      - VITE_API_URL=http://localhost/api
+    networks:
+      - app-network
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - nginx
+
+  # Project application (with React Router)
+  project:
+    build:
+      context: ./project
+      dockerfile: Dockerfile
+    container_name: prototypes-project
+    environment:
+      - VITE_API_URL=http://localhost/api
+    networks:
+      - app-network
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - nginx
+
+  # Nginx reverse proxy
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: prototypes-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - frontend
+      - project
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Docker networks
+networks:
+  app-network:
+    driver: bridge
+    name: prototypes-network
+
+# Optional volumes for persistence
+volumes:
+  backend_data:
+    driver: local
+  nginx_logs:
+    driver: local

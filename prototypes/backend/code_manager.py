@@ -8,7 +8,7 @@ from fastapi import HTTPException
 class CodeManager:
     def __init__(self, project_root: pathlib.Path):
         self.project_root = project_root
-        self.frontend_path = project_root / "frontend"
+        self.project_path = project_root / "project"
 
     def read_file(self, file_path: str) -> str:
         """Read content from a file"""
@@ -44,7 +44,7 @@ class CodeManager:
             print(f"Error deleting file {file_path}: {e}")
             return False
 
-    def get_project_structure(self, path: str = "frontend") -> Dict[str, str]:
+    def get_project_structure(self, path: str = "project") -> Dict[str, str]:
         """Get the project structure and file contents"""
         structure = {}
         target_path = self.project_root / path
@@ -88,7 +88,7 @@ class CodeManager:
 
         return success
 
-    def get_file_list(self, path: str = "frontend") -> List[str]:
+    def get_file_list(self, path: str = "project") -> List[str]:
         """Get a list of all source files"""
         files = []
         target_path = self.project_root / path

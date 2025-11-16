@@ -400,7 +400,10 @@ function App() {
     }
   };
 
-  const generateCode = async (description: string, addToChat: boolean = true) => {
+  const generateCode = async (
+    description: string,
+    addToChat: boolean = true,
+  ) => {
     try {
       setIsGenerating(true);
 
@@ -663,7 +666,7 @@ function App() {
             </div>
             <div style={{ flex: 1 }}>
               <SandpackProvider
-                template="react-ts"
+                // template="react-ts"
                 customSetup={{
                   dependencies: dependencies,
                 }}
