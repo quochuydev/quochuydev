@@ -610,7 +610,7 @@ function App() {
                 <span>Live Preview</span>
               </div>
               <a
-                href="http://localhost:5173/"
+                href={import.meta.env.VITE_DEV_SERVER_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="open-new-tab"
@@ -619,7 +619,7 @@ function App() {
               </a>
             </div>
             <iframe
-              src="http://localhost:5173/"
+              src={import.meta.env.VITE_DEV_SERVER_URL}
               style={{
                 flex: 1,
                 border: 'none',

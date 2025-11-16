@@ -9,6 +9,14 @@ import pathlib
 from dotenv import load_dotenv
 from code_manager import CodeManager
 
+# Try to import Claude Agent SDK, fall back to requests if not available
+try:
+    from claude_agent_sdk import query
+
+    CLAUDE_SDK_AVAILABLE = True
+except ImportError:
+    CLAUDE_SDK_AVAILABLE = False
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -28,10 +36,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Use direct requests instead of Anthropic SDK to avoid proxies issue
+# Claude API configuration
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL")
-print("ANTHROPIC_API_KEY", ANTHROPIC_API_KEY)
+
+# Print SDK availability and configuration
+print(f"Claude Agent SDK Available: {CLAUDE_SDK_AVAILABLE}")
+print("ANTHROPIC_API_KEY", "*****" if ANTHROPIC_API_KEY else "Not set")
 print("ANTHROPIC_BASE_URL", ANTHROPIC_BASE_URL)
 
 # Source code management paths
@@ -62,7 +73,22 @@ class CodeResponse(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Claude Agent SDK - Source Code Manager is running"}
+    return {
+        "message": "Claude Agent SDK - Source Code Manager is running",
+        "sdk_available": CLAUDE_SDK_AVAILABLE,
+        "python_version": f"{os.sys.version_info.major}.{os.sys.version_info.minor}.{os.sys.version_info.micro}",
+    }
+
+
+@app.get("/api/status")
+async def get_status():
+    """Get the status of Claude Agent SDK and system information"""
+    return {
+        "claude_sdk_available": CLAUDE_SDK_AVAILABLE,
+        "python_version": f"{os.sys.version_info.major}.{os.sys.version_info.minor}.{os.sys.version_info.micro}",
+        "anthropic_configured": bool(ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL),
+        "working_directory": str(PROJECT_ROOT),
+    }
 
 
 @app.get("/api/project")
@@ -109,44 +135,6 @@ async def get_sandpack_files():
             if project_path in project_structure:
                 sandpack_files[sandpack_path] = project_structure[project_path]
 
-        # Get package.json for dependencies if not in project structure
-        if "package.json" not in sandpack_files:
-            try:
-                package_content = code_manager.read_file("project/package.json")
-                sandpack_files["package.json"] = package_content
-            except:
-                # Fallback package.json for React+TypeScript
-                sandpack_files["package.json"] = json.dumps(
-                    {
-                        "name": "project",
-                        "private": True,
-                        "version": "0.0.0",
-                        "type": "module",
-                        "scripts": {
-                            "dev": "vite",
-                            "build": "tsc -b && vite build",
-                            "lint": "eslint .",
-                            "preview": "vite preview",
-                        },
-                        "dependencies": {"react": "^19.2.0", "react-dom": "^19.2.0"},
-                        "devDependencies": {
-                            "@eslint/js": "^9.39.1",
-                            "@types/node": "^24.10.0",
-                            "@types/react": "^19.2.2",
-                            "@types/react-dom": "^19.2.2",
-                            "@vitejs/plugin-react": "^5.1.0",
-                            "eslint": "^9.39.1",
-                            "eslint-plugin-react-hooks": "^7.0.1",
-                            "eslint-plugin-react-refresh": "^0.4.24",
-                            "globals": "^16.5.0",
-                            "typescript": "~5.9.3",
-                            "typescript-eslint": "^8.46.3",
-                            "vite": "^7.2.2",
-                        },
-                    },
-                    indent=2,
-                )
-
         return {
             "success": True,
             "files": sandpack_files,
@@ -156,9 +144,44 @@ async def get_sandpack_files():
         return {"success": False, "error": str(e)}
 
 
+async def generate_code_with_sdk(prompt: str) -> str:
+    """Generate code using Claude Agent SDK or fallback to requests"""
+    if CLAUDE_SDK_AVAILABLE:
+        try:
+            # Use Claude Agent SDK
+            response_text = ""
+            async for message in query(prompt=prompt):
+                response_text += str(message)
+            return response_text
+        except Exception as e:
+            print(f"Claude SDK error, falling back to requests: {e}")
+
+    # Fallback to direct requests
+    headers = {
+        "Authorization": f"Bearer {ANTHROPIC_API_KEY}",
+        "content-type": "application/json",
+    }
+
+    data = {
+        "model": "glm-4.6",
+        "max_tokens": 4000,
+        "messages": [{"role": "user", "content": prompt}],
+    }
+
+    response = requests.post(
+        f"{ANTHROPIC_BASE_URL}/v1/messages", headers=headers, json=data
+    )
+
+    if response.status_code != 200:
+        raise Exception(f"API error: {response.status_code} - {response.text}")
+
+    response_data = response.json()
+    return response_data["content"][0]["text"]
+
+
 @app.post("/api/generate", response_model=CodeResponse)
 async def generate_and_apply_code(request: CodeRequest):
-    """Main SDK Manager endpoint that generates and applies source code changes"""
+    """Main SDK Manager endpoint that generates and applies source code changes using Claude Agent SDK"""
 
     try:
         # Get current project context
@@ -172,52 +195,24 @@ async def generate_and_apply_code(request: CodeRequest):
             ]
         )
 
-        prompt = f"""You are a senior React/TypeScript developer working on a v0-style AI assistant app with live preview. Analyze this codebase and implement the requested feature.
+        prompt = f"""Generate React TypeScript code for: {request.description}
 
-CURRENT CODEBASE:
-{context}
-
-REQUEST: {request.description}
-
-First brainstorm the approach, then implement the solution. Focus on:
-- Creating reusable React components
-- Maintaining the v0-style chat + preview layout
-- Using TypeScript properly
-- Following React best practices
-
-Provide the implementation as a JSON response with this format:
+Return this exact JSON format:
 {{
     "operations": [
-        {{"path": "frontend/src/App.tsx", "content": "modified content", "operation": "modify"}},
-        {{"path": "frontend/src/NewComponent.tsx", "content": "new file content", "operation": "create"}}
+        {{
+            "path": "project/src/App.tsx",
+            "content": "import React, {{ useState }} from 'react';\\n\\nfunction App() {{\\n  const [count, setCount] = useState(0);\\n  return (\\n    <div style={{{ padding: '20px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: '100vh', color: 'white', fontFamily: 'Arial' }}}}>\\n      <h1>Counter: {{count}}</h1>\\n      <button onClick={{() => setCount(count + 1)}} style={{{ margin: '10px', padding: '10px 20px' }}}}>+</button>\\n      <button onClick={{() => setCount(count - 1)}} style={{{ margin: '10px', padding: '10px 20px' }}}}>-</button>\\n    </div>\\n  );\\n}}\\n\\nexport default App;",
+            "operation": "modify"
+        }}
     ],
-    "explanation": "Detailed explanation of what was implemented and why"
+    "explanation": "Generated counter app"
 }}
 
-Return only valid JSON."""
+No explanations, just JSON."""
 
-        headers = {
-            "Authorization": f"Bearer {ANTHROPIC_API_KEY}",
-            # "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        }
-
-        data = {
-            # "model": "claude-sonnet-4-5-20250929",
-            "model": "glm-4.6",
-            "max_tokens": 4000,
-            "messages": [{"role": "user", "content": prompt}],
-        }
-
-        response = requests.post(
-            f"{ANTHROPIC_BASE_URL}/v1/messages", headers=headers, json=data
-        )
-
-        if response.status_code != 200:
-            raise Exception(f"API error: {response.status_code} - {response.text}")
-
-        response_data = response.json()
-        response_text = response_data["content"][0]["text"]
+        # Generate code using Claude Agent SDK or fallback
+        response_text = await generate_code_with_sdk(prompt)
 
         # Extract JSON from response
         try:
