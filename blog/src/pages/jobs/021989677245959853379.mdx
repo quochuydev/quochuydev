@@ -1,0 +1,549 @@
+# AI-Powered Web App Builder - Design Document
+
+**Date:** 2025-01-15
+**Purpose:** MVP GitHub repo for Upwork Full Stack Developer position
+**Tech Stack:** Django + LangChain + PostgreSQL + Vite React TypeScript + Sandpack
+
+---
+
+## Overview
+
+An AI-powered web application generator using a multi-agent LangChain system. Users describe what they want to build through a chat interface, and three specialized agents (Brainstorming, Planning, Code Generation) work together to create a working React application with live preview and GitHub export.
+
+**Key Value Propositions:**
+- Demonstrates multi-agent AI architecture (LangChain with Anthropic Claude)
+- Shows full-stack Python + React/TypeScript skills
+- Real-time streaming responses and live code preview
+- GitHub API integration for repo export
+- Clean architecture suitable for demo/portfolio
+
+---
+
+## Architecture
+
+### High-Level System Design
+
+**Backend (Django + LangChain + PostgreSQL):**
+- Three LangChain agents using Anthropic Claude:
+  - **BrainstormingAgent**: Asks clarifying questions, explores requirements, defines app scope
+  - **PlanningAgent**: Creates structured implementation plan with components, features, file structure
+  - **CodeGenerationAgent**: Generates React/TypeScript code based on the plan
+
+- Django REST API handles:
+  - Chat message streaming (Server-Sent Events)
+  - Project/conversation storage in PostgreSQL
+  - Generated code storage (files, versions)
+  - GitHub integration for repo export
+
+**Frontend (Vite + React + TypeScript):**
+- Split-panel UI: Chat interface on left, Sandpack preview on right
+- Real-time streaming of agent responses
+- Sandpack shows live preview as code generates
+- File tree to browse generated files
+- "Export to GitHub" button when ready
+
+**Data Flow:**
+1. User sends message → Django receives
+2. Current agent processes (Brainstorm → Plan → CodeGen sequence)
+3. Agent responses stream back to frontend via SSE
+4. When CodeGenAgent completes, code saves to Postgres
+5. Frontend loads code into Sandpack for preview
+6. User can iterate via chat or export to GitHub
+
+---
+
+## Multi-Agent Workflow
+
+### Agent Orchestration
+
+**1. BrainstormingAgent (Discovery Phase)**
+- **Triggers**: First user message or when user says "start over"
+- **Tools**:
+  - `ask_clarifying_question` - asks one question at a time
+  - `summarize_requirements` - creates requirements summary
+- **Prompt**: Act as product designer, explore user needs, YAGNI ruthlessly, identify core features only
+- **Output**: Requirements document (stored in `projects.brainstorm_data`)
+- **Transition**: When enough info gathered, automatically invokes PlanningAgent
+
+**2. PlanningAgent (Design Phase)**
+- **Triggers**: After BrainstormingAgent completes, or user says "revise plan"
+- **Tools**:
+  - `create_component_list` - defines React components needed
+  - `create_file_structure` - plans folder/file organization
+  - `finalize_plan` - creates complete technical plan
+- **Prompt**: Act as software architect, design simple React app, use Tailwind, focus on clean component structure
+- **Output**: Technical plan JSON (components, file structure, dependencies)
+- **Transition**: Auto-invokes CodeGenerationAgent when plan finalized
+
+**3. CodeGenerationAgent (Implementation Phase)**
+- **Triggers**: After PlanningAgent completes
+- **Tools**:
+  - `generate_file` - creates one file at a time
+  - `update_file` - modifies existing file based on user feedback
+- **Prompt**: Act as senior React developer, generate clean TypeScript code, follow plan exactly, use functional components + hooks
+- **Output**: Complete file set (stored in `generated_files` table)
+- **Chat Refinements**: User can request changes, agent updates specific files
+
+### Coordinator Logic (Python/Django)
+
+```python
+class AgentCoordinator:
+    def __init__(self):
+        self.llm = ChatAnthropic(model="claude-sonnet-4-5")
+        self.brainstorming_agent = BrainstormingAgent(self.llm)
+        self.planning_agent = PlanningAgent(self.llm)
+        self.code_gen_agent = CodeGenerationAgent(self.llm)
+
+    def process_message(self, project_id, user_message):
+        project = get_project(project_id)
+
+        # Determine current phase
+        if not project.brainstorm_data:
+            return self.brainstorming_agent.run(user_message)
+        elif not project.plan_data:
+            return self.planning_agent.run(user_message, project.brainstorm_data)
+        elif not project.generated_files:
+            return self.code_gen_agent.run(user_message, project.plan_data)
+        else:
+            # Refinement phase - route to CodeGenAgent
+            return self.code_gen_agent.refine(user_message, project)
+```
+
+---
+
+## Database Schema
+
+### PostgreSQL Tables
+
+**1. projects**
+```sql
+- id (uuid, primary key)
+- user_id (varchar, nullable) - Not used in MVP (shareable links only)
+- title (varchar) - auto-generated from brainstorming
+- created_at (timestamp)
+- updated_at (timestamp)
+- current_phase (enum: 'brainstorming', 'planning', 'coding', 'completed')
+- brainstorm_data (jsonb) - requirements, Q&A history
+- plan_data (jsonb) - component list, file structure, dependencies
+- github_repo_url (varchar, nullable) - set when exported
+```
+
+**2. messages**
+```sql
+- id (uuid, primary key)
+- project_id (uuid, foreign key → projects.id)
+- role (enum: 'user', 'agent')
+- content (text) - message text
+- agent_name (varchar, nullable) - 'BrainstormingAgent', 'PlanningAgent', etc.
+- created_at (timestamp)
+- metadata (jsonb) - any extra data (tool calls, thinking process)
+```
+
+**3. generated_files**
+```sql
+- id (uuid, primary key)
+- project_id (uuid, foreign key → projects.id)
+- file_path (varchar) - e.g., 'src/App.tsx', 'src/components/Header.tsx'
+- content (text) - actual file code
+- version (integer) - increments on updates
+- created_at (timestamp)
+- updated_at (timestamp)
+```
+
+**Design Decisions:**
+- JSONB for flexible storage of brainstorm/plan data
+- Versioning in `generated_files` for iteration tracking
+- Separate `messages` table for clean chat history
+- `current_phase` helps coordinator know where project is
+
+---
+
+## Frontend UI & User Experience
+
+### Layout (Split Panel)
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  AI App Builder                    [Export to GitHub]   │
+├──────────────────┬──────────────────────────────────────┤
+│                  │                                       │
+│   Chat Panel     │      Sandpack Preview Panel          │
+│   (40% width)    │      (60% width)                     │
+│                  │                                       │
+│  ┌────────────┐  │  ┌─────────────────────────────┐    │
+│  │ Agent:     │  │  │  File Explorer  │ Preview   │    │
+│  │ Brainstorm │  │  │                 │           │    │
+│  │            │  │  │ src/            │ [iframe]  │    │
+│  │ "What kind │  │  │  App.tsx ✓      │           │    │
+│  │  of app?"  │  │  │  Header.tsx     │           │    │
+│  └────────────┘  │  │  Footer.tsx     │           │    │
+│                  │  │                 │           │    │
+│  ┌────────────┐  │  │ package.json    │           │    │
+│  │ User:      │  │  │                 │           │    │
+│  │ "A todo    │  │  └─────────────────────────────┘    │
+│  │  list app" │  │                                       │
+│  └────────────┘  │                                       │
+│                  │                                       │
+│  [Input box... ] │                                       │
+└──────────────────┴──────────────────────────────────────┘
+```
+
+### Component Breakdown
+
+**ChatPanel Component:**
+- Auto-scrolling message list
+- Messages show agent name badge ("🤔 Brainstorming", "📋 Planning", "⚡ Coding")
+- Streaming messages appear word-by-word (SSE)
+- Input box at bottom with Send button
+- Shows "Agent is thinking..." indicator during processing
+
+**SandpackPreviewPanel Component:**
+- Hidden during brainstorming/planning phases
+- Appears when CodeGenerationAgent starts producing files
+- Uses `@codesandbox/sandpack-react`:
+  ```tsx
+  <SandpackProvider
+    template="react-ts"
+    files={generatedFiles}
+    customSetup={{
+      dependencies: { /* from plan_data */ }
+    }}
+  >
+    <SandpackLayout>
+      <SandpackFileExplorer />
+      <SandpackCodeEditor />
+      <SandpackPreview />
+    </SandpackLayout>
+  </SandpackProvider>
+  ```
+- Real-time updates when agent generates/modifies files
+
+**Header Component:**
+- Project title (auto-generated)
+- "Export to GitHub" button (enabled when in 'completed' phase)
+- Phase indicator badge
+
+### Key UX Flows
+1. **New project**: Landing page → "Start New Project" → `/project/{uuid}`
+2. **Code generated**: Sandpack fades in, shows live preview
+3. **Refinement**: User types "add dark mode" → agent updates files → Sandpack reloads
+4. **Export**: Click button → modal shows GitHub repo created → link to view
+
+---
+
+## API & Real-Time Communication
+
+### REST API Endpoints (Django REST Framework)
+
+```
+POST   /api/projects/                    # Create new project
+GET    /api/projects/:id/                # Get project details
+GET    /api/projects/:id/messages/       # Get chat history
+POST   /api/projects/:id/messages/       # Send user message
+GET    /api/projects/:id/stream/         # SSE stream for agent responses
+GET    /api/projects/:id/files/          # Get all generated files
+POST   /api/projects/:id/export-github/  # Export to GitHub
+```
+
+### Real-Time Streaming (Server-Sent Events)
+
+**Django Backend:**
+```python
+from django.http import StreamingHttpResponse
+
+def stream_agent_response(request, project_id):
+    def event_stream():
+        for chunk in agent_coordinator.process_message_stream(project_id, message):
+            yield f"data: {json.dumps(chunk)}\n\n"
+
+    return StreamingHttpResponse(event_stream(), content_type='text/event-stream')
+```
+
+**React Frontend:**
+```typescript
+const eventSource = new EventSource(`/api/projects/${id}/stream/`);
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  if (data.type === 'message_chunk') {
+    appendToLastMessage(data.content);
+  } else if (data.type === 'file_generated') {
+    updateSandpackFiles(data.file_path, data.content);
+  } else if (data.type === 'phase_change') {
+    setCurrentPhase(data.phase);
+  }
+};
+```
+
+### Message Flow
+1. User types message, clicks Send
+2. Frontend POSTs to `/api/projects/:id/messages/`
+3. Django creates message record, returns immediately
+4. Frontend opens SSE connection to `/api/projects/:id/stream/`
+5. Backend streams agent response chunks
+6. When agent generates files, sends `file_generated` events
+7. Frontend updates Sandpack in real-time
+8. SSE closes when agent finishes
+
+**Why SSE over WebSocket?**
+- Simpler implementation (no Django Channels for MVP)
+- Auto-reconnection built-in
+- One-way communication is sufficient
+- Less infrastructure overhead
+
+---
+
+## GitHub Export Integration
+
+### Implementation
+
+**PyGithub Integration:**
+```python
+from github import Github
+
+class GitHubService:
+    def __init__(self, access_token):
+        self.client = Github(access_token)
+
+    def create_repo_from_project(self, project):
+        user = self.client.get_user()
+
+        # Create repo
+        repo_name = f"{project.title.lower().replace(' ', '-')}"
+        repo = user.create_repo(
+            name=repo_name,
+            description=f"Generated by AI App Builder",
+            private=False,
+            auto_init=True
+        )
+
+        # Create files in repo
+        files = project.generated_files.all()
+        for file in files:
+            repo.create_file(
+                path=file.file_path,
+                message=f"Add {file.file_path}",
+                content=file.content
+            )
+
+        # Create README.md
+        readme_content = self.generate_readme(project)
+        repo.create_file("README.md", "Add README", readme_content)
+
+        return repo.html_url
+```
+
+### Authentication Strategy (MVP)
+- Store personal GitHub token in Django settings
+- All repos created under your account
+- Users just click "Export" - no OAuth needed
+- Good enough to demo the feature
+
+### What Gets Exported
+- All files from `generated_files` table
+- `package.json` with dependencies
+- Auto-generated `README.md` with setup instructions
+- `.gitignore` (node_modules, .env, etc.)
+- Optional: `vercel.json` for easy deployment
+
+---
+
+## Error Handling & Logging
+
+### Agent Failures
+
+**LLM API Errors:**
+```python
+try:
+    for chunk in agent.run(message):
+        yield chunk
+except anthropic.RateLimitError:
+    yield {"type": "error", "message": "AI is busy, please try again"}
+except anthropic.APIError as e:
+    error_id = RequestLogger.log_error(e, context)
+    yield {"type": "error", "message": f"Error ID: {error_id}"}
+```
+
+**Invalid Code Generation:**
+- Sandpack shows console errors
+- User can ask: "Fix the syntax error in App.tsx"
+- Agent regenerates that file
+
+**Agent Timeouts:**
+- 60s timeout per agent phase
+- Show error + "Start Over" button if stuck
+
+### Simple Logging with Short IDs
+
+```python
+import shortuuid
+import logging
+
+class RequestLogger:
+    @staticmethod
+    def log_error(error, context=None):
+        error_id = shortuuid.ShortUUID().random(length=8)  # e.g., "a3kF9mN2"
+
+        logger.error(f"[{error_id}] {error}", extra={
+            'error_id': error_id,
+            'context': context
+        })
+
+        return error_id
+```
+
+**User sees:** "Something went wrong. Error ID: **a3kF9mN2**" (clickable to copy)
+**Developer pastes:** `a3kF9mN2` in logs to find exact error + context
+
+### Frontend Error Handling
+
+**SSE Connection Drops:**
+```typescript
+eventSource.onerror = () => {
+  setError("Connection lost. Retrying...");
+  setTimeout(() => reconnect(), 2000);
+};
+```
+
+**Edge Cases:**
+- Invalid project URL → 404 page with "Start New Project"
+- Large files → Limit to 50 files max, 10KB each
+- GitHub errors → Show friendly message, log for debugging
+
+---
+
+## Deployment & Setup
+
+### Local Development with Docker
+
+**Project Structure:**
+```
+prototypes/
+├── backend/              # Django project
+│   ├── agents/           # LangChain agents
+│   ├── api/              # REST views
+│   ├── models.py         # DB models
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   └── manage.py
+├── frontend/             # Vite React
+│   ├── src/
+│   │   ├── components/   # ChatPanel, SandpackPanel, etc.
+│   │   ├── hooks/        # useProject, useSSE
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── package.json
+│   ├── Dockerfile
+│   └── vite.config.ts
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
+
+### Docker Compose Setup
+
+```yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ai_builder
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/ai_builder
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./frontend
+    command: npm run dev -- --host
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+volumes:
+  postgres_data:
+```
+
+### Quick Start
+
+```bash
+# Clone and setup
+cd prototypes
+cp .env.example .env  # Add ANTHROPIC_API_KEY and GITHUB_TOKEN
+
+# Run everything
+docker-compose up
+
+# Access:
+# Frontend: http://localhost:5173
+# Backend API: http://localhost:8000
+```
+
+### Dependencies
+
+**Backend `requirements.txt`:**
+```
+Django==5.0
+djangorestframework==3.14
+psycopg2-binary==2.9
+langchain==0.1
+langchain-anthropic==0.1
+PyGithub==2.1
+shortuuid==1.0
+python-dotenv==1.0
+django-cors-headers==4.3
+```
+
+**Frontend `package.json`:**
+```json
+{
+  "dependencies": {
+    "react": "^18.2",
+    "@codesandbox/sandpack-react": "^2.13",
+    "tailwindcss": "^3.4"
+  }
+}
+```
+
+---
+
+## Success Criteria
+
+This MVP successfully demonstrates:
+
+✅ **Multi-agent AI architecture** - LangChain agents with specialized roles
+✅ **LLM integration** - Anthropic Claude API usage
+✅ **Full-stack skills** - Python/Django backend + React/TypeScript frontend
+✅ **Real-time features** - SSE streaming, live preview
+✅ **External API integration** - GitHub repo creation
+✅ **Database design** - PostgreSQL with JSONB, proper relationships
+✅ **Modern tooling** - Docker, Sandpack, Vite
+✅ **User experience** - Chat-based interface, instant feedback
+
+**Portfolio Value:**
+- Clean, well-architected codebase
+- Working demo in minutes (Docker Compose up)
+- Showcases exactly what the Upwork job requires
+- Expandable foundation for more features
