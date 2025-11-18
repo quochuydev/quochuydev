@@ -3,8 +3,7 @@ name: Generate Plan for File
 on:
   push:
     branches:
-      - main
-      - 'feature/**'
+      - master
 
 jobs:
   generate-plan:
@@ -41,8 +40,11 @@ jobs:
 
       - name: Generate plan with Claude
         id: claude
-        uses: anthropic/claude-code-action@v1
+        uses: anthropics/claude-code-action@v1
+        env:
+          ANTHROPIC_BASE_URL: 'https://api.z.ai/api/anthropic'
         with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
             You are an AI assistant. Please write a detailed plan for the file: "${{ steps.detect.outputs.file }}".
             The content of the file is:
@@ -51,8 +53,6 @@ jobs:
             ---
             Output a clear, actionable plan related to this file.
           model: claude-2
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Save plan to file
         run: |
