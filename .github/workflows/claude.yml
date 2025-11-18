@@ -48,22 +48,26 @@ jobs:
             CONTEXT:
             <repository>${{ github.repository }}</repository>
             <issue_number>${{ github.event.issue.number }}</issue_number>
+            <cover_letter_template>
+            - For developer and client understand, because almost upwork's client know technical.
+            - Don't use Markdown format - Use text format.
+            - Maximum 1250 characters, to copy/paste to the form.
+            - Some example respectful and friendly words, use similar format when you write a cover letter:
+              - "There are some fields I don't understand, I hope that we can work and discuss them together."
+              - "Your task description is very clear, especially the detailed backend (or frontend) architecture. I would like to describe clear frontend (or backend) side."
+              - "I have experience in security application, to solve and get Pen-test certification from a Swiss company."
+            - Task list and detailed to do in the FIRST WEEK (about 12h estimation, show client know the onboarding of me)
+            </cover_letter_template>
+            <link_to_plan_file>
+            https://github.com/{repository}/blob/master/docs/plans/{plan_file_name}.md
+            </link_to_plan_file>
             <issue_comment_template>
               ## Status: 🚀 Started / ✅ Finished
-              ## Summary (when Finished).
-              ## Link to Plan File
-                https://github.com/{repository}/blob/master/docs/plans/{plan_file_name}.md
-              ## Cover Letter
-              - For developer and client understand, because almost upwork's client know technical.
-              - Don't use Markdown format - Use text format.
-              - Maximum 1250 characters, to copy/paste to the form.
-              - Some example respectful and friendly words, use similar format when you write a cover letter:
-                - "There are some fields I don't understand, I hope that we can work and discuss them together."
-                - "Your task description is very clear, especially the detailed backend (or frontend) architecture. I would like to describe clear frontend (or backend) side."
-                - "I have experience in security application, to solve and get Pen-test certification from a Swiss company."
-              - Task list and detailed to do in the FIRST WEEK (about 12h estimation, show client know the onboarding of me)
+              ## Summary - when Finished
+              ## Link to Plan File - when Finished
+              ## Cover Letter - when Finished
               ## Job - Project overview
-              - Mermaid diagram
+                - Mermaid diagram
             </issue_comment_template>
 
             PLANNING 
