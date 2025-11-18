@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import JobPost021989677245959853379 from './jobs/021989677245959853379.mdx';
 import Portfolio from './portfolio.mdx';
+
+import JobPost021989677245959853379 from './jobs/021989677245959853379.mdx';
+
+const jobs: Record<string, React.ComponentType> = {
+  '021989677245959853379': JobPost021989677245959853379,
+};
 
 function HomePage() {
   return <Portfolio />;
@@ -16,12 +21,10 @@ export default function IndexPage() {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    if (!jobId) {
-      return;
-    }
+    if (!jobId) return;
 
-    if (jobId === '021989677245959853379') {
-      setJobComponent(() => JobPost021989677245959853379);
+    if (jobs[jobId]) {
+      setJobComponent(() => jobs[jobId]);
     } else {
       setError(`Job post not found: ${jobId}`);
     }
