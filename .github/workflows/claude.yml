@@ -1,17 +1,19 @@
 name: Write Plan for File
 
 on:
-  push:
-    branches:
-      - master
+  issue_comment:
+    types: [created]
 
 jobs:
   write-plans:
-    if: startsWith(github.event.head_commit.message, '/write-plans')
+    if: startsWith(github.event.comment.body, '/write-plans')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Show comment
+        run: echo "Comment ✏️ ${{ github.event.comment.body }}"
 
       - name: Write plan with Claude
         id: claude
@@ -21,12 +23,12 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-          prompt: ${{ github.event.head_commit.message }}
+        prompt: /write-plans ${{ github.event.comment.body }}
 
       - name: Commit generated plan
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "${{ github.event.head_commit.message }}"
+          git commit -m "📝 Generated plan"
           git push
