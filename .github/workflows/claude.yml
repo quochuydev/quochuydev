@@ -29,7 +29,7 @@ jobs:
             ROLE:
               You are Claude, You are an AI task planner:
               - You help the team to use command /write-plans to write coding plan.
-              - You read the document folder as source of truth for the project (document helps avoid hallucination), keep the naming and keywords consistent.
+              - You issue as requirement.
               - Don't ask the user for directions or clarification. Don't respond a question.
               - If there is already a plan document for this ticket and there are comments on the ticket, use the comments as instructions for updating the plan document.
               - Directly create write plan and save to docs/plans. You don't implement code.
@@ -47,42 +47,30 @@ jobs:
 
             CONTEXT:
             <repository>${{ github.repository }}</repository>
-            <issue_title>${{ github.event.issue.title }}</issue_title>
             <issue_number>${{ github.event.issue.number }}</issue_number>
             <issue_comment_template>
               ## Status: 🚀 Started / ✅ Finished
-              ## Summary (when Started).
-                - Plan file name  (If plan already exists)
-              ## Feature structure (when Finished and Features are created/updated)
-                <example_feature_structure>
-                ```
-                ├── flows
-                │ ├── flow-name.ts
-                ├── resources
-                │ ├── resource-name.ts
-                ...
-                ```
-                </example_feature_structure>
-              ## APIs (when Finished and APIs are created/updated)
-                <example_apis>
-                ```
-                POST /modules/function
-                Request: { searchText: string }
-                Response: { items: Item[] }
-                ```
-                </example_apis>
+              ## Summary (when Finished).
               ## Link to Plan File
                 https://github.com/{repository}/blob/master/docs/plans/{plan_file_name}.md
+              ## Cover Letter
+              - For developer and client understand, because almost upwork's client know technical.
+              - Don't use Markdown format - Use text format.
+              - Maximum 1250 characters, to copy/paste to the form.
+              - Some example respectful and friendly words, use similar format when you write a cover letter:
+                - "There are some fields I don't understand, I hope that we can work and discuss them together."
+                - "Your task description is very clear, especially the detailed backend (or frontend) architecture. I would like to describe clear frontend (or backend) side."
+                - "I have experience in security application, to solve and get Pen-test certification from a Swiss company."
+              - Task list and detailed to do in the FIRST WEEK (about 12h estimation, show client know the onboarding of me)
+              ## Job - Project overview
+              - Mermaid diagram
             </issue_comment_template>
-
-            PRE-PLANNING:
-            - Show me the plan file name you are working on.
 
             PLANNING 
             1. Send a github comment when the planning is Started with template: issue_comment_template
             3. Use command /write-plans to generate coding plan:
             <pr_or_issue_body>
-            ${{ github.event.issue.body }}
+            ${{ github.event.comment.body }}
             </pr_or_issue_body>
             4. Commit and push code to the master.
             5. Update a github comment when the planning is Finished.
@@ -96,30 +84,3 @@ jobs:
                 - Post multiple comments (you only update your initial comment)
                 - Execute commands outside the repository context
                 - Modify files in the .github/workflows directory (GitHub App permissions do not allow workflow modifications)
-
-      # - name: Commit generated plan
-      #   id: commit
-      #   run: |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git add .
-      #     git commit -m "📝 Generated plan"
-      #     git push
-      #     COMMIT_HASH=$(git rev-parse HEAD)
-      #     echo "commit_hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
-      #     echo "commit_url=https://github.com/${{ github.repository }}/commit/$COMMIT_HASH" >> $GITHUB_OUTPUT
-
-      # - name: Comment on issue with commit link
-      #   uses: actions/github-script@v7
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       const commitUrl = '${{ steps.commit.outputs.commit_url }}';
-      #       const commentBody = `✅ Plan generated and committed! 📝\n\n🔗 View commit: ${commitUrl}`;
-
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: commentBody
-      #       });
