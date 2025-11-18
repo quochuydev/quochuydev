@@ -1,3 +1,11 @@
+## Blog
+
+```sh
+cd blog && pnpm dev
+```
+
+## Prototype
+
 ```sh
 # Prototype BE
 cd prototypes/backend
