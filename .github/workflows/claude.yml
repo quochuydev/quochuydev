@@ -6,7 +6,7 @@ on:
 
 jobs:
   write-plans:
-    if: startsWith(github.event.comment.body, '/write-plans')
+    if: github.event.issue.title == 'Upwork jobs'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
