@@ -1,1 +1,0 @@
-import{u as r,j as n}from"./index-BXRD3Gvj.js";function o(t){return n.jsx(n.Fragment,{})}function u(t={}){const{wrapper:e}={...r(),...t.components};return e?n.jsx(e,{...t,children:n.jsx(o,{...t})}):o()}export{u as default};
