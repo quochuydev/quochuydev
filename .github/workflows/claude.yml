@@ -1,4 +1,4 @@
-name: Generate Plan for File
+name: Write Plan for File
 
 on:
   push:
@@ -6,64 +6,26 @@ on:
       - master
 
 jobs:
-  generate-plan:
+  write-plans:
+    if: startsWith(github.event.head_commit.message, '/write-plans')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check for /write-plans prefix
-        id: detect
-        run: |
-          echo "Checking latest commit message for /write-plans command..."
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          if echo "$COMMIT_MSG" | grep -q "^/write-plans"; then
-            echo "write_plans_found=true" >> $GITHUB_OUTPUT
-            FILE=$(echo "$COMMIT_MSG" | sed 's/^\/write-plans[[:space:]]*//' | sed 's/^[[:space:]]*//')
-            echo "file=$FILE" >> $GITHUB_OUTPUT
-          else
-            echo "write_plans_found=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Stop if no /write-plans found
-        if: ${{ steps.detect.outputs.write_plans_found == 'false' }}
-        run: |
-          echo "No /write-plans command found. Exiting."
-          exit 0
-
-      - name: Check if file exists
-        run: |
-          if [ ! -f "${{ steps.detect.outputs.file }}" ]; then
-            echo "File ${{ steps.detect.outputs.file }} does not exist!"
-            exit 1
-          fi
-
-      - name: Generate plan with Claude
+      - name: Write plan with Claude
         id: claude
         uses: anthropics/claude-code-action@v1
         env:
           ANTHROPIC_BASE_URL: 'https://api.z.ai/api/anthropic'
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: |
-            You are an AI assistant. Please write a detailed plan for the file: "${{ steps.detect.outputs.file }}".
-            The content of the file is:
-            ---
-            $(cat ${{ steps.detect.outputs.file }})
-            ---
-            Output a clear, actionable plan related to this file.
-          model: claude-2
-
-      - name: Save plan to file
-        run: |
-          PLAN_FILE="${{ steps.detect.outputs.file }}.plan.md"
-          echo "${{ steps.claude.outputs.completion }}" > "$PLAN_FILE"
-          echo "Plan saved to $PLAN_FILE"
+          prompt: ${{ github.event.head_commit.message }}
 
       - name: Commit generated plan
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add "${{ steps.detect.outputs.file }}.plan.md"
-          git commit -m "Add plan for ${{ steps.detect.outputs.file }}"
+          git add .
+          git commit -m "${{ github.event.head_commit.message }}"
           git push
