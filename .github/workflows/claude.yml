@@ -97,17 +97,17 @@ jobs:
                 - Execute commands outside the repository context
                 - Modify files in the .github/workflows directory (GitHub App permissions do not allow workflow modifications)
 
-      - name: Commit generated plan
-        id: commit
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "📝 Generated plan"
-          git push
-          COMMIT_HASH=$(git rev-parse HEAD)
-          echo "commit_hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
-          echo "commit_url=https://github.com/${{ github.repository }}/commit/$COMMIT_HASH" >> $GITHUB_OUTPUT
+      # - name: Commit generated plan
+      #   id: commit
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add .
+      #     git commit -m "📝 Generated plan"
+      #     git push
+      #     COMMIT_HASH=$(git rev-parse HEAD)
+      #     echo "commit_hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
+      #     echo "commit_url=https://github.com/${{ github.repository }}/commit/$COMMIT_HASH" >> $GITHUB_OUTPUT
 
       # - name: Comment on issue with commit link
       #   uses: actions/github-script@v7
