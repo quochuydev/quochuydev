@@ -91,3 +91,4 @@ Huy Pham
 - Always include specific metrics from profile (720K users, $9.3M revenue, $20B platform, etc.)
 - Match their technical stack exactly using keywords from job posting
 - Keep under 250 words while maintaining impact
+- Final write to folder `./cover-letter`
