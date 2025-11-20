@@ -12,6 +12,4 @@ cd prototypes/backend
 source venv/bin/activate && python manage.py runserver
 ```
 
-## Cover letter
-
-`./cover-letter/CLAUDE.md`
+## Brainstorming `./brainstorming`
