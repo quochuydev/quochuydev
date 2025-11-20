@@ -12,7 +12,10 @@ interface ChatInterfaceProps {
   onComplete: (result: any) => void;
 }
 
-export default function ChatInterface({ jobDescription, onComplete }: ChatInterfaceProps) {
+export default function ChatInterface({
+  jobDescription,
+  onComplete,
+}: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -48,12 +51,12 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
           setMessages([
             {
               role: 'user' as const,
-              content: jobDescription
+              content: jobDescription,
             },
             {
               role: 'assistant' as const,
-              content: data.reply
-            }
+              content: data.reply,
+            },
           ]);
 
           if (data.completed) {
@@ -67,12 +70,12 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
         setMessages([
           {
             role: 'user' as const,
-            content: jobDescription
+            content: jobDescription,
           },
           {
             role: 'assistant' as const,
-            content: 'Sorry, I encountered an error. Please try again.'
-          }
+            content: 'Sorry, I encountered an error. Please try again.',
+          },
         ]);
       } finally {
         setIsLoading(false);
@@ -92,10 +95,10 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
 
     const userMessage = {
       role: 'user' as const,
-      content: currentMessage
+      content: currentMessage,
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setCurrentMessage('');
     setIsLoading(true);
 
@@ -107,17 +110,20 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
         },
         body: JSON.stringify({
           message: currentMessage,
-          conversation: messages
+          conversation: messages,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: data.reply
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: data.reply,
+          },
+        ]);
 
         if (data.completed) {
           onComplete(data.toolResult);
@@ -127,10 +133,13 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
       }
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.'
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Sorry, I encountered an error. Please try again.',
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -146,12 +155,14 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
           {displayMessages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${
+                message.role === 'user' ? 'justify-end' : 'justify-start'
+              }`}
             >
               <div
                 className={`max-w-3xl px-4 py-3 rounded-lg ${
                   message.role === 'user'
-                    ? 'bg-primary-500 text-white'
+                    ? 'bg-gray-500 text-white'
                     : 'bg-gray-100 text-gray-800 border border-gray-200'
                 }`}
               >
@@ -184,7 +195,10 @@ export default function ChatInterface({ jobDescription, onComplete }: ChatInterf
         </div>
 
         {/* Input Form */}
-        <form onSubmit={handleSubmit} className="border-t border-secondary-200 p-4">
+        <form
+          onSubmit={handleSubmit}
+          className="border-t border-secondary-200 p-4"
+        >
           <div className="flex space-x-4">
             <input
               type="text"
