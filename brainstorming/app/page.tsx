@@ -34,7 +34,7 @@ export default function Home() {
       <header className="bg-white border-b border-secondary-200">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-center">
           <h1 className="text-xl font-bold text-secondary-900">
-            Upwork Proposal Assistant
+            Proposal Assistant
           </h1>
         </div>
       </header>

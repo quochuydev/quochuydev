@@ -1,4 +1,4 @@
-# Upwork Proposal Assistant
+# Proposal Assistant
 
 A Next.js application that helps freelancers create professional proposals for Upwork jobs through AI-powered brainstorming.
 
@@ -45,7 +45,7 @@ GITHUB_REPO_NAME=proposals
 
 1. Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
 2. Click "Generate new token (classic)"
-3. Give it a descriptive name (e.g., "Upwork Proposal Assistant")
+3. Give it a descriptive name (e.g., "Proposal Assistant")
 4. Select **repo** scope for full repository access
 5. Generate token and copy it immediately
 6. Add the token to your `.env.local` file

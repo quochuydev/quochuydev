@@ -20,7 +20,7 @@ export default function JobPaste({ onStart }: JobPasteProps) {
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-secondary-700 mb-4">
-          Upwork Proposal Assistant
+          Proposal Assistant
         </h1>
         <p className="text-lg text-secondary-500">
           Paste the Upwork job description and let AI help you create a winning
