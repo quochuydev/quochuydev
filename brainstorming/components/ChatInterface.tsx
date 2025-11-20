@@ -191,7 +191,7 @@ export default function ChatInterface({
                 <div
                   className={`max-w-2xl px-5 py-4 rounded-2xl shadow-md transition-all duration-200 hover:shadow-lg ${
                     message.role === 'user'
-                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white ml-auto'
+                      ? 'bg-gray-500 text-white ml-auto'
                       : 'bg-white border border-gray-200 text-gray-800'
                   }`}
                 >
