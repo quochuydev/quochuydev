@@ -3,9 +3,7 @@ import { Octokit } from '@octokit/rest';
 export interface CommitResult {
   filename: string;
   url: string;
-  rawUrl: string;
   commitUrl: string;
-  githubViewUrl: string;
 }
 
 export function getGitHubToken(): string {
