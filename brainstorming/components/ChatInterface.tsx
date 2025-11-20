@@ -148,76 +148,200 @@ export default function ChatInterface({
   const displayMessages = messages;
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="bg-white rounded-lg shadow-sm border border-secondary-200">
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        {/* Chat Header */}
+        <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-3 h-3 bg-white/20 rounded-full animate-pulse"></div>
+            <h3 className="text-white font-semibold text-lg">
+              AI Brainstorming Session
+            </h3>
+          </div>
+        </div>
+
         {/* Chat Messages */}
-        <div className="h-96 overflow-y-auto p-6 space-y-4">
-          {displayMessages.map((message, index) => (
-            <div
-              key={index}
-              className={`flex ${
-                message.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
-            >
+        <div className="h-[500px] overflow-y-auto bg-gradient-to-b from-gray-50 to-white">
+          <div className="p-6 space-y-6">
+            {displayMessages.map((message, index) => (
               <div
-                className={`max-w-3xl px-4 py-3 rounded-lg ${
-                  message.role === 'user'
-                    ? 'bg-gray-500 text-white'
-                    : 'bg-gray-100 text-gray-800 border border-gray-200'
+                key={index}
+                className={`flex items-end space-x-3 animate-fadeIn ${
+                  message.role === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                {message.role === 'assistant' ? (
-                  <div className="prose prose-sm max-w-none">
-                    <div className="whitespace-pre-wrap break-words">
+                {/* Avatar */}
+                {message.role === 'assistant' && (
+                  <div className="flex-shrink-0 w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-4 h-4 text-primary-600"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                )}
+
+                {/* Message Bubble */}
+                <div
+                  className={`max-w-2xl px-5 py-4 rounded-2xl shadow-md transition-all duration-200 hover:shadow-lg ${
+                    message.role === 'user'
+                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white ml-auto'
+                      : 'bg-white border border-gray-200 text-gray-800'
+                  }`}
+                >
+                  {message.role === 'assistant' ? (
+                    <div className="prose prose-sm max-w-none">
+                      <div className="whitespace-pre-wrap leading-relaxed">
+                        {message.content}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="whitespace-pre-wrap leading-relaxed">
                       {message.content}
                     </div>
-                  </div>
-                ) : (
-                  <div className="whitespace-pre-wrap break-words">
-                    {message.content}
+                  )}
+                </div>
+
+                {/* User Avatar */}
+                {message.role === 'user' && (
+                  <div className="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-4 h-4 text-gray-600"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                   </div>
                 )}
               </div>
-            </div>
-          ))}
+            ))}
 
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-800 border border-gray-200 px-4 py-3 rounded-lg">
-                <div className="flex items-center space-x-2">
-                  <div className="animate-pulse">Thinking...</div>
+            {/* Loading Indicator */}
+            {isLoading && (
+              <div className="flex items-end space-x-3 justify-start">
+                <div className="flex-shrink-0 w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-4 h-4 text-primary-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div className="bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-md">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex space-x-1">
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: '0ms' }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: '150ms' }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        style={{ animationDelay: '300ms' }}
+                      ></div>
+                    </div>
+                    <span className="text-gray-500 text-sm">
+                      Brainstorming...
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
         {/* Input Form */}
         <form
           onSubmit={handleSubmit}
-          className="border-t border-secondary-200 p-4"
+          className="bg-gradient-to-r from-gray-50 to-white border-t border-gray-200 px-6 py-4"
         >
-          <div className="flex space-x-4">
-            <input
-              type="text"
-              value={currentMessage}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              className="flex-1 border border-secondary-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="Type your response..."
-              disabled={isLoading}
-            />
+          <div className="flex items-center space-x-3">
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white transition-all duration-200 text-gray-800 placeholder-gray-400"
+                placeholder="Share your thoughts..."
+                disabled={isLoading}
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <svg
+                  className="w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+              </div>
+            </div>
             <button
               type="submit"
               disabled={!currentMessage.trim() || isLoading}
-              className="bg-primary-500 hover:bg-primary-600 disabled:bg-secondary-300 text-white font-medium px-6 py-2 rounded-lg transition-colors"
+              className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 disabled:from-gray-200 disabled:to-gray-300 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl disabled:shadow-none disabled:cursor-not-allowed flex items-center space-x-2"
             >
-              Send
+              <span>Send</span>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                />
+              </svg>
             </button>
           </div>
         </form>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
     </div>
   );
 }

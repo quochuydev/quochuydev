@@ -18,7 +18,7 @@ export async function commitToGitHub(
   content: string,
   clientName: string,
   projectName: string,
-  _token?: string // Optional parameter for backward compatibility
+  _token?: string, // Optional parameter for backward compatibility
 ): Promise<CommitResult> {
   // Use environment token if no token provided
   const token = _token || getGitHubToken();
@@ -58,6 +58,6 @@ export async function commitToGitHub(
   return {
     filename,
     url: `https://${process.env.GITHUB_REPO_OWNER}.github.io/${process.env.GITHUB_REPO_NAME}/${path}`,
-    commitUrl: file.commit.html_url,
+    commitUrl: file.commit.html_url as string,
   };
 }

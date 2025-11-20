@@ -130,7 +130,7 @@ You are helping create an Upwork proposal. When you have enough information, gen
 
     console.log(`debug:response`, response);
 
-    const content = response.content[0];
+    const content: any = response.content[0];
     let toolResult = null;
     let completed = false;
 
