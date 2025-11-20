@@ -120,7 +120,6 @@ export async function commitToGitHub(
   content: string,
   clientName: string,
   projectName: string,
-  token: string,
 ): Promise<{
   filename: string;
   url: string;

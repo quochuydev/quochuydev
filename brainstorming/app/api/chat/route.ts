@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       },
     ];
 
-    const response = await anthropic.messages.create({
+    const response: any = await anthropic.messages.create({
       model: 'claude-3-sonnet-20240229',
       max_tokens: 40000,
       system: `Use and follow the brainstorming skill exactly as written
@@ -130,44 +130,49 @@ You are helping create an Upwork proposal. When you have enough information, gen
 
     console.log(`debug:response`, response);
 
-    const content: any = response.content[0];
     let toolResult = null;
     let completed = false;
+    let assistantResponse = '';
 
-    // Handle tool use
-    if (content.type === 'tool_use' && content.name === 'commit_to_github') {
-      try {
-        toolResult = await commitToGitHub(
-          content.input.content,
-          content.input.clientName,
-          content.input.projectName,
-        );
-        completed = true;
-      } catch (error) {
-        console.error('GitHub commit error:', error);
+    // Handle response content
+    for (const content of response.content) {
+      if (content.type === 'text') {
+        assistantResponse = content.text;
+      } else if (
+        content.type === 'tool_use' &&
+        content.name === 'commit_to_github'
+      ) {
+        try {
+          console.log(`debug: Executing tool with input:`, content.input);
+          toolResult = await commitToGitHub(
+            content.input.content,
+            content.input.clientName,
+            content.input.projectName,
+          );
+          completed = true;
+          assistantResponse = `✅ Proposal successfully created and committed to GitHub!
 
-        return Response.json(
-          {
-            error: 'Failed to commit proposal to GitHub',
-          },
-          {
-            status: 500,
-          },
-        );
+📄 **File:** ${toolResult.filename}
+🔗 **View Online:** ${toolResult.url}
+📝 **GitHub:** ${toolResult.commitUrl}
+
+Your proposal is now ready to share with the client!`;
+        } catch (error) {
+          console.error('GitHub commit error:', error);
+          assistantResponse = `❌ Failed to commit proposal to GitHub: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`;
+        }
       }
     }
 
-    // Return response
     return Response.json({
-      reply: content.type === 'text' ? content.text : '',
+      reply: assistantResponse,
       conversation: [
         ...messages,
         {
           role: 'assistant' as const,
-          content:
-            content.type === 'text'
-              ? content.text
-              : 'Proposal created and committed successfully!',
+          content: assistantResponse,
         },
       ],
       completed,

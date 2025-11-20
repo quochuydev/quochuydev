@@ -102,6 +102,16 @@ export default function ChatInterface({
     setCurrentMessage('');
     setIsLoading(true);
 
+    // Focus input after a short delay to ensure it works
+    setTimeout(() => {
+      const inputElement = document.querySelector(
+        'input[type="text"]',
+      ) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.focus();
+      }
+    }, 100);
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -148,20 +158,36 @@ export default function ChatInterface({
   const displayMessages = messages;
 
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="w-full max-w-5xl h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col">
         {/* Chat Header */}
-        <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-4">
+        <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-8 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-3 h-3 bg-white/20 rounded-full animate-pulse"></div>
-            <h3 className="text-white font-semibold text-lg">
-              AI Brainstorming Session
-            </h3>
+            <h3 className="font-semibold text-lg">AI Brainstorming Session</h3>
           </div>
+          <button
+            onClick={() => window.history.back()}
+            className="text-white/80 hover:text-white transition-colors"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
 
         {/* Chat Messages */}
-        <div className="h-[500px] overflow-y-auto bg-gradient-to-b from-gray-50 to-white">
+        <div className="flex-1 overflow-y-auto bg-gradient-to-b from-gray-50 to-white">
           <div className="p-6 space-y-6">
             {displayMessages.map((message, index) => (
               <div
@@ -305,7 +331,7 @@ export default function ChatInterface({
             <button
               type="submit"
               disabled={!currentMessage.trim() || isLoading}
-              className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 disabled:from-gray-200 disabled:to-gray-300 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl disabled:shadow-none disabled:cursor-not-allowed flex items-center space-x-2"
+              className="border border-gray-300 disabled:from-gray-200 disabled:to-gray-300 font-medium px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl disabled:shadow-none disabled:cursor-not-allowed flex items-center space-x-2"
             >
               <span>Send</span>
               <svg

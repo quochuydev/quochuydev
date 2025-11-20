@@ -3,7 +3,9 @@ import { Octokit } from '@octokit/rest';
 export interface CommitResult {
   filename: string;
   url: string;
+  rawUrl: string;
   commitUrl: string;
+  githubViewUrl: string;
 }
 
 export function getGitHubToken(): string {
@@ -18,10 +20,9 @@ export async function commitToGitHub(
   content: string,
   clientName: string,
   projectName: string,
-  _token?: string, // Optional parameter for backward compatibility
 ): Promise<CommitResult> {
   // Use environment token if no token provided
-  const token = _token || getGitHubToken();
+  const token = getGitHubToken();
   const octokit = new Octokit({ auth: token });
 
   // Generate filename
@@ -29,29 +30,15 @@ export async function commitToGitHub(
   const sanitizedClient = clientName.toLowerCase().replace(/[^a-z0-9]/g, '-');
   const sanitizedProject = projectName.toLowerCase().replace(/[^a-z0-9]/g, '-');
   const filename = `${date}-${sanitizedClient}-${sanitizedProject}.md`;
-  const path = `proposals/${filename}`;
-
-  // Check if file exists
-  let sha: string | undefined;
-  try {
-    const { data: existingFile } = await octokit.repos.getContent({
-      owner: process.env.GITHUB_REPO_OWNER!,
-      repo: process.env.GITHUB_REPO_NAME!,
-      path,
-    });
-    sha = (existingFile as any).sha;
-  } catch (error) {
-    // File doesn't exist, that's fine
-  }
+  const path = `${filename}`;
 
   // Create or update file
   const { data: file } = await octokit.repos.createOrUpdateFileContents({
     owner: process.env.GITHUB_REPO_OWNER!,
     repo: process.env.GITHUB_REPO_NAME!,
-    path,
+    path: `${filename}`,
     message: `Add proposal: ${clientName} - ${projectName}`,
     content: Buffer.from(content).toString('base64'),
-    sha,
   });
 
   // Return GitHub Pages URL
