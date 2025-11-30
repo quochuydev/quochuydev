@@ -537,45 +537,49 @@ graph TB
 ## Deployment Architecture
 
 ```mermaid
-C4Deployment
-    title Deployment Diagram - Production Environment
+flowchart TB
+    subgraph CDN["CDN Layer - Cloudflare/CloudFront"]
+        Static[Static Assets<br/>JS, CSS, Images]
+    end
 
-    Deployment_Node(cdn, "CDN", "Cloudflare/CloudFront") {
-        Container(static, "Static Assets", "JS, CSS, Images")
-    }
+    subgraph K8S["Kubernetes Cluster - AWS EKS / GCP GKE"]
+        subgraph WebTier["Web Tier"]
+            Frontend[Frontend App<br/>Next.js SSR]
+            API[API Service<br/>Node.js<br/>3 replicas]
+        end
 
-    Deployment_Node(k8s, "Kubernetes Cluster", "AWS EKS / GCP GKE") {
+        subgraph WorkerTier["Worker Tier"]
+            CodeGen[Code Gen Workers<br/>Node.js<br/>5 replicas]
+            Builder[Build Workers<br/>Docker<br/>3 replicas]
+        end
 
-        Deployment_Node(web, "Web Tier") {
-            Container(frontend, "Frontend App", "Next.js SSR")
-            Container(api, "API Service", "Node.js", "3 replicas")
-        }
+        subgraph DataTier["Data Tier"]
+            Postgres[(PostgreSQL<br/>Primary + Replica)]
+            Redis[(Redis Cluster<br/>3 nodes)]
+        end
+    end
 
-        Deployment_Node(workers, "Worker Tier") {
-            Container(codegen, "Code Gen Workers", "Node.js", "5 replicas")
-            Container(builder, "Build Workers", "Docker", "3 replicas")
-        }
+    subgraph External["External Services"]
+        LLM[LLM APIs<br/>OpenAI/Anthropic/Google]
+        GitHub[GitHub<br/>Version Control]
+        Monitor[Monitoring<br/>Datadog/New Relic]
+    end
 
-        Deployment_Node(data, "Data Tier") {
-            ContainerDb(postgres, "PostgreSQL", "Primary + Replica")
-            ContainerDb(redis, "Redis Cluster", "3 nodes")
-        }
-    }
+    Static -->|Serves| Frontend
+    Frontend -->|API calls| API
+    API -->|Queue jobs| CodeGen
+    CodeGen -->|Generate code| LLM
+    API -->|Read/Write| Postgres
+    API -->|Cache| Redis
+    API -->|Sync code| GitHub
+    K8S -->|Metrics & Logs| Monitor
 
-    Deployment_Node(external, "External Services") {
-        System_Ext(llm, "LLM APIs")
-        System_Ext(github, "GitHub")
-        System_Ext(monitoring, "Monitoring", "Datadog/New Relic")
-    }
-
-    Rel(cdn, frontend, "Serves")
-    Rel(frontend, api, "API calls")
-    Rel(api, codegen, "Queue jobs")
-    Rel(codegen, llm, "Generate")
-    Rel(api, postgres, "Store")
-    Rel(api, redis, "Cache")
-    Rel(api, github, "Sync")
-    Rel(k8s, monitoring, "Metrics & Logs")
+    style CDN fill:#e3f2fd
+    style K8S fill:#fff3e0
+    style WebTier fill:#e8f5e9
+    style WorkerTier fill:#f3e5f5
+    style DataTier fill:#fce4ec
+    style External fill:#fff9c4
 ```
 
 ## Implementation Phases
