@@ -1,53 +1,134 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { commitToGitHub } from '@/lib/github';
+import { cookies } from 'next/headers';
+import { db, messages, settings, SETTING_KEYS } from '@/lib/db';
+import { eq, and } from 'drizzle-orm';
+import { getAgent, AgentId } from '@/lib/agents';
 
-console.log(`debug: Anthropic API Key: ${process.env.ANTHROPIC_API_KEY}`);
-console.log(`debug: Anthropic Base URL: ${process.env.ANTHROPIC_BASE_URL}`);
+const SESSION_COOKIE_NAME = 'session_id';
 
 const anthropic = new Anthropic({
-  baseURL: process.env.ANTHROPIC_BASE_URL,
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  baseURL: process.env.GLM_BASE_URL,
+  apiKey: process.env.GLM_API_KEY,
 });
+
+interface AttachedFile {
+  name: string;
+  type: string;
+  size: number;
+  url?: string; // Blob URL
+  content?: string; // base64 or text content
+  isImage: boolean;
+}
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
 }
 
-interface ToolUse {
-  type: 'tool_use';
-  name: string;
-  input: any;
+type ImageMediaType = 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp';
+
+type ContentBlock =
+  | { type: 'text'; text: string }
+  | { type: 'image'; source: { type: 'base64'; media_type: ImageMediaType; data: string } };
+
+// Fetch image from URL and convert to base64
+async function fetchImageAsBase64(url: string): Promise<{ data: string; mediaType: ImageMediaType } | null> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return null;
+
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    const supportedTypes: ImageMediaType[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+    if (!supportedTypes.includes(contentType as ImageMediaType)) return null;
+
+    const buffer = await response.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString('base64');
+
+    return {
+      data: base64,
+      mediaType: contentType as ImageMediaType,
+    };
+  } catch (error) {
+    console.error('Failed to fetch image:', error);
+    return null;
+  }
 }
 
-const commitToGithubTool: Anthropic.Tool = {
-  name: 'commit_to_github',
-  description: 'Commit the final proposal to GitHub repository',
-  input_schema: {
-    type: 'object',
-    properties: {
-      clientName: {
-        type: 'string',
-        description: 'Client company or person name',
-      },
-      projectName: {
-        type: 'string',
-        description: 'Project title or description',
-      },
-      content: {
-        type: 'string',
-        description: 'Complete proposal markdown content',
-      },
-    },
-    required: ['clientName', 'projectName', 'content'],
-  },
-};
+async function getSessionId(): Promise<string | null> {
+  const cookieStore = await cookies();
+  return cookieStore.get(SESSION_COOKIE_NAME)?.value || null;
+}
+
+export async function GET() {
+  try {
+    const sessionId = await getSessionId();
+
+    if (!sessionId) {
+      return Response.json({ error: 'No session found' }, { status: 401 });
+    }
+
+    const sessionMessages = await db
+      .select()
+      .from(messages)
+      .where(eq(messages.sessionId, sessionId))
+      .orderBy(messages.createdAt);
+
+    return Response.json({
+      messages: sessionMessages.map((m) => ({
+        role: m.role,
+        content: m.content,
+        metadata: m.metadata ? JSON.parse(m.metadata) : null,
+        files: m.files ? JSON.parse(m.files) : null,
+      })),
+    });
+  } catch (error) {
+    console.error('Messages GET error:', error);
+    return Response.json({ error: 'Failed to fetch messages' }, { status: 500 });
+  }
+}
+
+export async function DELETE() {
+  try {
+    const sessionId = await getSessionId();
+
+    if (!sessionId) {
+      return Response.json({ error: 'No session found' }, { status: 401 });
+    }
+
+    await db.delete(messages).where(eq(messages.sessionId, sessionId));
+
+    return Response.json({ success: true });
+  } catch (error) {
+    console.error('Messages DELETE error:', error);
+    return Response.json({ error: 'Failed to clear messages' }, { status: 500 });
+  }
+}
 
 export async function POST(request: Request) {
   try {
-    const { message, conversation } = await request.json();
+    const sessionId = await getSessionId();
 
-    const messages: Message[] = [
+    if (!sessionId) {
+      return Response.json({ error: 'No session found' }, { status: 401 });
+    }
+
+    const { message, conversation, files } = await request.json() as {
+      message: string;
+      conversation: Message[];
+      files?: AttachedFile[];
+    };
+
+    // Get selected agent from settings
+    const agentSetting = await db
+      .select()
+      .from(settings)
+      .where(and(eq(settings.sessionId, sessionId), eq(settings.key, SETTING_KEYS.SELECTED_AGENT)));
+
+    const agentId = (agentSetting[0]?.value || 'assistant') as AgentId;
+    const agent = getAgent(agentId);
+
+    const conversationMessages: Message[] = [
       ...conversation,
       {
         role: 'user',
@@ -55,128 +136,130 @@ export async function POST(request: Request) {
       },
     ];
 
-    const response: any = await anthropic.messages.create({
-      model: 'claude-3-sonnet-20240229',
-      max_tokens: 40000,
-      system: `Use and follow the brainstorming skill exactly as written
+    // Prepare files for storage (only keep url, name, type, size, isImage - not content)
+    const filesToStore = files?.map((f) => ({
+      name: f.name,
+      type: f.type,
+      size: f.size,
+      url: f.url,
+      isImage: f.isImage,
+    }));
 
----
-
-name: brainstorming
-description: Use when creating or developing, before writing code or implementation plans - refines rough ideas into fully-formed designs through collaborative questioning, alternative exploration, and incremental validation. Don't use during clear 'mechanical' processes
-
----
-
-# Brainstorming Ideas Into Designs
-
-## Overview
-
-Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
-
-Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design in small sections (200-300 words), checking after each section whether it looks right so far.
-
-## The Process
-
-**Understanding the idea:**
-
-- Check out the current project state first (files, docs, recent commits)
-- Ask questions one at a time to refine the idea
-- Prefer multiple choice questions when possible, but open-ended is fine too
-- Only one question per message - if a topic needs more exploration, break it into multiple questions
-- Focus on understanding: purpose, constraints, success criteria
-
-**Exploring approaches:**
-
-- Propose 2-3 different approaches with trade-offs
-- Present options conversationally with your recommendation and reasoning
-- Lead with your recommended option and explain why
-
-**Presenting the design:**
-
-- Once you believe you understand what you're building, present the design
-- Break it into sections of 200-300 words
-- Ask after each section whether it looks right so far
-- Cover: architecture, components, data flow, error handling
-- Be ready to go back and clarify if something doesn't make sense
-
-## After the Design
-
-**Documentation:**
-
-- Write the validated design to markdown format for client presentation
-- Use elements of style: writing clearly and concisely
-- Create comprehensive proposal document
-
-**Implementation (if continuing):**
-
-- Ask: "Ready to set up for implementation?"
-
-## Key Principles
-
-- **One question at a time** - Don't overwhelm with multiple questions
-- **Multiple choice preferred** - Easier to answer than open-ended when possible
-- **YAGNI ruthlessly** - Remove unnecessary features from all designs
-- **Explore alternatives** - Always propose 2-3 approaches before settling
-- **Incremental validation** - Present design in sections, validate each
-- **Be flexible** - Go back and clarify when something doesn't make sense
-
-You are helping create an Upwork proposal. When you have enough information, generate a complete proposal in markdown format and commit it using the commit_to_github tool.`,
-      messages: messages.map((msg) => ({
-        role: (msg.role || 'user') as 'user' | 'assistant',
-        content: msg.content,
-      })),
-      tools: [commitToGithubTool],
+    // Save user message to database
+    await db.insert(messages).values({
+      sessionId,
+      role: 'user',
+      content: message,
+      files: filesToStore && filesToStore.length > 0 ? JSON.stringify(filesToStore) : null,
     });
 
-    console.log(`debug:response`, response);
+    // Build content blocks for the current message (with images if present)
+    const buildContentBlocks = async (text: string, attachedFiles?: AttachedFile[]): Promise<ContentBlock[] | string> => {
+      if (!attachedFiles || attachedFiles.length === 0) {
+        return text;
+      }
 
-    let toolResult = null;
-    let completed = false;
+      const blocks: ContentBlock[] = [];
+
+      // Add images first
+      const supportedMediaTypes: ImageMediaType[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      for (const file of attachedFiles) {
+        if (file.isImage) {
+          // Prefer URL-based images (from blob storage) - fetch and convert to base64
+          if (file.url) {
+            const imageData = await fetchImageAsBase64(file.url);
+            if (imageData) {
+              blocks.push({
+                type: 'image',
+                source: {
+                  type: 'base64',
+                  media_type: imageData.mediaType,
+                  data: imageData.data,
+                },
+              });
+            }
+          } else if (file.content && file.content.startsWith('data:')) {
+            // Fallback to base64 from client if no URL
+            const matches = file.content.match(/^data:([^;]+);base64,(.+)$/);
+            if (matches) {
+              const mediaType = matches[1] as string;
+              // Only add if it's a supported media type
+              if (supportedMediaTypes.includes(mediaType as ImageMediaType)) {
+                blocks.push({
+                  type: 'image',
+                  source: {
+                    type: 'base64',
+                    media_type: mediaType as ImageMediaType,
+                    data: matches[2],
+                  },
+                });
+              }
+            }
+          }
+        }
+      }
+
+      // Add text content
+      if (text) {
+        blocks.push({ type: 'text', text });
+      }
+
+      return blocks.length > 0 ? blocks : text;
+    };
+
+    // Build messages for the API - only the last message gets image attachments
+    const apiMessages = await Promise.all(
+      conversationMessages.map(async (msg, index) => {
+        const isLastUserMessage = index === conversationMessages.length - 1 && msg.role === 'user';
+        return {
+          role: (msg.role || 'user') as 'user' | 'assistant',
+          content: isLastUserMessage ? await buildContentBlocks(msg.content, files) : msg.content,
+        };
+      })
+    );
+
+    const response: any = await anthropic.messages.create({
+      model: 'claude-3-sonnet-20240229',
+      max_tokens: 4096,
+      system: agent.systemPrompt,
+      messages: apiMessages,
+    });
+
     let assistantResponse = '';
 
     // Handle response content
     for (const content of response.content) {
       if (content.type === 'text') {
         assistantResponse = content.text;
-      } else if (
-        content.type === 'tool_use' &&
-        content.name === 'commit_to_github'
-      ) {
-        try {
-          console.log(`debug: Executing tool with input:`, content.input);
-          toolResult = await commitToGitHub(
-            content.input.content,
-            content.input.clientName,
-            content.input.projectName,
-          );
-          completed = true;
-          assistantResponse = `✅ Proposal successfully created and committed to GitHub!
-
-📄 **File:** ${toolResult.filename}
-🔗 **View Online:** ${toolResult.url}
-📝 **GitHub:** ${toolResult.commitUrl}
-
-Your proposal is now ready to share with the client!`;
-        } catch (error) {
-          console.error('GitHub commit error:', error);
-          assistantResponse = `❌ Failed to commit proposal to GitHub: ${
-            error instanceof Error ? error.message : 'Unknown error'
-          }`;
-        }
       }
     }
 
+    // Build metadata for assistant message
+    const metadata = {
+      agentId: agent.id,
+      agentName: agent.name,
+      model: 'claude-3-sonnet-20240229',
+    };
+
+    // Save assistant message to database
+    await db.insert(messages).values({
+      sessionId,
+      role: 'assistant',
+      content: assistantResponse,
+      metadata: JSON.stringify(metadata),
+    });
+
     return Response.json({
       reply: assistantResponse,
+      metadata,
       conversation: [
-        ...messages,
+        ...conversationMessages,
         {
           role: 'assistant' as const,
           content: assistantResponse,
+          metadata,
         },
       ],
-      completed,
-      toolResult,
     });
   } catch (error) {
     console.error('Chat API error:', error);

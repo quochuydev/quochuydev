@@ -30,7 +30,7 @@ Required environment variables:
 
 ```env
 # Get from: https://console.anthropic.com/
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GLM_API_KEY=your_GLM_API_KEY_here
 
 # Create from: https://github.com/settings/tokens
 # Choose 'repo' scope for full repository access

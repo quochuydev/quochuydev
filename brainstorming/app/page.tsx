@@ -1,57 +1,78 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import JobPaste from '@/components/JobPaste';
+import { useState, useCallback } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import ProposalView from '@/components/ProposalView';
-
-type AppState = 'paste' | 'chat' | 'complete';
+import Sidebar from '@/components/Sidebar';
+import { SETTING_KEYS } from '@/lib/db/schema';
+import type { Website } from '@/lib/db';
 
 export default function Home() {
-  const [appState, setAppState] = useState<AppState>('paste');
-  const [jobDescription, setJobDescription] = useState('');
   const [proposalResult, setProposalResult] = useState<any>(null);
-
-  const handleStart = (description: string) => {
-    setJobDescription(description);
-    setAppState('chat');
-  };
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [settings, setSettings] = useState<Record<string, string>>({});
+  const [selectedWebsite, setSelectedWebsite] = useState<Website | null>(null);
 
   const handleComplete = (result: any) => {
     setProposalResult(result);
-    setAppState('complete');
   };
 
   const handleReset = () => {
-    setAppState('paste');
-    setJobDescription('');
     setProposalResult(null);
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-50 to-primary-50">
-      {/* Header */}
-      <header className="bg-white border-b border-secondary-200">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-center">
-          <h1 className="text-xl font-bold text-secondary-900">
-            Proposal Assistant
-          </h1>
-        </div>
-      </header>
+  const handleWebsiteChange = useCallback((website: Website | null) => {
+    setSelectedWebsite(website);
+  }, []);
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {appState === 'paste' && <JobPaste onStart={handleStart} />}
-        {appState === 'chat' && (
-          <ChatInterface
-            jobDescription={jobDescription}
-            onComplete={handleComplete}
-          />
-        )}
-        {appState === 'complete' && proposalResult && (
-          <ProposalView result={proposalResult} onReset={handleReset} />
-        )}
-      </main>
+  const suggestionsEnabled = settings[SETTING_KEYS.SUGGESTIONS_ENABLED] !== 'false';
+  const themeColor = selectedWebsite?.mainColor || null;
+
+  if (proposalResult) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <ProposalView result={proposalResult} onReset={handleReset} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-screen">
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onSettingsChange={setSettings}
+        onWebsiteChange={handleWebsiteChange}
+      />
+
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Menu button for mobile */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="lg:hidden fixed top-4 left-4 z-30 p-2 bg-gray-800 text-white rounded-lg shadow-lg hover:bg-gray-700"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+
+        <ChatInterface
+          onComplete={handleComplete}
+          suggestionsEnabled={suggestionsEnabled}
+          themeColor={themeColor}
+          websiteName={selectedWebsite?.name || null}
+        />
+      </div>
     </div>
   );
 }
