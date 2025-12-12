@@ -1,10 +1,10 @@
 ---
 theme: seriph
 background: https://cover.sli.dev
-title: Database Indexing Deep Dive
+title: Database Indexing - A Practical Developer Guide
 info: |
-  Understanding how database indexes work and why they matter.
-  Live demo with 1 million movie records.
+  A practical guide to database indexing for developers.
+  Learn when, why, and how to use indexes effectively.
 class: text-center
 drawings:
   persist: false
@@ -12,523 +12,484 @@ transition: slide-left
 mdc: true
 ---
 
-# Database Indexing Deep Dive
+# Database Indexing
 
-Why your queries are slow and how to fix them
+A Practical Developer Guide
 
 <div class="pt-12">
   <span class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Live Demo: 1M Movie Records
+    Press Space to navigate
   </span>
 </div>
 
 ---
 
-# Agenda
+# The Problem: Why Are Queries Slow?
 
-<v-clicks>
-
-1. 📚 **What is an Index?** - The library analogy
-2. 🌳 **How B-Tree Works** - Under the hood
-3. ⚡ **Live Demo** - No Index vs Index vs Wrong Index
-4. ⚠️ **Common Mistakes** - Anti-patterns to avoid
-5. ✅ **Best Practices** - Rules to follow
-
-</v-clicks>
-
----
-layout: section
----
-
-# What is a Database Index?
-
----
-layout: two-cols
----
-
-# Without Index
-
-Like searching a book **page by page**
+Without an index, the database performs a **full table scan**
 
 ```sql
-SELECT * FROM movies
-WHERE title = 'Inception';
-```
-
-<v-click>
-
-**Sequential Scan**
-- Check every single row
-- 1M rows = 1M comparisons
-- Time: **600+ ms** 😱
-
-</v-click>
-
-::right::
-
-# With Index
-
-Like using a book's **table of contents**
-
-```sql
-SELECT * FROM movies
-WHERE title = 'Inception';
-```
-
-<v-click>
-
-**Index Scan**
-- Jump directly to the data
-- 1M rows = ~20 comparisons
-- Time: **< 1 ms** 🚀
-
-</v-click>
-
----
-
-# Index = Sorted Reference
-
-```mermaid {scale: 0.8}
-flowchart LR
-    subgraph Index["Index (Sorted)"]
-        A["Avatar → Row 532"]
-        B["Batman → Row 891"]
-        C["Inception → Row 445"]
-        D["Matrix → Row 123"]
-    end
-    subgraph Table["Table (Unsorted)"]
-        R1["Row 123: Matrix, 1999"]
-        R2["Row 445: Inception, 2010"]
-        R3["Row 532: Avatar, 2009"]
-        R4["Row 891: Batman, 2008"]
-    end
-    C --> R2
-```
-
-<v-click>
-
-> Index stores: **Key** → **Pointer to Row**
->
-> Search time: **O(log n)** instead of **O(n)**
-
-</v-click>
-
----
-layout: section
----
-
-# How B-Tree Index Works
-
-The data structure behind 90% of database indexes
-
----
-
-# B-Tree Structure
-
-```mermaid {scale: 0.7}
-flowchart TB
-    Root["[M]"] --> L1["[D, H]"]
-    Root --> L2["[R, W]"]
-    L1 --> Leaf1["A, B, C"]
-    L1 --> Leaf2["E, F, G"]
-    L1 --> Leaf3["I, J, K, L"]
-    L2 --> Leaf4["N, O, P, Q"]
-    L2 --> Leaf5["S, T, U, V"]
-    L2 --> Leaf6["X, Y, Z"]
-
-    Leaf1 <--> Leaf2
-    Leaf2 <--> Leaf3
-    Leaf3 <--> Leaf4
-    Leaf4 <--> Leaf5
-    Leaf5 <--> Leaf6
-```
-
-<v-clicks>
-
-- **Root node**: Entry point for all searches
-- **Internal nodes**: Guide the search direction
-- **Leaf nodes**: Contain actual data pointers (linked for range queries)
-
-</v-clicks>
-
----
-
-# Search: Find "Inception"
-
-```mermaid {scale: 0.65}
-flowchart TB
-    Root["[M]<br/>I < M → Go Left"] --> L1["[D, H]<br/>H < I → Go Right"]
-    Root --> L2["[R, W]"]
-    L1 --> Leaf1["A, B, C"]
-    L1 --> Leaf2["E, F, G"]
-    L1 --> Leaf3["I, J, K, L<br/>✅ Found!"]
-    L2 --> Leaf4["N, O, P, Q"]
-    L2 --> Leaf5["S, T, U, V"]
-    L2 --> Leaf6["X, Y, Z"]
-
-    style Root fill:#f9a825
-    style L1 fill:#f9a825
-    style Leaf3 fill:#4caf50
-```
-
-<v-click>
-
-**1 Million rows → Only ~20 node visits** (log₂ 1,000,000 ≈ 20)
-
-</v-click>
-
----
-
-# Why B-Tree is Perfect for Databases
-
-<v-clicks>
-
-| Property | Benefit |
-|----------|---------|
-| **Balanced** | Every search takes same time O(log n) |
-| **Wide nodes** | Fewer disk reads (node = disk page ~4KB) |
-| **Linked leaves** | Fast range queries (BETWEEN, ORDER BY) |
-| **Self-maintaining** | Auto-balances on insert/delete |
-
-</v-clicks>
-
----
-layout: section
----
-
-# 🎬 Live Demo
-
-1 Million Movies: No Index vs Index vs Wrong Index
-
----
-
-# Demo Setup
-
-```sql
--- Create table
-CREATE TABLE movies (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255),
-    genre VARCHAR(50),
-    release_year INT,
-    rating DECIMAL(3,2),
-    created_at TIMESTAMP DEFAULT NOW()
-);
-
--- Insert 1 million records
-INSERT INTO movies (title, genre, release_year, rating)
-SELECT
-    'Movie_' || generate_series(1, 1000000),
-    (ARRAY['Action','Drama','Comedy','Horror','SciFi'])[floor(random()*5+1)],
-    1990 + floor(random() * 35),
-    (random() * 4 + 6)::decimal(3,2)
-FROM generate_series(1, 1);
-```
-
----
-layout: two-cols
----
-
-# ❌ No Index
-
-```sql
-EXPLAIN ANALYZE
-SELECT * FROM movies
-WHERE title = 'Movie_500000';
+SELECT * FROM users WHERE email = 'john@example.com';
 ```
 
 <v-click>
 
 ```
-Seq Scan on movies
-  Filter: title = 'Movie_500000'
-  Rows Removed by Filter: 999999
-
-Planning Time: 0.1 ms
-Execution Time: 450.32 ms  ← 😱
-```
-
-</v-click>
-
-::right::
-
-# ✅ With Index
-
-```sql
-CREATE INDEX idx_movies_title
-ON movies(title);
-
-EXPLAIN ANALYZE
-SELECT * FROM movies
-WHERE title = 'Movie_500000';
-```
-
-<v-click>
-
-```
-Index Scan using idx_movies_title
-  Index Cond: title = 'Movie_500000'
-
-Planning Time: 0.2 ms
-Execution Time: 0.05 ms   ← 🚀
-```
-
-**9000x faster!**
-
-</v-click>
-
----
-
-# ⚠️ Wrong Index - Example 1
-
-**Indexing low-selectivity column**
-
-```sql
--- Genre only has 5 distinct values
-CREATE INDEX idx_movies_genre ON movies(genre);
-
-EXPLAIN ANALYZE
-SELECT * FROM movies WHERE genre = 'Action';
-```
-
-<v-click>
-
-```
-Seq Scan on movies  ← Index IGNORED!
-  Filter: genre = 'Action'
-  Rows Removed by Filter: 800000
-
-Execution Time: 380.21 ms
-```
-
-> 200,000 matching rows = 20% of table → Sequential scan is faster!
-
-</v-click>
-
----
-
-# ⚠️ Wrong Index - Example 2
-
-**Function on indexed column**
-
-```sql
-CREATE INDEX idx_movies_title ON movies(title);
-
--- ❌ Function disables index
-EXPLAIN ANALYZE
-SELECT * FROM movies WHERE UPPER(title) = 'MOVIE_500000';
-```
-
-<v-click>
-
-```
-Seq Scan on movies  ← Index IGNORED!
-  Filter: upper(title) = 'MOVIE_500000'
-
-Execution Time: 520.18 ms
++----+------------------+--------+
+| id | email            | name   |
++----+------------------+--------+
+|  1 | alice@test.com   | Alice  |  <-- Check row 1
+|  2 | bob@test.com     | Bob    |  <-- Check row 2
+|  3 | carol@test.com   | Carol  |  <-- Check row 3
+| .. | ...              | ...    |  <-- Check ALL rows
+| 1M | john@example.com | John   |  <-- Finally found!
++----+------------------+--------+
 ```
 
 </v-click>
 
 <v-click>
 
-**Fix: Create expression index**
-```sql
-CREATE INDEX idx_movies_title_upper ON movies(UPPER(title));
-```
+**Result:** Must scan 1 million rows to find 1 record
 
 </v-click>
 
 ---
 
-# ⚠️ Wrong Index - Example 3
+# What is an Index?
 
-**Wrong column order in composite index**
-
-```sql
--- ❌ Bad: Low selectivity column first
-CREATE INDEX idx_bad ON movies(genre, title);
-
--- ✅ Good: High selectivity column first
-CREATE INDEX idx_good ON movies(title, genre);
-```
-
-<v-click>
-
-```sql
-EXPLAIN ANALYZE
-SELECT * FROM movies WHERE genre = 'Action' AND title = 'Movie_500000';
-```
-
-| Index | Execution Time |
-|-------|----------------|
-| idx_bad (genre, title) | 12.5 ms |
-| idx_good (title, genre) | 0.08 ms |
-
-</v-click>
-
----
-layout: section
----
-
-# Common Indexing Mistakes
-
-What NOT to do
-
----
-
-# 🚫 Anti-Patterns
-
-<v-clicks>
-
-1. **Over-indexing** - Index on every column
-   - Each index = extra write overhead + storage
-   - Insert/Update must update ALL indexes
-
-2. **Indexing low-selectivity columns** - gender, status, boolean
-   - < 1% unique values = index often ignored
-
-3. **Missing foreign key indexes**
-   - JOINs become table scans
-   - DELETE on parent can lock entire table
-
-4. **Ignoring composite index order**
-   - Put most selective column FIRST
-   - Order must match query patterns
-
-5. **Outdated statistics**
-   - Run `ANALYZE` after bulk operations
-
-</v-clicks>
-
----
-
-# Index Selectivity
+Think of it like a **book index** - a sorted lookup structure
 
 <div class="grid grid-cols-2 gap-4">
-
 <div>
 
-### ❌ Low Selectivity
-```sql
--- 5 unique values in 1M rows
-SELECT COUNT(DISTINCT genre)
-FROM movies;
--- Result: 5
-
--- Selectivity: 5/1,000,000 = 0.0005%
--- Index likely IGNORED
+**Without Index (Full Scan)**
+```
+Read every page to find "B-Tree"
+Page 1... Page 2... Page 3...
+...Page 847 - Found it!
 ```
 
 </div>
-
 <div>
 
-### ✅ High Selectivity
-```sql
--- 1M unique values in 1M rows
-SELECT COUNT(DISTINCT title)
-FROM movies;
--- Result: 1,000,000
+**With Index (Direct Lookup)**
+```
+Index:
+  B-Tree .......... 847
+  Hash ............ 234
+  Query ........... 156
 
--- Selectivity: 100%
--- Index very effective
+Jump directly to page 847!
 ```
 
 </div>
-
 </div>
 
 <v-click>
 
-> **Rule of thumb**: Index is useful when it filters out > 90% of rows
+### Database Index = Separate Data Structure
+
+- Maintains sorted pointers to actual rows
+- Enables **O(log n)** lookups instead of **O(n)**
+- Trade-off: Uses extra storage, slows writes
 
 </v-click>
 
 ---
-layout: section
+
+# How B-Tree Indexes Work
+
+Most common index type (default in MySQL, PostgreSQL, SQLite)
+
+```
+                        [50]                      <- Root (Level 0)
+                       /    \
+                [25]          [75]                <- Level 1
+               /    \        /    \
+          [10,20] [30,40] [60,70] [80,90]         <- Leaf nodes (data pointers)
+```
+
+<v-click>
+
+### Finding value 70:
+
+```
+Step 1: Root [50]     -> 70 > 50  -> Go right
+Step 2: Node [75]     -> 70 < 75  -> Go left
+Step 3: Leaf [60,70]  -> Found 70! -> Return row pointer
+```
+
+**Only 3 comparisons** to search millions of rows!
+
+</v-click>
+
 ---
 
-# Best Practices
+# Why B-Tree is Powerful
+
+B-Tree indexes support multiple query patterns:
+
+<v-click>
+
+### Equality Queries
+```sql
+WHERE id = 70
+WHERE email = 'john@example.com'
+```
+
+</v-click>
+
+<v-click>
+
+### Range Queries
+```sql
+WHERE id > 50 AND id < 80
+WHERE created_at BETWEEN '2024-01-01' AND '2024-12-31'
+```
+
+</v-click>
+
+<v-click>
+
+### Sorting & Prefix
+```sql
+ORDER BY id          -- Uses index order
+WHERE name LIKE 'John%'  -- Prefix search
+```
+
+</v-click>
 
 ---
 
-# ✅ Index Best Practices
+# Index Types at a Glance
 
-<v-clicks>
+| Type | Best For | Limitations |
+|------|----------|-------------|
+| **B-Tree** | Range queries, sorting, prefix search | Slower for exact-match only workloads |
+| **Hash** | Exact equality (`=`) only | No range, no sorting, no prefix |
+| **GIN** | Full-text search, arrays, JSON | Write-heavy overhead |
+| **BRIN** | Time-series, sequential data | Requires physical ordering |
 
-| Do | Don't |
-|----|-------|
-| Index columns in WHERE, JOIN, ORDER BY | Index every column |
-| Put high-selectivity columns first | Index boolean/status columns alone |
-| Use covering indexes for read-heavy queries | Create redundant indexes |
-| Monitor with `EXPLAIN ANALYZE` | Guess which index to create |
-| Run `ANALYZE` after bulk changes | Forget to update statistics |
-| Create indexes CONCURRENTLY in production | Lock tables during index creation |
+<v-click>
 
-</v-clicks>
+### Quick Decision Guide
+
+```
+Need range queries (>, <, BETWEEN)?     -> B-Tree
+Need ORDER BY optimization?             -> B-Tree
+Only exact match (= or IN)?             -> Hash (or B-Tree)
+Searching inside arrays/JSON?           -> GIN
+Time-series with ordered inserts?       -> BRIN
+```
+
+</v-click>
+
+<v-click>
+
+**Rule of thumb:** When in doubt, use B-Tree (the default)
+
+</v-click>
 
 ---
 
-# Query Optimization Tips
+# When to Create Indexes
+
+Index columns that appear in:
+
+<div class="grid grid-cols-2 gap-8">
+<div>
+
+### DO Index
 
 ```sql
--- ❌ Bad: Function on column
+-- WHERE clauses
+WHERE status = 'active'
+
+-- JOIN conditions
+JOIN orders ON users.id = orders.user_id
+
+-- ORDER BY / GROUP BY
+ORDER BY created_at DESC
+
+-- Foreign keys
+FOREIGN KEY (user_id) REFERENCES users(id)
+```
+
+</div>
+<div>
+
+### DON'T Index
+
+```sql
+-- Low cardinality columns
+WHERE gender = 'M'  -- Only 2-3 values
+
+-- Rarely queried columns
+-- (Index overhead not worth it)
+
+-- Small tables
+-- (Full scan is fast enough)
+
+-- Write-heavy tables
+-- (Each INSERT updates indexes)
+```
+
+</div>
+</div>
+
+<v-click>
+
+### Golden Rule: **High selectivity + Frequent queries = Good index candidate**
+
+</v-click>
+
+---
+
+# Reading EXPLAIN Plans
+
+Always verify your indexes are being used!
+
+```sql
+EXPLAIN SELECT * FROM users WHERE email = 'john@example.com';
+```
+
+<v-click>
+
+### MySQL Output
+```
++----+-------------+-------+------+---------------+------------+---------+-------+------+-------+
+| id | select_type | table | type | possible_keys | key        | key_len | ref   | rows | Extra |
++----+-------------+-------+------+---------------+------------+---------+-------+------+-------+
+|  1 | SIMPLE      | users | ref  | idx_email     | idx_email  | 767     | const |    1 |       |
++----+-------------+-------+------+---------------+------------+---------+-------+------+-------+
+```
+
+</v-click>
+
+<v-click>
+
+### What to look for:
+
+| Column | Good Sign | Bad Sign |
+|--------|-----------|----------|
+| `type` | `ref`, `range`, `const` | `ALL` (full table scan) |
+| `key` | Your index name | `NULL` |
+| `rows` | Small number | Large number |
+| `Extra` | `Using index` | `Using filesort` |
+
+</v-click>
+
+---
+
+# Common Mistakes
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+### 1. Functions Break Indexes
+
+```sql
+-- Index on 'created_at' NOT used
 WHERE YEAR(created_at) = 2024
 
--- ✅ Good: Range condition
+-- Fix: Use range instead
 WHERE created_at >= '2024-01-01'
   AND created_at < '2025-01-01'
 ```
 
-<v-click>
+</div>
+<div>
+
+### 2. Over-Indexing
 
 ```sql
--- ❌ Bad: OR conditions (hard to optimize)
-WHERE status = 'active' OR created_at > '2024-01-01'
+-- DON'T: Index every column
+CREATE INDEX idx_1 ON users(name);
+CREATE INDEX idx_2 ON users(email);
+CREATE INDEX idx_3 ON users(city);
+CREATE INDEX idx_4 ON users(age);
+-- 20 more indexes...
 
--- ✅ Good: UNION (can use separate indexes)
-SELECT * FROM orders WHERE status = 'active'
-UNION ALL
-SELECT * FROM orders WHERE created_at > '2024-01-01'
+-- Each INSERT now updates 24 indexes!
+```
+
+</div>
+</div>
+
+<v-click>
+
+### 3. Wrong Column Order in Composite Index
+
+```sql
+CREATE INDEX idx_status_date ON orders(status, created_at);
+
+-- Uses index (leftmost prefix)
+WHERE status = 'pending'
+
+-- Uses index
+WHERE status = 'pending' AND created_at > '2024-01-01'
+
+-- CANNOT use index (skipped 'status')
+WHERE created_at > '2024-01-01'
 ```
 
 </v-click>
 
 ---
 
-# Summary
+# Best Practices
 
-<v-clicks>
+<div class="grid grid-cols-2 gap-4">
+<div>
 
-🎯 **Key Takeaways**
+### Composite Indexes
 
-1. **Index = O(log n)** - Makes 1M row searches instant
-2. **B-Tree** - Self-balancing, disk-optimized, supports ranges
-3. **Selectivity matters** - High cardinality = effective index
-4. **Column order matters** - Most selective column first
-5. **Avoid functions on indexed columns** - Use expression indexes instead
-6. **Monitor with EXPLAIN ANALYZE** - Don't guess, measure!
+Order columns by:
+1. Equality conditions first
+2. Range conditions last
 
-</v-clicks>
+```sql
+-- Query pattern
+WHERE user_id = ?
+  AND status = ?
+  AND created_at > ?
+
+-- Optimal index
+CREATE INDEX idx_user_status_date
+  ON orders(user_id, status, created_at);
+```
+
+</div>
+<div>
+
+### Covering Indexes
+
+Include all queried columns to avoid table lookup:
+
+```sql
+-- Query
+SELECT name, email FROM users
+WHERE status = 'active';
+
+-- Covering index
+CREATE INDEX idx_status_covering
+  ON users(status, name, email);
+
+-- EXPLAIN shows "Using index"
+-- No table access needed!
+```
+
+</div>
+</div>
 
 <v-click>
 
-<div class="mt-8 text-center text-xl">
+### Monitor & Maintain
 
-**Questions?** 🤔
+```sql
+-- Find unused indexes (PostgreSQL)
+SELECT * FROM pg_stat_user_indexes WHERE idx_scan = 0;
 
-</div>
+-- Rebuild fragmented indexes periodically
+REINDEX TABLE users;
+```
 
 </v-click>
 
 ---
-layout: end
+
+# Real-World Impact
+
+### Case Study: IBM FileNet P8
+
+| Metric | Before Index | After Index |
+|--------|-------------|-------------|
+| Response Time | 7,000 ms | 200 ms |
+| CPU Usage | 50-60% | 10-20% |
+| Improvement | - | **35x faster** |
+
+<v-click>
+
+### Key Takeaways
+
+- A single well-placed index can transform query performance
+- Monitor slow queries and check EXPLAIN plans
+- Balance read performance vs write overhead
+- Start with few indexes, add based on actual query patterns
+
+</v-click>
+
+<v-click>
+
+### Remember
+
+> "The right index can turn a 10-second query into a 10-millisecond query"
+
+</v-click>
+
+---
+layout: two-cols
 ---
 
-# Thank You!
+# Quick Reference
 
-Resources:
+### Do's
+
+- Index WHERE, JOIN, ORDER BY columns
+- Use composite indexes for multi-column queries
+- Check EXPLAIN plans regularly
+- Consider covering indexes for hot queries
+- Monitor index usage statistics
+
+::right::
+
+<div class="pl-4">
+
+### Don'ts
+
+- Don't index low-cardinality columns
+- Don't over-index (hurts writes)
+- Don't use functions on indexed columns
+- Don't ignore composite index column order
+- Don't create indexes blindly from optimizer hints
+
+</div>
+
+<v-click>
+
+### Index Creation Syntax
+
+```sql
+-- Single column
+CREATE INDEX idx_email ON users(email);
+
+-- Composite
+CREATE INDEX idx_user_status
+  ON orders(user_id, status);
+
+-- Unique
+CREATE UNIQUE INDEX idx_email_unique
+  ON users(email);
+```
+
+</v-click>
+
+---
+layout: center
+class: text-center
+---
+
+# Q&A
+
+Questions about database indexing?
+
+<div class="pt-12">
+
+### Resources
+
+- [PostgreSQL Index Documentation](https://www.postgresql.org/docs/current/indexes.html)
+- [MySQL Index Types](https://dev.mysql.com/doc/refman/8.0/en/index-btree-hash.html)
 - [Use The Index, Luke](https://use-the-index-luke.com/)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/current/indexes.html)
-- [PlanetScale: B-trees and Database Indexes](https://planetscale.com/blog/btrees-and-database-indexes)
+
+</div>

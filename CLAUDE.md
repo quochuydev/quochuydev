@@ -147,4 +147,26 @@ Authentication is configured via environment variables (see `/blog/.env.example`
 
 ## Rules
 
-- ALWAYS check sensitive data and license data before commit and push
+### Before Commit/Push
+
+**Sensitive Data - NEVER commit:**
+- `.env` files with real credentials
+- API keys, tokens, secrets (even in comments)
+- Private keys, certificates
+- Database connection strings with passwords
+- `credentials.json`, `serviceAccount.json`, etc.
+
+**Verify before committing:**
+- Run `git diff --staged` to review all changes
+- Search staged files for patterns: `password`, `secret`, `api_key`, `token`
+- Check no hardcoded IPs or internal URLs
+
+**License Compliance:**
+- New dependencies must have compatible licenses (MIT, Apache 2.0, BSD)
+- Avoid GPL in proprietary code without legal review
+- Check `package.json` / `requirements.txt` additions
+
+### Git Hygiene
+- Never force push to `main`/`master`
+- Write meaningful commit messages
+- Don't commit generated files (`dist/`, `node_modules/`, `*.pyc`)
