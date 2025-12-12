@@ -29,13 +29,6 @@ export const pagesMetadata: PageMetadata[] = [
   //   tags: ["freelance", "ai", "prompts"],
   //   category: "Freelance",
   // },
-  // {
-  //   title: "AI Website Builder",
-  //   path: "/ai-website-builder",
-  //   excerpt: "AI-powered website building tools",
-  //   tags: ["ai", "web-development", "tools"],
-  //   category: "AI & Tools",
-  // },
   {
     title: 'WooCommerce with resend.com',
     path: '/woocommerce-with-resend',
@@ -71,13 +64,13 @@ export const pagesMetadata: PageMetadata[] = [
     tags: ['authentication', 'integration', 'ldap'],
     category: 'Authentication',
   },
-  {
-    title: 'AI Prompts',
-    path: '/ai-prompts',
-    excerpt: 'Collection of AI prompts and templates',
-    tags: ['ai', 'prompts', 'templates'],
-    category: 'AI & Tools',
-  },
+  // {
+  //   title: 'AI Prompts',
+  //   path: '/ai-prompts',
+  //   excerpt: 'Collection of AI prompts and templates',
+  //   tags: ['ai', 'prompts', 'templates'],
+  //   category: 'AI & Tools',
+  // },
   {
     title: 'Node.js x AWS x Github Action',
     path: '/nodejs-aws-github-cicd',
@@ -85,13 +78,6 @@ export const pagesMetadata: PageMetadata[] = [
     tags: ['nodejs', 'aws', 'cicd', 'devops'],
     category: 'DevOps',
   },
-  // {
-  //   title: "AWS Copilot",
-  //   path: "/aws-copilot",
-  //   excerpt: "AWS Copilot deployment guide",
-  //   tags: ["aws", "deployment", "devops"],
-  //   category: "DevOps",
-  // },
   // {
   //   title: "PayPal/Stripe Payment",
   //   path: "/paypal-stripe-payment",
