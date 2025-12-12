@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { cookies } from 'next/headers';
-import { db, messages, settings, SETTING_KEYS } from '@/lib/db';
+import { db, messages, settings, SETTING_KEYS, type Message as DbMessage } from '@/lib/db';
 import { eq, and } from 'drizzle-orm';
 import { getAgent, AgentId } from '@/lib/agents';
 
@@ -75,7 +75,7 @@ export async function GET() {
       .orderBy(messages.createdAt);
 
     return Response.json({
-      messages: sessionMessages.map((m) => ({
+      messages: sessionMessages.map((m: DbMessage) => ({
         role: m.role,
         content: m.content,
         metadata: m.metadata ? JSON.parse(m.metadata) : null,

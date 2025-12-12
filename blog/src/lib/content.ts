@@ -15,20 +15,6 @@ export const pagesMetadata: PageMetadata[] = [
     tags: ['portfolio'],
     category: 'About',
   },
-  // {
-  //   title: "Work experience",
-  //   path: "/work-experience",
-  //   excerpt: "Professional experience and background",
-  //   tags: ["career", "experience"],
-  //   category: "About",
-  // },
-  // {
-  //   title: "Freelance Prompt",
-  //   path: "/freelance-prompt",
-  //   excerpt: "Prompts for freelance work",
-  //   tags: ["freelance", "ai", "prompts"],
-  //   category: "Freelance",
-  // },
   {
     title: 'WooCommerce with resend.com',
     path: '/woocommerce-with-resend',
@@ -64,13 +50,6 @@ export const pagesMetadata: PageMetadata[] = [
     tags: ['authentication', 'integration', 'ldap'],
     category: 'Authentication',
   },
-  // {
-  //   title: 'AI Prompts',
-  //   path: '/ai-prompts',
-  //   excerpt: 'Collection of AI prompts and templates',
-  //   tags: ['ai', 'prompts', 'templates'],
-  //   category: 'AI & Tools',
-  // },
   {
     title: 'Node.js x AWS x Github Action',
     path: '/nodejs-aws-github-cicd',
@@ -78,13 +57,6 @@ export const pagesMetadata: PageMetadata[] = [
     tags: ['nodejs', 'aws', 'cicd', 'devops'],
     category: 'DevOps',
   },
-  // {
-  //   title: "PayPal/Stripe Payment",
-  //   path: "/paypal-stripe-payment",
-  //   excerpt: "Payment integration examples",
-  //   tags: ["payment", "integration", "stripe", "paypal"],
-  //   category: "E-commerce",
-  // },
   {
     title: 'WBS Management',
     path: '/wbs-management',
@@ -92,13 +64,6 @@ export const pagesMetadata: PageMetadata[] = [
     tags: ['project-management', 'planning'],
     category: 'Project Management',
   },
-  // {
-  //   title: "Freelance communication",
-  //   path: "/freelance-communication",
-  //   excerpt: "Communication guidelines for freelancers",
-  //   tags: ["freelance", "communication", "guide"],
-  //   category: "Freelance",
-  // },
   {
     title: 'Event Storming with Mermaid',
     path: '/event-storming-mermaid',
