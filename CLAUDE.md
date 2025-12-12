@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Blog Application
+
 ```sh
 # Navigate to blog directory and start development server
 cd blog && pnpm dev
@@ -23,6 +24,7 @@ cd blog && pnpm release
 ```
 
 ### Prototype Backend
+
 ```sh
 # Navigate to prototypes backend and activate Python virtual environment
 cd prototypes/backend
@@ -47,6 +49,7 @@ This is a monorepo containing multiple projects:
 ## Blog Application Architecture
 
 ### Technology Stack
+
 - **Frontend:** React 19.2 with TypeScript 5.9
 - **Build Tool:** Vite 7.2 with file-based routing (`vite-plugin-pages`)
 - **Styling:** Tailwind CSS 4.1 with typography plugin
@@ -59,16 +62,19 @@ This is a monorepo containing multiple projects:
 ### Key Architectural Patterns
 
 **File-Based Routing**
+
 - Pages are automatically generated from `/blog/src/pages/` directory
 - Both `.tsx` and `.mdx` files become routes
 - MDX files support frontmatter metadata for title, excerpt, tags, category, date
 
 **Content Management**
+
 - Centralized content metadata in `/blog/src/lib/content.ts`
 - Manual registration of pages with metadata (title, path, excerpt, tags, category)
 - Helper functions: `getAllTags()`, `getAllCategories()`, `getPagesByTag()`, `getPagesByCategory()`
 
 **Component Organization**
+
 - `/blog/src/components/` - Reusable UI components (layout, theme, search, MDX rendering)
 - `/blog/src/components/ui/` - Headless UI primitives (buttons, badges, inputs)
 - `/blog/src/lib/` - Utility functions and content metadata
@@ -76,6 +82,7 @@ This is a monorepo containing multiple projects:
 - `/blog/src/assets/` - Static assets
 
 **Vite Configuration** (`/blog/vite.config.ts`)
+
 ```typescript
 // Key plugins:
 - @mdx-js/rollup: Compiles MDX with GFM and frontmatter support
@@ -91,15 +98,17 @@ This is a monorepo containing multiple projects:
 When adding new blog posts or pages:
 
 1. Create MDX file in `/blog/src/pages/` with frontmatter:
+
 ```mdx
 ---
-title: "Post Title"
-date: "2025-01-01"
-excerpt: "Brief description"
+title: 'Post Title'
+date: '2025-01-01'
+excerpt: 'Brief description'
 ---
 ```
 
 2. Register in `/blog/src/lib/content.ts`:
+
 ```typescript
 {
   title: 'Post Title',
@@ -112,6 +121,7 @@ excerpt: "Brief description"
 ```
 
 ### Content Categories
+
 - E-commerce (WooCommerce integrations)
 - Authentication (OIDC, security)
 - AI & Tools
@@ -124,6 +134,7 @@ excerpt: "Brief description"
 ## Deployment
 
 The blog is deployed to GitHub Pages via the `release` script:
+
 - Runs production build
 - Deploys `dist/` directory to `gh-pages` branch
 - Uses `base: '/'` in Vite config
@@ -131,4 +142,9 @@ The blog is deployed to GitHub Pages via the `release` script:
 ## Environment Variables
 
 Authentication is configured via environment variables (see `/blog/.env.example`):
+
 - `VITE_OIDC_CLIENT_ID` - Zitadel OIDC client ID
+
+## Rules
+
+- ALWAYS check sensitive data and license data before commit and push

@@ -1,0 +1,24 @@
+{
+  "name": "presentation",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build --out dist",
+    "build:pdf": "slidev export --output",
+    "export": "slidev export",
+    "preview": "npx serve dist",
+    "deploy:netlify": "pnpm build && npx netlify deploy --prod --dir=dist",
+    "deploy:vercel": "pnpm build && npx vercel --prod dist",
+    "deploy:gh-pages": "pnpm build && npx gh-pages -d dist"
+  },
+  "dependencies": {
+    "@slidev/cli": "^52.11.0",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "vue": "^3.5.25"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}
