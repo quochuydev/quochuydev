@@ -47,6 +47,14 @@ Ask how many slides they want:
 - "Medium (15-20 slides) (Recommended)" - 30-40 min presentation
 - "Long (25-35 slides)" - 45-60 min presentation
 
+**Question 3: Color Theme**
+Research the topic's brand colors and suggest matching themes:
+- Option 1: Topic's official brand colors (Recommended) - e.g., Binance → yellow/black, n8n → pink/white, Stripe → purple/white
+- Option 2: Neutral dark theme - Dark background with light text
+- Option 3: Neutral light theme - Light background with dark text
+
+Always research and suggest the actual brand colors for the topic being presented.
+
 ### Phase 3: Propose Slide Structure
 
 After getting answers, propose a detailed slide structure:
