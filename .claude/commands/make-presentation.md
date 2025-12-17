@@ -3,17 +3,21 @@
 Create or update a Slidev presentation on the given topic.
 
 ## Topic
+
 $ARGUMENTS
 
 ## Instructions
 
 ### Phase 0: Check for Existing Presentation
+
 - Search for existing presentation in `./presentation/slides/` matching the topic
 - If found: Read the file and proceed to **Update Mode**
 - If not found: Proceed to **Create Mode** (Phase 1)
 
 ### Update Mode
+
 When updating an existing presentation:
+
 1. Read the current presentation file
 2. Ask user what changes they want (add slides, modify content, restructure, etc.)
 3. Make the requested changes while preserving existing structure
@@ -24,6 +28,7 @@ When updating an existing presentation:
 ### Create Mode
 
 ### Phase 1: Research
+
 - Use WebSearch to research the topic thoroughly
 - Focus on: core concepts, best practices, common pitfalls, real-world examples
 - Gather technical details, statistics, and authoritative sources
@@ -36,6 +41,7 @@ After research, you MUST ask the user using AskUserQuestion tool:
 Propose 3-4 different angles/approaches for the presentation. Include a recommendation.
 
 Example options:
+
 - "Beginner-friendly introduction (Recommended)" - Focus on fundamentals
 - "Deep technical dive" - Focus on internals and advanced concepts
 - "Hands-on workshop style" - Heavy on demos and exercises
@@ -43,12 +49,14 @@ Example options:
 
 **Question 2: Number of Slides**
 Ask how many slides they want:
+
 - "Short (8-12 slides)" - 15-20 min presentation
 - "Medium (15-20 slides) (Recommended)" - 30-40 min presentation
 - "Long (25-35 slides)" - 45-60 min presentation
 
 **Question 3: Color Theme**
 Research the topic's brand colors and suggest matching themes:
+
 - Option 1: Topic's official brand colors (Recommended) - e.g., Binance → yellow/black, n8n → pink/white, Stripe → purple/white
 - Option 2: Neutral dark theme - Dark background with light text
 - Option 3: Neutral light theme - Light background with dark text
@@ -72,6 +80,7 @@ Slide 16: Q&A
 ```
 
 **Wait for user confirmation:**
+
 - User says "ok" or "looks good" → Proceed to create slides
 - User says "update slide X" or gives feedback → Revise structure and show again
 
@@ -82,6 +91,7 @@ Only after user approves the structure:
 1. **Create or update the Slidev file** at: `./presentation/slides/[topic-slug].md`
 
 2. **Use these Slidev features:**
+
    - `---` to separate slides
    - Frontmatter for slide configuration
    - Code blocks with syntax highlighting
@@ -90,6 +100,7 @@ Only after user approves the structure:
    - Tables for comparisons
 
 3. **Content guidelines:**
+
    - Clear, concise bullet points (not paragraphs)
    - Practical code examples
    - Text-based diagrams (ASCII art) instead of Mermaid
@@ -103,11 +114,13 @@ Only after user approves the structure:
 ### Phase 5: Review
 
 After creating:
+
 - Summarize what was created
 - List each slide with its purpose
 - Suggest demo setup if applicable
 
 ## Example Frontmatter
+
 ```yaml
 ---
 theme: seriph
@@ -124,7 +137,9 @@ mdc: true
 ```
 
 ## Important
+
 - **Create Mode:** NEVER skip Phase 2 (clarification) - always ask before creating new presentations
 - **Create Mode:** NEVER create slides without user approving the structure first
 - **Update Mode:** Ask what changes the user wants before modifying existing presentations
 - Use text/ASCII diagrams, NOT Mermaid
+- English should be simple, easy for read and understand (level ~B1/B2)

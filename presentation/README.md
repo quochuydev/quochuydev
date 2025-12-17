@@ -9,6 +9,9 @@ Technical presentations built with [Slidev](https://sli.dev/).
 pnpm install
 
 # Start dev server for a presentation
+pnpm dev slides/presentation_name
+
+# Example
 pnpm dev slides/database-index.md
 
 # Build for production
@@ -17,31 +20,34 @@ pnpm build slides/database-index.md
 
 ## Available Presentations
 
-| Presentation | Topic | Demo |
-|-------------|-------|------|
+| Presentation               | Topic                       | Demo             |
+| -------------------------- | --------------------------- | ---------------- |
 | `slides/database-index.md` | Database Indexing Deep Dive | 1M movie records |
 
 ## Claude Commands
 
 Use these commands with Claude Code:
 
-| Command | Description |
-|---------|-------------|
+| Command                        | Description                            |
+| ------------------------------ | -------------------------------------- |
 | `/create-presentation <topic>` | Research and create a new presentation |
 
 ## Deployment
 
 ### GitHub Pages (Recommended)
+
 ```bash
 pnpm deploy:gh-pages
 ```
 
 ### Netlify
+
 ```bash
 pnpm deploy:netlify
 ```
 
 ### Vercel
+
 ```bash
 pnpm deploy:vercel
 ```
@@ -61,8 +67,8 @@ presentation/
 
 ## Free Hosting Options
 
-| Platform | URL Pattern | Limits |
-|----------|-------------|--------|
+| Platform     | URL Pattern               | Limits    |
+| ------------ | ------------------------- | --------- |
 | GitHub Pages | `<user>.github.io/<repo>` | Unlimited |
-| Netlify | `<project>.netlify.app` | 100GB/mo |
-| Vercel | `<project>.vercel.app` | 100GB/mo |
+| Netlify      | `<project>.netlify.app`   | 100GB/mo  |
+| Vercel       | `<project>.vercel.app`    | 100GB/mo  |
