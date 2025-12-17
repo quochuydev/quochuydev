@@ -93,21 +93,29 @@ Only after user approves the structure:
 2. **Use these Slidev features:**
 
    - `---` to separate slides
-   - Frontmatter for slide configuration
+   - Frontmatter for slide configuration (layout must be in frontmatter, NOT as markdown heading)
    - Code blocks with syntax highlighting
-   - Slide layouts: `cover`, `two-cols`, `section`
-   - `<v-click>` for progressive reveals
+   - Slide layouts: prefer `default` or `center` for single-column layouts
+   - `<v-click>` for progressive reveals (see v-click rules below)
    - Tables for comparisons
+
+   **V-click rules:**
+
+   - Content must animate top-to-bottom - no static content between animated items
+   - Use `<v-clicks>` wrapper for lists - animates all items consistently
+   - Either animate ALL content or NONE - never partial (some animated, some static)
+   - If a slide has a list, wrap entire list in `<v-clicks>`, not individual `<v-click>` tags
 
 3. **Content guidelines:**
 
    - Clear, concise bullet points (not paragraphs)
    - Practical code examples
-   - Text-based diagrams (ASCII art) instead of Mermaid
+   - Text-based diagrams (ASCII art) instead of Mermaid - use regular text, NOT code blocks
    - Real-world scenarios
    - **Slide length:** Keep each slide focused on ONE main concept
-   - **Long content:** Use `<v-click>` for progressive reveals instead of splitting slides
-   - **Rule of thumb:** If content has multiple sections, wrap each section in `<v-click>` tags so audience sees content incrementally
+   - **Line limit:** Each slide should have 8-12 lines of content maximum (not counting headings and v-click tags)
+   - **Long content:** If content exceeds 8-12 lines, split into multiple slides instead of cramming
+   - **Layout:** Use straight, single-column layout - content flows top-to-bottom naturally
 
 4. **Create demo files** at `./presentation/demo/[topic-slug]/` if needed
 
