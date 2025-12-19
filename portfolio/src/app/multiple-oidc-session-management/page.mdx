@@ -1,0 +1,64 @@
+# Multi-OIDC Session Management Application
+
+Managing multiple OpenID Connect (OIDC) sessions across different applications can be complex. Inspired by the NextAuth framework, this open-source project provides a robust solution for handling multi-OIDC sessions efficiently.
+
+https://github.com/quochuydev/next-multiple-oidc-sessions
+
+This blog walks you through the benefits, implementation steps, and references for getting started with this powerful authentication framework.
+
+## Outcome and Benefit
+
+### Centralized Session Management
+The primary outcome of this project is a centralized authentication system that efficiently manages multiple OIDC sessions across different applications. By centralizing session management, you gain:
+
+- **Consistent User Experience**: Users can seamlessly switch between multiple applications (`app.example.local/app1`, `app.example.local/app2`) without needing to re-authenticate.
+- **Simplified Integration**: With a shared authentication service (`auth.example.local`), integrating new applications into your ecosystem becomes much easier and less error-prone.
+
+## Implementation Steps
+
+### 1. Set Up the Repository
+Clone the GitHub repository and explore the three core applications:
+
+- **`app.example.local/app1`**
+- **`app.example.local/app2`**
+- **`auth.example.local`**
+
+Each of these applications is designed to work together to provide a seamless authentication experience across different domains.
+
+### 2. Configure the Auth Service (`auth.example.local`)
+The `auth.example.local` application acts as the central authentication hub. Here's how to set it up:
+
+- **OIDC Configuration**: Configure your OIDC providers (like Google, Facebook, etc.) within the `auth.example.local` application. This includes setting up client IDs, secrets, and redirect URIs.
+- **Session Management**: Implement session handling logic that supports multiple active sessions per user, allowing seamless switching between applications.
+
+### 3. Integrate with Application 1 (`app.example.local/app1`)
+
+- **OIDC Client Setup**: In `app.example.local/app1`, set up the OIDC client to interact with the `auth.example.local` service.
+- **Session Handling**: Ensure that `app.example.local/app1` correctly handles session tokens received from the authentication service. Store and manage these tokens securely.
+
+### 4. Integrate with Application 2 (`app.example.local/app2`)
+
+- **Repeat the Process**: Just like in `app.example.local/app1`, set up the OIDC client in `app.example.local/app2`. Ensure seamless session management between `app.example.local/app2` and the central `auth.example.local`.
+
+### 5. Test Across Applications
+
+- **Cross-Application Testing**: Test user logins and session management across `app.example.local/app1` and `app.example.local/app2`. Ensure that sessions persist and that users can switch between applications without re-authentication.
+- **Security Audits**: Conduct thorough security testing to ensure that session tokens are handled securely and that no vulnerabilities exist in cross-application session management.
+
+![authentication.drawio.png](/multiple-oidc-session-management/authentication.drawio.png)
+
+## References
+
+1. **NextAuth.js Documentation**:
+
+   A comprehensive guide to understanding the concepts behind NextAuth, which inspired this project.
+
+   [https://next-auth.js.org/getting-started/introduction](https://next-auth.js.org/getting-started/introduction)
+
+2. **OpenID Connect Endpoints in ZITADEL**:
+
+   [https://zitadel.com/docs/apis/openidoauth/endpoints](https://zitadel.com/docs/apis/openidoauth/endpoints)
+
+3. **PKCE - Recommendation for authorization flow**:
+
+   [https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows](https://zitadel.com/docs/guides/integrate/login/oidc/oauth-recommended-flows#our-recommended-authorization-flows)
