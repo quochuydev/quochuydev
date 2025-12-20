@@ -20,3 +20,5 @@ Table mapping: Feature | Earning Opportunity
 Include relevant resources and links at the end.
 
 Focus on practical, actionable ideas. Prioritize by effort-to-reward ratio.
+
+**IMPORTANT**: After generating the analysis, write the output to a markdown file in the same directory as the input file. Name it by replacing `-overview.md` with `-earning-ideas.md` (e.g., `ai/deepwiki-overview.md` → `ai/deepwiki-earning-ideas.md`). If the input filename doesn't end with `-overview.md`, append `-earning-ideas.md` to the base filename.
