@@ -82,10 +82,10 @@ flowchart TD
     Slash --> Jail[30-day Jail<br/>for double-sign]
     NextBlock --> Block
 
-    style Cabinet fill:#4caf50
-    style Candidate fill:#ff9800
-    style Active fill:#2196f3
-    style Slash fill:#f44336
+    style Cabinet fill:#F0B90B,color:#14151A
+    style Candidate fill:#FF8A38,color:#14151A
+    style Active fill:#18DC7E,color:#14151A
+    style Slash fill:#F8545F,color:#fff
 ```
 
 ## EVM Architecture & Smart Contract Execution
@@ -122,8 +122,8 @@ graph TB
     Solidity --> Load
     Tools --> TX
 
-    style EVM fill:#e3f2fd
-    style Revert fill:#ffebee
+    style EVM fill:#F0B90B,color:#14151A
+    style Revert fill:#F8545F,color:#fff
 ```
 
 ## BNB Chain Ecosystem Components
@@ -165,10 +165,10 @@ graph LR
     Layer1 --> DeFi
     Infra --> Layer1
 
-    style Layer1 fill:#fff3e0
-    style Layer2 fill:#e8f5e9
-    style Storage fill:#e3f2fd
-    style DeFi fill:#f3e5f5
+    style Layer1 fill:#F0B90B,color:#14151A
+    style Layer2 fill:#18DC7E,color:#14151A
+    style Storage fill:#00FF67,color:#14151A
+    style DeFi fill:#FF8A38,color:#14151A
 ```
 
 ## Gas Fee Structure
@@ -192,8 +192,8 @@ flowchart LR
     GasPrice --> Fee
     Fee --> Total
 
-    style Burn fill:#f44336,color:#fff
-    style Validator fill:#4caf50
+    style Burn fill:#F8545F,color:#fff
+    style Validator fill:#F0B90B,color:#14151A
 ```
 
 ## Network Participants
@@ -251,8 +251,8 @@ flowchart TD
     PoSA --> Stake
     Stake --> Slash
 
-    style Slash fill:#f44336,color:#fff
-    style Avenger fill:#4caf50
+    style Slash fill:#F8545F,color:#fff
+    style Avenger fill:#18DC7E,color:#14151A
 ```
 
 ## Key Facts (2025)
