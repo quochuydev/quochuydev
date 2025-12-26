@@ -3,7 +3,6 @@
 | Platform          | URL                               | Why Good for Your Workflow                                         |
 | ----------------- | --------------------------------- | ------------------------------------------------------------------ |
 | Dev.to            | https://dev.to                    | Developer-focused, great for AI/tooling content, built-in audience |
-| Hashnode          | https://hashnode.com              | Custom domain free, dev community, good SEO, newsletter built-in   |
 | Medium            | https://medium.com                | Large reach, "programming" and "AI" tags have big audiences        |
 | Reddit            | https://reddit.com                | r/ClaudeAI, r/LocalLLaMA, r/programming - viral potential          |
 | Hacker News       | https://news.ycombinator.com      | Show HN posts for tools, developer-heavy audience                  |
