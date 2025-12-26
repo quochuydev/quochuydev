@@ -1,7 +1,7 @@
 <h3 align="center">Hi, I am Huy Pham, A fullstack developer from VietNam</h3>
 How to reach me: quochuy.dev@gmail.com
 <br/>
-https://quochuydev.github.io/quochuydev/
+https://portfolio.quochuy.dev
 
 <h3 align="left">Languages and Tools:</h3>
 <p align="left"> 
