@@ -89,7 +89,7 @@ flowchart TB
         end
 
         subgraph Runtime["Runtime Environment"]
-            Init[/process_api<br/>PID 1 Init Process]
+            Init["process_api<br/>PID 1 Init Process"]
             Shell[Shell Sessions<br/>Command execution]
             Git[Git Client<br/>Scoped credential]
         end
@@ -432,7 +432,7 @@ mindmap
             Cross-repo changes
             Microservices updates
             Monorepo management
-        CI/CD Integration
+        CI-CD Integration
             PR creation
             Branch management
             Automated commits
