@@ -124,6 +124,10 @@ This scaffolds/creates:
 | <Image 2> | <Location> | <Description of what to screenshot> |
 | <Image 3> | <Location> | <Description of what to screenshot> |
 | <Image 4> | <Location> | <Description of what to screenshot> |
+
+# Banana AI banner prompt
+
+<A detailed prompt for generating a cover/banner image. Include visual style, colors, key concepts to illustrate, and mood. Example: "Minimalist tech illustration showing connected nodes in a flowchart, purple and blue gradient, modern developer tool aesthetic, no text.">
 ```
 
 ### 3. Writing Style Guidelines

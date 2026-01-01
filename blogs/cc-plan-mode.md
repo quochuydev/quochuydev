@@ -124,3 +124,7 @@ How do you currently manage complex, multi-step features when working with AI as
 | Plan YAML file | After "Plan Format" | VS Code showing a `.claude/plans/feature.md` file with YAML frontmatter |
 | Execute in action | After "Commands" table | Terminal showing `/plan-execute` running a task with Claude's response |
 | Folder structure | After installation | VS Code sidebar showing `.claude/plans/` directory with plan files |
+
+# Banana AI banner prompt
+
+Minimalist tech illustration showing a flowchart/dependency graph with connected nodes, each node representing a task with checkmarks and progress indicators. The nodes flow from top to bottom with arrows showing dependencies. Purple and blue gradient color scheme. Clean, modern developer tool aesthetic. Abstract geometric shapes in the background suggesting structure and organization. No text.
