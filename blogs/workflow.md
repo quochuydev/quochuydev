@@ -100,3 +100,7 @@ What's your current workflow for keeping specs and code in sync? I'd love to hea
 | Spec example      | After "Get Started"        | A real spec.md file in your editor                             |
 | Command in action | After "The Commands" table | Terminal screenshot of /write-spec or /develop-feature running |
 | Folder structure  | After scaffolding section  | VS Code sidebar showing .claude/commands/ and docs/            |
+
+# Banana AI banner prompt
+
+Minimalist illustration showing a glowing document/spec file in the center with three figures around it (PM, Developer, QA) all connected by lines to the same document. Represents single source of truth concept. Clean flat design, blue and teal color palette with white accents. Subtle code/markdown patterns in background. Modern SaaS aesthetic, no text.
