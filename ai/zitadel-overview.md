@@ -35,7 +35,7 @@ graph TB
         end
 
         subgraph "Projections"
-            Projections[(Query Views<br/>Read Models)]
+            QueryViews[(Query Views<br/>Read Models)]
             Cache[(Cache Layer<br/>Redis Optional)]
         end
 
@@ -540,7 +540,7 @@ Transitioning users from passwords to passkeys for improved security and UX.
 flowchart LR
     Download[Download<br/>Docker Compose] --> Start[docker compose up]
     Start --> Access[Access Console<br/>localhost:8080]
-    Access --> Login[Login<br/>zitadel-admin@zitadel.localhost<br/>Password1!]
+    Access --> Login[Login<br/>zitadel-admin<br/>Password1!]
     Login --> Create[Create Organization<br/>and Application]
     Create --> Integrate[Integrate with<br/>Your App]
 ```
