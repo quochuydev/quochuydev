@@ -4,103 +4,107 @@ https://github.com/quochuydev/n8n-openapi
 
 # Title
 
-How I Built a Tool That Converts Any OpenAPI Spec to n8n Nodes in Seconds
+I Built a Tool That Turns Any OpenAPI Spec Into n8n Workflow Nodes in Seconds
 
 # Tags
 
-n8n, automation, openapi, typescript, devtools
+n8n, automation, opensource, typescript, productivity
 
 # Body
 
-Ever spent hours manually creating HTTP Request nodes in n8n for a third-party API? Copy-pasting endpoints, figuring out authentication, mapping parameters—it's tedious work that feels like it should be automated. So I built a tool that does exactly that.
+You know that feeling when you find an API with 50+ endpoints and need to wire them into your n8n workflow? Yeah, I spent way too many hours manually configuring HTTP Request nodes. So I built something to fix that.
 
 ## The Problem
 
-When integrating APIs into n8n workflows:
+If you use n8n for automation:
 
-- You open the API docs, find an endpoint, then manually configure the HTTP Request node
-- Each endpoint needs URL, method, headers, query params, and body configured separately
-- Large APIs with 50+ endpoints? That's hours of repetitive clicking
-- Swagger/OpenAPI specs already have all this info—but n8n can't read them directly
-- One typo in the URL or wrong HTTP method, and you're debugging for 30 minutes
+- Every API endpoint means a new HTTP Request node to configure manually
+- Copy-pasting URLs, headers, and parameters is tedious and error-prone
+- Complex APIs with dozens of endpoints? That's hours of clicking
+- OpenAPI specs have all the info you need, but n8n can't read them directly
+- One typo in the endpoint path and your workflow breaks silently
 
-## The Solution: n8n-openapi
+## The Solution: OpenAPI to n8n Converter
 
-What if you could paste an OpenAPI spec URL and get ready-to-use n8n nodes instantly?
+What if you could paste an OpenAPI spec and get ready-to-use n8n nodes?
 
 ```
-1. Paste OpenAPI spec URL
+1. Paste your OpenAPI/Swagger spec (URL, JSON, or YAML)
 2. Select the endpoints you need
 3. Copy → Paste into n8n
 ```
 
-That's it. Every endpoint becomes a properly configured HTTP Request node.
+That's it. Minutes of manual work compressed into seconds.
 
 ## How It Works
 
-1. **Input your spec** - Paste a URL, upload a file, or paste the raw JSON/YAML directly
-2. **Parse & convert** - The tool reads OpenAPI 3.x or Swagger 2.0 and generates n8n-compatible nodes
-3. **Select endpoints** - Pick only the endpoints you actually need instead of importing everything
-4. **Copy to n8n** - One click copies the node JSON, paste it directly into your workflow
+1. **Provide your spec** - Paste a URL, upload a file, or paste raw JSON/YAML
+2. **Parse & Convert** - The tool reads your OpenAPI 3.x or Swagger 2.0 spec
+3. **Cherry-pick endpoints** - Select only the endpoints you actually need
+4. **Copy to n8n** - One click copies the node config, paste it into your workflow
 
-No CLI. No installation. Just open the web app and convert.
+No installation. No signup. Just open the browser and convert.
 
 ## Get Started in 30 Seconds
 
-```bash
-# No installation needed - just visit:
+```
 https://n8n-openapi.vercel.app
 ```
 
-The web app provides:
-- **URL input** - Fetch any public OpenAPI spec directly
-- **File upload** - Drop your local spec files (JSON or YAML)
-- **Text input** - Paste raw spec content
-- **Multi-tab interface** - Work with multiple APIs at once
+The interface gives you:
 
-## Features
+- **URL fetching** - Point to any public OpenAPI spec URL
+- **File upload** - Drop your local spec files
+- **Direct paste** - Copy-paste spec content directly
+- **Popular APIs** - Pre-configured examples (GitHub, Stripe, Slack, Discord, etc.)
 
-| Feature | What It Does |
-| ------- | ------------ |
-| OpenAPI 3.x & Swagger 2.0 | Supports both modern and legacy specs |
-| JSON & YAML | Works with either format |
-| Selective conversion | Choose specific endpoints instead of all |
-| Custom base URL | Override the default API host |
-| Auto-save | Browser storage persists your work |
-| One-click copy | Paste directly into n8n workflow |
+## Features at a Glance
+
+| Feature              | What It Does                               |
+| -------------------- | ------------------------------------------ |
+| Multi-format support | OpenAPI 3.x & Swagger 2.0, JSON & YAML     |
+| Selective conversion | Pick specific endpoints, skip the rest     |
+| Base URL override    | Point to staging, production, or localhost |
+| Browser persistence  | Your conversions are saved automatically   |
+| Multi-tab workflow   | Manage multiple API conversions at once    |
+| One-click copy       | Clipboard-ready n8n node configurations    |
 
 ## Why This Works
 
-1. **No context switching** - Stay in your browser, convert specs, paste into n8n
-2. **Accuracy** - The spec defines the exact URL, method, and parameters—no manual errors
-3. **Speed** - Convert an entire API in seconds instead of hours
-4. **Selective** - Only import the 5 endpoints you need from a 100-endpoint API
+1. **Zero friction** - Browser-based, no install, no account required
+2. **Spec as source of truth** - OpenAPI already documents everything; this just transforms it
+3. **Selective imports** - Don't bloat your workflow with endpoints you won't use
+4. **Time savings** - What took 30 minutes of clicking now takes 30 seconds
 
 ## Try It
 
-If you're building n8n workflows with third-party APIs, give it a shot:
+Head to the converter and try it with one of the pre-loaded APIs:
 
-```bash
+```
 https://n8n-openapi.vercel.app
 ```
 
-Try it with any public OpenAPI spec—Stripe, GitHub, or your own API docs.
+Try converting the GitHub or Stripe API spec first—they're already in the Popular APIs section.
 
 ---
 
 > **GitHub**: [quochuydev/n8n-openapi](https://github.com/quochuydev/n8n-openapi)
 >
-> **Live App**: [n8n-openapi.vercel.app](https://n8n-openapi.vercel.app)
+> **Live Demo**: [n8n-openapi.vercel.app](https://n8n-openapi.vercel.app)
 
 ---
 
-What APIs are you integrating into your n8n workflows? I'd love to hear which ones could benefit from faster setup.
+How do you currently handle integrating complex APIs into n8n? Would love to hear if there are endpoints or specs that break the converter—PRs welcome!
 
 # Image capture for blog
 
-| Image | Where in Post | What to Capture |
-| ----- | ------------- | --------------- |
-| Main interface | After "The Solution" | The web app showing URL input field and conversion interface |
-| Endpoint list | After "How It Works" | Screenshot showing parsed endpoints with checkboxes for selection |
-| Copy action | After "Features" table | The one-click copy button and the resulting node JSON preview |
-| n8n paste result | At the end | The converted node pasted into an actual n8n workflow editor |
+| Image              | Where in Post                 | What to Capture                                                                      |
+| ------------------ | ----------------------------- | ------------------------------------------------------------------------------------ |
+| Main interface     | After "The Solution"          | Screenshot of the converter homepage showing the input area and Popular APIs section |
+| Endpoint selection | After "How It Works"          | Screenshot showing parsed endpoints with checkboxes for selection                    |
+| Generated output   | Before "Features at a Glance" | Screenshot of the generated n8n node JSON configuration                              |
+| n8n workflow       | After "Why This Works"        | Screenshot of the converted nodes pasted into an actual n8n workflow editor          |
+
+# Banana AI banner prompt
+
+Clean, modern illustration showing the conversion flow: an OpenAPI/Swagger document icon on the left transforming (with arrows/particles) into n8n workflow nodes on the right. Use n8n's signature orange/coral color combined with deep navy blue. Minimalist flat design with subtle JSON brackets and curly braces in the background. Developer tool aesthetic, no text, white space emphasis.
