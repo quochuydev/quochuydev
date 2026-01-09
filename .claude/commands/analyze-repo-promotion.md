@@ -83,3 +83,5 @@ Search these patterns:
 ## Example Analysis
 
 See: [manus-promotion-analysis.md](@ai/manus-promotion-analysis.md) for a complete analysis of the planning-with-files repo that gained 4.7k stars in 5 days.
+
+**IMPORTANT**: After generating the analysis, write the output to a markdown file in the `./ai` directory. If the input filename doesn't end with `-analysis.md`, append `-analysis.md` to the base filename.
