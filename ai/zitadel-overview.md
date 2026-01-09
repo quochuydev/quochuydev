@@ -190,20 +190,20 @@ graph TB
     subgraph "ZITADEL Instance"
         subgraph "Organization A (Customer)"
             UsersA[Users]
-            PoliciesA[Login & Security<br/>Policies]
+            PoliciesA[Login and Security<br/>Policies]
             BrandingA[Custom Branding]
             IdPsA[Federated IdPs]
         end
 
         subgraph "Organization B (Customer)"
             UsersB[Users]
-            PoliciesB[Login & Security<br/>Policies]
+            PoliciesB[Login and Security<br/>Policies]
             BrandingB[Custom Branding]
             IdPsB[Federated IdPs]
         end
 
         subgraph "Shared Resources"
-            Projects[Projects & Apps]
+            Projects[Projects and Apps]
             Grants[Project Grants]
             GlobalPolicies[Instance Policies]
         end
@@ -262,7 +262,7 @@ graph TB
         end
 
         subgraph "External Endpoints"
-            Webhook[Webhook<br/>Fire & Forget]
+            Webhook[Webhook<br/>Fire and Forget]
             RequestResponse[Request/Response<br/>Modify Data]
             Async[Async Processing<br/>Background Tasks]
         end
@@ -427,7 +427,7 @@ flowchart TD
     Single --> Runtime[Run zitadel start]
     Jobs --> Runtime
 
-    Runtime --> Monitor[Monitoring<br/>Metrics & Logs]
+    Runtime --> Monitor[Monitoring<br/>Metrics and Logs]
     Monitor --> Done[Production Ready]
 ```
 
@@ -541,7 +541,7 @@ flowchart LR
     Download[Download<br/>Docker Compose] --> Start[docker compose up]
     Start --> Access[Access Console<br/>localhost:8080]
     Access --> Login[Login<br/>zitadel-admin@zitadel.localhost<br/>Password1!]
-    Login --> Create[Create Organization<br/>& Application]
+    Login --> Create[Create Organization<br/>and Application]
     Create --> Integrate[Integrate with<br/>Your App]
 ```
 
