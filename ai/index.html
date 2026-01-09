@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Technical Overviews</title>
+  <title>My Blog</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
@@ -11,8 +11,8 @@
   <div class="site-wrapper">
     <header class="site-header">
       <div class="container">
-        <h1 class="site-title"><a href="./">AI Technical Overviews</a></h1>
-        <p class="site-description">In-depth technical documentation and architecture guides</p>
+        <h1 class="site-title"><a href="./" id="site-title-link">My Blog</a></h1>
+        <p class="site-description" id="site-description">A collection of articles</p>
       </div>
     </header>
 
@@ -54,7 +54,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>&copy; 2025 AI Technical Overviews. Built with Markdown.</p>
+        <p id="footer-text">&copy; 2025 My Blog. Built with Markdown.</p>
       </div>
     </footer>
   </div>
@@ -62,18 +62,51 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script type="module">
-    // Configuration
-    const CONFIG = {
-      // GitHub repo info for API-based file discovery
-      github: {
-        owner: 'quochuydev',
-        repo: 'quochuydev',
-        branch: 'master',
-        path: 'ai'
-      },
-      // Fallback manifest file
-      manifestFile: 'manifest.json'
+    // ========================================
+    // SITE CONFIGURATION - Edit these values
+    // ========================================
+    const SITE = {
+      title: 'My Blog',
+      description: 'A collection of articles'
     };
+
+    // Apply site config to DOM
+    document.title = SITE.title;
+    document.getElementById('site-title-link').textContent = SITE.title;
+    document.getElementById('site-description').textContent = SITE.description;
+    document.getElementById('footer-text').innerHTML = `&copy; ${new Date().getFullYear()} ${SITE.title}. Built with Markdown.`;
+
+    // ========================================
+    // AUTO-CONFIGURATION - No need to edit
+    // ========================================
+    const CONFIG = {
+      manifestFile: 'manifest.json',
+      github: null // Will be auto-detected
+    };
+
+    // Auto-detect GitHub repo from URL (works on GitHub Pages)
+    function detectGitHubRepo() {
+      const hostname = window.location.hostname;
+      const pathname = window.location.pathname;
+
+      // GitHub Pages: username.github.io/repo/path/
+      if (hostname.endsWith('.github.io')) {
+        const owner = hostname.replace('.github.io', '');
+        const pathParts = pathname.split('/').filter(Boolean);
+        const repo = pathParts[0] || owner; // repo name or same as owner for user pages
+        const path = pathParts.slice(1, -1).join('/') || pathParts.slice(1).join('/'); // Remove index.html if present
+
+        return {
+          owner,
+          repo,
+          branch: 'master', // Default, could also try 'main'
+          path: path || '.'
+        };
+      }
+      return null;
+    }
+
+    CONFIG.github = detectGitHubRepo();
 
     // State
     let posts = [];
@@ -93,24 +126,26 @@
 
     // Fetch posts list from GitHub API or manifest
     async function fetchPostsList() {
-      try {
-        // Try GitHub API first
-        const apiUrl = `https://api.github.com/repos/${CONFIG.github.owner}/${CONFIG.github.repo}/contents/${CONFIG.github.path}?ref=${CONFIG.github.branch}`;
-        const response = await fetch(apiUrl);
+      // Try GitHub API first (only if on GitHub Pages)
+      if (CONFIG.github) {
+        try {
+          const apiUrl = `https://api.github.com/repos/${CONFIG.github.owner}/${CONFIG.github.repo}/contents/${CONFIG.github.path}?ref=${CONFIG.github.branch}`;
+          const response = await fetch(apiUrl);
 
-        if (response.ok) {
-          const files = await response.json();
-          return files
-            .filter(file => file.name.endsWith('.md') && file.name !== 'README.md')
-            .map(file => ({
-              name: file.name,
-              path: file.name,
-              title: formatTitle(file.name),
-              url: file.download_url
-            }));
+          if (response.ok) {
+            const files = await response.json();
+            return files
+              .filter(file => file.name.endsWith('.md') && file.name !== 'README.md')
+              .map(file => ({
+                name: file.name,
+                path: file.name,
+                title: formatTitle(file.name),
+                url: file.download_url
+              }));
+          }
+        } catch (e) {
+          console.log('GitHub API not available, trying manifest...');
         }
-      } catch (e) {
-        console.log('GitHub API not available, trying manifest...');
       }
 
       // Fallback to manifest file
@@ -165,18 +200,15 @@
         }
       }
 
-      // Detect category from content
-      const contentLower = content.toLowerCase();
-      if (contentLower.includes('blockchain') || contentLower.includes('crypto') || contentLower.includes('bitcoin')) {
-        category = 'Blockchain';
-      } else if (contentLower.includes('authentication') || contentLower.includes('oauth') || contentLower.includes('oidc')) {
-        category = 'Authentication';
-      } else if (contentLower.includes('ai') || contentLower.includes('machine learning') || contentLower.includes('llm')) {
-        category = 'AI & ML';
-      } else if (contentLower.includes('documentation') || contentLower.includes('architecture')) {
-        category = 'Documentation';
-      } else if (contentLower.includes('devops') || contentLower.includes('deploy') || contentLower.includes('docker')) {
-        category = 'DevOps';
+      // Extract category from frontmatter if present
+      // Supports: category: Tech or category: "My Category"
+      const frontmatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---/);
+      if (frontmatterMatch) {
+        const frontmatter = frontmatterMatch[1];
+        const categoryMatch = frontmatter.match(/^category:\s*["']?([^"'\n]+)["']?\s*$/m);
+        if (categoryMatch) {
+          category = categoryMatch[1].trim();
+        }
       }
 
       return { title, excerpt, category };
