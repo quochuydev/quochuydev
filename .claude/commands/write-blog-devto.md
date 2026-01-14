@@ -24,7 +24,7 @@ Research the GitHub repository thoroughly:
 
 ### 2. Blog Structure
 
-Create a markdown file in `blogs/<repo-name>.md` with this exact format:
+Create a markdown file in `devto/<repo-name>.md` with this exact format:
 
 ```markdown
 # Repo
@@ -158,10 +158,10 @@ Suggest 3-4 screenshots that would enhance the post:
 
 ## Output
 
-Save the blog to `blogs/<repo-name>.md` using the repository name (e.g., `workflow.md` for `quochuydev/workflow`).
+Save the blog to `devto/<repo-name>.md` using the repository name (e.g., `workflow.md` for `quochuydev/workflow`).
 
 ## Example Reference
 
-See `blogs/workflow.md` for the target format and style.
+See `devto/workflow.md` for the target format and style.
 
 Now research **$ARGUMENTS** and write the blog post.

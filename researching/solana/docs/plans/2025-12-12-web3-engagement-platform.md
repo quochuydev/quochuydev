@@ -15,6 +15,7 @@
 ### Task 1: Initialize Next.js Project
 
 **Files:**
+
 - Create: `web3-engagement/package.json`
 - Create: `web3-engagement/tsconfig.json`
 - Create: `web3-engagement/tailwind.config.js`
@@ -22,7 +23,7 @@
 **Step 1: Create Next.js project**
 
 ```bash
-cd /Users/silentium/Projects/github/quochuydev/researching/solana
+cd ./researching/solana
 npx create-next-app@latest web3-engagement --typescript --tailwind --eslint --app --src-dir --use-pnpm
 ```
 
@@ -48,6 +49,7 @@ git commit -m "feat: initialize Next.js project with TypeScript and Tailwind"
 ### Task 2: Set Up Database with Prisma
 
 **Files:**
+
 - Create: `web3-engagement/prisma/schema.prisma`
 - Modify: `web3-engagement/package.json`
 
@@ -153,6 +155,7 @@ git commit -m "feat: add Prisma schema for users, check-ins, spins, prizes"
 ### Task 3: Install Wallet Dependencies
 
 **Files:**
+
 - Modify: `web3-engagement/package.json`
 
 **Step 1: Install Solana wallet adapter**
@@ -180,6 +183,7 @@ git commit -m "feat: add Solana and EVM wallet dependencies"
 ### Task 4: Create Solana Wallet Provider
 
 **Files:**
+
 - Create: `web3-engagement/src/providers/SolanaWalletProvider.tsx`
 
 **Step 1: Create provider component**
@@ -195,7 +199,10 @@ import {
   WalletProvider,
 } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
@@ -209,7 +216,7 @@ export const SolanaWalletProvider: FC<Props> = ({ children }) => {
 
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
-    []
+    [],
   );
 
   return (
@@ -234,6 +241,7 @@ git commit -m "feat: add Solana wallet provider with Phantom and Solflare"
 ### Task 5: Create EVM Wallet Provider
 
 **Files:**
+
 - Create: `web3-engagement/src/providers/EVMWalletProvider.tsx`
 - Create: `web3-engagement/src/config/wagmi.ts`
 
@@ -250,10 +258,7 @@ const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '';
 
 export const wagmiConfig = createConfig({
   chains: [mainnet, sepolia, bsc, polygon],
-  connectors: [
-    injected(),
-    walletConnect({ projectId }),
-  ],
+  connectors: [injected(), walletConnect({ projectId })],
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
@@ -284,9 +289,7 @@ interface Props {
 export const EVMWalletProvider: FC<Props> = ({ children }) => {
   return (
     <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
 };
@@ -304,6 +307,7 @@ git commit -m "feat: add EVM wallet provider with wagmi"
 ### Task 6: Create Combined Providers
 
 **Files:**
+
 - Create: `web3-engagement/src/providers/index.tsx`
 - Modify: `web3-engagement/src/app/layout.tsx`
 
@@ -375,6 +379,7 @@ git commit -m "feat: combine wallet providers in app layout"
 ### Task 7: Create Wallet Connect Component
 
 **Files:**
+
 - Create: `web3-engagement/src/components/WalletConnect.tsx`
 
 **Step 1: Create wallet connect component**
@@ -395,7 +400,8 @@ export const WalletConnect: FC = () => {
   const [selectedType, setSelectedType] = useState<WalletType>(null);
 
   // Solana
-  const { publicKey: solanaPublicKey, disconnect: solanaDisconnect } = useWallet();
+  const { publicKey: solanaPublicKey, disconnect: solanaDisconnect } =
+    useWallet();
 
   // EVM
   const { address: evmAddress, isConnected: evmConnected } = useAccount();
@@ -412,7 +418,9 @@ export const WalletConnect: FC = () => {
 
   if (isConnected) {
     const address = solanaPublicKey?.toBase58() || evmAddress;
-    const shortAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
+    const shortAddress = address
+      ? `${address.slice(0, 6)}...${address.slice(-4)}`
+      : '';
 
     return (
       <div className="flex flex-col items-center gap-4">
@@ -500,6 +508,7 @@ git commit -m "feat: add wallet connect component with Solana and EVM support"
 ### Task 8: Create Balance Check API
 
 **Files:**
+
 - Create: `web3-engagement/src/app/api/balance/route.ts`
 - Create: `web3-engagement/src/lib/balance.ts`
 
@@ -545,7 +554,7 @@ export async function getEVMBalance(walletAddress: string): Promise<number> {
 export async function checkMinBalance(
   walletAddress: string,
   chain: 'solana' | 'evm',
-  minBalance: number
+  minBalance: number,
 ): Promise<{ hasMinBalance: boolean; currentBalance: number }> {
   const balance =
     chain === 'solana'
@@ -574,7 +583,7 @@ export async function POST(req: NextRequest) {
     if (!walletAddress || !chain) {
       return NextResponse.json(
         { error: 'Missing walletAddress or chain' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -588,7 +597,7 @@ export async function POST(req: NextRequest) {
     console.error('Balance check error:', error);
     return NextResponse.json(
       { error: 'Failed to check balance' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -606,6 +615,7 @@ git commit -m "feat: add balance check API for Solana and EVM"
 ### Task 9: Create Balance Gate Hook
 
 **Files:**
+
 - Create: `web3-engagement/src/hooks/useBalanceGate.ts`
 
 **Step 1: Create hook**
@@ -689,6 +699,7 @@ git commit -m "feat: add useBalanceGate hook for balance verification"
 ### Task 10: Create Check-in API
 
 **Files:**
+
 - Create: `web3-engagement/src/app/api/checkin/route.ts`
 - Create: `web3-engagement/src/lib/prisma.ts`
 
@@ -723,7 +734,7 @@ export async function POST(req: NextRequest) {
     if (!walletAddress) {
       return NextResponse.json(
         { error: 'Missing walletAddress' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -796,10 +807,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('Check-in error:', error);
-    return NextResponse.json(
-      { error: 'Check-in failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Check-in failed' }, { status: 500 });
   }
 }
 
@@ -811,7 +819,7 @@ export async function GET(req: NextRequest) {
     if (!walletAddress) {
       return NextResponse.json(
         { error: 'Missing walletAddress' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -854,7 +862,7 @@ export async function GET(req: NextRequest) {
     console.error('Get check-in status error:', error);
     return NextResponse.json(
       { error: 'Failed to get check-in status' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -872,6 +880,7 @@ git commit -m "feat: add check-in API with streak tracking"
 ### Task 11: Create Check-in Component
 
 **Files:**
+
 - Create: `web3-engagement/src/components/CheckIn.tsx`
 
 **Step 1: Create check-in component**
@@ -895,7 +904,11 @@ interface Props {
 }
 
 export const CheckIn: FC<Props> = ({ onCheckInSuccess }) => {
-  const { walletAddress, hasMinBalance, isLoading: balanceLoading } = useBalanceGate();
+  const {
+    walletAddress,
+    hasMinBalance,
+    isLoading: balanceLoading,
+  } = useBalanceGate();
   const [status, setStatus] = useState<CheckInStatus | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -903,7 +916,9 @@ export const CheckIn: FC<Props> = ({ onCheckInSuccess }) => {
     if (!walletAddress) return;
 
     const fetchStatus = async () => {
-      const response = await fetch(`/api/checkin?walletAddress=${walletAddress}`);
+      const response = await fetch(
+        `/api/checkin?walletAddress=${walletAddress}`,
+      );
       const data = await response.json();
       setStatus(data);
     };
@@ -971,7 +986,9 @@ export const CheckIn: FC<Props> = ({ onCheckInSuccess }) => {
       {status?.streakCount ? (
         <div className="mb-4">
           <span className="text-4xl">🔥</span>
-          <p className="text-xl font-semibold">{status.streakCount} day streak!</p>
+          <p className="text-xl font-semibold">
+            {status.streakCount} day streak!
+          </p>
         </div>
       ) : null}
 
@@ -981,7 +998,9 @@ export const CheckIn: FC<Props> = ({ onCheckInSuccess }) => {
             ✓ You've checked in today!
           </p>
           {status.canSpin && (
-            <p className="text-green-600 mt-2">Spin the wheel to claim your reward!</p>
+            <p className="text-green-600 mt-2">
+              Spin the wheel to claim your reward!
+            </p>
           )}
         </div>
       ) : (
@@ -1012,6 +1031,7 @@ git commit -m "feat: add check-in component with streak display"
 ### Task 12: Create Spin API
 
 **Files:**
+
 - Create: `web3-engagement/src/app/api/spin/route.ts`
 
 **Step 1: Create spin API**
@@ -1022,7 +1042,9 @@ Create `src/app/api/spin/route.ts`:
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-function selectPrize(prizes: { id: string; name: string; probability: number }[]) {
+function selectPrize(
+  prizes: { id: string; name: string; probability: number }[],
+) {
   const random = Math.random();
   let cumulative = 0;
 
@@ -1044,7 +1066,7 @@ export async function POST(req: NextRequest) {
     if (!walletAddress) {
       return NextResponse.json(
         { error: 'Missing walletAddress' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -1055,7 +1077,7 @@ export async function POST(req: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: 'User not found. Check in first.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -1073,7 +1095,7 @@ export async function POST(req: NextRequest) {
     if (!todayCheckIn) {
       return NextResponse.json(
         { error: 'Must check in before spinning' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -1088,7 +1110,7 @@ export async function POST(req: NextRequest) {
     if (todaySpin) {
       return NextResponse.json(
         { error: 'Already spun today. Come back tomorrow!' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -1102,7 +1124,7 @@ export async function POST(req: NextRequest) {
     if (prizes.length === 0) {
       return NextResponse.json(
         { error: 'No prizes available' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -1136,10 +1158,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('Spin error:', error);
-    return NextResponse.json(
-      { error: 'Spin failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Spin failed' }, { status: 500 });
   }
 }
 ```
@@ -1156,6 +1175,7 @@ git commit -m "feat: add spin API with weighted prize selection"
 ### Task 13: Create Wheel Component
 
 **Files:**
+
 - Create: `web3-engagement/src/components/Wheel.tsx`
 
 **Step 1: Create wheel component**
@@ -1190,7 +1210,11 @@ const WHEEL_SEGMENTS = [
   { label: 'Jackpot!', color: '#F7DC6F' },
 ];
 
-export const Wheel: FC<Props> = ({ walletAddress, canSpin, onSpinComplete }) => {
+export const Wheel: FC<Props> = ({
+  walletAddress,
+  canSpin,
+  onSpinComplete,
+}) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<Prize | null>(null);
@@ -1245,7 +1269,9 @@ export const Wheel: FC<Props> = ({ walletAddress, canSpin, onSpinComplete }) => 
           viewBox="0 0 300 300"
           style={{
             transform: `rotate(${rotation}deg)`,
-            transition: isSpinning ? 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)' : 'none',
+            transition: isSpinning
+              ? 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)'
+              : 'none',
           }}
         >
           {WHEEL_SEGMENTS.map((segment, index) => {
@@ -1270,7 +1296,12 @@ export const Wheel: FC<Props> = ({ walletAddress, canSpin, onSpinComplete }) => 
 
             return (
               <g key={index}>
-                <path d={pathD} fill={segment.color} stroke="#fff" strokeWidth="2" />
+                <path
+                  d={pathD}
+                  fill={segment.color}
+                  stroke="#fff"
+                  strokeWidth="2"
+                />
                 <text
                   x={textX}
                   y={textY}
@@ -1322,6 +1353,7 @@ git commit -m "feat: add animated wheel component with SVG rendering"
 ### Task 14: Create Main Page
 
 **Files:**
+
 - Modify: `web3-engagement/src/app/page.tsx`
 
 **Step 1: Update main page**
@@ -1338,7 +1370,8 @@ import { Wheel } from '@/components/Wheel';
 import { useBalanceGate } from '@/hooks/useBalanceGate';
 
 export default function Home() {
-  const { walletAddress, hasMinBalance, currentBalance, chain } = useBalanceGate();
+  const { walletAddress, hasMinBalance, currentBalance, chain } =
+    useBalanceGate();
   const [canSpin, setCanSpin] = useState(false);
 
   useEffect(() => {
@@ -1348,7 +1381,9 @@ export default function Home() {
     }
 
     const fetchStatus = async () => {
-      const response = await fetch(`/api/checkin?walletAddress=${walletAddress}`);
+      const response = await fetch(
+        `/api/checkin?walletAddress=${walletAddress}`,
+      );
       const data = await response.json();
       setCanSpin(data.canSpin);
     };
@@ -1388,7 +1423,8 @@ export default function Home() {
                 Chain: <span className="font-mono">{chain}</span>
               </p>
               <p>
-                Balance: <span className="font-mono">{currentBalance.toFixed(4)}</span>
+                Balance:{' '}
+                <span className="font-mono">{currentBalance.toFixed(4)}</span>
               </p>
               <p>
                 Status:{' '}
@@ -1440,6 +1476,7 @@ git commit -m "feat: integrate wallet, check-in, and wheel on main page"
 ### Task 15: Seed Prize Data
 
 **Files:**
+
 - Create: `web3-engagement/prisma/seed.ts`
 - Modify: `web3-engagement/package.json`
 
@@ -1459,13 +1496,25 @@ async function main() {
   // Seed prizes
   const prizes = [
     { name: '5 Points', type: 'points', probability: 0.25, value: '5' },
-    { name: '10 Points', type: 'points', probability: 0.20, value: '10' },
+    { name: '10 Points', type: 'points', probability: 0.2, value: '10' },
     { name: '25 Points', type: 'points', probability: 0.15, value: '25' },
-    { name: '50 Points', type: 'points', probability: 0.10, value: '50' },
+    { name: '50 Points', type: 'points', probability: 0.1, value: '50' },
     { name: '100 Points', type: 'points', probability: 0.05, value: '100' },
-    { name: 'Try Again', type: 'empty', probability: 0.20, value: null },
-    { name: 'NFT Reward', type: 'nft', probability: 0.04, quantity: 100, value: 'common-nft' },
-    { name: 'Jackpot!', type: 'token', probability: 0.01, quantity: 10, value: '1000' },
+    { name: 'Try Again', type: 'empty', probability: 0.2, value: null },
+    {
+      name: 'NFT Reward',
+      type: 'nft',
+      probability: 0.04,
+      quantity: 100,
+      value: 'common-nft',
+    },
+    {
+      name: 'Jackpot!',
+      type: 'token',
+      probability: 0.01,
+      quantity: 10,
+      value: '1000',
+    },
   ];
 
   for (const prize of prizes) {
@@ -1533,6 +1582,7 @@ git commit -m "feat: add prize and config seed data"
 ### Task 16: Create Environment Example
 
 **Files:**
+
 - Create: `web3-engagement/.env.example`
 
 **Step 1: Create env example**
@@ -1571,13 +1621,14 @@ git commit -m "docs: add environment example file"
 ### Task 17: Create README
 
 **Files:**
+
 - Create: `web3-engagement/README.md`
 
 **Step 1: Create README**
 
 Create `README.md`:
 
-```markdown
+````markdown
 # Web3 Engagement Platform
 
 A white-label Web3 engagement platform with wallet login, balance gating, daily check-ins, and wheel game.
@@ -1603,8 +1654,10 @@ A white-label Web3 engagement platform with wallet login, balance gating, daily 
    ```bash
    pnpm install
    ```
+````
 
 2. Copy environment file:
+
    ```bash
    cp .env.example .env
    ```
@@ -1612,11 +1665,13 @@ A white-label Web3 engagement platform with wallet login, balance gating, daily 
 3. Update `.env` with your database URL and WalletConnect project ID
 
 4. Push database schema:
+
    ```bash
    npx prisma db push
    ```
 
 5. Seed prize data:
+
    ```bash
    npx prisma db seed
    ```
@@ -1629,6 +1684,7 @@ A white-label Web3 engagement platform with wallet login, balance gating, daily 
 ## Configuration
 
 Edit `prisma/seed.ts` to customize:
+
 - Prize types and probabilities
 - Minimum balance requirements
 - Streak milestones
@@ -1638,14 +1694,15 @@ Edit `prisma/seed.ts` to customize:
 1. Set production `DATABASE_URL`
 2. Run `pnpm build`
 3. Deploy to Vercel, Railway, or your preferred platform
-```
+
+````
 
 **Step 2: Commit**
 
 ```bash
 git add README.md
 git commit -m "docs: add README with setup instructions"
-```
+````
 
 ---
 
@@ -1654,6 +1711,7 @@ git commit -m "docs: add README with setup instructions"
 **Total Tasks:** 17
 
 **Phases:**
+
 1. Project Setup (Tasks 1-2)
 2. Wallet Integration (Tasks 3-7)
 3. Balance Gate (Tasks 8-9)
@@ -1665,6 +1723,7 @@ git commit -m "docs: add README with setup instructions"
 **Estimated commits:** 17 atomic commits
 
 **Key deliverables:**
+
 - Multi-chain wallet connection (Solana + EVM)
 - Balance verification gate
 - Daily check-in with streak tracking
