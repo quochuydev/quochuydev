@@ -38,62 +38,9 @@ python manage.py runserver
 
 This is a monorepo containing multiple projects:
 
-- **blog/** - Main React TypeScript blog application (primary focus)
-- **prototypes/** - Backend prototypes and experimental features
-  - **prototypes/backend/** - Django/Python backend
-  - **prototypes/architecture.md** - System architecture diagrams
-- **brainstorming/** - Design artifacts and brainstorming materials
 - **docs/** - Documentation
-- **guidelines/** - Development guidelines
 
-## Blog Application Architecture
-
-### Technology Stack
-
-- **Frontend:** React 19.2 with TypeScript 5.9
-- **Build Tool:** Vite 7.2 with file-based routing (`vite-plugin-pages`)
-- **Styling:** Tailwind CSS 4.1 with typography plugin
-- **Content:** MDX (Markdown + JSX) with frontmatter metadata
-- **Routing:** React Router DOM 7.9 + automatic page generation from files
-- **Search:** Flexsearch for client-side content search
-- **Diagrams:** Mermaid for flowcharts and diagrams
-- **Authentication:** Zitadel OIDC (configuration available in `.env.example`)
-
-### Key Architectural Patterns
-
-**File-Based Routing**
-
-- Pages are automatically generated from `/blog/src/pages/` directory
-- Both `.tsx` and `.mdx` files become routes
-- MDX files support frontmatter metadata for title, excerpt, tags, category, date
-
-**Content Management**
-
-- Centralized content metadata in `/blog/src/lib/content.ts`
-- Manual registration of pages with metadata (title, path, excerpt, tags, category)
-- Helper functions: `getAllTags()`, `getAllCategories()`, `getPagesByTag()`, `getPagesByCategory()`
-
-**Component Organization**
-
-- `/blog/src/components/` - Reusable UI components (layout, theme, search, MDX rendering)
-- `/blog/src/components/ui/` - Headless UI primitives (buttons, badges, inputs)
-- `/blog/src/lib/` - Utility functions and content metadata
-- `/blog/src/contexts/` - React Context for state management
-- `/blog/src/assets/` - Static assets
-
-**Vite Configuration** (`/blog/vite.config.ts`)
-
-```typescript
-// Key plugins:
-- @mdx-js/rollup: Compiles MDX with GFM and frontmatter support
-- vite-plugin-pages: Generates routes from src/pages/*.{tsx,mdx}
-- @vitejs/plugin-react: React Fast Refresh
-
-// Path alias:
-'@' → './src'
-```
-
-### Adding New Content
+## Adding New Content
 
 When adding new blog posts or pages:
 
@@ -144,29 +91,3 @@ The blog is deployed to GitHub Pages via the `release` script:
 Authentication is configured via environment variables (see `/blog/.env.example`):
 
 - `VITE_OIDC_CLIENT_ID` - Zitadel OIDC client ID
-
-## Rules
-
-### Before Commit/Push
-
-**Sensitive Data - NEVER commit:**
-- `.env` files with real credentials
-- API keys, tokens, secrets (even in comments)
-- Private keys, certificates
-- Database connection strings with passwords
-- `credentials.json`, `serviceAccount.json`, etc.
-
-**Verify before committing:**
-- Run `git diff --staged` to review all changes
-- Search staged files for patterns: `password`, `secret`, `api_key`, `token`
-- Check no hardcoded IPs or internal URLs
-
-**License Compliance:**
-- New dependencies must have compatible licenses (MIT, Apache 2.0, BSD)
-- Avoid GPL in proprietary code without legal review
-- Check `package.json` / `requirements.txt` additions
-
-### Git Hygiene
-- Never force push to `main`/`master`
-- Write meaningful commit messages
-- Don't commit generated files (`dist/`, `node_modules/`, `*.pyc`)
