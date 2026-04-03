@@ -51,13 +51,6 @@ export const pagesMetadata: PageMetadata[] = [
     category: 'Authentication',
   },
   {
-    title: 'Node.js x AWS x Github Action',
-    path: '/nodejs-aws-github-cicd',
-    excerpt: 'CI/CD pipeline with AWS and GitHub Actions',
-    tags: ['nodejs', 'aws', 'cicd', 'devops'],
-    category: 'DevOps',
-  },
-  {
     title: 'WBS Management',
     path: '/wbs-management',
     excerpt: 'Work breakdown structure management',
