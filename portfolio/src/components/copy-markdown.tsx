@@ -10,8 +10,13 @@ export function CopyMarkdown() {
     const article = document.querySelector('article.prose');
     if (!article) return;
 
+    const html = (article as HTMLElement).innerHTML;
     const text = (article as HTMLElement).innerText;
-    await navigator.clipboard.writeText(text);
+    const blob = new Blob([html], { type: 'text/html' });
+    const textBlob = new Blob([text], { type: 'text/plain' });
+    await navigator.clipboard.write([
+      new ClipboardItem({ 'text/html': blob, 'text/plain': textBlob }),
+    ]);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, []);
