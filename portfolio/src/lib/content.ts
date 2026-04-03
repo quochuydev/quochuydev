@@ -65,13 +65,6 @@ export const pagesMetadata: PageMetadata[] = [
     category: 'Project Management',
   },
   {
-    title: 'Event Storming with Mermaid',
-    path: '/event-storming-mermaid',
-    excerpt: 'Event storming using Mermaid diagrams',
-    tags: ['event-storming', 'diagrams', 'ddd'],
-    category: 'Software Design',
-  },
-  {
     title: 'Video call with Livekit',
     path: '/livekit-app',
     excerpt: 'Video calling application with LiveKit',
