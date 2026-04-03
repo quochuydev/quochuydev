@@ -10,7 +10,7 @@ export function CopyMarkdown() {
     const article = document.querySelector('article.prose');
     if (!article) return;
 
-    const text = article.innerText;
+    const text = (article as HTMLElement).innerText;
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
