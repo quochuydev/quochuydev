@@ -1,25 +1,32 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import { Copy, Check } from 'lucide-react';
+
+const RAW_FILES: Record<string, string> = {
+  '/': '/llms.txt',
+};
 
 export function CopyMarkdown() {
   const [copied, setCopied] = useState(false);
+  const pathname = usePathname();
 
   const handleCopy = useCallback(async () => {
-    const article = document.querySelector('article.prose');
-    if (!article) return;
-
-    const html = (article as HTMLElement).innerHTML;
-    const text = (article as HTMLElement).innerText;
-    const blob = new Blob([html], { type: 'text/html' });
-    const textBlob = new Blob([text], { type: 'text/plain' });
-    await navigator.clipboard.write([
-      new ClipboardItem({ 'text/html': blob, 'text/plain': textBlob }),
-    ]);
+    const rawFile = RAW_FILES[pathname];
+    if (rawFile) {
+      const res = await fetch(rawFile);
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+    } else {
+      const article = document.querySelector('article.prose');
+      if (!article) return;
+      const text = (article as HTMLElement).innerText;
+      await navigator.clipboard.writeText(text);
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  }, []);
+  }, [pathname]);
 
   return (
     <button

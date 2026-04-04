@@ -142,7 +142,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-10">
         <div className="max-w-4xl mx-auto">
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end gap-2 mb-4">
             <CopyMarkdown />
           </div>
           <article className="prose prose-slate max-w-none">{children}</article>
