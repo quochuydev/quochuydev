@@ -1,8 +1,0 @@
-- **Version:** 2025-09-09
-- **Type:** Feature
-- **Priority:** High
-- **Status:** Open
-- **Assignee:** Developer
-- **Reporter:** Product Owner
-- **Customer:** Developer
-- **Created Date:** 2025-09-09
