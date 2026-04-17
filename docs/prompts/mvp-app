@@ -9,13 +9,9 @@ authentication and authorization system for both normal users and admins
 
 
 nextjs
-- init nextjs app router, and shadcn
-- im building a quick and simple app support record audio speaking, with an textare to let me field the question.
-- data upload to blob vercel
-- i would like the ui is simple, and quick interact to record new, no animation needed
+- Tech stacks: Init nextjs app router, and shadcn.
+- Stories: As a developer, I'm building a quick and simple app that supports recording audio and speaking, with a text area to let me field the question.
+- Design: As a user, I would like the ui is simple and quick to interact with to record new, no animation needed.
+- Storage: Data upload to Blob Vercel.
 - Use: typescript functional, fetch.
 - DO NOT Use: axios, typescript class.
-
-BLOB_READ_WRITE_TOKEN="vercel_blob_rw_PfwxFT6SsVYu97SC_OjnASo0TyrRuh2bZ0q0Tu27lek9vSs"
-import { put } from "@vercel/blob";
-const { url } = await put('articles/blob.txt', 'Hello World!', { access: 'private' });
