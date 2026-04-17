@@ -3,4 +3,4 @@
   - Use: typescript functional, fetch, tsx, vitest, drizzle.
   - DO NOT Use: axios, typescript class.
 - Write the service functions with tests that allow for building an
-authentication and authorization system for both normal user and admin user
+authentication and authorization system for both normal users and admins
