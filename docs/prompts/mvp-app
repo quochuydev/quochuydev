@@ -17,7 +17,5 @@ nextjs
 - DO NOT Use: axios, typescript class.
 
 BLOB_READ_WRITE_TOKEN="vercel_blob_rw_PfwxFT6SsVYu97SC_OjnASo0TyrRuh2bZ0q0Tu27lek9vSs"
-
 import { put } from "@vercel/blob";
-
 const { url } = await put('articles/blob.txt', 'Hello World!', { access: 'private' });
