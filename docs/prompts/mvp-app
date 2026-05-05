@@ -1,4 +1,4 @@
-nodejs
+## nodejs
 
 - Create a Docker Compose file that starts...
 - Set up a NodeJS app that uses Drizzle as a database.
@@ -8,7 +8,8 @@ nodejs
 authentication and authorization system for both normal users and admins
 
 
-nextjs
+## nextjs
+
 - Tech stacks: Init nextjs app router, and shadcn.
 - Stories: As a developer, I'm building a quick and simple app that supports recording audio and speaking, with a text area to let me field the question.
 - Design: As a user, I would like the ui is simple and quick to interact with to record new, no animation needed.
