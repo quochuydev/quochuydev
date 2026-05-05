@@ -15,3 +15,9 @@ nextjs
 - Storage: Data upload to Blob Vercel.
 - Use: typescript functional, fetch.
 - DO NOT Use: axios, typescript class.
+
+- Tech stacks: Init nextjs app router, and shadcn.
+- Folder name: chat
+- Stories: I'm building a generative chat app, using openAI key support me chatting to get product suggestion from @web.
+- Use: typescript functional, fetch.
+- DO NOT Use: axios, typescript class.
