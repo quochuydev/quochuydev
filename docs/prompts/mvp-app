@@ -7,7 +7,6 @@
 - Write the service functions with tests that allow for building an
 authentication and authorization system for both normal users and admins
 
-
 ## nextjs
 
 - Tech stacks: Init nextjs app router, and shadcn.
