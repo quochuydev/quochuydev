@@ -9,15 +9,7 @@ authentication and authorization system for both normal users and admins
 
 ## nextjs
 
-- Tech stacks: Init nextjs app router, and shadcn.
-- Stories: As a developer, I'm building a quick and simple app that supports recording audio and speaking, with a text area to let me field the question.
-- Design: As a user, I would like the ui is simple and quick to interact with to record new, no animation needed.
-- Storage: Data upload to Blob Vercel.
+- Tech stacks: Init nextjs app router, shadcn.
 - Use: typescript functional, fetch.
 - DO NOT Use: axios, typescript class.
-
-- Tech stacks: Init nextjs app router, and shadcn.
-- Folder name: chat
-- Stories: I'm building a generative chat app, using openAI key support me chatting to get product suggestion from @web.
-- Use: typescript functional, fetch.
-- DO NOT Use: axios, typescript class.
+- Stories: I'm building a model images website, i would like to show many model images in homepage with lazy load, high performance, quick load => IMPORTANT: focusing on performmance display images.
